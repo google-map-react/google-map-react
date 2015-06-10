@@ -85,6 +85,6 @@ This algorithm allows you to tweak hover probability of map objects, for example
   [google-map-react-examples](https://github.com/istarkov/google-map-react-examples)
 
 ---
-
+(*Really big thanks to [April Arcus](https://github.com/AprilArcus) for documentation fixes*)   
 (*thank you [Dan Abramov](http://gaearon.github.io/react-dnd/) for titles structure*)   
 (*great thanks to [Vladimir Akimov](https://github.com/b2whats) he knows why*)
