@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]> <html lang="ru" class="ie6"> <![endif]-->
+<!--[if IE 7 ]>    <html lang="ru" class="ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="ru" class="ie8"> <![endif]-->
+<!--[if IE 9 ]>    <html lang="ru" class="ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="ru" class="noie css-load-display"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>React map</title>
+
+    <meta name="viewport" content="width=600, user-scalable=yes">
+    <link rel="icon" href="{{=it.config.K_SERVER_PATH}}/assets/images/bestiary_8_1.png" type="image/x-icon">
+
+    <!-- fb meta -->
+    <meta property="og:image" content="{{=it.FB.image}}" />
+    <meta property="og:title" content="{{=it.FB.title}}" />
+    <meta property="og:description" content="{{=it.FB.description}}" />
+
+    <!-- twitter meta -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@icelabaratory">
+    <meta name="twitter:creator" content="@icelabaratory">
+
+    <meta name="twitter:title" content="{{=it.twitter.title}}">
+    <meta name="twitter:description" content="{{=it.twitter.description}}">
+    <meta name="twitter:image:src" content="{{=it.twitter.image}}">
+
+
+    <style type="text/css">
+    .css-load-display {
+      /* set to visible inside it.config.K_STYLE_URL */
+      visibility: hidden;
+    }
+    </style>
+
+    <link href='http://fonts.googleapis.com/css?family=Roboto:500,300,400&subset=latin,cyrillic-ext' rel='stylesheet' type='text/css'>
+
+    {{? it.config.K_STYLE_URL}}
+    <link rel="stylesheet" href="{{=it.config.K_STYLE_URL}}" />
+    {{?}}
+    <script>
+        window.K_SESSION_UUID = '{{=it.config.K_SESSION_UUID}}';
+    </script>
+  </head>
+
+  <body ondragstart="return false;">
+    <div id="react_main">{{=it.config.K_PRERENDERED_CONTENT}}</div>
+
+    <script>
+        window.K_SERIALIZED_DATA = {{=it.config.K_SERIALIZED_DATA}};
+    </script>
+
+    {{? it.config.K_SCRIPT_COMMONS_URL}}
+    <script defer src="{{=it.config.K_SCRIPT_COMMONS_URL}}"></script>
+    {{?}}
+
+    {{? it.config.K_SCRIPT_FAKER_URL}}
+    <script defer src="{{=it.config.K_SCRIPT_FAKER_URL}}"></script>
+    {{?}}
+
+    <script defer src="{{=it.config.K_SCRIPT_URL}}"></script>
+  </body>
+</html>
