@@ -71,34 +71,34 @@ Also this algorithm allows you to tweak hover probability of map objects, for ex
 
 
 ##Examples (api is really simple, just look into examples code)
-* Simple example how to place react components on the map
-  [simple](http://istarkov.github.io/google-map-react/map/simple/)
-  [simple source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_simple/simple_map_page.jsx)
+* Simple example how to place react components on the map   
+  [simple](http://istarkov.github.io/google-map-react/map/simple/)   
+  [simple source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_simple/simple_map_page.jsx)   
 
-* Hover api examples
-  [simple hover](http://istarkov.github.io/google-map-react/map/simple_hover/)
-  [simple hover source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_simple_hover/simple_hover_map_page.jsx)
+* Hover api examples   
+  [simple hover](http://istarkov.github.io/google-map-react/map/simple_hover/)   
+  [simple hover source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_simple_hover/simple_hover_map_page.jsx)   
 
-  [distance hover](http://istarkov.github.io/google-map-react/map/distance_hover/)
-  [distance hover source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_distance_hover/distance_hover_map_page.jsx)
+  [distance hover](http://istarkov.github.io/google-map-react/map/distance_hover/)   
+  [distance hover source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_distance_hover/distance_hover_map_page.jsx)   
 
-* GoogleMap events
-  [events](http://istarkov.github.io/google-map-react/map/events/)
-  [events source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_events/events_map_page.jsx)
+* GoogleMap events   
+  [events](http://istarkov.github.io/google-map-react/map/events/)   
+  [events source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_events/events_map_page.jsx)   
 
-* All api examples
-  [main](http://istarkov.github.io/google-map-react/map/main/)
-  [main source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_main/main_map_block.jsx)
+* All api examples   
+  [main](http://istarkov.github.io/google-map-react/map/main/)   
+  [main source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_main/main_map_block.jsx)   
     
-  [balderdash](http://istarkov.github.io/google-map-react/map/balderdash/)
+  [balderdash](http://istarkov.github.io/google-map-react/map/balderdash/)   
   source same as main.
 
-* Example project
+* Example project   
   [google-map-react-examples](https://github.com/istarkov/google-map-react-examples)
 
 ---
 
-(*thank you [Dan Abramov](http://gaearon.github.io/react-dnd/) for titles structure*)
+(*thank you [Dan Abramov](http://gaearon.github.io/react-dnd/) for titles structure*)   
 (*great thanks to [Vladimir Akimov](https://github.com/b2whats) he knows why*)
 
 #PS:
