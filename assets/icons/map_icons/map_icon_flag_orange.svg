@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="61px" height="65px" viewBox="0 0 61 65" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.0.4 (8054) - http://www.bohemiancoding.com/sketch -->
+    <title>icons 2</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="flag31" sketch:type="MSLayerGroup" transform="translate(2.000000, 2.000000)">
+            <path d="M22.008929,62.0271017 L0.0420758929,0 L8.43621672,0 L23.3035718,62.0271017 L22.008929,62.0271017 Z" id="Shape" stroke-opacity="0.6" stroke="#FFFFFF" stroke-width="2" fill="#4990E2" sketch:type="MSShapeGroup"></path>
+            <path d="M57.726442,4.34639175 L9.95357841,0.127835052 L16.816197,30.8857158 L57.9853705,23.7269522 L42.1515,15.3790679 L57.726442,4.34639175 Z" stroke-opacity="0.6" stroke="#FFFFFF" stroke-width="3" fill="#FF5722" sketch:type="MSShapeGroup"></path>
+            <polygon id="Star-1" fill="#FFFFFF" sketch:type="MSShapeGroup" transform="translate(30.165179, 14.509278) rotate(-8.000000) translate(-30.165179, -14.509278) " points="30.1651786 17.6092784 26.2081243 19.5251837 26.9638544 15.467231 23.7625302 12.593373 28.1866514 12.0013257 30.1651786 8.30927835 32.1437057 12.0013257 36.5678269 12.593373 33.3665027 15.467231 34.1222329 19.5251837 "></polygon>
+        </g>
+    </g>
+</svg>
