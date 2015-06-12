@@ -88,3 +88,6 @@ This algorithm allows you to tweak hover probability of map objects, for example
 (*Really big thanks to [April Arcus](https://github.com/AprilArcus) for documentation fixes*)   
 (*thank you [Dan Abramov](http://gaearon.github.io/react-dnd/) for titles structure*)   
 (*great thanks to [Vladimir Akimov](https://github.com/b2whats) he knows why*)
+
+## License
+MIT (http://www.opensource.org/licenses/mit-license.php)   
