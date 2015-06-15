@@ -2,7 +2,7 @@
   "name": "google-map-react",
   "version": "0.3.0",
   "description": "isomorphic google map react component, allows render react components on the google map",
-  "main": "modules/google_map.js",
+  "main": "modules/index.js",
   "scripts": {
     "build": "./scripts/build.sh",
     "prepublish": "npm run build",
@@ -33,6 +33,9 @@
   "homepage": "https://github.com/istarkov/google-map-react#readme",
   "dependencies": {
     "eventemitter3": "^1.1.0",
+    "lodash.isfunction": "^3.0.5",
+    "lodash.isplainobject": "^3.1.0",
+    "lodash.pick": "^3.1.0",
     "point-geometry": "0.0.0",
     "react-pure-render": "^1.0.1",
     "scriptjs": "^2.5.7"

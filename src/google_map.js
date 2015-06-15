@@ -13,18 +13,24 @@ import detectBrowser from './utils/detect.js';
 import Geo from './utils/geo.js';
 import isArraysEqualEps from './utils/array_helper.js';
 
+import isFunction from 'lodash.isfunction';
+import isPlainObject from 'lodash.isplainobject';
+import pick from 'lodash.pick';
+
 const kEPS = 0.00001;
 const K_GOOGLE_TILE_SIZE = 256;
 
-const K_MAP_CONTROL_OPTIONS = {
-  overviewMapControl: false,
-  streetViewControl: false,
-  rotateControl: true,
-  mapTypeControl: false,
-  // disable poi
-  styles: [{ featureType: 'poi', elementType: 'labels', stylers: [{ visibility: 'off' }]}],
-  minZoom: 3 // i need to dynamically calculate possible zoom value
-};
+function defaultOptions_(/*maps*/) {
+  return {
+    overviewMapControl: false,
+    streetViewControl: false,
+    rotateControl: true,
+    mapTypeControl: false,
+    // disable poi
+    styles: [{ featureType: 'poi', elementType: 'labels', stylers: [{ visibility: 'off' }]}],
+    minZoom: 3 // i need to dynamically calculate possible zoom value
+  };
+}
 
 const style = {
   width: '100%',
@@ -66,7 +72,7 @@ export default class GoogleMap extends Component {
     },
     hoverDistance: 30,
     debounced: true,
-    options: K_MAP_CONTROL_OPTIONS,
+    options: defaultOptions_,
     googleMapLoader
   };
 
@@ -120,7 +126,18 @@ export default class GoogleMap extends Component {
         center: new maps.LatLng(centerLatLng.lat, centerLatLng.lng)
       };
 
-      const mapOptions = {...this.props.options, ...propsOptions};
+      // prevent to exapose full api
+      // next props must be exposed (console.log(Object.keys(pick(maps, isPlainObject))))
+      // "Animation", "ControlPosition", "MapTypeControlStyle", "MapTypeId",
+      // "NavigationControlStyle", "ScaleControlStyle", "StrokePosition", "SymbolPath", "ZoomControlStyle",
+      // "event", "DirectionsStatus", "DirectionsTravelMode", "DirectionsUnitSystem", "DistanceMatrixStatus",
+      // "DistanceMatrixElementStatus", "ElevationStatus", "GeocoderLocationType", "GeocoderStatus", "KmlLayerStatus",
+      // "MaxZoomStatus", "StreetViewStatus", "TransitMode", "TransitRoutePreference", "TravelMode", "UnitSystem"
+      const mapPlainObjects = pick(maps, isPlainObject);
+      const options = isFunction(this.props.options) ? this.props.options(mapPlainObjects) : this.props.options;
+      const defaultOptions = defaultOptions_(mapPlainObjects);
+
+      const mapOptions = {...defaultOptions, ...options, ...propsOptions};
 
       const map = new maps.Map(React.findDOMNode(this.refs.google_map_dom), mapOptions);
       this.map_ = map;
