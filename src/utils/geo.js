@@ -36,7 +36,7 @@ export default class Geo {
   unproject(ptXY, viewFromLeftTop) {
     let ptRes;
     if (viewFromLeftTop) {
-      const ptxy = Object.assign({}, ptXY);
+      const ptxy = {...ptXY};
       ptxy.x -= this.transform_.width / 2;
       ptxy.y -= this.transform_.height / 2;
       ptRes = this.transform_.pointLocation(Point.convert(ptxy));

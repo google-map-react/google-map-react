@@ -16,6 +16,7 @@ import isArraysEqualEps from './utils/array_helper.js';
 import isFunction from 'lodash.isfunction';
 import isPlainObject from 'lodash.isplainobject';
 import pick from 'lodash.pick';
+import assign from 'lodash.assign';
 
 const kEPS = 0.00001;
 const K_GOOGLE_TILE_SIZE = 256;
@@ -145,7 +146,7 @@ export default class GoogleMap extends Component {
 
       // render in overlay
       const this_ = this;
-      const overlay = Object.assign(new maps.OverlayView(), {
+      const overlay = assign(new maps.OverlayView(), {
         onAdd() {
           const K_MAX_WIDTH = (typeof screen !== 'undefined') ? `${screen.width}px` : '2000px';
           const K_MAX_HEIGHT = (typeof screen !== 'undefined') ? `${screen.height}px` : '2000px';

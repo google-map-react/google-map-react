@@ -33,6 +33,7 @@
   "homepage": "https://github.com/istarkov/google-map-react#readme",
   "dependencies": {
     "eventemitter3": "^1.1.0",
+    "lodash.assign": "^3.2.0",
     "lodash.isfunction": "^3.0.5",
     "lodash.isplainobject": "^3.1.0",
     "lodash.pick": "^3.1.0",
