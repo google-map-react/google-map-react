@@ -62,7 +62,8 @@ export default class GoogleMap extends Component {
     hoverDistance: PropTypes.number,
     debounced: PropTypes.bool,
     margin: PropTypes.array,
-    googleMapLoader: PropTypes.any
+    googleMapLoader: PropTypes.any,
+    freeUserPan: PropTypes.bool
   };
 
   static defaultProps = {
@@ -411,9 +412,14 @@ export default class GoogleMap extends Component {
     }
 
     if (this.map_) {
-      const centerLatLng = this.geoService_.getCenter();
-      if (nextProps.center) {
+      if (!this.props.freeUserPan && nextProps.center) {
+        const centerLatLng = this.geoService_.getCenter();
         if (Math.abs(nextProps.center[0] - centerLatLng.lat) + Math.abs(nextProps.center[1] - centerLatLng.lng) > kEPS) {
+          this.map_.panTo({lat: nextProps.center[0], lng: nextProps.center[1]});
+        }
+      } else if (this.props.freeUserPan) {
+        // Allow programatic shift of center focus via props change
+        if (Math.abs(nextProps.center[0] - this.props.center[0]) + Math.abs(nextProps.center[1] - this.props.center[1]) > kEPS) {
           this.map_.panTo({lat: nextProps.center[0], lng: nextProps.center[1]});
         }
       }
