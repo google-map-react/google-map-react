@@ -17,6 +17,7 @@ import isFunction from 'lodash.isfunction';
 import isPlainObject from 'lodash.isplainobject';
 import pick from 'lodash.pick';
 import assign from 'lodash.assign';
+import isNumber from 'lodash.isnumber';
 
 const kEPS = 0.00001;
 const K_GOOGLE_TILE_SIZE = 256;
@@ -40,12 +41,6 @@ const style = {
   padding: 0,
   position: 'relative'
 };
-
-
-function isNumber(n) {
-  return !Number.isNaN(parseFloat(n)) && Number.isFinite(n);
-}
-
 
 export default class GoogleMap extends Component {
 
