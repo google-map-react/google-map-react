@@ -1,1 +1,1 @@
-export * from './google_map.js';
+export default from './google_map.js';

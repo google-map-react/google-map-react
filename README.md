@@ -3,9 +3,17 @@
 It allows you to create interfaces like this [example](http://istarkov.github.io/google-map-react/map/main) *(You can scroll the table, zoom/move the map, hover/click on markers, and click on table rows)*
 
 ##Installation
+
+### npm
 ```
 npm install --save google-map-react
 ```
+
+### bower
+```
+bower install --save google-map-react
+```
+The global will be available at: `window.GoogleMapReact`
 
 ##What's it Look Like? 
 In the simple case you just need to add `lat` `lng` props to any child of `GoogleMap` component.   

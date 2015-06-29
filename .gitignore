@@ -1,2 +1,3 @@
+lib/*
+!lib/umd
 /node_modules
-/modules

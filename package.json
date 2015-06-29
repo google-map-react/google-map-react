@@ -1,13 +1,13 @@
 {
   "name": "google-map-react",
-  "version": "0.3.3",
+  "version": "0.4.0",
   "description": "isomorphic google map react component, allows render react components on the google map",
-  "main": "modules/index.js",
+  "main": "lib/index",
   "scripts": {
     "build": "./scripts/build.sh",
     "prepublish": "npm run build",
     "eyetest": "babel-node ./src/__tests__/eye_test.js",
-    "es5eyetest": "node ./modules/__tests__/eye_test.js"
+    "es5eyetest": "node ./lib/__tests__/eye_test.js"
   },
   "repository": {
     "type": "git",
@@ -47,6 +47,9 @@
   },
   "devDependencies": {
     "babel": "^5.5.6",
-    "react": "^0.13.3"
+    "babel-core": "^5.6.15",
+    "babel-loader": "^5.2.2",
+    "react": "^0.13.3",
+    "webpack": "^1.10.0"
   }
 }

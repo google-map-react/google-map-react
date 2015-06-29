@@ -1,0 +1,31 @@
+{
+  "name": "google-map-react",
+  "description": "isomorphic google map react component, allows render react components on the google map",
+  "main": "lib/umd/GoogleMapReact.js",
+  "homepage": "https://github.com/istarkov/google-map-react",
+  "authors": [
+    "Ivan Starkov <istarkov@gmail.com>"
+  ],
+  "keywords": [
+    "react",
+    "reactjs",
+    "google",
+    "map",
+    "maps",
+    "isomorphic",
+    "render",
+    "component",
+    "javascript",
+    "react-component"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "src",
+    "scripts",
+    "package.json",
+    "webpack.config.js"
+  ]
+}
