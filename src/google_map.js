@@ -141,7 +141,7 @@ export default class GoogleMap extends Component {
 
       // render in overlay
       const this_ = this;
-      const overlay = assign(new maps.OverlayView(), {
+      const overlay = this.overlay_ = assign(new maps.OverlayView(), {
         onAdd() {
           const K_MAX_WIDTH = (typeof screen !== 'undefined') ? `${screen.width}px` : '2000px';
           const K_MAX_HEIGHT = (typeof screen !== 'undefined') ? `${screen.height}px` : '2000px';
@@ -174,6 +174,10 @@ export default class GoogleMap extends Component {
               this_.setState({overlayCreated: true});
             }
           );
+        },
+
+        onRemove() {
+          React.unmountComponentAtNode(this.div);
         },
 
         draw() {
@@ -384,6 +388,11 @@ export default class GoogleMap extends Component {
     this.mounted_ = false;
 
     window.removeEventListener('resize', this._onWindowResize);
+
+    if (this.overlay_) {
+      // this triggers overlay_.onRemove(), which will unmount the <GoogleMapMarkers/>
+      this.overlay_.setMap(null);
+    }
 
     if (this.maps_ && this.map_) {
       this.maps_.event.clearInstanceListeners(this.map_);
