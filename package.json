@@ -43,7 +43,7 @@
     "scriptjs": "^2.5.7"
   },
   "peerDependencies": {
-    "react": ">=0.13.0 <0.15.0 || 0.14.0-beta1"
+    "react": ">=0.13.0 <0.15.0 || ^0.14.0-beta1"
   },
   "devDependencies": {
     "babel": "^5.5.6",
