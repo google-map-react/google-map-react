@@ -4,8 +4,11 @@
   "description": "isomorphic google map react component, allows render react components on the google map",
   "main": "lib/index",
   "scripts": {
-    "build": "./scripts/build.sh",
-    "prepublish": "npm run build",
+    "build:lib": "babel ./src -d lib --ignore '__tests__'",
+    "build:umd": "webpack src/index.js dist/GoogleMapReact.js --config webpack.config.dev.js",
+    "build:umd:min": "webpack src/index.js dist/GoogleMapReact.min.js --config webpack.config.prod.js",
+    "clean": "rimraf lib dist",
+    "prepublish": "npm run clean && npm run build:lib && npm run build:umd && npm run build:umd:min",
     "eyetest": "babel-node ./src/__tests__/eye_test.js",
     "es5eyetest": "node ./lib/__tests__/eye_test.js"
   },
@@ -48,6 +51,7 @@
     "babel-loader": "^5.3.2",
     "react": "^0.14.0-rc1",
     "react-dom": "^0.14.0-rc1",
+    "rimraf": "^2.4.3",
     "webpack": "^1.12.2"
   }
 }
