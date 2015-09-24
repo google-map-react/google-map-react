@@ -1,4 +1,6 @@
 import React, {PropTypes, Component} from 'react';
+import { isReact14 } from './utils/react_version.js';
+
 import shouldPureComponentUpdate from 'react-pure-render/function';
 
 import MarkerDispatcher from './marker_dispatcher.js';
@@ -18,6 +20,11 @@ import isPlainObject from 'lodash.isplainobject';
 import pick from 'lodash.pick';
 import assign from 'lodash.assign';
 import isNumber from 'lodash.isnumber';
+
+const ReactDOM = isReact14(React)
+  ? require('react-dom')
+  : React;
+
 
 const kEPS = 0.00001;
 const K_GOOGLE_TILE_SIZE = 256;
@@ -135,7 +142,7 @@ export default class GoogleMap extends Component {
 
       const mapOptions = {...defaultOptions, ...options, ...propsOptions};
 
-      const map = new maps.Map(React.findDOMNode(this.refs.google_map_dom), mapOptions);
+      const map = new maps.Map(ReactDOM.findDOMNode(this.refs.google_map_dom), mapOptions);
       this.map_ = map;
       this.maps_ = maps;
 
@@ -158,7 +165,7 @@ export default class GoogleMap extends Component {
           const panes = this.getPanes();
           panes.overlayMouseTarget.appendChild(div);
 
-          React.render((
+          ReactDOM.render((
             <GoogleMapMarkers
               onChildClick={this_._onChildClick}
               onChildMouseEnter={this_._onChildMouseEnter}
@@ -272,7 +279,7 @@ export default class GoogleMap extends Component {
   }
 
   _setViewSize = () => {
-    const mapDom = React.findDOMNode(this.refs.google_map_dom);
+    const mapDom = ReactDOM.findDOMNode(this.refs.google_map_dom);
     this.geoService_.setViewSize(mapDom.clientWidth, mapDom.clientHeight);
     this._onBoundsChanged();
   }
