@@ -211,6 +211,14 @@ export default class GoogleMap extends Component {
 
       overlay.setMap(map);
 
+      maps.event.addListener(map, 'zoom_changed', () => {
+        // recalc position at zoom start
+        if(this_.geoService_.getZoom() !== map.getZoom()) {
+          this_.updateCounter_++;
+          this_._onBoundsChanged(map, maps);
+        }
+      });
+
       maps.event.addListener(map, 'idle', () => {
         if (this.resetSizeOnIdle_) {
           this._setViewSize();
