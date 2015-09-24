@@ -1,6 +1,6 @@
 #!/bin/sh
-babel=node_modules/.bin/babel
-webpack=node_modules/.bin/webpack
+babel=`npm bin`/babel
+webpack=`npm bin`/webpack
 build_dir=lib
 
 rm -rf $build_dir
