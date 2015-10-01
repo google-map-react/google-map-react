@@ -56,9 +56,12 @@ export default class GoogleMap extends Component {
     center: PropTypes.array.isRequired,
     zoom: PropTypes.number.isRequired,
     onBoundsChange: PropTypes.func,
+    onClick: PropTypes.func,
     onChildClick: PropTypes.func,
     onChildMouseEnter: PropTypes.func,
     onChildMouseLeave: PropTypes.func,
+    onZoomAnimationStart: PropTypes.func,
+    onZoomAnimationEnd: PropTypes.func,
     options: PropTypes.any,
     distanceToMouse: PropTypes.func,
     hoverDistance: PropTypes.number,
@@ -103,6 +106,8 @@ export default class GoogleMap extends Component {
     if (this._isCenterDefined(this.props.center)) {
       this.geoService_.setView(this.props.center, this.props.zoom, 0);
     }
+
+    this.zoomAnimationInProgress_ = false;
 
     this.state = {
       overlayCreated: false
@@ -214,6 +219,11 @@ export default class GoogleMap extends Component {
       maps.event.addListener(map, 'zoom_changed', () => {
         // recalc position at zoom start
         if(this_.geoService_.getZoom() !== map.getZoom()) {
+          if (!this_.zoomAnimationInProgress_) {
+            this_.zoomAnimationInProgress_ = true;
+            this_._onZoomAnimationStart();
+          }
+
           this_.updateCounter_++;
           this_._onBoundsChanged(map, maps);
         }
@@ -223,6 +233,11 @@ export default class GoogleMap extends Component {
         if (this.resetSizeOnIdle_) {
           this._setViewSize();
           this.resetSizeOnIdle_ = false;
+        }
+
+        if(this_.zoomAnimationInProgress_) {
+          this_.zoomAnimationInProgress_ = false;
+          this_._onZoomAnimationEnd()
         }
 
         const div = overlay.div;
@@ -267,6 +282,12 @@ export default class GoogleMap extends Component {
       throw e;
     });
   }
+
+  _onZoomAnimationStart = (...args) => this.props.onZoomAnimationStart &&
+    this.props.onZoomAnimationStart(...args)
+
+  _onZoomAnimationEnd = (...args) => this.props.onZoomAnimationEnd &&
+    this.props.onZoomAnimationEnd(...args)
 
   _onChildClick = (...args) => {
     if (this.props.onChildClick) {
@@ -371,11 +392,19 @@ export default class GoogleMap extends Component {
     }
   }
 
-  _onMapClick = () => {
+  _onClick = (...args) => this.props.onClick &&
+    this.props.onClick(...args)
+
+  _onMapClick = (event) => {
     if (this.markersDispatcher_) {
       const K_IDLE_TIMEOUT = 100;
       const currTime = (new Date()).getTime();
       if (currTime - this.dragTime_ > K_IDLE_TIMEOUT) {
+        this._onClick({
+          ...this.mouse_,
+          event,
+        });
+
         this.markersDispatcher_.emit('kON_CLICK');
       }
     }
