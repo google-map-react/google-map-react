@@ -5,6 +5,9 @@ Add ability to access to internal google api
 <GoogleMap  onGoogleApiLoaded={({map, maps}) => console.log(map, maps)} />
 ```
 
+(*to prevent warn message add _yesIWantToUseGoogleMapApiInternals_ property to GoogleMap*)
+
+
 ###Sun Oct 4 2015
 
 Add: `defaultZoom` `defaultCenter` properties, it closes #9 #10
