@@ -69,7 +69,7 @@ describe('Components', () => {
 
     class MapHolder extends Component { // eslint-disable-line react/no-multi-comp
       static propTypes = {
-        center: PropTypes.array,
+        center: PropTypes.any,
         zoom: PropTypes.number,
         greatPlaceCoords: PropTypes.any,
       };
@@ -117,7 +117,7 @@ describe('Components', () => {
 
     class MapHolder extends Component { // eslint-disable-line react/no-multi-comp
       static propTypes = {
-        center: PropTypes.array,
+        center: PropTypes.any,
         zoom: PropTypes.number,
         greatPlaceCoords: PropTypes.any,
       };
@@ -160,6 +160,9 @@ describe('Components', () => {
 
     TestUtils.renderIntoDocument(
       <GoogleMap
+        // TODO add gmap api mock
+        // defaultCenter={{lat: 59.938043, lng: 30.337157}}
+        // defaultZoom={9}
         apiKey={API_KEY}
         googleMapLoader={asyncSpy}
       />
