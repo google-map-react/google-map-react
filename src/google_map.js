@@ -57,14 +57,22 @@ export default class GoogleMap extends Component {
 
   static propTypes = {
     apiKey: PropTypes.string,
+    defaultCenter: React.PropTypes.oneOfType([
+      PropTypes.array,
+      PropTypes.shape({
+        lat: PropTypes.number,
+        lng: PropTypes.number,
+      }),
+    ]),
     center: React.PropTypes.oneOfType([
       PropTypes.array,
       PropTypes.shape({
         lat: PropTypes.number,
         lng: PropTypes.number,
       }),
-    ]).isRequired,
-    zoom: PropTypes.number.isRequired,
+    ]),
+    defaultZoom: PropTypes.number,
+    zoom: PropTypes.number,
     onBoundsChange: PropTypes.func,
     onClick: PropTypes.func,
     onChildClick: PropTypes.func,
@@ -113,9 +121,21 @@ export default class GoogleMap extends Component {
     this.geoService_ = new Geo(K_GOOGLE_TILE_SIZE);
     this.centerIsObject_ = isPlainObject(this.props.center);
 
-    if (this._isCenterDefined(this.props.center)) {
-      const propsCenter = latLng2Obj(this.props.center);
-      this.geoService_.setView(propsCenter, this.props.zoom, 0);
+    if (process.env.NODE_ENV !== 'production') {
+      if (this.props.center === undefined && this.props.defaultCenter === undefined) {
+        console.warn( 'center or defaultCenter' +  // eslint-disable-line no-console
+                      'property must be defined');
+      }
+
+      if (this.props.zoom === undefined && this.props.defaultZoom === undefined) {
+        console.warn( 'zoom or defaultZoom' + // eslint-disable-line no-console
+                      'property must be defined');
+      }
+    }
+
+    if (this._isCenterDefined(this.props.center || this.props.defaultCenter)) {
+      const propsCenter = latLng2Obj(this.props.center || this.props.defaultCenter);
+      this.geoService_.setView(propsCenter, this.props.zoom || this.props.defaultZoom, 0);
     }
 
     this.zoomAnimationInProgress_ = false;
@@ -132,7 +152,7 @@ export default class GoogleMap extends Component {
 
     setTimeout(() => { // to detect size
       this._setViewSize();
-      if (this._isCenterDefined(this.props.center)) {
+      if (this._isCenterDefined(this.props.center || this.props.defaultCenter)) {
         this._initMap();
       }
     }, 0, this);
@@ -140,6 +160,18 @@ export default class GoogleMap extends Component {
 
 
   componentWillReceiveProps(nextProps) {
+    if (process.env.NODE_ENV !== 'production') {
+      if (this.props.defaultCenter !== nextProps.defaultCenter) {
+        console.warn('defaultCenter prop changed. ' +  // eslint-disable-line
+                      'You can\'t change default props.');
+      }
+
+      if (this.props.defaultZoom !== nextProps.defaultZoom) {
+        console.warn('defaultZoom prop changed. ' +  // eslint-disable-line
+                      'You can\'t change default props.');
+      }
+    }
+
     if (!this._isCenterDefined(this.props.center) && this._isCenterDefined(nextProps.center)) {
       setTimeout(() =>
         this._initMap(), 0);
@@ -155,9 +187,11 @@ export default class GoogleMap extends Component {
         }
       }
 
-      // if zoom chaged by user
-      if (Math.abs(nextProps.zoom - this.props.zoom) > 0) {
-        this.map_.setZoom(nextProps.zoom);
+      if (nextProps.zoom !== undefined) {
+        // if zoom chaged by user
+        if (Math.abs(nextProps.zoom - this.props.zoom) > 0) {
+          this.map_.setZoom(nextProps.zoom);
+        }
       }
     }
   }
@@ -193,8 +227,8 @@ export default class GoogleMap extends Component {
   }
 
   _initMap = () => {
-    const propsCenter = latLng2Obj(this.props.center);
-    this.geoService_.setView(propsCenter, this.props.zoom, 0);
+    const propsCenter = latLng2Obj(this.props.center || this.props.defaultCenter);
+    this.geoService_.setView(propsCenter, this.props.zoom || this.props.defaultZoom, 0);
 
     this._onBoundsChanged(); // now we can calculate map bounds center etc...
 
@@ -207,7 +241,7 @@ export default class GoogleMap extends Component {
       const centerLatLng = this.geoService_.getCenter();
 
       const propsOptions = {
-        zoom: this.props.zoom,
+        zoom: this.props.zoom || this.props.defaultZoom,
         center: new maps.LatLng(centerLatLng.lat, centerLatLng.lng),
       };
 
