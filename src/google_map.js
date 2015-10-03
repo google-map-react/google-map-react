@@ -49,11 +49,21 @@ const style = {
   position: 'relative',
 };
 
+const latLng2Obj = (latLng) => isPlainObject(latLng)
+    ? latLng
+    : {lat: latLng[0], lng: latLng[1]};
+
 export default class GoogleMap extends Component {
 
   static propTypes = {
     apiKey: PropTypes.string,
-    center: PropTypes.array.isRequired,
+    center: React.PropTypes.oneOfType([
+      PropTypes.array,
+      PropTypes.shape({
+        lat: PropTypes.number,
+        lng: PropTypes.number,
+      }),
+    ]).isRequired,
     zoom: PropTypes.number.isRequired,
     onBoundsChange: PropTypes.func,
     onClick: PropTypes.func,
@@ -101,8 +111,11 @@ export default class GoogleMap extends Component {
 
     this.markersDispatcher_ = new MarkerDispatcher(this);
     this.geoService_ = new Geo(K_GOOGLE_TILE_SIZE);
+    this.centerIsObject_ = isPlainObject(this.props.center);
+
     if (this._isCenterDefined(this.props.center)) {
-      this.geoService_.setView(this.props.center, this.props.zoom, 0);
+      const propsCenter = latLng2Obj(this.props.center);
+      this.geoService_.setView(propsCenter, this.props.zoom, 0);
     }
 
     this.zoomAnimationInProgress_ = false;
@@ -135,9 +148,10 @@ export default class GoogleMap extends Component {
     if (this.map_) {
       const centerLatLng = this.geoService_.getCenter();
       if (nextProps.center) {
-        if (Math.abs(nextProps.center[0] - centerLatLng.lat) +
-            Math.abs(nextProps.center[1] - centerLatLng.lng) > kEPS) {
-          this.map_.panTo({lat: nextProps.center[0], lng: nextProps.center[1]});
+        const nextPropsCenter = latLng2Obj(nextProps.center);
+        if (Math.abs(nextPropsCenter.lat - centerLatLng.lat) +
+            Math.abs(nextPropsCenter.lng - centerLatLng.lng) > kEPS) {
+          this.map_.panTo({lat: nextPropsCenter.lat, lng: nextPropsCenter.lng});
         }
       }
 
@@ -179,8 +193,8 @@ export default class GoogleMap extends Component {
   }
 
   _initMap = () => {
-    const center = this.props.center;
-    this.geoService_.setView(center, this.props.zoom, 0);
+    const propsCenter = latLng2Obj(this.props.center);
+    this.geoService_.setView(propsCenter, this.props.zoom, 0);
 
     this._onBoundsChanged(); // now we can calculate map bounds center etc...
 
@@ -405,7 +419,9 @@ export default class GoogleMap extends Component {
         if (callExtBoundsChange !== false) {
           const marginBounds = this.geoService_.getBounds(this.props.margin);
           this.props.onBoundsChange(
-            [centerLatLng.lat, centerLatLng.lng],
+            this.centerIsObject_
+              ? {...centerLatLng}
+              : [centerLatLng.lat, centerLatLng.lng],
             zoom,
             bounds,
             marginBounds
@@ -493,9 +509,10 @@ export default class GoogleMap extends Component {
     }
   }
 
-  _isCenterDefined = (center) => {
-    return center && center.length === 2 && isNumber(center[0]) && isNumber(center[1]);
-  }
+  _isCenterDefined = (center) => center && (
+    (isPlainObject(center) && isNumber(center.lat) && isNumber(center.lng)) ||
+    (center.length === 2 && isNumber(center[0]) && isNumber(center[1]))
+  )
 
   render() {
     const mapMarkerPrerender = !this.state.overlayCreated ? (

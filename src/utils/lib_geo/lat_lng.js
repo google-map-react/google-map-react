@@ -5,9 +5,15 @@ export default class LatLng {
     if (a instanceof LatLng) {
       return a;
     }
+
     if (Array.isArray(a)) {
       return new LatLng(a[0], a[1]);
     }
+
+    if ('lng' in a && 'lat' in a) {
+      return new LatLng(a.lat, a.lng);
+    }
+
     return a;
   }
 
