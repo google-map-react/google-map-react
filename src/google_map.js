@@ -86,6 +86,8 @@ export default class GoogleMap extends Component {
     debounced: PropTypes.bool,
     margin: PropTypes.array,
     googleMapLoader: PropTypes.any,
+    onGoogleApiLoaded: PropTypes.func,
+    yesIWantToUseGoogleMapApiInternals: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -98,6 +100,7 @@ export default class GoogleMap extends Component {
     debounced: true,
     options: defaultOptions_,
     googleMapLoader,
+    yesIWantToUseGoogleMapApiInternals: false,
   };
 
   constructor(props) {
@@ -397,6 +400,18 @@ export default class GoogleMap extends Component {
       maps.event.addListener(map, 'drag', () => {
         this_.dragTime_ = (new Date()).getTime();
       });
+
+      if (this.props.onGoogleApiLoaded) {
+        if (process.env.NODE_ENV !== 'production' &&
+            this.props.yesIWantToUseGoogleMapApiInternals !== true ) {
+          console.warn( 'Usage of internal api objects is dangerous ' + // eslint-disable-line
+                        'and can cause a lot of issues.\n' +
+                        'To hide this warning add yesIWantToUseGoogleMapApiInternals={true} ' +
+                        'to <GoogleMap instance');
+        }
+
+        this.props.onGoogleApiLoaded({map, maps});
+      }
     })
     .catch( e => {
       console.error(e); // eslint-disable-line no-console
