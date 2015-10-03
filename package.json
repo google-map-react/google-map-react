@@ -7,10 +7,11 @@
     "build:lib": "babel ./src -d lib --ignore '__tests__'",
     "build:umd": "webpack src/index.js dist/GoogleMapReact.js --config webpack.config.dev.js",
     "build:umd:min": "webpack src/index.js dist/GoogleMapReact.min.js --config webpack.config.prod.js",
+    "build": "npm run build:lib && npm run build:umd && npm run build:umd:min",
     "clean": "rimraf lib dist",
-    "prepublish": "npm run clean && npm run build:lib && npm run build:umd && npm run build:umd:min",
-    "eyetest": "babel-node ./src/__tests__/eye_test.js",
-    "es5eyetest": "node ./lib/__tests__/eye_test.js"
+    "prepublish": "npm run clean && npm run build",
+    "lint": "eslint src",
+    "test": "NODE_ENV=eee mocha --compilers js:babel/register --recursive"
   },
   "repository": {
     "type": "git",
@@ -35,10 +36,6 @@
   },
   "homepage": "https://github.com/istarkov/google-map-react#readme",
   "dependencies": {
-    "babel-eslint": "^4.1.3",
-    "eslint": "^1.6.0",
-    "eslint-config-airbnb": "^0.1.0",
-    "eslint-plugin-react": "^3.5.1",
     "eventemitter3": "^1.1.0",
     "lodash.assign": "^3.2.0",
     "lodash.isfunction": "^3.0.5",
@@ -52,8 +49,16 @@
   "devDependencies": {
     "babel": "^5.8.23",
     "babel-core": "^5.8.25",
+    "babel-eslint": "^4.1.3",
     "babel-loader": "^5.3.2",
+    "eslint": "^1.6.0",
+    "eslint-config-airbnb": "^0.1.0",
+    "eslint-plugin-react": "^3.5.1",
+    "expect": "^1.11.1",
+    "jsdom": "^6.5.1",
+    "mocha": "^2.3.3",
     "react": "^0.14.0-rc1",
+    "react-addons-test-utils": "^0.14.0-rc1",
     "react-dom": "^0.14.0-rc1",
     "rimraf": "^2.4.3",
     "webpack": "^1.12.2"

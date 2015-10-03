@@ -115,13 +115,12 @@ export default class GoogleMap extends Component {
   componentDidMount() {
     this.mounted_ = true;
     window.addEventListener('resize', this._onWindowResize);
+    this.props.googleMapLoader(this.props.apiKey); // we can start load immediatly
 
     setTimeout(() => { // to detect size
       this._setViewSize();
       if (this._isCenterDefined(this.props.center)) {
         this._initMap();
-      } else {
-        this.props.googleMapLoader(this.props.apiKey); // начать подгружать можно уже сейчас
       }
     }, 0, this);
   }
