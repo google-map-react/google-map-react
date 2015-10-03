@@ -30,7 +30,7 @@ import MyGreatPlace from './my_great_place.jsx';
 
 export default class SimpleMapPage extends Component {
   static defaultProps = {
-    center: [59.938043, 30.337157],
+    center: {lat: 59.938043, lng: 30.337157},
     zoom: 9,
     greatPlaceCoords: {lat: 59.724465, lng: 30.080121}
   };
