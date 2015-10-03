@@ -75,7 +75,7 @@ export default class Geo {
   }
 
   getCenter() {
-    let ptRes = this.transform_.pointLocation({x: 0, y: 0});
+    const ptRes = this.transform_.pointLocation({x: 0, y: 0});
 
     return ptRes;
   }
@@ -87,12 +87,18 @@ export default class Geo {
     const bndL = margins && margins[3] || 0;
 
     if (this.getWidth() - bndR - bndL > 0 && this.getHeight() - bndT - bndB > 0) {
-      const topLeftCorner = this.unproject({x: bndL - this.getWidth() / 2, y: bndT - this.getHeight() / 2});
-      const bottomRightCorner = this.unproject({x: this.getWidth() / 2 - bndR, y: this.getHeight() / 2 - bndB});
+      const topLeftCorner = this.unproject({
+        x: bndL - this.getWidth() / 2,
+        y: bndT - this.getHeight() / 2,
+      });
+      const bottomRightCorner = this.unproject({
+        x: this.getWidth() / 2 - bndR,
+        y: this.getHeight() / 2 - bndB,
+      });
 
       let res = [
         topLeftCorner.lat, topLeftCorner.lng,
-        bottomRightCorner.lat, bottomRightCorner.lng
+        bottomRightCorner.lat, bottomRightCorner.lng,
       ];
 
       if (roundFactor) {
@@ -104,4 +110,3 @@ export default class Geo {
     return [0, 0, 0, 0];
   }
 }
-

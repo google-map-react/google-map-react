@@ -7,7 +7,7 @@ const style = {
   top: 0,
   margin: 0,
   padding: 0,
-  position: 'absolute'
+  position: 'absolute',
 };
 
 export default class GoogleMapMap extends Component {

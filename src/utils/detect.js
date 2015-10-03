@@ -1,4 +1,4 @@
-// code here http://stackoverflow.com/questions/5899783/detect-safari-chrome-ie-firefox-opera-with-user-agent
+// http://stackoverflow.com/questions/5899783/detect-safari-chrome-ie-firefox-opera-with-user-agent
 let detectBrowserResult_ = null;
 
 export default function detectBrowser() {
@@ -26,6 +26,13 @@ export default function detectBrowser() {
     return detectBrowserResult_;
   }
 
-  detectBrowserResult_ = {isChrome: true, isExplorer: false, isFirefox: false, isOpera: false, isSafari: false};
+  detectBrowserResult_ = {
+    isChrome: true,
+    isExplorer: false,
+    isFirefox: false,
+    isOpera: false,
+    isSafari: false,
+  };
+
   return detectBrowserResult_;
 }

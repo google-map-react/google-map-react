@@ -35,6 +35,10 @@
   },
   "homepage": "https://github.com/istarkov/google-map-react#readme",
   "dependencies": {
+    "babel-eslint": "^4.1.3",
+    "eslint": "^1.6.0",
+    "eslint-config-airbnb": "^0.1.0",
+    "eslint-plugin-react": "^3.5.1",
     "eventemitter3": "^1.1.0",
     "lodash.assign": "^3.2.0",
     "lodash.isfunction": "^3.0.5",

@@ -3,7 +3,7 @@ let $script_ = null;
 let _loadPromise;
 
 // TODO add libraries language and other map options
-module.exports = function googleMapLoader(apiKey) {
+export default function googleMapLoader(apiKey) {
   if (!$script_) {
     $script_ = require('scriptjs');
   }
@@ -34,12 +34,14 @@ module.exports = function googleMapLoader(apiKey) {
 
     const apiKeyString = apiKey ? `&key=${apiKey}` : '';
 
-    $script_(`https://maps.googleapis.com/maps/api/js?callback=_$_google_map_initialize_$_${apiKeyString}`, () => {
-      if (typeof window.google === 'undefined') {
-        reject(new Error('google map initialization error (not loaded)'));
-      }
-    });
+    $script_(
+      `https://maps.googleapis.com/maps/api/js?callback=_$_google_map_initialize_$_${apiKeyString}`,
+      () => {
+        if (typeof window.google === 'undefined') {
+          reject(new Error('google map initialization error (not loaded)'));
+        }
+      });
   });
 
   return _loadPromise;
-};
+}

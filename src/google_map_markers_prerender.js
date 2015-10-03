@@ -1,4 +1,4 @@
-import React, {PropTypes, Component} from 'react';
+import React, {/* PropTypes, */ Component} from 'react';
 import GoogleMapMarkers from './google_map_markers.js';
 
 const style = {
@@ -9,7 +9,7 @@ const style = {
   // backgroundColor: 'red',
   margin: 0,
   padding: 0,
-  position: 'absolute'
+  position: 'absolute',
   // opacity: 0.3
 };
 

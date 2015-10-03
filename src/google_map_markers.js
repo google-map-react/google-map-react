@@ -9,7 +9,7 @@ const mainStyle = {
   top: 0,
   margin: 0,
   padding: 0,
-  position: 'absolute'
+  position: 'absolute',
 };
 
 const style = {
@@ -18,7 +18,7 @@ const style = {
   left: 0,
   top: 0,
   backgroundColor: 'transparent',
-  position: 'absolute'
+  position: 'absolute',
 };
 
 export default class GoogleMapMarkers extends Component {
@@ -31,14 +31,12 @@ export default class GoogleMapMarkers extends Component {
     onChildMouseLeave: PropTypes.func,
     onChildMouseEnter: PropTypes.func,
     hoverDistance: PropTypes.number,
-    projectFromLeftTop: PropTypes.bool
+    projectFromLeftTop: PropTypes.bool,
   };
 
   static defaultProps = {
-    projectFromLeftTop: false
+    projectFromLeftTop: false,
   };
-
-  shouldComponentUpdate = shouldPureComponentUpdate;
 
   constructor(props) {
     super(props);
@@ -54,10 +52,20 @@ export default class GoogleMapMarkers extends Component {
     this.state = {...this._getState(), hoverKey: null};
   }
 
+  shouldComponentUpdate = shouldPureComponentUpdate;
+
+  componentWillUnmount() {
+    this.props.dispatcher.removeListener('kON_CHANGE', this._onChangeHandler);
+    this.props.dispatcher.removeListener('kON_MOUSE_POSITION_CHANGE', this._onMouseChangeHandler);
+    this.props.dispatcher.removeListener('kON_CLICK', this._onChildClick);
+
+    this.dimesionsCache_ = null;
+  }
+
   _getState = () => {
     return {
       children: this.props.dispatcher.getChildren(),
-      updateCounter: this.props.dispatcher.getUpdateCounter()
+      updateCounter: this.props.dispatcher.getUpdateCounter(),
     };
   }
 
@@ -138,7 +146,7 @@ export default class GoogleMapMarkers extends Component {
     const mp = this.props.dispatcher.getMousePosition();
 
     if (mp) {
-      let distances = [];
+      const distances = [];
 
       React.Children.forEach(this.state.children, (child, childIndex) => {
         const childKey = child.key !== undefined && child.key !== null ? child.key : childIndex;
@@ -148,7 +156,7 @@ export default class GoogleMapMarkers extends Component {
             {
               key: childKey,
               dist: dist,
-              props: child.props
+              props: child.props,
             });
         }
       });
@@ -176,24 +184,20 @@ export default class GoogleMapMarkers extends Component {
     return this.dimesionsCache_[childKey];
   }
 
-  componentWillUnmount() {
-    this.props.dispatcher.removeListener('kON_CHANGE', this._onChangeHandler);
-    this.props.dispatcher.removeListener('kON_MOUSE_POSITION_CHANGE', this._onMouseChangeHandler);
-    this.props.dispatcher.removeListener('kON_CLICK', this._onChildClick);
-
-    this.dimesionsCache_ = null;
-  }
-
   render() {
     const mainElementStyle = this.props.style || mainStyle;
 
     this.dimesionsCache_ = {};
 
     const markers = React.Children.map(this.state.children, (child, childIndex) => {
-      const pt = this.props.geoService.project({lat: child.props.lat, lng: child.props.lng}, this.props.projectFromLeftTop);
+      const pt = this.props.geoService.project({
+        lat: child.props.lat,
+        lng: child.props.lng,
+      }, this.props.projectFromLeftTop);
+
       const stylePtPos = {
         left: pt.x,
-        top: pt.y
+        top: pt.y,
       };
 
       let dx = 0;
@@ -206,9 +210,15 @@ export default class GoogleMapMarkers extends Component {
         }
       }
 
-      // to prevent rerender on child element i need to pass const params $getDimensions and $dimensionKey instead of dimension object
+      // to prevent rerender on child element i need to pass
+      // const params $getDimensions and $dimensionKey instead of dimension object
       const childKey = child.key !== undefined && child.key !== null ? child.key : childIndex;
-      this.dimesionsCache_[childKey] = {x: pt.x + dx, y: pt.y + dy, lat: child.props.lat, lng: child.props.lng};
+      this.dimesionsCache_[childKey] = {
+        x: pt.x + dx,
+        y: pt.y + dy,
+        lat: child.props.lat,
+        lng: child.props.lng,
+      };
 
       return (
         <div key={childKey} style={{...style, ...stylePtPos}}>
@@ -217,7 +227,7 @@ export default class GoogleMapMarkers extends Component {
             $getDimensions: this._getDimensions,
             $dimensionKey: childKey,
             $geoService: this.props.geoService,
-            $onMouseAllow: this._onMouseAllow
+            $onMouseAllow: this._onMouseAllow,
           })}
         </div>
       );
