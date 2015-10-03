@@ -4,7 +4,7 @@
   "description": "isomorphic google map react component, allows render react components on the google map",
   "main": "lib/index",
   "scripts": {
-    "build:lib": "babel ./src -d lib --ignore '__tests__'",
+    "build:lib": "babel ./src -d lib",
     "build:umd": "webpack src/index.js dist/GoogleMapReact.js --config webpack.config.dev.js",
     "build:umd:min": "webpack src/index.js dist/GoogleMapReact.min.js --config webpack.config.prod.js",
     "build": "npm run build:lib && npm run build:umd && npm run build:umd:min",
