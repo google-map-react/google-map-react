@@ -1,3 +1,6 @@
+###Sun Oct 5 2015
+Add minZoom calculation, to prevent situations when one map point can have multiple screen coordinates.
+
 ###Sun Oct 4 2015
 Add ability to access to internal google api
 

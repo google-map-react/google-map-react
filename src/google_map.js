@@ -28,6 +28,8 @@ const ReactDOM = isReact14(React)
 
 const kEPS = 0.00001;
 const K_GOOGLE_TILE_SIZE = 256;
+// real minZoom calculated here _getMinZoom
+const DEFAULT_MIN_ZOOM = 3;
 
 function defaultOptions_(/* maps */) {
   return {
@@ -37,7 +39,7 @@ function defaultOptions_(/* maps */) {
     mapTypeControl: false,
     // disable poi
     styles: [{ featureType: 'poi', elementType: 'labels', stylers: [{ visibility: 'off' }]}],
-    minZoom: 3, // i need to dynamically calculate possible zoom value
+    minZoom: DEFAULT_MIN_ZOOM, // dynamically recalculted if possible during init
   };
 }
 
@@ -123,6 +125,8 @@ export default class GoogleMap extends Component {
     this.markersDispatcher_ = new MarkerDispatcher(this);
     this.geoService_ = new Geo(K_GOOGLE_TILE_SIZE);
     this.centerIsObject_ = isPlainObject(this.props.center);
+
+    this.minZoom_ = DEFAULT_MIN_ZOOM;
 
     if (process.env.NODE_ENV !== 'production') {
       if (this.props.center === undefined && this.props.defaultCenter === undefined) {
@@ -229,6 +233,20 @@ export default class GoogleMap extends Component {
     delete this.markersDispatcher_;
   }
 
+  // calc minZoom if map size available
+  // it's better to not set minZoom less than this calculation gives
+  // otherwise there is no homeomorphism between screen coordinates and map
+  // (one map coordinate can have different screen coordinates)
+  _getMinZoom = () => {
+    if (this.geoService_.getWidth() > 0 || this.geoService_.getHeight() > 0) {
+      const tilesPerWidth = Math.ceil(this.geoService_.getWidth() / K_GOOGLE_TILE_SIZE) + 2;
+      const tilesPerHeight = Math.ceil(this.geoService_.getHeight() / K_GOOGLE_TILE_SIZE) + 2;
+      const maxTilesPerDim = Math.max(tilesPerWidth, tilesPerHeight);
+      return Math.ceil(Math.log2(maxTilesPerDim));
+    }
+    return DEFAULT_MIN_ZOOM;
+  }
+
   _initMap = () => {
     const propsCenter = latLng2Obj(this.props.center || this.props.defaultCenter);
     this.geoService_.setView(propsCenter, this.props.zoom || this.props.defaultZoom, 0);
@@ -265,7 +283,27 @@ export default class GoogleMap extends Component {
         : this.props.options;
       const defaultOptions = defaultOptions_(mapPlainObjects);
 
-      const mapOptions = {...defaultOptions, ...options, ...propsOptions};
+      const minZoom = this._getMinZoom();
+      this.minZoom_ = minZoom;
+
+      const mapOptions = {
+        ...defaultOptions,
+        minZoom,
+        ...options,
+        ...propsOptions,
+      };
+
+      if (process.env.NODE_ENV !== 'production') {
+        if (mapOptions.minZoom < minZoom) {
+          console.warn( 'minZoom option is less than recommended ' + // eslint-disable-line
+                        'minZoom option for your map sizes.\n' +
+                        'overrided to value ' + minZoom);
+        }
+      }
+
+      if (mapOptions.minZoom < minZoom) {
+        mapOptions.minZoom = minZoom;
+      }
 
       const map = new maps.Map(ReactDOM.findDOMNode(this.refs.google_map_dom), mapOptions);
       this.map_ = map;
@@ -354,6 +392,13 @@ export default class GoogleMap extends Component {
       maps.event.addListener(map, 'idle', () => {
         if (this.resetSizeOnIdle_) {
           this._setViewSize();
+          const currMinZoom = this._getMinZoom();
+
+          if (currMinZoom !== this.minZoom_) {
+            this.minZoom_ = currMinZoom;
+            map.setOptions({minZoom: currMinZoom});
+          }
+
           this.resetSizeOnIdle_ = false;
         }
 
