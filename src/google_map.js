@@ -76,6 +76,7 @@ export default class GoogleMap extends Component {
     defaultZoom: PropTypes.number,
     zoom: PropTypes.number,
     onBoundsChange: PropTypes.func,
+    onChange: PropTypes.func,
     onClick: PropTypes.func,
     onChildClick: PropTypes.func,
     onChildMouseEnter: PropTypes.func,
@@ -129,13 +130,19 @@ export default class GoogleMap extends Component {
     this.minZoom_ = DEFAULT_MIN_ZOOM;
 
     if (process.env.NODE_ENV !== 'production') {
+      if (this.props.onBoundsChange) {
+        console.warn( 'GoogleMap: ' +  // eslint-disable-line no-console
+                      'onBoundsChange is deprecated, use ' +
+                      'onChange({center, zoom, bounds, ...other}) instead.');
+      }
+
       if (this.props.center === undefined && this.props.defaultCenter === undefined) {
-        console.warn( 'center or defaultCenter' +  // eslint-disable-line no-console
+        console.warn( 'GoogleMap: center or defaultCenter' +  // eslint-disable-line no-console
                       'property must be defined');
       }
 
       if (this.props.zoom === undefined && this.props.defaultZoom === undefined) {
-        console.warn( 'zoom or defaultZoom' + // eslint-disable-line no-console
+        console.warn( 'GoogleMap: zoom or defaultZoom' + // eslint-disable-line no-console
                       'property must be defined');
       }
     }
@@ -169,12 +176,12 @@ export default class GoogleMap extends Component {
   componentWillReceiveProps(nextProps) {
     if (process.env.NODE_ENV !== 'production') {
       if (this.props.defaultCenter !== nextProps.defaultCenter) {
-        console.warn('defaultCenter prop changed. ' +  // eslint-disable-line
+        console.warn('GoogleMap: defaultCenter prop changed. ' +  // eslint-disable-line
                       'You can\'t change default props.');
       }
 
       if (this.props.defaultZoom !== nextProps.defaultZoom) {
-        console.warn('defaultZoom prop changed. ' +  // eslint-disable-line
+        console.warn('GoogleMap: defaultZoom prop changed. ' +  // eslint-disable-line
                       'You can\'t change default props.');
       }
     }
@@ -295,7 +302,8 @@ export default class GoogleMap extends Component {
 
       if (process.env.NODE_ENV !== 'production') {
         if (mapOptions.minZoom < minZoom) {
-          console.warn( 'minZoom option is less than recommended ' + // eslint-disable-line
+          console.warn( 'GoogleMap: ' + // eslint-disable-line
+                        'minZoom option is less than recommended ' +
                         'minZoom option for your map sizes.\n' +
                         'overrided to value ' + minZoom);
         }
@@ -449,7 +457,8 @@ export default class GoogleMap extends Component {
       if (this.props.onGoogleApiLoaded) {
         if (process.env.NODE_ENV !== 'production' &&
             this.props.yesIWantToUseGoogleMapApiInternals !== true ) {
-          console.warn( 'Usage of internal api objects is dangerous ' + // eslint-disable-line
+          console.warn( 'GoogleMap: ' + // eslint-disable-line
+                        'Usage of internal api objects is dangerous ' +
                         'and can cause a lot of issues.\n' +
                         'To hide this warning add yesIWantToUseGoogleMapApiInternals={true} ' +
                         'to <GoogleMap instance');
@@ -504,7 +513,7 @@ export default class GoogleMap extends Component {
       this.geoService_.setView([gmC.lat(), gmC.lng()], map.getZoom(), 0);
     }
 
-    if (this.props.onBoundsChange && this.geoService_.canProject()) {
+    if ((this.props.onChange || this.props.onBoundsChange) && this.geoService_.canProject()) {
       const zoom = this.geoService_.getZoom();
       const bounds = this.geoService_.getBounds();
       const centerLatLng = this.geoService_.getCenter();
@@ -512,14 +521,54 @@ export default class GoogleMap extends Component {
       if (!isArraysEqualEps(bounds, this.prevBounds_, kEPS)) {
         if (callExtBoundsChange !== false) {
           const marginBounds = this.geoService_.getBounds(this.props.margin);
-          this.props.onBoundsChange(
-            this.centerIsObject_
-              ? {...centerLatLng}
-              : [centerLatLng.lat, centerLatLng.lng],
-            zoom,
-            bounds,
-            marginBounds
-          );
+          if (this.props.onBoundsChange) {
+            this.props.onBoundsChange(
+              this.centerIsObject_
+                ? {...centerLatLng}
+                : [centerLatLng.lat, centerLatLng.lng],
+              zoom,
+              bounds,
+              marginBounds
+            );
+          }
+
+          if (this.props.onChange) {
+            this.props.onChange({
+              center: {...centerLatLng},
+              zoom,
+              bounds: {
+                nw: {
+                  lat: bounds[0],
+                  lng: bounds[1],
+                },
+                se: {
+                  lat: bounds[2],
+                  lng: bounds[3],
+                },
+              },
+              marginBounds: {
+                nw: {
+                  lat: marginBounds[0],
+                  lng: marginBounds[1],
+                },
+                se: {
+                  lat: marginBounds[2],
+                  lng: marginBounds[3],
+                },
+              },
+
+              size: this.geoService_.hasSize()
+                ? {
+                  width: this.geoService_.getWidth(),
+                  height: this.geoService_.getHeight(),
+                }
+                : {
+                  width: 0,
+                  height: 0,
+                },
+            });
+          }
+
           this.prevBounds_ = bounds;
         }
       }
