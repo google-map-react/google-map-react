@@ -1,23 +1,24 @@
 import React, {PropTypes, Component} from 'react';
-import { isReact14 } from './utils/react_version.js';
+import { isReact14 } from './utils/react_version';
 
 import shouldPureComponentUpdate from 'react-pure-render/function';
 
-import MarkerDispatcher from './marker_dispatcher.js';
+import MarkerDispatcher from './marker_dispatcher';
 
-import GoogleMapMap from './google_map_map.js';
-import GoogleMapMarkers from './google_map_markers.js';
-import GoogleMapMarkersPrerender from './google_map_markers_prerender.js';
+import GoogleMapMap from './google_map_map';
+import GoogleMapMarkers from './google_map_markers';
+import GoogleMapMarkersPrerender from './google_map_markers_prerender';
 
-import googleMapLoader from './utils/loaders/google_map_loader.js';
-import detectBrowser from './utils/detect.js';
+import googleMapLoader from './utils/loaders/google_map_loader';
+import detectBrowser from './utils/detect';
 
-import Geo from './utils/geo.js';
-import isArraysEqualEps from './utils/array_helper.js';
+import Geo from './utils/geo';
+import isArraysEqualEps from './utils/array_helper';
 
-import isFunction from 'lodash.isfunction';
-import isPlainObject from 'lodash.isplainobject';
-import pick from 'lodash.pick';
+import isPlainObject from './utils/is_plain_object';
+import pick from './utils/pick';
+import raf from './utils/raf';
+
 import assign from 'lodash.assign';
 import isNumber from 'lodash.isnumber';
 
@@ -129,6 +130,8 @@ export default class GoogleMap extends Component {
 
     this.minZoom_ = DEFAULT_MIN_ZOOM;
 
+    this.zoomControlClickTime_ = 0;
+
     if (process.env.NODE_ENV !== 'production') {
       if (this.props.onBoundsChange) {
         console.warn( 'GoogleMap: ' +  // eslint-disable-line no-console
@@ -162,6 +165,8 @@ export default class GoogleMap extends Component {
   componentDidMount() {
     this.mounted_ = true;
     window.addEventListener('resize', this._onWindowResize);
+    window.addEventListener('keydown', this._onKeyDownCapture, true);
+
     this.props.googleMapLoader(this.props.apiKey); // we can start load immediatly
 
     setTimeout(() => { // to detect size
@@ -220,6 +225,7 @@ export default class GoogleMap extends Component {
     this.mounted_ = false;
 
     window.removeEventListener('resize', this._onWindowResize);
+    window.removeEventListener('keydown', this._onKeyDownCapture);
 
     if (this.overlay_) {
       // this triggers overlay_.onRemove(), which will unmount the <GoogleMapMarkers/>
@@ -285,7 +291,7 @@ export default class GoogleMap extends Component {
       // "MaxZoomStatus", "StreetViewStatus", "TransitMode", "TransitRoutePreference",
       // "TravelMode", "UnitSystem"
       const mapPlainObjects = pick(maps, isPlainObject);
-      const options = isFunction(this.props.options)
+      const options = typeof this.props.options === 'function'
         ? this.props.options(mapPlainObjects)
         : this.props.options;
       const defaultOptions = defaultOptions_(mapPlainObjects);
@@ -392,8 +398,23 @@ export default class GoogleMap extends Component {
             this_._onZoomAnimationStart();
           }
 
-          this_.updateCounter_++;
-          this_._onBoundsChanged(map, maps);
+          const TIMEOUT_ZOOM = 300;
+
+          if ((new Date()).getTime() - this.zoomControlClickTime_ < TIMEOUT_ZOOM) {
+            // there is strange Google Map Api behavior in chrome when zoom animation of map
+            // is started only on second raf call, if was click on zoom control
+            // or +- keys pressed, so i wait for two rafs before change state
+
+            // this does not fully prevent animation jump
+            // but reduce it's occurence probability
+            raf(() => raf(() => {
+              this_.updateCounter_++;
+              this_._onBoundsChanged(map, maps);
+            }));
+          } else {
+            this_.updateCounter_++;
+            this_._onBoundsChanged(map, maps);
+          }
         }
       });
 
@@ -652,6 +673,38 @@ export default class GoogleMap extends Component {
     }
   }
 
+  _onMouseDownCapture = (event) => {
+    if (detectBrowser().isChrome) {
+      // to fix strange zoom in chrome
+      if (event.target !== undefined) {
+        let res = 0;
+        let curr = event.target;
+        while (curr) {
+          if (curr && curr.getAttribute) {
+            if (curr.getAttribute('title')) {
+              res += 10;
+            }
+
+            if (curr.getAttribute('class') === 'gmnoprint') {
+              res *= 10;
+            }
+          }
+          curr = curr.parentNode;
+        }
+
+        if (res === 1000) {
+          this.zoomControlClickTime_ = (new Date()).getTime();
+        }
+      }
+    }
+  }
+
+  _onKeyDownCapture = () => {
+    if (detectBrowser().isChrome) {
+      this.zoomControlClickTime_ = (new Date()).getTime();
+    }
+  }
+
   _isCenterDefined = (center) => center && (
     (isPlainObject(center) && isNumber(center.lat) && isNumber(center.lng)) ||
     (center.length === 2 && isNumber(center[0]) && isNumber(center[1]))
@@ -671,7 +724,10 @@ export default class GoogleMap extends Component {
     ) : null;
 
     return (
-      <div style={style} onMouseMove={this._onMouseMove} onClick={this._onMapClick}>
+      <div style={style}
+           onMouseMove={this._onMouseMove}
+           onMouseDownCapture={this._onMouseDownCapture}
+           onClick={this._onMapClick}>
         <GoogleMapMap ref="google_map_dom" />
 
         {/* render markers before map load done */}
