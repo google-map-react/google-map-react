@@ -80,18 +80,18 @@ export default class SimpleMapPage extends Component {
 }
 ```
 
-## API
+## GoogleMap API
 ### parameters
 
 ####apiKey (string)
 Google maps api key. (Optional, but your map will be rate-limited with no key)
 
 ####defaultCenter (array or object)
-`[lat, lng]` or `{ lat: lat, lng: ln}`
+`[lat, lng]` or `{ lat: lat, lng: lng}`
 Default lat/lng at which to center the map - changing this prop throws a warning
 
 ####center (array or object)
-`[lat, lng]` or `{ lat: lat, lng: ln}`
+`[lat, lng]` or `{ lat: lat, lng: lng}`
 Lat/lng at which to center the map
 
 ####defaultZoom: (number)
@@ -175,6 +175,31 @@ To prevent warning message add _yesIWantToUseGoogleMapApiInternals_ property to 
  />
  ```
 
+## Child Component API
+### parameters
+#### lat (number)
+Latitude to place the marker component
+
+#### lng (number)
+Longitude to place the marker component
+
+#### hover (bool)
+GoogleMap passes a $hover prop to hovered components. To detect hover it an uses internal mechanism, explained in x_distance_hover example
+
+Example:
+```jsx
+render() {
+    const style = this.props.$hover ? greatPlaceStyleHover : greatPlaceStyle;
+
+    return (
+       <div style={style}>
+          {this.props.text}
+       </div>
+    );
+  }
+  ```
+  
+  
 ## Utility functions
 
 ####fitBounds (func)
@@ -215,7 +240,7 @@ const {center, zoom} = fitBounds({nw, se}, size);
 [example](http://istarkov.github.io/google-map-react/map/options/) ([source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_options/options_map_page.jsx))
 
 * Hover effects:
-[simple hover](http://istarkov.github.io/google-map-react/map/simple_hover/) ([source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_simple_hover/simple_hover_map_page.jsx)), 
+[simple hover](http://istarkov.github.io/google-map-react/map/simple_hover/) ([source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_simple_hover/simple_hover_map_page.jsx)); 
 [distance hover](http://istarkov.github.io/google-map-react/map/distance_hover/) ([source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_distance_hover/distance_hover_map_page.jsx))
 
 * GoogleMap events:
@@ -231,7 +256,7 @@ const {center, zoom} = fitBounds({nw, se}, size);
 ### Positioning a marker
 Initially any map object has its top left corner at lat lng coordinates. It's up to you to set the object origin to 0,0 coordinates.
 
-Example (centering the marker) :
+Example (centering the marker):
 ```js
 const MARKER_SIZE = 40;
 const greatPlaceStyle = {
