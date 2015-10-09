@@ -90,7 +90,7 @@ Google maps api key. (Optional, but your map will be rate-limited with no key)
 `[lat, lng]` or `{ lat: lat, lng: ln}`
 Default lat/lng at which to center the map - changing this prop throws a warning
 
-####defaultCenter (array or object)
+####center (array or object)
 `[lat, lng]` or `{ lat: lat, lng: ln}`
 Lat/lng at which to center the map
 
@@ -130,7 +130,7 @@ createMapOptions: function (maps) {
 See "Custom map options example" in Examples below for a further example.
 
 ####onClick (func)
-`{x, y, lat, lng, event}`
+`(x, y, lat, lng, event)`
 
 The `event` prop in args is the outer div onClick event, not the gmap-api 'click' event.
 
@@ -145,6 +145,13 @@ Example:
  ```
 
 ####onBoundsChange (func)
+```
+(center, zoom, bounds, marginBounds)
+```
+```
+[lat, lng] = center;
+[topLat, leftLng, bottomLat, rightLng] = bounds;
+```
 ####onChildClick (func)
 ####onChildMouseEnter (func)
 ####onChildMouseLeave (func)
@@ -237,7 +244,7 @@ render() {
 ### Adding a searchbox
 
 ```javascript
-mport React from 'react';
+import React from 'react';
 
 export default class SearchBox extends React.Component {
   static propTypes = {
