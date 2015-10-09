@@ -47,7 +47,7 @@ The global will be available at: `window.GoogleMapReact`
 In the simple case you just need to add `lat` `lng` props to any child of `GoogleMap` component.   
 [simple example in action](http://istarkov.github.io/google-map-react/map/simple)
 
-```javascript
+```jsx
 import React, {PropTypes, Component} from 'react/addons';
 import shouldPureComponentUpdate from 'react-pure-render/function';
 
@@ -83,33 +83,35 @@ export default class SimpleMapPage extends Component {
 ## API
 ### parameters
 
- * apiKey (string)
-   Google maps api key. (Optional, but your map will be rate-limited with no key)
+####apiKey (string)
+Google maps api key. (Optional, but your map will be rate-limited with no key)
 
- * defaultCenter (array || object): [lat, lng] || { lat: lat, lng: ln}
-   Lat/lng at which to center the map - changing this prop throws a warning
+####defaultCenter (array or object)
+`[lat, lng]` or `{ lat: lat, lng: ln}`
+Default lat/lng at which to center the map - changing this prop throws a warning
 
- * defaultCenter (array || object): [lat, lng] || { lat: lat, lng: ln}
-   As above, but can be changed
+####defaultCenter (array or object)
+`[lat, lng]` or `{ lat: lat, lng: ln}`
+Lat/lng at which to center the map
 
- * defaultZoom: (number)
-   Map zoom level - changing this prop throws a warning
+####defaultZoom: (number)
+Default map zoom level - changing this prop throws a warning
 
- * zoom (number)
-   As above, but can be changed
+####zoom (number)
+Map zoom level
 
- * hoverDistance (number)
-   Default: 30
+####hoverDistance (number)
+Default: 30
 
- * margin (array)
+####margin (array)
 
- * debounced (bool)
-   Default: true
+####debounced (bool)
+Default: true
 
 ### callbacks
 
- * options (func)
-   Set map options such as controls positions / styles, etc.
+####options (func)
+Set map options such as controls positions / styles, etc.
 
 Example:
 
@@ -127,9 +129,10 @@ createMapOptions: function (maps) {
 ```
 See "Custom map options example" in Examples below for a further example.
 
- * onClick (func): {x, y, lat, lng, event}
+####onClick (func)
+`{x, y, lat, lng, event}`
 
- `event` prop in args is outer div onClick event, not gmap-api 'click' event.
+The `event` prop in args is the outer div onClick event, not the gmap-api 'click' event.
 
 Example:
 
@@ -141,16 +144,17 @@ Example:
  <GoogleMap  onClick={_onClick} ... />
  ```
 
- * onBoundsChange (func)
- * onChildClick (func)
- * onChildMouseEnter (func)
- * onChildMouseLeave (func)
- * onZoomAnimationStart (func)
- * onZoomAnimationEnd (func)
- * options (func)
- * distanceToMouse (func)
- * googleMapLoader (func)
- * onGoogleApiLoaded (func)
+####onBoundsChange (func)
+####onChildClick (func)
+####onChildMouseEnter (func)
+####onChildMouseLeave (func)
+####onZoomAnimationStart (func)
+####onZoomAnimationEnd (func)
+####distanceToMouse (func)
+####googleMapLoader (func)
+
+####onGoogleApiLoaded (func)
+Directly access the maps API - *use at your own risk!*
 
 ```jsx
 <GoogleMap  onGoogleApiLoaded={({map, maps}) => console.log(map, maps)} />
@@ -166,7 +170,7 @@ To prevent warning message add _yesIWantToUseGoogleMapApiInternals_ property to 
 
 ## Utility functions
 
- * fitBounds
+####fitBounds (func)
    Use fitBounds to get zoom and center.
 
 Example:
@@ -192,34 +196,41 @@ const size = {
 
 const {center, zoom} = fitBounds({nw, se}, size);
 ```
- * tile2LatLng
- * latLng2Tile
- * getTilesIds
-
-### Directly accessing the maps API
+####tile2LatLng (func)
+####latLng2Tile (func)
+####getTilesIds (func)
 
 ##Examples
 * Placing react components on the map
-  [simple](http://istarkov.github.io/google-map-react/map/simple/) ([source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_simple/simple_map_page.jsx))
 
-* Custom map options example
-  [options example](http://istarkov.github.io/google-map-react/map/options/) ([source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_options/options_map_page.jsx))
+[simple](http://istarkov.github.io/google-map-react/map/simple/) ([source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_simple/simple_map_page.jsx))
+
+* Custom map options
+
+[example](http://istarkov.github.io/google-map-react/map/options/) ([source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_options/options_map_page.jsx))
 
 * Hover effects
-  [simple hover](http://istarkov.github.io/google-map-react/map/simple_hover/) ([source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_simple_hover/simple_hover_map_page.jsx))
-  [distance hover](http://istarkov.github.io/google-map-react/map/distance_hover/) ([source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_distance_hover/distance_hover_map_page.jsx))
+
+[simple hover](http://istarkov.github.io/google-map-react/map/simple_hover/) ([source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_simple_hover/simple_hover_map_page.jsx))
+  
+[distance hover](http://istarkov.github.io/google-map-react/map/distance_hover/) ([source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_distance_hover/distance_hover_map_page.jsx))
 
 * GoogleMap events
-  [events](http://istarkov.github.io/google-map-react/map/events/) ([source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_events/events_map_page.jsx))
 
-* All api examples
-  [main](http://istarkov.github.io/google-map-react/map/main/) ([source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_main/main_map_block.jsx))
-  [balderdash](http://istarkov.github.io/google-map-react/map/balderdash/) (same source as main)
+[example](http://istarkov.github.io/google-map-react/map/events/) ([source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_events/events_map_page.jsx))
 
 * Example project
-  [google-map-react-examples](https://github.com/istarkov/google-map-react-examples)
 
-## Tips
+[main](http://istarkov.github.io/google-map-react/map/main/) ([source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_main/main_map_block.jsx))
+
+[balderdash](http://istarkov.github.io/google-map-react/map/balderdash/)
+(same source as main)
+
+* All api examples
+
+[google-map-react-examples](https://github.com/istarkov/google-map-react-examples)
+
+## FAQs
 ### Rendering in a modal
 If at the moment of GoogleMap control created, a modal has no size (width,height=0) or/and not displayed, the simple solution is to add something like this in render:
 
@@ -259,8 +270,8 @@ export default class SearchBox extends React.Component {
   }
 }
 ```
-You will need to preload the google maps API, but `google-map-react` hecks if the base api is already loaded,
-and if so, uses it. So it won't accidentally load a second copy of the library.
+You will need to preload the google maps API, but `google-map-react` checks if the base api is already loaded,
+and if so, uses it, so it won't load a second copy of the library.
 
 ```html
 <script type="text/javascript" src="https://maps.google.com/maps/api/js?libraries=places&sensor=false"></script>
