@@ -222,14 +222,28 @@ const {center, zoom} = fitBounds({nw, se}, size);
 [example](http://istarkov.github.io/google-map-react/map/events/) ([source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_events/events_map_page.jsx))
 
 * Example project:
-[main](http://istarkov.github.io/google-map-react/map/main/) ([source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_main/main_map_block.jsx))
-
-[balderdash](http://istarkov.github.io/google-map-react/map/balderdash/) (same source as main)
+[main](http://istarkov.github.io/google-map-react/map/main/) ([source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_main/main_map_block.jsx)); [balderdash](http://istarkov.github.io/google-map-react/map/balderdash/) (same source as main)
 
 * All api examples:
 [google-map-react-examples](https://github.com/istarkov/google-map-react-examples)
 
-## FAQs
+## Tips
+### Positioning a marker
+Initially any map object has its top left corner at lat lng coordinates. It's up to you to set the object origin to 0,0 coordinates.
+
+Example (centering the marker) :
+```js
+const MARKER_SIZE = 40;
+const greatPlaceStyle = {
+  position: 'absolute',
+  width: MARKER_SIZE,
+  height: MARKER_SIZE,
+  left: -MARKER_SIZE / 2,
+  top: -MARKER_SIZE / 2,
+[...]
+}
+,,,
+
 ### Rendering in a modal
 If at the moment of GoogleMap control created, a modal has no size (width,height=0) or/and not displayed, the simple solution is to add something like this in render:
 
