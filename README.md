@@ -176,14 +176,16 @@ To prevent warning message add _yesIWantToUseGoogleMapApiInternals_ property to 
  ```
 
 ## Child Component API
+
 ### parameters
+
 #### lat (number)
 Latitude to place the marker component
 
 #### lng (number)
 Longitude to place the marker component
 
-#### hover (bool)
+#### $hover (bool) [automatic]
 GoogleMap passes a $hover prop to hovered components. To detect hover it an uses internal mechanism, explained in x_distance_hover example
 
 Example:
@@ -257,17 +259,25 @@ const {center, zoom} = fitBounds({nw, se}, size);
 Initially any map object has its top left corner at lat lng coordinates. It's up to you to set the object origin to 0,0 coordinates.
 
 Example (centering the marker):
-```js
+```jsx
 const MARKER_SIZE = 40;
 const greatPlaceStyle = {
   position: 'absolute',
   width: MARKER_SIZE,
   height: MARKER_SIZE,
   left: -MARKER_SIZE / 2,
-  top: -MARKER_SIZE / 2,
-[...]
+  top: -MARKER_SIZE / 2
 }
-,,,
+```
+```jsx
+render() {
+  return (
+    <div style={greatPlaceStyle}>
+      {this.props.text}
+    </div>
+  );
+}
+```
 
 ### Rendering in a modal
 If at the moment of GoogleMap control created, a modal has no size (width,height=0) or/and not displayed, the simple solution is to add something like this in render:
