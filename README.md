@@ -90,7 +90,7 @@ Google maps api key. (Optional, but your map will be rate-limited with no key)
 `[lat, lng]` or `{ lat: lat, lng: ln}`
 Default lat/lng at which to center the map - changing this prop throws a warning
 
-####defaultCenter (array or object)
+####center (array or object)
 `[lat, lng]` or `{ lat: lat, lng: ln}`
 Lat/lng at which to center the map
 
@@ -145,6 +145,9 @@ Example:
  ```
 
 ####onBoundsChange (func)
+```
+[centerLatLng.lat, centerLatLng.lng], zoom, bounds, marginBounds
+```
 ####onChildClick (func)
 ####onChildMouseEnter (func)
 ####onChildMouseLeave (func)
@@ -237,7 +240,7 @@ render() {
 ### Adding a searchbox
 
 ```javascript
-mport React from 'react';
+import React from 'react';
 
 export default class SearchBox extends React.Component {
   static propTypes = {
