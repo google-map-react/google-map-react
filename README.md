@@ -80,37 +80,67 @@ export default class SimpleMapPage extends Component {
 }
 ```
 
+##Examples
+
+* Placing react components on the map:
+[simple](http://istarkov.github.io/google-map-react/map/simple/) ([source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_simple/simple_map_page.jsx))
+
+* Custom map options:
+[example](http://istarkov.github.io/google-map-react/map/options/) ([source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_options/options_map_page.jsx))
+
+* Hover effects:
+[simple hover](http://istarkov.github.io/google-map-react/map/simple_hover/) ([source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_simple_hover/simple_hover_map_page.jsx)); 
+[distance hover](http://istarkov.github.io/google-map-react/map/distance_hover/) ([source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_distance_hover/distance_hover_map_page.jsx))
+
+* GoogleMap events:
+[example](http://istarkov.github.io/google-map-react/map/events/) ([source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_events/events_map_page.jsx))
+
+* Example project:
+[main](http://istarkov.github.io/google-map-react/map/main/) ([source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_main/main_map_block.jsx)); [balderdash](http://istarkov.github.io/google-map-react/map/balderdash/) (same source as main)
+
+* All api examples:
+[google-map-react-examples](https://github.com/istarkov/google-map-react-examples)
+
 ## GoogleMap API
+
 ### parameters
 
 ####apiKey (string)
+
 Google maps api key. (Optional, but your map will be rate-limited with no key)
 
 ####defaultCenter (array or object)
+
 `[lat, lng]` or `{ lat: lat, lng: lng}`
 Default lat/lng at which to center the map - changing this prop throws a warning
 
 ####center (array or object)
+
 `[lat, lng]` or `{ lat: lat, lng: lng}`
 Lat/lng at which to center the map
 
 ####defaultZoom: (number)
+
 Default map zoom level - changing this prop throws a warning
 
 ####zoom (number)
+
 Map zoom level
 
 ####hoverDistance (number)
+
 Default: 30
 
 ####margin (array)
 
 ####debounced (bool)
+
 Default: true
 
 ### callbacks
 
 ####options (func)
+
 Set map options such as controls positions / styles, etc.
 
 Example:
@@ -233,26 +263,6 @@ const {center, zoom} = fitBounds({nw, se}, size);
 ####tile2LatLng (func)
 ####latLng2Tile (func)
 ####getTilesIds (func)
-
-##Examples
-* Placing react components on the map:
-[simple](http://istarkov.github.io/google-map-react/map/simple/) ([source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_simple/simple_map_page.jsx))
-
-* Custom map options:
-[example](http://istarkov.github.io/google-map-react/map/options/) ([source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_options/options_map_page.jsx))
-
-* Hover effects:
-[simple hover](http://istarkov.github.io/google-map-react/map/simple_hover/) ([source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_simple_hover/simple_hover_map_page.jsx)); 
-[distance hover](http://istarkov.github.io/google-map-react/map/distance_hover/) ([source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_distance_hover/distance_hover_map_page.jsx))
-
-* GoogleMap events:
-[example](http://istarkov.github.io/google-map-react/map/events/) ([source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_events/events_map_page.jsx))
-
-* Example project:
-[main](http://istarkov.github.io/google-map-react/map/main/) ([source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_main/main_map_block.jsx)); [balderdash](http://istarkov.github.io/google-map-react/map/balderdash/) (same source as main)
-
-* All api examples:
-[google-map-react-examples](https://github.com/istarkov/google-map-react-examples)
 
 ## Tips
 ### Positioning a marker
