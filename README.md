@@ -139,7 +139,7 @@ Default: true
 
 ### callbacks
 
-####options (func)
+####options (func|object)
 
 Set map options such as controls positions / styles, etc.
 
