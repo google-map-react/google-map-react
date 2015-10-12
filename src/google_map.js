@@ -19,9 +19,8 @@ import isPlainObject from './utils/is_plain_object';
 import pick from './utils/pick';
 import raf from './utils/raf';
 
-// TODO move to "import blabla from 'lodash/bla/blabla';"
-import assign from 'lodash.assign';
-import isNumber from 'lodash.isnumber';
+import assign from 'lodash/object/assign';
+import isNumber from 'lodash/lang/isNumber';
 
 const ReactDOM = isReact14(React)
   ? require('react-dom')
@@ -742,3 +741,4 @@ export default class GoogleMap extends Component {
     );
   }
 }
+
