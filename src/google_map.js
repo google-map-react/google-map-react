@@ -19,6 +19,7 @@ import isPlainObject from './utils/is_plain_object';
 import pick from './utils/pick';
 import raf from './utils/raf';
 
+// TODO move to "import blabla from 'lodash/bla/blabla';"
 import assign from 'lodash.assign';
 import isNumber from 'lodash.isnumber';
 
@@ -84,6 +85,7 @@ export default class GoogleMap extends Component {
     onChildMouseLeave: PropTypes.func,
     onZoomAnimationStart: PropTypes.func,
     onZoomAnimationEnd: PropTypes.func,
+    onDrag: PropTypes.func,
     options: PropTypes.any,
     distanceToMouse: PropTypes.func,
     hoverDistance: PropTypes.number,
@@ -473,6 +475,7 @@ export default class GoogleMap extends Component {
 
       maps.event.addListener(map, 'drag', () => {
         this_.dragTime_ = (new Date()).getTime();
+        this_._onDrag();
       });
 
       if (this.props.onGoogleApiLoaded) {
@@ -493,6 +496,9 @@ export default class GoogleMap extends Component {
       throw e;
     });
   }
+
+  _onDrag = (...args) => this.props.onDrag &&
+    this.props.onDrag(...args);
 
   _onZoomAnimationStart = (...args) => this.props.onZoomAnimationStart &&
     this.props.onZoomAnimationStart(...args)
