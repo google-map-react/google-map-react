@@ -22,9 +22,18 @@ import raf from './utils/raf';
 import assign from 'lodash/object/assign';
 import isNumber from 'lodash/lang/isNumber';
 
-const ReactDOM = isReact14(React)
-  ? require('react-dom')
-  : React;
+// To avoid Error with React 13, webpack will generate warning not error
+// more details is here https://github.com/orgsync/react-list/pull/54
+let ReactDOM;
+if (isReact14(React)) {
+  try {
+    ReactDOM = require('react-dom');
+  } catch (e) {
+    ReactDOM = React;
+  }
+} else {
+  ReactDOM = React;
+}
 
 
 const kEPS = 0.00001;
