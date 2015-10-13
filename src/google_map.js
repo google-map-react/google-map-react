@@ -390,6 +390,8 @@ export default class GoogleMap extends Component {
           this_.updateCounter_++;
           this_._onBoundsChanged(map, maps, !this_.props.debounced);
 
+          this_._onGoogleApiLoaded({map, maps});
+
           div.style.left = `${ptxRounded.x}px`;
           div.style.top = `${ptxRounded.y}px`;
           if (this_.markersDispatcher_) {
@@ -485,24 +487,26 @@ export default class GoogleMap extends Component {
         this_.dragTime_ = (new Date()).getTime();
         this_._onDrag();
       });
-
-      if (this.props.onGoogleApiLoaded) {
-        if (process.env.NODE_ENV !== 'production' &&
-            this.props.yesIWantToUseGoogleMapApiInternals !== true ) {
-          console.warn( 'GoogleMap: ' + // eslint-disable-line
-                        'Usage of internal api objects is dangerous ' +
-                        'and can cause a lot of issues.\n' +
-                        'To hide this warning add yesIWantToUseGoogleMapApiInternals={true} ' +
-                        'to <GoogleMap instance');
-        }
-
-        this.props.onGoogleApiLoaded({map, maps});
-      }
     })
     .catch( e => {
       console.error(e); // eslint-disable-line no-console
       throw e;
     });
+  }
+
+  _onGoogleApiLoaded = (...args) => {
+    if (this.props.onGoogleApiLoaded) {
+      if (process.env.NODE_ENV !== 'production' &&
+          this.props.yesIWantToUseGoogleMapApiInternals !== true ) {
+        console.warn( 'GoogleMap: ' + // eslint-disable-line
+                      'Usage of internal api objects is dangerous ' +
+                      'and can cause a lot of issues.\n' +
+                      'To hide this warning add yesIWantToUseGoogleMapApiInternals={true} ' +
+                      'to <GoogleMap instance');
+      }
+
+      this.props.onGoogleApiLoaded(...args);
+    }
   }
 
   _onDrag = (...args) => this.props.onDrag &&
