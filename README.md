@@ -37,11 +37,8 @@ npm install --save google-map-react
 ```
 
 ### bower
-```
-bower install --save google-map-react
-```
-The global will be available at: `window.GoogleMapReact`
-
+We no longer intend to support Bower. Please stop using Bower. NPM works very well for front-end development, and you should use it instead. ((c)Dan Abramov)
+UMD AMD and other build are available under dist folder after `npm install`
 
 ##What's it Look Like? 
 In the simple case you just need to add `lat` `lng` props to any child of `GoogleMap` component.   
