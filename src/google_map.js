@@ -68,6 +68,7 @@ const latLng2Obj = (latLng) => isPlainObject(latLng)
 export default class GoogleMap extends Component {
 
   static propTypes = {
+    language: PropTypes.string,
     apiKey: PropTypes.string,
     defaultCenter: React.PropTypes.oneOfType([
       PropTypes.array,
@@ -177,7 +178,7 @@ export default class GoogleMap extends Component {
     window.addEventListener('resize', this._onWindowResize);
     window.addEventListener('keydown', this._onKeyDownCapture, true);
 
-    this.props.googleMapLoader(this.props.apiKey); // we can start load immediatly
+    this.props.googleMapLoader(this.props.apiKey, this.props.language); // we can start load immediatly
 
     setTimeout(() => { // to detect size
       this._setViewSize();
@@ -276,7 +277,7 @@ export default class GoogleMap extends Component {
 
     this._onBoundsChanged(); // now we can calculate map bounds center etc...
 
-    this.props.googleMapLoader(this.props.apiKey)
+    this.props.googleMapLoader(this.props.apiKey, this.props.language)
     .then(maps => {
       if (!this.mounted_) {
         return;
