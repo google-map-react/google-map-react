@@ -89,6 +89,8 @@ export default class GoogleMap extends Component {
     onChange: PropTypes.func,
     onClick: PropTypes.func,
     onChildClick: PropTypes.func,
+    onChildMouseDown: PropTypes.func,
+    onChildMouseUp: PropTypes.func,
     onChildMouseEnter: PropTypes.func,
     onChildMouseLeave: PropTypes.func,
     onZoomAnimationStart: PropTypes.func,
@@ -102,6 +104,7 @@ export default class GoogleMap extends Component {
     googleMapLoader: PropTypes.any,
     onGoogleApiLoaded: PropTypes.func,
     yesIWantToUseGoogleMapApiInternals: PropTypes.bool,
+    draggable: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -139,8 +142,11 @@ export default class GoogleMap extends Component {
     this.centerIsObject_ = isPlainObject(this.props.center);
 
     this.minZoom_ = DEFAULT_MIN_ZOOM;
+    this.defaultDraggableOption_ = true;
 
     this.zoomControlClickTime_ = 0;
+
+    this.childMouseDownArgs_ = null;
 
     if (process.env.NODE_ENV !== 'production') {
       if (this.props.onBoundsChange) {
@@ -176,6 +182,13 @@ export default class GoogleMap extends Component {
     this.mounted_ = true;
     window.addEventListener('resize', this._onWindowResize);
     window.addEventListener('keydown', this._onKeyDownCapture, true);
+
+    // gmap can't prevent map drag if mousedown event already occured
+    // the only workaround I find is prevent mousedown native browser event
+    ReactDOM.findDOMNode(this.refs.google_map_dom)
+      .addEventListener('mousedown', this._onMapMouseDownNative, true);
+
+    window.addEventListener('mouseup', this._onChildMouseUp, false);
 
     this.props.googleMapLoader(this.props.apiKey); // we can start load immediatly
 
@@ -222,13 +235,25 @@ export default class GoogleMap extends Component {
           this.map_.setZoom(nextProps.zoom);
         }
       }
+
+      if (this.props.draggable !== undefined && nextProps.draggable === undefined) {
+        // reset to default
+        this.map_.setOptions({draggable: this.defaultDraggableOption_});
+      } else if (this.props.draggable !== nextProps.draggable) {
+        // also prevent this on window 'mousedown' event to prevent map move
+        this.map_.setOptions({draggable: nextProps.draggable});
+      }
     }
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate;
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     this.markersDispatcher_.emit('kON_CHANGE');
+
+    if (this.props.hoverDistance !== prevProps.hoverDistance) {
+      this.markersDispatcher_.emit('kON_MOUSE_POSITION_CHANGE');
+    }
   }
 
   componentWillUnmount() {
@@ -236,6 +261,9 @@ export default class GoogleMap extends Component {
 
     window.removeEventListener('resize', this._onWindowResize);
     window.removeEventListener('keydown', this._onKeyDownCapture);
+    ReactDOM.findDOMNode(this.refs.google_map_dom)
+      .removeEventListener('mousedown', this._onMapMouseDownNative, true);
+    window.removeEventListener('mouseup', this._onChildMouseUp, false);
 
     if (this.overlay_) {
       // this triggers overlay_.onRemove(), which will unmount the <GoogleMapMarkers/>
@@ -306,14 +334,26 @@ export default class GoogleMap extends Component {
         : this.props.options;
       const defaultOptions = defaultOptions_(mapPlainObjects);
 
+      const draggableOptions = this.props.draggable !== undefined &&
+        {draggable: this.props.draggable};
+
       const minZoom = this._getMinZoom();
       this.minZoom_ = minZoom;
 
-      const mapOptions = {
+      const preMapOptions = {
         ...defaultOptions,
         minZoom,
         ...options,
         ...propsOptions,
+      };
+
+      this.defaultDraggableOption_ = preMapOptions.draggable !== undefined
+        ? preMapOptions.draggable
+        : this.defaultDraggableOption_;
+
+      const mapOptions = {
+        ...preMapOptions,
+        ...draggableOptions,
       };
 
       if (process.env.NODE_ENV !== 'production') {
@@ -355,18 +395,17 @@ export default class GoogleMap extends Component {
           ReactDOM.render((
             <GoogleMapMarkers
               onChildClick={this_._onChildClick}
+              onChildMouseDown={this_._onChildMouseDown}
               onChildMouseEnter={this_._onChildMouseEnter}
               onChildMouseLeave={this_._onChildMouseLeave}
               geoService={this_.geoService_}
               projectFromLeftTop
               distanceToMouse={this_.props.distanceToMouse}
-              hoverDistance={this_.props.hoverDistance}
+              getHoverDistance={this_._getHoverDistance}
               dispatcher={this_.markersDispatcher_} />),
             div,
-            () => {
-              // remove prerendered markers
-              this_.setState({overlayCreated: true});
-            }
+            // remove prerendered markers
+            () => this_.setState({overlayCreated: true}),
           );
         },
 
@@ -509,6 +548,10 @@ export default class GoogleMap extends Component {
     }
   }
 
+  _getHoverDistance = () => {
+    return this.props.hoverDistance;
+  }
+
   _onDrag = (...args) => this.props.onDrag &&
     this.props.onDrag(...args);
 
@@ -521,6 +564,24 @@ export default class GoogleMap extends Component {
   _onChildClick = (...args) => {
     if (this.props.onChildClick) {
       return this.props.onChildClick(...args);
+    }
+  }
+
+  _onChildMouseDown = (hoverKey, childProps, event) => {
+    if (this.props.onChildMouseDown) {
+      this.childMouseDownArgs_ = [hoverKey, childProps];
+      return this.props.onChildMouseDown(hoverKey, childProps, event);
+    }
+  }
+
+  // this method works only if this.props.onChildMouseDown was called
+  _onChildMouseUp = (...args) => {
+    if (this.childMouseDownArgs_) {
+      if (this.props.onChildMouseUp) {
+        return this.props.onChildMouseUp(...this.childMouseDownArgs_, ...args);
+      }
+
+      this.childMouseDownArgs_ = null;
     }
   }
 
@@ -639,7 +700,7 @@ export default class GoogleMap extends Component {
     }
   }
 
-  _onMouseMove = (e) => {
+  _onMapMouseMove = (e) => {
     if (!this.mouseInMap_) return;
 
     const currTime = (new Date()).getTime();
@@ -686,12 +747,34 @@ export default class GoogleMap extends Component {
           event,
         });
 
-        this.markersDispatcher_.emit('kON_CLICK');
+        this.markersDispatcher_.emit('kON_CLICK', event);
       }
     }
   }
 
-  _onMouseDownCapture = (event) => {
+  // gmap can't prevent map drag if mousedown event already occured
+  // the only workaround I find is prevent mousedown native browser event
+  _onMapMouseDownNative = (event) => {
+    if (!this.mouseInMap_) return;
+
+    this._onMapMouseDown(event);
+    if (this.props.draggable === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  }
+
+  _onMapMouseDown = (event) => {
+    if (this.markersDispatcher_) {
+      const K_IDLE_TIMEOUT = 100;
+      const currTime = (new Date()).getTime();
+      if (currTime - this.dragTime_ > K_IDLE_TIMEOUT) {
+        this.markersDispatcher_.emit('kON_MDOWN', event);
+      }
+    }
+  }
+
+  _onMapMouseDownCapture = (event) => {
     if (detectBrowser().isChrome) {
       // to fix strange zoom in chrome
       if (event.target !== undefined) {
@@ -732,20 +815,23 @@ export default class GoogleMap extends Component {
     const mapMarkerPrerender = !this.state.overlayCreated ? (
       <GoogleMapMarkersPrerender
         onChildClick={this._onChildClick}
+        onChildMouseDown={this._onChildMouseDown}
         onChildMouseEnter={this._onChildMouseEnter}
         onChildMouseLeave={this._onChildMouseLeave}
         geoService={this.geoService_}
         projectFromLeftTop={false}
         distanceToMouse={this.props.distanceToMouse}
-        hoverDistance={this.props.hoverDistance}
+        getHoverDistance={this._getHoverDistance}
         dispatcher={this.markersDispatcher_} />
     ) : null;
 
     return (
-      <div style={style}
-           onMouseMove={this._onMouseMove}
-           onMouseDownCapture={this._onMouseDownCapture}
-           onClick={this._onMapClick}>
+      <div
+        style={style}
+        onMouseMove={this._onMapMouseMove}
+        onMouseDownCapture={this._onMapMouseDownCapture}
+        onClick={this._onMapClick}
+      >
         <GoogleMapMap ref="google_map_dom" />
 
         {/* render markers before map load done */}

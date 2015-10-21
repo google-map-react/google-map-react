@@ -28,9 +28,10 @@ export default class GoogleMapMarkers extends Component {
     distanceToMouse: PropTypes.func,
     dispatcher: PropTypes.any,
     onChildClick: PropTypes.func,
+    onChildMouseDown: PropTypes.func,
     onChildMouseLeave: PropTypes.func,
     onChildMouseEnter: PropTypes.func,
-    hoverDistance: PropTypes.number,
+    getHoverDistance: PropTypes.func,
     projectFromLeftTop: PropTypes.bool,
   };
 
@@ -43,6 +44,7 @@ export default class GoogleMapMarkers extends Component {
     this.props.dispatcher.on('kON_CHANGE', this._onChangeHandler);
     this.props.dispatcher.on('kON_MOUSE_POSITION_CHANGE', this._onMouseChangeHandler);
     this.props.dispatcher.on('kON_CLICK', this._onChildClick);
+    this.props.dispatcher.on('kON_MDOWN', this._onChildMouseDown);
 
     this.dimesionsCache_ = {};
     this.hoverKey_ = null;
@@ -58,6 +60,7 @@ export default class GoogleMapMarkers extends Component {
     this.props.dispatcher.removeListener('kON_CHANGE', this._onChangeHandler);
     this.props.dispatcher.removeListener('kON_MOUSE_POSITION_CHANGE', this._onMouseChangeHandler);
     this.props.dispatcher.removeListener('kON_CLICK', this._onChildClick);
+    this.props.dispatcher.removeListener('kON_MDOWN', this._onChildMouseDown);
 
     this.dimesionsCache_ = null;
   }
@@ -78,16 +81,28 @@ export default class GoogleMapMarkers extends Component {
     this.setState(state);
   }
 
-  _onChildClick = () => {
+  _onChildClick = (event) => {
     if (this.props.onChildClick) {
       if (this.hoverChildProps_) {
         const hoverKey = this.hoverKey_;
         const childProps = this.hoverChildProps_;
         // click works only on hovered item
-        this.props.onChildClick(hoverKey, childProps);
+        this.props.onChildClick(hoverKey, childProps, event);
       }
     }
   }
+
+  _onChildMouseDown = (event) => {
+    if (this.props.onChildMouseDown) {
+      if (this.hoverChildProps_) {
+        const hoverKey = this.hoverKey_;
+        const childProps = this.hoverChildProps_;
+        // works only on hovered item
+        this.props.onChildMouseDown(hoverKey, childProps, event);
+      }
+    }
+  }
+
 
   _onChildMouseEnter = (hoverKey, childProps) => {
     if (!this.dimesionsCache_) {
@@ -147,11 +162,12 @@ export default class GoogleMapMarkers extends Component {
 
     if (mp) {
       const distances = [];
+      const hoverDistance = this.props.getHoverDistance();
 
       React.Children.forEach(this.state.children, (child, childIndex) => {
         const childKey = child.key !== undefined && child.key !== null ? child.key : childIndex;
         const dist = this.props.distanceToMouse(this.dimesionsCache_[childKey], mp, child.props);
-        if (dist < this.props.hoverDistance) {
+        if (dist < hoverDistance) {
           distances.push(
             {
               key: childKey,
