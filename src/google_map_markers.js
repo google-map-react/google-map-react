@@ -81,24 +81,24 @@ export default class GoogleMapMarkers extends Component {
     this.setState(state);
   }
 
-  _onChildClick = (event) => {
+  _onChildClick = () => {
     if (this.props.onChildClick) {
       if (this.hoverChildProps_) {
         const hoverKey = this.hoverKey_;
         const childProps = this.hoverChildProps_;
         // click works only on hovered item
-        this.props.onChildClick(hoverKey, childProps, event);
+        this.props.onChildClick(hoverKey, childProps);
       }
     }
   }
 
-  _onChildMouseDown = (event) => {
+  _onChildMouseDown = () => {
     if (this.props.onChildMouseDown) {
       if (this.hoverChildProps_) {
         const hoverKey = this.hoverKey_;
         const childProps = this.hoverChildProps_;
         // works only on hovered item
-        this.props.onChildMouseDown(hoverKey, childProps, event);
+        this.props.onChildMouseDown(hoverKey, childProps);
       }
     }
   }

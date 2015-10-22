@@ -91,6 +91,7 @@ export default class GoogleMap extends Component {
     onChildClick: PropTypes.func,
     onChildMouseDown: PropTypes.func,
     onChildMouseUp: PropTypes.func,
+    onChildMouseMove: PropTypes.func,
     onChildMouseEnter: PropTypes.func,
     onChildMouseLeave: PropTypes.func,
     onZoomAnimationStart: PropTypes.func,
@@ -567,21 +568,29 @@ export default class GoogleMap extends Component {
     }
   }
 
-  _onChildMouseDown = (hoverKey, childProps, event) => {
+  _onChildMouseDown = (hoverKey, childProps) => {
     if (this.props.onChildMouseDown) {
       this.childMouseDownArgs_ = [hoverKey, childProps];
-      return this.props.onChildMouseDown(hoverKey, childProps, event);
+      this.props.onChildMouseDown(hoverKey, childProps, {...this.mouse_});
     }
   }
 
   // this method works only if this.props.onChildMouseDown was called
-  _onChildMouseUp = (...args) => {
+  _onChildMouseUp = () => {
     if (this.childMouseDownArgs_) {
       if (this.props.onChildMouseUp) {
-        return this.props.onChildMouseUp(...this.childMouseDownArgs_, ...args);
+        this.props.onChildMouseUp(...this.childMouseDownArgs_, {...this.mouse_});
       }
-
       this.childMouseDownArgs_ = null;
+    }
+  }
+
+  // this method works only if this.props.onChildMouseDown was called
+  _onChildMouseMove = () => {
+    if (this.childMouseDownArgs_) {
+      if (this.props.onChildMouseMove) {
+        this.props.onChildMouseMove(...this.childMouseDownArgs_, {...this.mouse_});
+      }
     }
   }
 
@@ -725,6 +734,8 @@ export default class GoogleMap extends Component {
     const latLng = this.geoService_.unproject(this.mouse_, true);
     this.mouse_.lat = latLng.lat;
     this.mouse_.lng = latLng.lng;
+
+    this._onChildMouseMove();
 
     if (currTime - this.dragTime_ < K_IDLE_TIMEOUT) {
       this.fireMouseEventOnIdle_ = true;
