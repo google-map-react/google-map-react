@@ -1,6 +1,7 @@
 ###0.9v
 
 Add: `bootstrapURLKeys` (object) instead of `apiKey` prop
+
 (`apiKey` prop is now deprecated)
 
 Example:
