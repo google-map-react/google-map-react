@@ -163,12 +163,16 @@ describe('Components', () => {
         // TODO add gmap api mock
         // defaultCenter={{lat: 59.938043, lng: 30.337157}}
         // defaultZoom={9}
-        apiKey={API_KEY}
+        bootstrapURLKeys={{
+          key: API_KEY,
+        }}
         googleMapLoader={asyncSpy}
       />
     );
 
     expect(spy.calls.length).toEqual(1);
-    expect(spy.calls[0].arguments[0]).toEqual(API_KEY);
+    expect(spy.calls[0].arguments[0]).toEqual({
+      key: API_KEY,
+    });
   });
 });
