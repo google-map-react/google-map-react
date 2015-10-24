@@ -664,10 +664,12 @@ export default class GoogleMap extends Component {
     if (this.markersDispatcher_) {
       const currTime = (new Date()).getTime();
       if (currTime - this.dragTime_ > K_IDLE_TIMEOUT) {
-        this._onClick({
-          ...this.mouse_,
-          event,
-        });
+        if (this.mouse_) {
+          this._onClick({
+            ...this.mouse_,
+            event,
+          });
+        }
 
         this.markersDispatcher_.emit('kON_CLICK', event);
       }
@@ -695,28 +697,11 @@ export default class GoogleMap extends Component {
     }
   }
 
-  _onMapMouseDownCapture = (event) => {
+  _onMapMouseDownCapture = () => {
     if (detectBrowser().isChrome) {
       // to fix strange zoom in chrome
-      if (event.target !== undefined) {
-        let res = 0;
-        let curr = event.target;
-        while (curr) {
-          if (curr && curr.getAttribute) {
-            if (curr.getAttribute('title')) {
-              res += 10;
-            }
-
-            if (curr.getAttribute('class') === 'gmnoprint') {
-              res *= 10;
-            }
-          }
-          curr = curr.parentNode;
-        }
-
-        if (res === 1000) {
-          this.zoomControlClickTime_ = (new Date()).getTime();
-        }
+      if (!this.mouse_) {
+        this.zoomControlClickTime_ = (new Date()).getTime();
       }
     }
   }
