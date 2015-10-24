@@ -77,8 +77,16 @@ export default class GoogleMapMarkers extends Component {
       return;
     }
 
+    const prevChildCount = (this.state.children || []).length;
+
     const state = this._getState();
-    this.setState(state);
+
+    this.setState(
+      state,
+      () =>
+        (state.children || []).length !== prevChildCount &&
+          this._onMouseChangeHandler()
+    );
   }
 
   _onChildClick = () => {
