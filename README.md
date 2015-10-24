@@ -102,9 +102,23 @@ export default class SimpleMapPage extends Component {
 
 ### parameters
 
-####apiKey (string)
+####apiKey (string) (_Deprecated use bootstrapURLKeys_)
 
 Google maps api key. (Optional, but your map will be rate-limited with no key)
+
+####bootstrapURLKeys (object)
+
+Example: 
+
+```javascript
+<GoogleMap 
+  bootstrapURLKeys={{
+    key: API_KEY,
+    language: 'ru',
+    ...otherUrlParams,
+  }}
+>
+```
 
 ####defaultCenter (array or object)
 
