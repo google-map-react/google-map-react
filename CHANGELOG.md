@@ -1,3 +1,24 @@
+###0.9v
+
+Add: `bootstrapURLKeys` (object) instead of `apiKey` prop
+
+Example:
+
+```javascript
+<GoogleMap 
+  bootstrapURLKeys={{
+    key: API_KEY,
+    language: 'ru',
+    ...otherUrlParams,
+  }}
+>
+```
+
+###0.8v
+
+Draggable markers support, examples comig soon.
+
+
 ###Mon Oct 5 2015
 
 Add `OnChange({center, zoom, bounds: {nw, se}, size, ...oherMapProps})`
