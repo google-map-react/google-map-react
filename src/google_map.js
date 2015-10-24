@@ -39,6 +39,7 @@ if (isReact14(React)) {
 const kEPS = 0.00001;
 const K_GOOGLE_TILE_SIZE = 256;
 // real minZoom calculated here _getMinZoom
+const K_IDLE_TIMEOUT = 100;
 const DEFAULT_MIN_ZOOM = 3;
 
 function defaultOptions_(/* maps */) {
@@ -148,6 +149,7 @@ export default class GoogleMap extends Component {
     this.zoomControlClickTime_ = 0;
 
     this.childMouseDownArgs_ = null;
+    this.childMouseUpTime_ = 0;
 
     if (process.env.NODE_ENV !== 'production') {
       if (this.props.onBoundsChange) {
@@ -582,6 +584,7 @@ export default class GoogleMap extends Component {
         this.props.onChildMouseUp(...this.childMouseDownArgs_, {...this.mouse_});
       }
       this.childMouseDownArgs_ = null;
+      this.childMouseUpTime_ = (new Date()).getTime();
     }
   }
 
@@ -615,6 +618,119 @@ export default class GoogleMap extends Component {
   _onWindowResize = () => {
     this.resetSizeOnIdle_ = true;
   }
+
+  _onMapMouseMove = (e) => {
+    if (!this.mouseInMap_) return;
+
+    const currTime = (new Date()).getTime();
+    const K_RECALC_CLIENT_RECT_MS = 3000;
+
+    if (currTime - this.mouseMoveTime_ > K_RECALC_CLIENT_RECT_MS) {
+      this.boundingRect_ = e.currentTarget.getBoundingClientRect();
+    }
+    this.mouseMoveTime_ = currTime;
+
+    const mousePosX = e.clientX - this.boundingRect_.left;
+    const mousePosY = e.clientY - this.boundingRect_.top;
+
+    if (!this.mouse_) {
+      this.mouse_ = {x: 0, y: 0, lat: 0, lng: 0};
+    }
+
+    this.mouse_.x = mousePosX;
+    this.mouse_.y = mousePosY;
+
+    const latLng = this.geoService_.unproject(this.mouse_, true);
+    this.mouse_.lat = latLng.lat;
+    this.mouse_.lng = latLng.lng;
+
+    this._onChildMouseMove();
+
+    if (currTime - this.dragTime_ < K_IDLE_TIMEOUT) {
+      this.fireMouseEventOnIdle_ = true;
+    } else {
+      this.markersDispatcher_.emit('kON_MOUSE_POSITION_CHANGE');
+      this.fireMouseEventOnIdle_ = false;
+    }
+  }
+
+  _onClick = (...args) =>
+      this.props.onClick &&
+      !this.childMouseDownArgs_ &&
+      ((new Date()).getTime() - this.childMouseUpTime_) > K_IDLE_TIMEOUT &&
+      this.props.onClick(...args)
+
+  _onMapClick = (event) => {
+    if (this.markersDispatcher_) {
+      const currTime = (new Date()).getTime();
+      if (currTime - this.dragTime_ > K_IDLE_TIMEOUT) {
+        this._onClick({
+          ...this.mouse_,
+          event,
+        });
+
+        this.markersDispatcher_.emit('kON_CLICK', event);
+      }
+    }
+  }
+
+  // gmap can't prevent map drag if mousedown event already occured
+  // the only workaround I find is prevent mousedown native browser event
+  _onMapMouseDownNative = (event) => {
+    if (!this.mouseInMap_) return;
+
+    this._onMapMouseDown(event);
+    if (this.props.draggable === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  }
+
+  _onMapMouseDown = (event) => {
+    if (this.markersDispatcher_) {
+      const currTime = (new Date()).getTime();
+      if (currTime - this.dragTime_ > K_IDLE_TIMEOUT) {
+        this.markersDispatcher_.emit('kON_MDOWN', event);
+      }
+    }
+  }
+
+  _onMapMouseDownCapture = (event) => {
+    if (detectBrowser().isChrome) {
+      // to fix strange zoom in chrome
+      if (event.target !== undefined) {
+        let res = 0;
+        let curr = event.target;
+        while (curr) {
+          if (curr && curr.getAttribute) {
+            if (curr.getAttribute('title')) {
+              res += 10;
+            }
+
+            if (curr.getAttribute('class') === 'gmnoprint') {
+              res *= 10;
+            }
+          }
+          curr = curr.parentNode;
+        }
+
+        if (res === 1000) {
+          this.zoomControlClickTime_ = (new Date()).getTime();
+        }
+      }
+    }
+  }
+
+  _onKeyDownCapture = () => {
+    if (detectBrowser().isChrome) {
+      this.zoomControlClickTime_ = (new Date()).getTime();
+    }
+  }
+
+  _isCenterDefined = (center) => center && (
+    (isPlainObject(center) && isNumber(center.lat) && isNumber(center.lng)) ||
+    (center.length === 2 && isNumber(center[0]) && isNumber(center[1]))
+  )
 
   _onBoundsChanged = (map, maps, callExtBoundsChange) => {
     if (map) {
@@ -709,118 +825,6 @@ export default class GoogleMap extends Component {
     }
   }
 
-  _onMapMouseMove = (e) => {
-    if (!this.mouseInMap_) return;
-
-    const currTime = (new Date()).getTime();
-    const K_RECALC_CLIENT_RECT_MS = 3000;
-
-    if (currTime - this.mouseMoveTime_ > K_RECALC_CLIENT_RECT_MS) {
-      this.boundingRect_ = e.currentTarget.getBoundingClientRect();
-    }
-    this.mouseMoveTime_ = currTime;
-
-    const mousePosX = e.clientX - this.boundingRect_.left;
-    const mousePosY = e.clientY - this.boundingRect_.top;
-
-    if (!this.mouse_) {
-      this.mouse_ = {x: 0, y: 0, lat: 0, lng: 0};
-    }
-    const K_IDLE_TIMEOUT = 100;
-
-    this.mouse_.x = mousePosX;
-    this.mouse_.y = mousePosY;
-
-    const latLng = this.geoService_.unproject(this.mouse_, true);
-    this.mouse_.lat = latLng.lat;
-    this.mouse_.lng = latLng.lng;
-
-    this._onChildMouseMove();
-
-    if (currTime - this.dragTime_ < K_IDLE_TIMEOUT) {
-      this.fireMouseEventOnIdle_ = true;
-    } else {
-      this.markersDispatcher_.emit('kON_MOUSE_POSITION_CHANGE');
-      this.fireMouseEventOnIdle_ = false;
-    }
-  }
-
-  _onClick = (...args) => this.props.onClick &&
-    this.props.onClick(...args)
-
-  _onMapClick = (event) => {
-    if (this.markersDispatcher_) {
-      const K_IDLE_TIMEOUT = 100;
-      const currTime = (new Date()).getTime();
-      if (currTime - this.dragTime_ > K_IDLE_TIMEOUT) {
-        this._onClick({
-          ...this.mouse_,
-          event,
-        });
-
-        this.markersDispatcher_.emit('kON_CLICK', event);
-      }
-    }
-  }
-
-  // gmap can't prevent map drag if mousedown event already occured
-  // the only workaround I find is prevent mousedown native browser event
-  _onMapMouseDownNative = (event) => {
-    if (!this.mouseInMap_) return;
-
-    this._onMapMouseDown(event);
-    if (this.props.draggable === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-  }
-
-  _onMapMouseDown = (event) => {
-    if (this.markersDispatcher_) {
-      const K_IDLE_TIMEOUT = 100;
-      const currTime = (new Date()).getTime();
-      if (currTime - this.dragTime_ > K_IDLE_TIMEOUT) {
-        this.markersDispatcher_.emit('kON_MDOWN', event);
-      }
-    }
-  }
-
-  _onMapMouseDownCapture = (event) => {
-    if (detectBrowser().isChrome) {
-      // to fix strange zoom in chrome
-      if (event.target !== undefined) {
-        let res = 0;
-        let curr = event.target;
-        while (curr) {
-          if (curr && curr.getAttribute) {
-            if (curr.getAttribute('title')) {
-              res += 10;
-            }
-
-            if (curr.getAttribute('class') === 'gmnoprint') {
-              res *= 10;
-            }
-          }
-          curr = curr.parentNode;
-        }
-
-        if (res === 1000) {
-          this.zoomControlClickTime_ = (new Date()).getTime();
-        }
-      }
-    }
-  }
-
-  _onKeyDownCapture = () => {
-    if (detectBrowser().isChrome) {
-      this.zoomControlClickTime_ = (new Date()).getTime();
-    }
-  }
-
-  _isCenterDefined = (center) => center && (
-    (isPlainObject(center) && isNumber(center.lat) && isNumber(center.lng)) ||
-    (center.length === 2 && isNumber(center[0]) && isNumber(center[1]))
-  )
 
   render() {
     const mapMarkerPrerender = !this.state.overlayCreated ? (
