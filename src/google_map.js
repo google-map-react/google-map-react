@@ -70,6 +70,8 @@ export default class GoogleMap extends Component {
 
   static propTypes = {
     apiKey: PropTypes.string,
+    bootstrapURLKeys: PropTypes.any,
+
     defaultCenter: React.PropTypes.oneOfType([
       PropTypes.array,
       PropTypes.shape({
@@ -152,6 +154,12 @@ export default class GoogleMap extends Component {
     this.childMouseUpTime_ = 0;
 
     if (process.env.NODE_ENV !== 'production') {
+      if (this.props.apiKey) {
+        console.warn( 'GoogleMap: ' +  // eslint-disable-line no-console
+                      'apiKey is deprecated, use ' +
+                      'bootstrapURLKeys={{key: YOUR_API_KEY}} instead.');
+      }
+
       if (this.props.onBoundsChange) {
         console.warn( 'GoogleMap: ' +  // eslint-disable-line no-console
                       'onBoundsChange is deprecated, use ' +
@@ -193,7 +201,12 @@ export default class GoogleMap extends Component {
 
     window.addEventListener('mouseup', this._onChildMouseUp, false);
 
-    this.props.googleMapLoader(this.props.apiKey); // we can start load immediatly
+    const bootstrapURLKeys = {
+      ...(this.props.apiKey && {key: this.props.apiKey}),
+      ...this.props.bootstrapURLKeys,
+    };
+
+    this.props.googleMapLoader(bootstrapURLKeys); // we can start load immediatly
 
     setTimeout(() => { // to detect size
       this._setViewSize();
@@ -307,7 +320,12 @@ export default class GoogleMap extends Component {
 
     this._onBoundsChanged(); // now we can calculate map bounds center etc...
 
-    this.props.googleMapLoader(this.props.apiKey)
+    const bootstrapURLKeys = {
+      ...(this.props.apiKey && {key: this.props.apiKey}),
+      ...this.props.bootstrapURLKeys,
+    };
+
+    this.props.googleMapLoader(bootstrapURLKeys)
     .then(maps => {
       if (!this.mounted_) {
         return;

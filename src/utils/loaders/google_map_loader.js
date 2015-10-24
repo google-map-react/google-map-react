@@ -1,9 +1,12 @@
+import find from 'lodash/collection/find';
+import reduce from 'lodash/collection/reduce';
+
 let $script_ = null;
 
 let _loadPromise;
 
 // TODO add libraries language and other map options
-export default function googleMapLoader(apiKey) {
+export default function googleMapLoader(bootstrapURLKeys) {
   if (!$script_) {
     $script_ = require('scriptjs');
   }
@@ -32,15 +35,27 @@ export default function googleMapLoader(apiKey) {
       resolve(window.google.maps);
     };
 
-    const apiKeyString = apiKey ? `&key=${apiKey}` : '';
+    if (process.env.NODE_ENV !== 'production') {
+      if (find(Object.keys(bootstrapURLKeys), 'callback')) {
+        console.error('"callback" key in bootstrapURLKeys is not allowed, ' +
+                      'use onGoogleApiLoaded property instead');
+        throw new Error('"callback" key in bootstrapURLKeys is not allowed, ' +
+                        'use onGoogleApiLoaded property instead');
+      }
+    }
+
+    const queryString = reduce(
+      Object.keys(bootstrapURLKeys),
+      (r, key) => r + `&${key}=${bootstrapURLKeys[key]}`,
+      ''
+    );
 
     $script_(
-      `https://maps.googleapis.com/maps/api/js?callback=_$_google_map_initialize_$_${apiKeyString}`,
-      () => {
-        if (typeof window.google === 'undefined') {
-          reject(new Error('google map initialization error (not loaded)'));
-        }
-      });
+      `https://maps.googleapis.com/maps/api/js?callback=_$_google_map_initialize_$_${queryString}`,
+      () =>
+        typeof window.google === 'undefined' &&
+          reject(new Error('google map initialization error (not loaded)'))
+    );
   });
 
   return _loadPromise;
