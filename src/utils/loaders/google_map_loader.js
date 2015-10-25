@@ -3,7 +3,12 @@ import reduce from 'lodash/collection/reduce';
 
 let $script_ = null;
 
-let _loadPromise;
+let loadPromise_;
+
+let resolveCustomPromise_;
+const _customPromise = new Promise(resolve => {
+  resolveCustomPromise_ = resolve;
+});
 
 // TODO add libraries language and other map options
 export default function googleMapLoader(bootstrapURLKeys) {
@@ -11,11 +16,17 @@ export default function googleMapLoader(bootstrapURLKeys) {
     $script_ = require('scriptjs');
   }
 
-  if (_loadPromise) {
-    return _loadPromise;
+  // call from outside google-map-react
+  // will be as soon as loadPromise_ resolved
+  if (!bootstrapURLKeys) {
+    return _customPromise;
   }
 
-  _loadPromise = new Promise((resolve, reject) => {
+  if (loadPromise_) {
+    return loadPromise_;
+  }
+
+  loadPromise_ = new Promise((resolve, reject) => {
     if (typeof window === 'undefined') {
       reject(new Error('google map cannot be loaded outside browser env'));
       return;
@@ -58,5 +69,7 @@ export default function googleMapLoader(bootstrapURLKeys) {
     );
   });
 
-  return _loadPromise;
+  resolveCustomPromise_(loadPromise_);
+
+  return loadPromise_;
 }

@@ -67,7 +67,6 @@ const latLng2Obj = (latLng) => isPlainObject(latLng)
     : {lat: latLng[0], lng: latLng[1]};
 
 export default class GoogleMap extends Component {
-
   static propTypes = {
     apiKey: PropTypes.string,
     bootstrapURLKeys: PropTypes.any,
@@ -123,6 +122,8 @@ export default class GoogleMap extends Component {
     googleMapLoader,
     yesIWantToUseGoogleMapApiInternals: false,
   };
+
+  static googleMapLoader = googleMapLoader; // eslint-disable-line
 
   constructor(props) {
     super(props);
@@ -522,6 +523,14 @@ export default class GoogleMap extends Component {
         this_.updateCounter_++;
         this_._onBoundsChanged(map, maps);
 
+        if (this.mouse_) {
+          const latLng = this.geoService_.unproject(this.mouse_, true);
+          this.mouse_.lat = latLng.lat;
+          this.mouse_.lng = latLng.lng;
+        }
+
+        this._onChildMouseMove();
+
         this_.dragTime_ = 0;
         div.style.left = `${ptxRounded.x}px`;
         div.style.top = `${ptxRounded.y}px`;
@@ -676,6 +685,7 @@ export default class GoogleMap extends Component {
       this.props.onClick &&
       !this.childMouseDownArgs_ &&
       ((new Date()).getTime() - this.childMouseUpTime_) > K_IDLE_TIMEOUT &&
+      this.dragTime_ === 0 &&
       this.props.onClick(...args)
 
   _onMapClick = (event) => {
