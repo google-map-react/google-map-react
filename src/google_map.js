@@ -650,7 +650,7 @@ export default class GoogleMap extends Component {
     if (!this.mouseInMap_) return;
 
     const currTime = (new Date()).getTime();
-    const K_RECALC_CLIENT_RECT_MS = 3000;
+    const K_RECALC_CLIENT_RECT_MS = 50;
 
     if (currTime - this.mouseMoveTime_ > K_RECALC_CLIENT_RECT_MS) {
       this.boundingRect_ = e.currentTarget.getBoundingClientRect();
