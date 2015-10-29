@@ -9,38 +9,47 @@ It allows you to create interfaces like this [example](http://istarkov.github.io
 ##Features
 
 ###Works with your Components
+
 Instead of the ugly Google Maps markers, balloons and other map components, you can render your cool animated react components on the map.
 
 ###Isomorphic Rendering
+
 It renders on the server. *(Welcome search engines)* *(you can disable javascript in browser dev tools, and reload any example page to see how it works)*
 
 ###Component Positions Calculated Independently of Google Maps API
+
 It renders components on the map before (and even without) the Google Maps API loaded.
 
 ###Google Maps API Loads on Demand
+
 There is no need to place a `<script src=` tag at top of page. The Google Maps API loads upon the first usage of the `GoogleMap` component.
 
 ###Internal Hover Algorithm
+
 Now every object on the map can be hovered (however, you can still use css hover selectors if you want). If you try zooming out here [example](http://istarkov.github.io/google-map-react/map/main), you will still be able to hover on almost every map marker.
 
 This algorithm allows you to tweak hover probability of map objects, for example making some objects "more hoverable". [distance_hover example with different hover probabilities](http://istarkov.github.io/google-map-react/map/distance_hover)
 
 ##Known Issues
+
 * Small icons jiggle on Firefox (I don't see this in my older 'GoogleMap' version, so I will find the problem soon)
 
 
 ##Installation
 
 ### npm
+
 ```
 npm install --save google-map-react
 ```
 
 ### bower
+
 We no longer intend to support Bower. Please stop using Bower. NPM works very well for front-end development, and you should use it instead. ((c)Dan Abramov)
 UMD AMD and other build are available under dist folder after `npm install`
 
 ##What's it Look Like? 
+
 In the simple case you just need to add `lat` `lng` props to any child of `GoogleMap` component.   
 [simple example in action](http://istarkov.github.io/google-map-react/map/simple)
 
@@ -171,6 +180,7 @@ createMapOptions: function (maps) {
 See "Custom map options example" in Examples below for a further example.
 
 ####onClick (func)
+
 `(x, y, lat, lng, event)`
 
 The `event` prop in args is the outer div onClick event, not the gmap-api 'click' event.
@@ -186,6 +196,7 @@ Example:
  ```
 
 ####onBoundsChange (func)
+
 ```
 (center, zoom, bounds, marginBounds)
 ```
@@ -193,12 +204,19 @@ Example:
 [lat, lng] = center;
 [topLat, leftLng, bottomLat, rightLng] = bounds;
 ```
+
 ####onChildClick (func)
+
 ####onChildMouseEnter (func)
+
 ####onChildMouseLeave (func)
+
 ####onZoomAnimationStart (func)
+
 ####onZoomAnimationEnd (func)
+
 ####distanceToMouse (func)
+
 ####googleMapLoader (func)
 
 ####onGoogleApiLoaded (func)
@@ -271,15 +289,21 @@ const size = {
 
 const {center, zoom} = fitBounds({nw, se}, size);
 ```
+
 ####tile2LatLng (func)
+
 ####latLng2Tile (func)
+
 ####getTilesIds (func)
 
 ## Tips
+
 ### Positioning a marker
+
 Initially any map object has its top left corner at lat lng coordinates. It's up to you to set the object origin to 0,0 coordinates.
 
 Example (centering the marker):
+
 ```jsx
 const MARKER_SIZE = 40;
 const greatPlaceStyle = {
@@ -290,6 +314,7 @@ const greatPlaceStyle = {
   top: -MARKER_SIZE / 2
 }
 ```
+
 ```jsx
 render() {
   return (
@@ -301,6 +326,7 @@ render() {
 ```
 
 ### Rendering in a modal
+
 If at the moment of GoogleMap control created, a modal has no size (width,height=0) or/and not displayed, the simple solution is to add something like this in render:
 
 ```jsx
@@ -339,16 +365,20 @@ export default class SearchBox extends React.Component {
   }
 }
 ```
+
 You will need to preload the google maps API, but `google-map-react` checks if the base api is already loaded,
 and if so, uses it, so it won't load a second copy of the library.
 
 ```html
 <script type="text/javascript" src="https://maps.google.com/maps/api/js?libraries=places&sensor=false"></script>
 ```
+
 ---
+
 (*Really big thanks to [April Arcus](https://github.com/AprilArcus) for documentation fixes*)   
 (*thank you [Dan Abramov](http://gaearon.github.io/react-dnd/) for titles structure*)   
 (*great thanks to [Vladimir Akimov](https://github.com/b2whats) he knows why*)
 
 ## License
+
 MIT (http://www.opensource.org/licenses/mit-license.php)   
