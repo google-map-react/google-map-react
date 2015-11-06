@@ -40,6 +40,7 @@ const kEPS = 0.00001;
 const K_GOOGLE_TILE_SIZE = 256;
 // real minZoom calculated here _getMinZoom
 const K_IDLE_TIMEOUT = 100;
+const K_IDLE_CLICK_TIMEOUT = 300;
 const DEFAULT_MIN_ZOOM = 3;
 
 function defaultOptions_(/* maps */) {
@@ -681,10 +682,11 @@ export default class GoogleMap extends Component {
     }
   }
 
+  // K_IDLE_CLICK_TIMEOUT - looks like 300 is enough
   _onClick = (...args) =>
       this.props.onClick &&
       !this.childMouseDownArgs_ &&
-      ((new Date()).getTime() - this.childMouseUpTime_) > K_IDLE_TIMEOUT &&
+      ((new Date()).getTime() - this.childMouseUpTime_) > K_IDLE_CLICK_TIMEOUT &&
       this.dragTime_ === 0 &&
       this.props.onClick(...args)
 
