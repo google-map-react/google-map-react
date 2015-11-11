@@ -153,6 +153,8 @@ Default: 30
 
 ####margin (array)
 
+In onChange callback, gives you a marginBounds argument property, where lat lng will be shifted using margin you have set. For example, you could use a simple check pointInRect to not show Markers near map bounds.
+
 ####debounced (bool)
 
 Default: true
