@@ -1,41 +1,41 @@
 [![npm version](https://badge.fury.io/js/google-map-react.svg)](http://badge.fury.io/js/google-map-react)
 [![Build Status](https://travis-ci.org/istarkov/google-map-react.svg?branch=master)](https://travis-ci.org/istarkov/google-map-react)
 
-`google-map-react` is a component written over a small set of the [Google Maps API](https://developers.google.com/maps/). It allows you to render any React component on the Google Map. It is fully isomorphic and can render on a server. Additionally, it can render map components in the browser even if the Google Maps API is not loaded. It uses an internal, tweakable hover algorithm - every object on the map can be hovered. 
+`google-map-react` is a component written over a small set of the [Google Maps API](https://developers.google.com/maps/). It allows you to render any React component on the Google Map. It is fully isomorphic and can render on a server. Additionally, it can render map components in the browser even if the Google Maps API is not loaded. It uses an internal, tweakable hover algorithm - every object on the map can be hovered.
 
 It allows you to create interfaces like this [example](http://istarkov.github.io/google-map-react/map/main) *(You can scroll the table, zoom/move the map, hover/click on markers, and click on table rows)*
 
 
-##Features
+## Features
 
-###Works with your Components
+### Works with your Components
 
 Instead of the ugly Google Maps markers, balloons and other map components, you can render your cool animated react components on the map.
 
-###Isomorphic Rendering
+### Isomorphic Rendering
 
 It renders on the server. *(Welcome search engines)* *(you can disable javascript in browser dev tools, and reload any example page to see how it works)*
 
-###Component Positions Calculated Independently of Google Maps API
+### Component Positions Calculated Independently of Google Maps API
 
 It renders components on the map before (and even without) the Google Maps API loaded.
 
-###Google Maps API Loads on Demand
+### Google Maps API Loads on Demand
 
 There is no need to place a `<script src=` tag at top of page. The Google Maps API loads upon the first usage of the `GoogleMap` component.
 
-###Internal Hover Algorithm
+### Internal Hover Algorithm
 
 Now every object on the map can be hovered (however, you can still use css hover selectors if you want). If you try zooming out here [example](http://istarkov.github.io/google-map-react/map/main), you will still be able to hover on almost every map marker.
 
 This algorithm allows you to tweak hover probability of map objects, for example making some objects "more hoverable". [distance_hover example with different hover probabilities](http://istarkov.github.io/google-map-react/map/distance_hover)
 
-##Known Issues
+## Known Issues
 
 * Small icons jiggle on Firefox (I don't see this in my older 'GoogleMap' version, so I will find the problem soon)
 
 
-##Installation
+## Installation
 
 ### npm
 
@@ -48,12 +48,12 @@ npm install --save google-map-react
 We no longer intend to support Bower. Please stop using Bower. NPM works very well for front-end development, and you should use it instead. ((c)Dan Abramov)
 UMD AMD and other build are available under dist folder after `npm install`
 
-##What's it Look Like? 
+## What's it Look Like?
 
 In the simple case you just need to add `lat` `lng` props to any child of `GoogleMap` component.   
 [simple example in action](http://istarkov.github.io/google-map-react/map/simple)
 
-```jsx
+```javascript
 import React, {PropTypes, Component} from 'react/addons';
 import shouldPureComponentUpdate from 'react-pure-render/function';
 
@@ -68,7 +68,7 @@ export default class SimpleMapPage extends Component {
   };
 
   shouldComponentUpdate = shouldPureComponentUpdate;
-  
+
   constructor(props) {
     super(props);
   }
@@ -86,7 +86,7 @@ export default class SimpleMapPage extends Component {
 }
 ```
 
-##Examples
+## Examples
 
 * Placing react components on the map:
 [simple](http://istarkov.github.io/google-map-react/map/simple/) ([source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_simple/simple_map_page.jsx))
@@ -95,7 +95,7 @@ export default class SimpleMapPage extends Component {
 [example](http://istarkov.github.io/google-map-react/map/options/) ([source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_options/options_map_page.jsx))
 
 * Hover effects:
-[simple hover](http://istarkov.github.io/google-map-react/map/simple_hover/) ([source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_simple_hover/simple_hover_map_page.jsx)); 
+[simple hover](http://istarkov.github.io/google-map-react/map/simple_hover/) ([source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_simple_hover/simple_hover_map_page.jsx));
 [distance hover](http://istarkov.github.io/google-map-react/map/distance_hover/) ([source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_distance_hover/distance_hover_map_page.jsx))
 
 * GoogleMap events:
@@ -111,16 +111,16 @@ export default class SimpleMapPage extends Component {
 
 ### parameters
 
-####apiKey (string) (_Deprecated use bootstrapURLKeys_)
+#### apiKey (string) (_Deprecated use bootstrapURLKeys_)
 
 Google maps api key. (Optional, but your map will be rate-limited with no key)
 
-####bootstrapURLKeys (object)
+#### bootstrapURLKeys (object)
 
-Example: 
+Example:
 
 ```javascript
-<GoogleMap 
+<GoogleMap
   bootstrapURLKeys={{
     key: API_KEY,
     language: 'ru',
@@ -129,45 +129,45 @@ Example:
 >
 ```
 
-####defaultCenter (array or object)
+#### defaultCenter (array or object)
 
 `[lat, lng]` or `{ lat: lat, lng: lng}`
 Default lat/lng at which to center the map - changing this prop throws a warning
 
-####center (array or object)
+#### center (array or object)
 
 `[lat, lng]` or `{ lat: lat, lng: lng}`
 Lat/lng at which to center the map
 
-####defaultZoom: (number)
+#### defaultZoom: (number)
 
 Default map zoom level - changing this prop throws a warning
 
-####zoom (number)
+#### zoom (number)
 
 Map zoom level
 
-####hoverDistance (number)
+#### hoverDistance (number)
 
 Default: 30
 
-####margin (array)
+#### margin (array)
 
 In onChange callback, gives you a marginBounds argument property, where lat lng will be shifted using margin you have set. For example, you could use a simple check pointInRect to not show Markers near map bounds.
 
-####debounced (bool)
+#### debounced (bool)
 
 Default: true
 
 ### callbacks
 
-####options (func|object)
+#### options (func|object)
 
 Set map options such as controls positions / styles, etc.
 
 Example:
 
-```jsx
+```javascript
 createMapOptions: function (maps) {
     return {
       panControl: false,
@@ -181,7 +181,7 @@ createMapOptions: function (maps) {
 ```
 See "Custom map options example" in Examples below for a further example.
 
-####onClick (func)
+#### onClick (func)
 
 `(x, y, lat, lng, event)`
 
@@ -189,7 +189,7 @@ The `event` prop in args is the outer div onClick event, not the gmap-api 'click
 
 Example:
 
- ```jsx
+ ```javascript
  _onClick = ({x, y, lat, lng, event}) => console.log(x, y, lat, lng, event)
  // ES5 users
  function _onClick(obj){ console.log(obj.x, obj.y, obj.lat, obj.lng, obj.event);}
@@ -197,7 +197,7 @@ Example:
  <GoogleMap  onClick={_onClick} ... />
  ```
 
-####onBoundsChange (func)
+#### onBoundsChange (func)
 
 ```
 (center, zoom, bounds, marginBounds)
@@ -207,30 +207,30 @@ Example:
 [topLat, leftLng, bottomLat, rightLng] = bounds;
 ```
 
-####onChildClick (func)
+#### onChildClick (func)
 
-####onChildMouseEnter (func)
+#### onChildMouseEnter (func)
 
-####onChildMouseLeave (func)
+#### onChildMouseLeave (func)
 
-####onZoomAnimationStart (func)
+#### onZoomAnimationStart (func)
 
-####onZoomAnimationEnd (func)
+#### onZoomAnimationEnd (func)
 
-####distanceToMouse (func)
+#### distanceToMouse (func)
 
-####googleMapLoader (func)
+#### googleMapLoader (func)
 
-####onGoogleApiLoaded (func)
+#### onGoogleApiLoaded (func)
 Directly access the maps API - *use at your own risk!*
 
-```jsx
+```javascript
 <GoogleMap  onGoogleApiLoaded={({map, maps}) => console.log(map, maps)} />
 ```
 
 To prevent warning message add _yesIWantToUseGoogleMapApiInternals_ property to GoogleMap
 
-```jsx
+```javascript
 <GoogleMap  onGoogleApiLoaded={({map, maps}) => console.log(map, maps)}
                        yesIWantToUseGoogleMapApiInternals
  />
@@ -250,7 +250,7 @@ Longitude to place the marker component
 GoogleMap passes a $hover prop to hovered components. To detect hover it an uses internal mechanism, explained in x_distance_hover example
 
 Example:
-```jsx
+```javascript
 render() {
     const style = this.props.$hover ? greatPlaceStyleHover : greatPlaceStyle;
 
@@ -261,11 +261,11 @@ render() {
     );
   }
   ```
-  
-  
+
+
 ## Utility functions
 
-####fitBounds (func)
+#### fitBounds (func)
    Use fitBounds to get zoom and center.
 
 Example:
@@ -292,11 +292,11 @@ const size = {
 const {center, zoom} = fitBounds({nw, se}, size);
 ```
 
-####tile2LatLng (func)
+#### tile2LatLng (func)
 
-####latLng2Tile (func)
+#### latLng2Tile (func)
 
-####getTilesIds (func)
+#### getTilesIds (func)
 
 ## Tips
 
@@ -306,7 +306,7 @@ Initially any map object has its top left corner at lat lng coordinates. It's up
 
 Example (centering the marker):
 
-```jsx
+```javascript
 const MARKER_SIZE = 40;
 const greatPlaceStyle = {
   position: 'absolute',
@@ -317,7 +317,7 @@ const greatPlaceStyle = {
 }
 ```
 
-```jsx
+```javascript
 render() {
   return (
     <div style={greatPlaceStyle}>
@@ -331,7 +331,7 @@ render() {
 
 If at the moment of GoogleMap control created, a modal has no size (width,height=0) or/and not displayed, the simple solution is to add something like this in render:
 
-```jsx
+```javascript
 render() {
   return this.props.modalIsOpen
     ? <GoogleMap />
