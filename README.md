@@ -300,6 +300,10 @@ const {center, zoom} = fitBounds({nw, se}, size);
 
 ## Tips
 
+### My map doesn't appear
+
+Make sure the container element has width and height. The map will try to fill the parent container, but if the container has no size, the map will collapse to 0 width / height.
+
 ### Positioning a marker
 
 Initially any map object has its top left corner at lat lng coordinates. It's up to you to set the object origin to 0,0 coordinates.
