@@ -107,6 +107,9 @@ export default class SimpleMapPage extends Component {
 * All api examples:
 [google-map-react-examples](https://github.com/istarkov/google-map-react-examples)
 
+* jsbin example
+[jsbin example](https://jsbin.com/lepadusowo/edit?js,console,output)
+
 ## GoogleMap API
 
 ### parameters
