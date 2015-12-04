@@ -404,6 +404,8 @@ export default class GoogleMap extends Component {
       this.map_ = map;
       this.maps_ = maps;
 
+      this._onGoogleApiLoaded({map, maps});
+
       // render in overlay
       const this_ = this;
       const overlay = this.overlay_ = assign(new maps.OverlayView(), {
@@ -459,8 +461,6 @@ export default class GoogleMap extends Component {
 
           this_.updateCounter_++;
           this_._onBoundsChanged(map, maps, !this_.props.debounced);
-
-          this_._onGoogleApiLoaded({map, maps});
 
           div.style.left = `${ptxRounded.x}px`;
           div.style.top = `${ptxRounded.y}px`;
