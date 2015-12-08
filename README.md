@@ -180,7 +180,7 @@ createMapOptions: function (maps) {
     }
   }
 
- <GoogleMap  onptions={createMapOptions} ... />
+ <GoogleMap  options={createMapOptions} ... />
 ```
 See "Custom map options example" in Examples below for a further example.
 
