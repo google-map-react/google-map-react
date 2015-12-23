@@ -68,7 +68,7 @@ export default {
     const dx = nwWorld.x < seWorld.x
       ? seWorld.x - nwWorld.x
       : (1 - nwWorld.x) + seWorld.x;
-    const dy = seWorld.y - nwWorld.y;
+    const dy = Math.abs(seWorld.y - nwWorld.y);
 
     if (dx <= 0 && dy <= 0) {
       return null;
