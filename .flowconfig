@@ -1,0 +1,27 @@
+[ignore]
+.*/node_modules/fbjs/.*
+.*/node_modules/babel-types/.*
+.*/node_modules/babel-traverse/.*
+.*/node_modules/babylon/.*
+.*/node_modules/babel-generator/.*
+.*/node_modules/babel-core/lib/.*
+.*/node_modules/babel-helper.*
+
+[include]
+
+[libs]
+src/typedefs
+
+[options]
+suppress_type=$FlowIssue
+suppress_type=$FlowFixMe
+suppress_type=$FixMe
+
+suppress_comment=\\(.\\|\n\\)*\\$FlowFixMe\\($\\|[^(]\\|(\\(>=0\\.\\(1[0-6]\\|[0-9]\\).[0-9]\\)? *\\(site=[a-z,_]*www[a-z,_]*\\)?)\\)
+suppress_comment=\\(.\\|\n\\)*\\$FlowIssue\\((\\(>=0\\.\\(1[0-6]\\|[0-9]\\).[0-9]\\)? *\\(site=[a-z,_]*www[a-z,_]*\\)?)\\)? #[0-9]+
+suppress_comment=\\(.\\|\n\\)*\\$FlowFixedInNextDeploy
+
+esproposal.class_instance_fields=ignore
+esproposal.class_static_fields=ignore
+module.name_mapper='react-babel-playground' -> '../src/playground'
+munge_underscores=true
