@@ -36,6 +36,7 @@
   },
   "homepage": "https://github.com/istarkov/google-map-react#readme",
   "dependencies": {
+    "es6-promise": "^3.0.2",
     "eventemitter3": "^1.1.0",
     "lodash": "^3.10.1",
     "point-geometry": "0.0.0",
