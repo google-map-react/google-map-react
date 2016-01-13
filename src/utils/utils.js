@@ -1,4 +1,5 @@
 const GOOGLE_TILE_SIZE = 256;
+import log2 from './math/log2';
 
 function latLng2World({lat, lng}) {
   const sin = Math.sin(lat * Math.PI / 180);
@@ -74,8 +75,8 @@ export default {
       return null;
     }
 
-    const zoomX = Math.log2(width / GOOGLE_TILE_SIZE / dx);
-    const zoomY = Math.log2(height / GOOGLE_TILE_SIZE / dy);
+    const zoomX = log2(width / GOOGLE_TILE_SIZE / dx);
+    const zoomY = log2(height / GOOGLE_TILE_SIZE / dy);
     const zoom = Math.floor(EPS + Math.min(zoomX, zoomY));
 
     // TODO find center just unproject middle world point

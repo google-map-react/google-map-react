@@ -49,7 +49,7 @@ export default function googleMapLoader(bootstrapURLKeys) {
 
     if (process.env.NODE_ENV !== 'production') {
       if (find(Object.keys(bootstrapURLKeys), 'callback')) {
-        console.error('"callback" key in bootstrapURLKeys is not allowed, ' +
+        console.error('"callback" key in bootstrapURLKeys is not allowed, ' + // eslint-disable-line
                       'use onGoogleApiLoaded property instead');
         throw new Error('"callback" key in bootstrapURLKeys is not allowed, ' +
                         'use onGoogleApiLoaded property instead');

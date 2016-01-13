@@ -18,6 +18,7 @@ import isArraysEqualEps from './utils/array_helper';
 import isPlainObject from './utils/is_plain_object';
 import pick from './utils/pick';
 import raf from './utils/raf';
+import log2 from './utils/math/log2';
 
 import assign from 'lodash/object/assign';
 import isNumber from 'lodash/lang/isNumber';
@@ -311,7 +312,7 @@ export default class GoogleMap extends Component {
       const tilesPerWidth = Math.ceil(this.geoService_.getWidth() / K_GOOGLE_TILE_SIZE) + 2;
       const tilesPerHeight = Math.ceil(this.geoService_.getHeight() / K_GOOGLE_TILE_SIZE) + 2;
       const maxTilesPerDim = Math.max(tilesPerWidth, tilesPerHeight);
-      return Math.ceil(Math.log2(maxTilesPerDim));
+      return Math.ceil(log2(maxTilesPerDim));
     }
     return DEFAULT_MIN_ZOOM;
   }
@@ -870,4 +871,3 @@ export default class GoogleMap extends Component {
     );
   }
 }
-
