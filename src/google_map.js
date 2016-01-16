@@ -324,7 +324,7 @@ export default class GoogleMap extends Component {
       return;
     }
     this.initialized_ = true;
-    
+
     const propsCenter = latLng2Obj(this.props.center || this.props.defaultCenter);
     this.geoService_.setView(propsCenter, this.props.zoom || this.props.defaultZoom, 0);
 
