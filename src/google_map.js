@@ -130,6 +130,7 @@ export default class GoogleMap extends Component {
   constructor(props) {
     super(props);
     this.mounted_ = false;
+    this.initialized_ = false;
 
     this.map_ = null;
     this.maps_ = null;
@@ -318,6 +319,12 @@ export default class GoogleMap extends Component {
   }
 
   _initMap = () => {
+    // only initialize the map once
+    if (this.initialized_) {
+      return;
+    }
+    this.initialized_ = true;
+
     const propsCenter = latLng2Obj(this.props.center || this.props.defaultCenter);
     this.geoService_.setView(propsCenter, this.props.zoom || this.props.defaultZoom, 0);
 
