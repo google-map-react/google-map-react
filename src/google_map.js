@@ -131,6 +131,7 @@ export default class GoogleMap extends Component {
     super(props);
     this.mounted_ = false;
     this.initialized_ = false;
+    this.googleApiLoadedCalled_ = false;
 
     this.map_ = null;
     this.maps_ = null;
@@ -404,8 +405,6 @@ export default class GoogleMap extends Component {
       this.map_ = map;
       this.maps_ = maps;
 
-      this._onGoogleApiLoaded({map, maps});
-
       // render in overlay
       const this_ = this;
       const overlay = this.overlay_ = assign(new maps.OverlayView(), {
@@ -461,6 +460,11 @@ export default class GoogleMap extends Component {
 
           this_.updateCounter_++;
           this_._onBoundsChanged(map, maps, !this_.props.debounced);
+
+          if (!this_.googleApiLoadedCalled_) {
+            this_._onGoogleApiLoaded({map, maps});
+            this_.googleApiLoadedCalled_ = true;
+          }
 
           div.style.left = `${ptxRounded.x}px`;
           div.style.top = `${ptxRounded.y}px`;
