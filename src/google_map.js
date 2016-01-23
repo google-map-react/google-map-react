@@ -131,6 +131,7 @@ export default class GoogleMap extends Component {
     super(props);
     this.mounted_ = false;
     this.initialized_ = false;
+    this.googleApiLoadedCalled_ = false;
 
     this.map_ = null;
     this.maps_ = null;
@@ -460,7 +461,10 @@ export default class GoogleMap extends Component {
           this_.updateCounter_++;
           this_._onBoundsChanged(map, maps, !this_.props.debounced);
 
-          this_._onGoogleApiLoaded({map, maps});
+          if (!this_.googleApiLoadedCalled_) {
+            this_._onGoogleApiLoaded({map, maps});
+            this_.googleApiLoadedCalled_ = true;
+          }
 
           div.style.left = `${ptxRounded.x}px`;
           div.style.top = `${ptxRounded.y}px`;
