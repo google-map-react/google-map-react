@@ -6,8 +6,8 @@ function latLng2World({lat, lng}) {
   const x = (lng / 360 + 0.5);
   let y = (0.5 - 0.25 * Math.log((1 + sin) / (1 - sin)) / Math.PI);
 
-  y = y < -1 // eslint-disable-line
-    ? -1
+  y = y < 0 // eslint-disable-line
+    ? 0
     : y > 1
       ? 1
       : y;
@@ -17,6 +17,8 @@ function latLng2World({lat, lng}) {
 function world2LatLng({x, y}) {
   const n = Math.PI - 2 * Math.PI * y;
 
+  // TODO test that this is faster
+  // 360 * Math.atan(Math.exp((180 - y * 360) * Math.PI / 180)) / Math.PI - 90;
   return {
     lat: (180 / Math.PI * Math.atan(0.5 * (Math.exp(n) - Math.exp(-n)))),
     lng: x * 360 - 180,
