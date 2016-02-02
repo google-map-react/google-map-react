@@ -1,3 +1,5 @@
+Add [google-map-clustering-example](https://github.com/istarkov/google-map-clustering-example)
+
 ###0.9v
 
 Add: `bootstrapURLKeys` (object) instead of `apiKey` prop
