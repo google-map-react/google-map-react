@@ -56,14 +56,6 @@ function defaultOptions_(/* maps */) {
   };
 }
 
-const style = {
-  width: '100%',
-  height: '100%',
-  margin: 0,
-  padding: 0,
-  position: 'relative',
-};
-
 const latLng2Obj = (latLng) => isPlainObject(latLng)
     ? latLng
     : {lat: latLng[0], lng: latLng[1]};
@@ -110,6 +102,7 @@ export default class GoogleMap extends Component {
     onGoogleApiLoaded: PropTypes.func,
     yesIWantToUseGoogleMapApiInternals: PropTypes.bool,
     draggable: PropTypes.bool,
+    style: PropTypes.any,
   };
 
   static defaultProps = {
@@ -123,6 +116,13 @@ export default class GoogleMap extends Component {
     options: defaultOptions_,
     googleMapLoader,
     yesIWantToUseGoogleMapApiInternals: false,
+    style: {
+      width: '100%',
+      height: '100%',
+      margin: 0,
+      padding: 0,
+      position: 'relative',
+    },
   };
 
   static googleMapLoader = googleMapLoader; // eslint-disable-line
@@ -869,7 +869,7 @@ export default class GoogleMap extends Component {
 
     return (
       <div
-        style={style}
+        style={this.props.style}
         onMouseMove={this._onMapMouseMove}
         onMouseDownCapture={this._onMapMouseDownCapture}
         onClick={this._onMapClick}
