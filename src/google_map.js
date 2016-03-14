@@ -20,8 +20,8 @@ import pick from './utils/pick';
 import raf from './utils/raf';
 import log2 from './utils/math/log2';
 
-import assign from 'lodash/object/assign';
-import isNumber from 'lodash/lang/isNumber';
+import { assign } from 'lodash/object';
+import { isNumber } from 'lodash/lang';
 
 // To avoid Error with React 13, webpack will generate warning not error
 // more details is here https://github.com/orgsync/react-list/pull/54
