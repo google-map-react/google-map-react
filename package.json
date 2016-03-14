@@ -38,7 +38,7 @@
   "dependencies": {
     "es6-promise": "^3.0.2",
     "eventemitter3": "^1.1.0",
-    "lodash": "^3.10.1",
+    "lodash": "^4.6.1",
     "point-geometry": "0.0.0",
     "react-pure-render": "^1.0.1",
     "scriptjs": "^2.5.7"
