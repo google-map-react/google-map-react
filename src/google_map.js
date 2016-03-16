@@ -1,5 +1,5 @@
 import React, {PropTypes, Component} from 'react';
-import { isReact14 } from './utils/react_version';
+import ReactDOM from 'react-dom';
 
 import shouldPureComponentUpdate from 'react-pure-render/function';
 
@@ -22,19 +22,6 @@ import log2 from './utils/math/log2';
 
 import assign from 'lodash/assign';
 import isNumber from 'lodash/isNumber';
-
-// To avoid Error with React 13, webpack will generate warning not error
-// more details is here https://github.com/orgsync/react-list/pull/54
-let ReactDOM;
-if (isReact14(React)) {
-  try {
-    ReactDOM = require('react-dom');
-  } catch (e) {
-    ReactDOM = React;
-  }
-} else {
-  ReactDOM = React;
-}
 
 
 const kEPS = 0.00001;

@@ -35,6 +35,9 @@
     "url": "https://github.com/istarkov/google-map-react/issues"
   },
   "homepage": "https://github.com/istarkov/google-map-react#readme",
+  "peerDependencies": {
+    "react": "^0.14.0 || ^15.0.0-rc.1"
+  },
   "dependencies": {
     "es6-promise": "^3.0.2",
     "eventemitter3": "^1.1.0",
