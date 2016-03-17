@@ -637,6 +637,8 @@ export default class GoogleMap extends Component {
   }
 
   _setViewSize = () => {
+    if (!this.mounted_) return;
+
     const mapDom = ReactDOM.findDOMNode(this.refs.google_map_dom);
     this.geoService_.setViewSize(mapDom.clientWidth, mapDom.clientHeight);
     this._onBoundsChanged();
