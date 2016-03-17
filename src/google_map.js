@@ -297,6 +297,10 @@ export default class GoogleMap extends Component {
   // otherwise there is no homeomorphism between screen coordinates and map
   // (one map coordinate can have different screen coordinates)
   _getMinZoom = () => {
+    if (this.options.minZoomOverride) {
+      return this.options.minZoom ? this.options.minZoom : DEFAULT_MIN_ZOOM;
+    }
+
     if (this.geoService_.getWidth() > 0 || this.geoService_.getHeight() > 0) {
       const tilesPerWidth = Math.ceil(this.geoService_.getWidth() / K_GOOGLE_TILE_SIZE) + 2;
       const tilesPerHeight = Math.ceil(this.geoService_.getHeight() / K_GOOGLE_TILE_SIZE) + 2;
@@ -351,6 +355,7 @@ export default class GoogleMap extends Component {
       const options = typeof this.props.options === 'function'
         ? this.props.options(mapPlainObjects)
         : this.props.options;
+      this.options = options;
       const defaultOptions = defaultOptions_(mapPlainObjects);
 
       const draggableOptions = this.props.draggable !== undefined &&
