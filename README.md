@@ -203,7 +203,7 @@ Example:
  <GoogleMap  onClick={_onClick} ... />
  ```
 
-#### onBoundsChange (func)
+#### onChange (func)
 
 ```
 (center, zoom, bounds, marginBounds)
