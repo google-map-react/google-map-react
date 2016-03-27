@@ -33,10 +33,12 @@ export default class GoogleMapMarkers extends Component {
     onChildMouseEnter: PropTypes.func,
     getHoverDistance: PropTypes.func,
     projectFromLeftTop: PropTypes.bool,
+    prerender: PropTypes.bool,
   };
 
   static defaultProps = {
     projectFromLeftTop: false,
+    prerender: false,
   };
 
   constructor(props) {
@@ -252,6 +254,7 @@ export default class GoogleMapMarkers extends Component {
             $dimensionKey: childKey,
             $geoService: this.props.geoService,
             $onMouseAllow: this._onMouseAllow,
+            $prerender: this.props.prerender,
           })}
         </div>
       );

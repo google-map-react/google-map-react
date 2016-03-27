@@ -22,7 +22,7 @@ export default class GoogleMapMarkersPrerender extends Component {
   render() {
     return (
       <div style={style}>
-        <GoogleMapMarkers {...this.props} />
+        <GoogleMapMarkers {...this.props} prerender />
       </div>
     );
   }
