@@ -54,7 +54,7 @@ In the simple case you just need to add `lat` `lng` props to any child of `Googl
 [simple example in action](http://istarkov.github.io/google-map-react/map/simple)
 
 ```javascript
-import React, {PropTypes, Component} from 'react/addons';
+import React, {PropTypes, Component} from 'react';
 import shouldPureComponentUpdate from 'react-pure-render/function';
 
 import GoogleMap from 'google-map-react';
