@@ -1,5 +1,3 @@
-import find from 'lodash/find';
-import reduce from 'lodash/reduce';
 import { Promise } from 'es6-promise';
 
 let $script_ = null;
@@ -48,7 +46,7 @@ export default function googleMapLoader(bootstrapURLKeys) {
     };
 
     if (process.env.NODE_ENV !== 'production') {
-      if (find(Object.keys(bootstrapURLKeys), 'callback')) {
+      if (Object.keys(bootstrapURLKeys).find( value => value === 'callback')) {
         console.error('"callback" key in bootstrapURLKeys is not allowed, ' + // eslint-disable-line
                       'use onGoogleApiLoaded property instead');
         throw new Error('"callback" key in bootstrapURLKeys is not allowed, ' +
@@ -56,8 +54,7 @@ export default function googleMapLoader(bootstrapURLKeys) {
       }
     }
 
-    const queryString = reduce(
-      Object.keys(bootstrapURLKeys),
+    const queryString = Object.keys(bootstrapURLKeys).reduce(
       (r, key) => r + `&${key}=${bootstrapURLKeys[key]}`,
       ''
     );
