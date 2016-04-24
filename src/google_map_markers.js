@@ -247,7 +247,11 @@ export default class GoogleMapMarkers extends Component {
       };
 
       return (
-        <div key={childKey} style={{...style, ...stylePtPos}}>
+        <div
+          key={childKey}
+          style={{...style, ...stylePtPos}}
+          className={child.props.$markerHolderClassName}
+        >
           {React.cloneElement(child, {
             $hover: childKey === this.state.hoverKey,
             $getDimensions: this._getDimensions,
