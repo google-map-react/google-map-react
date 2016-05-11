@@ -385,6 +385,21 @@ and if so, uses it, so it won't load a second copy of the library.
 <script type="text/javascript" src="https://maps.google.com/maps/api/js?libraries=places&sensor=false"></script>
 ```
 
+### Override the default minimum zoom
+
+*WARNING*: Setting these options can break markers calculation, causing no homeomorphism between screen coordinates and map.
+
+You can use the `minZoomOverride` associated with the `minZoom` in the custom map options to prevent a minimum zoom from being calculated:
+
+```javascript
+function createMapOptions() {
+  return {
+    minZoomOverride: true,
+    minZoom: 2,
+  };
+}
+```
+
 ---
 
 (*Really big thanks to [April Arcus](https://github.com/AprilArcus) for documentation fixes*)   
