@@ -306,6 +306,13 @@ export default class GoogleMap extends Component {
     return DEFAULT_MIN_ZOOM;
   }
 
+  _computeMinZoom = (minZoomOverride, minZoom) => {
+    if (minZoomOverride) {
+      return minZoom ? minZoom : DEFAULT_MIN_ZOOM;
+    }
+    return this._getMinZoom();
+  }
+
   _initMap = () => {
     // only initialize the map once
     if (this.initialized_) {
@@ -356,7 +363,7 @@ export default class GoogleMap extends Component {
       const draggableOptions = this.props.draggable !== undefined &&
         {draggable: this.props.draggable};
 
-      const minZoom = this._getMinZoom();
+      const minZoom = this._computeMinZoom(options.minZoomOverride, options.minZoom);
       this.minZoom_ = minZoom;
 
       const preMapOptions = {
@@ -494,7 +501,9 @@ export default class GoogleMap extends Component {
       maps.event.addListener(map, 'idle', () => {
         if (this.resetSizeOnIdle_) {
           this._setViewSize();
-          const currMinZoom = this._getMinZoom();
+          const currMinZoom = this._computeMinZoom(
+            this.props.options.minZoomOverride,
+            this.props.options.minZoom);
 
           if (currMinZoom !== this.minZoom_) {
             this.minZoom_ = currMinZoom;
