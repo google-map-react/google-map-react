@@ -231,9 +231,17 @@ export default class GoogleMap extends Component {
       const centerLatLng = this.geoService_.getCenter();
       if (nextProps.center) {
         const nextPropsCenter = latLng2Obj(nextProps.center);
-        if (Math.abs(nextPropsCenter.lat - centerLatLng.lat) +
-            Math.abs(nextPropsCenter.lng - centerLatLng.lng) > kEPS) {
-          this.map_.panTo({lat: nextPropsCenter.lat, lng: nextPropsCenter.lng});
+        const currCenter = latLng2Obj(this.props.center);
+        if (
+          Math.abs(nextPropsCenter.lat - currCenter.lat) +
+          Math.abs(nextPropsCenter.lng - currCenter.lng) > kEPS
+        ) {
+          if (
+            Math.abs(nextPropsCenter.lat - centerLatLng.lat) +
+            Math.abs(nextPropsCenter.lng - centerLatLng.lng) > kEPS
+          ) {
+            this.map_.panTo({lat: nextPropsCenter.lat, lng: nextPropsCenter.lng});
+          }
         }
       }
 

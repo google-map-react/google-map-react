@@ -1,6 +1,5 @@
 import find from 'lodash/find';
 import reduce from 'lodash/reduce';
-import { Promise } from 'es6-promise';
 
 let $script_ = null;
 
