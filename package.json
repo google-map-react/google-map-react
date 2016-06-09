@@ -36,7 +36,7 @@
   },
   "homepage": "https://github.com/istarkov/google-map-react#readme",
   "peerDependencies": {
-    "react": "^0.14.0 || ^15.0.0-rc.1"
+    "react": "^0.14.0 || ^15.0.0"
   },
   "dependencies": {
     "eventemitter3": "^1.1.0",
@@ -56,9 +56,9 @@
     "expect": "^1.11.1",
     "jsdom": "^6.5.1",
     "mocha": "^2.3.3",
-    "react": "^0.14.0-rc1",
-    "react-addons-test-utils": "^0.14.0-rc1",
-    "react-dom": "^0.14.0-rc1",
+    "react": "^0.14.0",
+    "react-addons-test-utils": "^0.14.0",
+    "react-dom": "^0.14.0",
     "rimraf": "^2.4.3",
     "webpack": "^1.12.2"
   }
