@@ -22,7 +22,7 @@ export default function detectBrowser() {
       isChrome = false;
     }
 
-    detectBrowserResult_ = {isExplorer, isFirefox, isOpera, isChrome, isSafari};
+    detectBrowserResult_ = { isExplorer, isFirefox, isOpera, isChrome, isSafari };
     return detectBrowserResult_;
   }
 

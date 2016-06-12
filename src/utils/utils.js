@@ -1,7 +1,7 @@
 const GOOGLE_TILE_SIZE = 256;
 import log2 from './math/log2';
 
-function latLng2World({lat, lng}) {
+function latLng2World({ lat, lng }) {
   const sin = Math.sin(lat * Math.PI / 180);
   const x = (lng / 360 + 0.5);
   let y = (0.5 - 0.25 * Math.log((1 + sin) / (1 - sin)) / Math.PI);
@@ -11,10 +11,10 @@ function latLng2World({lat, lng}) {
     : y > 1
       ? 1
       : y;
-  return {x, y};
+  return { x, y };
 }
 
-function world2LatLng({x, y}) {
+function world2LatLng({ x, y }) {
   const n = Math.PI - 2 * Math.PI * y;
 
   // TODO test that this is faster
@@ -32,11 +32,11 @@ function latLng2MetersPerDegree({ lat }) {
     1.175 * Math.cos(4 * phi) - 0.0023 * Math.cos(6 * phi);
   const metersPerLngDegree = 111412.84 * Math.cos(phi) -
     93.5 * Math.cos(3 * phi) + 0.118 * Math.cos(5 * phi);
-  return {metersPerLatDegree, metersPerLngDegree};
+  return { metersPerLatDegree, metersPerLngDegree };
 }
 
-function meters2LatLngBounds(meters, {lat, lng}) {
-  const {metersPerLatDegree, metersPerLngDegree} = latLng2MetersPerDegree({ lat });
+function meters2LatLngBounds(meters, { lat, lng }) {
+  const { metersPerLatDegree, metersPerLngDegree } = latLng2MetersPerDegree({ lat });
 
   const latDelta = 0.5 * meters / metersPerLatDegree;
   const lngDelta = 0.5 * meters / metersPerLngDegree;
@@ -53,18 +53,18 @@ function meters2LatLngBounds(meters, {lat, lng}) {
   };
 }
 
-function meters2WorldSize(meters, {lat, lng}) {
-  const {nw, se} = meters2LatLngBounds(meters, {lat, lng});
+function meters2WorldSize(meters, { lat, lng }) {
+  const { nw, se } = meters2LatLngBounds(meters, { lat, lng });
   const nwWorld = latLng2World(nw);
   const seWorld = latLng2World(se);
   const w = Math.abs(seWorld.x - nwWorld.x);
   const h = Math.abs(seWorld.y - nwWorld.y);
 
-  return {w, h};
+  return { w, h };
 }
 
 export default {
-  fitBounds({nw, se}, {width, height}) {
+  fitBounds({ nw, se }, { width, height }) {
     const EPS = 0.000000001;
     const nwWorld = latLng2World(nw);
     const seWorld = latLng2World(se);
@@ -100,8 +100,8 @@ export default {
   // -------------------------------------------------------------------
   // Helpers to calc some markers size
 
-  meters2ScreenPixels(meters, {lat, lng}, zoom) {
-    const {w, h} = meters2WorldSize(meters, {lat, lng});
+  meters2ScreenPixels(meters, { lat, lng }, zoom) {
+    const { w, h } = meters2WorldSize(meters, { lat, lng });
     const scale = Math.pow(2, zoom);
     const wScreen = w * scale * GOOGLE_TILE_SIZE;
     const hScreen = h * scale * GOOGLE_TILE_SIZE;
@@ -114,7 +114,7 @@ export default {
   // --------------------------------------------------
   // Helper functions for working with svg tiles, (examples coming soon)
 
-  tile2LatLng({x, y}, zoom) {
+  tile2LatLng({ x, y }, zoom) {
     const n = Math.PI - 2 * Math.PI * y / Math.pow(2, zoom);
 
     return ({
@@ -123,8 +123,8 @@ export default {
     });
   },
 
-  latLng2Tile({lat, lng}, zoom) {
-    const worldCoords = latLng2World({lat, lng});
+  latLng2Tile({ lat, lng }, zoom) {
+    const worldCoords = latLng2World({ lat, lng });
     const scale = Math.pow(2, zoom);
 
     return {
@@ -133,7 +133,7 @@ export default {
     };
   },
 
-  getTilesIds({from, to}, zoom) {
+  getTilesIds({ from, to }, zoom) {
     const scale = Math.pow(2, zoom);
 
     const ids = [];
