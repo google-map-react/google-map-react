@@ -262,13 +262,14 @@ export default class GoogleMap extends Component {
     }
   }
 
-  shouldComponentUpdate(nextProps) {
+  shouldComponentUpdate(nextProps, nextState) {
     // draggable does not affect inner components
     return !shallowEqual(
       omit(this.props, ['draggable']),
       omit(nextProps, ['draggable'])
-    );
+    ) || !shallowEqual(this.state, nextState);
   }
+
 
   componentDidUpdate(prevProps) {
     this.markersDispatcher_.emit('kON_CHANGE');
