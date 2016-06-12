@@ -1,7 +1,7 @@
 import React, {PropTypes, Component} from 'react';
 import ReactDOM from 'react-dom';
 
-import shouldPureComponentUpdate from 'react-pure-render/function';
+import shallowEqual from 'fbjs/lib/shallowEqual';
 
 import MarkerDispatcher from './marker_dispatcher';
 
@@ -22,7 +22,7 @@ import log2 from './utils/math/log2';
 
 import assign from 'lodash/assign';
 import isNumber from 'lodash/isNumber';
-
+import omit from './utils/omit';
 
 const kEPS = 0.00001;
 const K_GOOGLE_TILE_SIZE = 256;
@@ -262,7 +262,13 @@ export default class GoogleMap extends Component {
     }
   }
 
-  shouldComponentUpdate = shouldPureComponentUpdate;
+  shouldComponentUpdate(nextProps) {
+    // draggable does not affect inner components
+    return !shallowEqual(
+      omit(this.props, ['draggable']),
+      omit(nextProps, ['draggable'])
+    );
+  }
 
   componentDidUpdate(prevProps) {
     this.markersDispatcher_.emit('kON_CHANGE');
