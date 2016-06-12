@@ -1,6 +1,5 @@
 import React, {PropTypes, Component} from 'react';
-
-import shouldPureComponentUpdate from 'react-pure-render/function';
+import shallowEqual from 'fbjs/lib/shallowEqual';
 
 const mainStyle = {
   width: '100%',
@@ -56,7 +55,9 @@ export default class GoogleMapMarkers extends Component {
     this.state = {...this._getState(), hoverKey: null};
   }
 
-  shouldComponentUpdate = shouldPureComponentUpdate;
+  shouldComponentUpdate(nextProps) {
+    return !shallowEqual(this.props, nextProps);
+  }
 
   componentWillUnmount() {
     this.props.dispatcher.removeListener('kON_CHANGE', this._onChangeHandler);
