@@ -1,4 +1,4 @@
-import React, {PropTypes, Component} from 'react';
+import React, { PropTypes, Component } from 'react';
 import shallowEqual from 'fbjs/lib/shallowEqual';
 
 const mainStyle = {
@@ -52,7 +52,7 @@ export default class GoogleMapMarkers extends Component {
     this.hoverChildProps_ = null;
     this.allowMouse_ = true;
 
-    this.state = {...this._getState(), hoverKey: null};
+    this.state = { ...this._getState(), hoverKey: null };
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -68,12 +68,10 @@ export default class GoogleMapMarkers extends Component {
     this.dimesionsCache_ = null;
   }
 
-  _getState = () => {
-    return {
-      children: this.props.dispatcher.getChildren(),
-      updateCounter: this.props.dispatcher.getUpdateCounter(),
-    };
-  }
+  _getState = () => ({
+    children: this.props.dispatcher.getChildren(),
+    updateCounter: this.props.dispatcher.getUpdateCounter(),
+  });
 
   _onChangeHandler = () => {
     if (!this.dimesionsCache_) {
@@ -126,7 +124,7 @@ export default class GoogleMapMarkers extends Component {
 
     this.hoverChildProps_ = childProps;
     this.hoverKey_ = hoverKey;
-    this.setState({hoverKey: hoverKey});
+    this.setState({ hoverKey });
   }
 
   _onChildMouseLeave = () => {
@@ -144,7 +142,7 @@ export default class GoogleMapMarkers extends Component {
 
       this.hoverKey_ = null;
       this.hoverChildProps_ = null;
-      this.setState({hoverKey: null});
+      this.setState({ hoverKey: null });
     }
   }
 
@@ -182,7 +180,7 @@ export default class GoogleMapMarkers extends Component {
           distances.push(
             {
               key: childKey,
-              dist: dist,
+              dist,
               props: child.props,
             });
         }
@@ -250,7 +248,7 @@ export default class GoogleMapMarkers extends Component {
       return (
         <div
           key={childKey}
-          style={{...style, ...stylePtPos}}
+          style={{ ...style, ...stylePtPos }}
           className={child.props.$markerHolderClassName}
         >
           {React.cloneElement(child, {

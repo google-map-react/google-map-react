@@ -13,7 +13,7 @@ const _customPromise = new Promise(resolve => {
 // TODO add libraries language and other map options
 export default function googleMapLoader(bootstrapURLKeys) {
   if (!$script_) {
-    $script_ = require('scriptjs');
+    $script_ = require('scriptjs'); // eslint-disable-line
   }
 
   // call from outside google-map-react
@@ -57,7 +57,7 @@ export default function googleMapLoader(bootstrapURLKeys) {
 
     const queryString = reduce(
       Object.keys(bootstrapURLKeys),
-      (r, key) => r + `&${key}=${bootstrapURLKeys[key]}`,
+      (r, key) => `${r}&${key}=${bootstrapURLKeys[key]}`,
       ''
     );
 

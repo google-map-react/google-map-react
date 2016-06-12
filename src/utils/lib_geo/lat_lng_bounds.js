@@ -39,7 +39,6 @@ export default class LatLngBounds {
     if (!sw && !ne) {
       this._sw = new LatLng(sw2.lat, sw2.lng);
       this._ne = new LatLng(ne2.lat, ne2.lng);
-
     } else {
       sw.lat = Math.min(sw2.lat, sw.lat);
       sw.lng = Math.min(sw2.lng, sw.lng);

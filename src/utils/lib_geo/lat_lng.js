@@ -19,7 +19,7 @@ export default class LatLng {
 
   constructor(lat, lng) {
     if (isNaN(lat) || isNaN(lng)) {
-      throw new Error('Invalid LatLng object: (' + lat + ', ' + lng + ')');
+      throw new Error(`Invalid LatLng object: (${lat}, ${lng})`);
     }
     this.lat = +lat;
     this.lng = +lng;
