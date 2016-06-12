@@ -13,7 +13,8 @@
     "no-confusing-arrow": 0,
     "no-nested-ternary": 0,
     "yoda": 0,
-    "no-underscore-dangle": 0
+    "no-underscore-dangle": 0,
+    "react/prop-types": 0
   },
   "parserOptions": {
     "ecmaVersion": 6,
