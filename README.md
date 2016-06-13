@@ -104,7 +104,7 @@ export default class SimpleMapPage extends Component {
 * Example project:
 [main](http://istarkov.github.io/google-map-react/map/main/) ([source](https://github.com/istarkov/google-map-react-examples/blob/master/web/flux/components/examples/x_main/main_map_block.jsx)); [balderdash](http://istarkov.github.io/google-map-react/map/balderdash/) (same source as main)
 
-* Clustering example
+* Clustering example (new)
 [google-map-clustering-example](http://istarkov.github.io/google-map-clustering-example/)
 
 * All api examples:
@@ -112,6 +112,19 @@ export default class SimpleMapPage extends Component {
 
 * jsbin example
 [jsbin example](https://jsbin.com/lepadusowo/edit?js,console,output)
+
+* local develop example (new)
+[develop example](./develop)
+
+## Contribute
+
+To get a reloadable env, with map, clone this project and
+
+```shell
+npm install
+npm run start
+# open browser at localhost:4000
+```
 
 ## GoogleMap API
 

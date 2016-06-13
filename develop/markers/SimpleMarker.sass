@@ -1,0 +1,18 @@
+
+$markerWidth: 49px
+$markerHeight: 64px
+
+$originX: $markerWidth * .5
+$originY: $markerHeight
+
+.marker
+  background-image: url('./mapIcon.svg')
+  position: absolute
+  cursor: pointer
+  width: $markerWidth
+  height: $markerHeight
+  top: -$originY
+  left: -$originX
+  transform-origin: $originX $originY
+  margin: 0
+  padding: 0

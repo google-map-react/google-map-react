@@ -1,6 +1,3 @@
-import find from 'lodash/find';
-import reduce from 'lodash/reduce';
-
 let $script_ = null;
 
 let loadPromise_;
@@ -47,7 +44,7 @@ export default function googleMapLoader(bootstrapURLKeys) {
     };
 
     if (process.env.NODE_ENV !== 'production') {
-      if (find(Object.keys(bootstrapURLKeys), 'callback')) {
+      if (Object.keys(bootstrapURLKeys).indexOf('callback') > -1) {
         console.error('"callback" key in bootstrapURLKeys is not allowed, ' + // eslint-disable-line
                       'use onGoogleApiLoaded property instead');
         throw new Error('"callback" key in bootstrapURLKeys is not allowed, ' +
@@ -55,11 +52,11 @@ export default function googleMapLoader(bootstrapURLKeys) {
       }
     }
 
-    const queryString = reduce(
-      Object.keys(bootstrapURLKeys),
-      (r, key) => `${r}&${key}=${bootstrapURLKeys[key]}`,
-      ''
-    );
+    const queryString = Object.keys(bootstrapURLKeys)
+      .reduce(
+        (r, key) => `${r}&${key}=${bootstrapURLKeys[key]}`,
+        ''
+      );
 
     $script_(
       `https://maps.googleapis.com/maps/api/js?callback=_$_google_map_initialize_$_${queryString}`,
