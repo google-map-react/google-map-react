@@ -20,8 +20,7 @@ import pick from './utils/pick';
 import raf from './utils/raf';
 import log2 from './utils/math/log2';
 
-import assign from 'lodash/assign';
-import isNumber from 'lodash/isNumber';
+import isNumber from './utils/isNumber';
 import omit from './utils/omit';
 
 const kEPS = 0.00001;
@@ -416,7 +415,7 @@ export default class GoogleMap extends Component {
 
       // render in overlay
       const this_ = this;
-      const overlay = this.overlay_ = assign(new maps.OverlayView(), {
+      const overlay = this.overlay_ = Object.assign(new maps.OverlayView(), {
         onAdd() {
           const K_MAX_WIDTH = (typeof screen !== 'undefined') ? `${screen.width}px` : '2000px';
           const K_MAX_HEIGHT = (typeof screen !== 'undefined') ? `${screen.height}px` : '2000px';
