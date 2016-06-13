@@ -7,7 +7,7 @@ import { clusterMarkerHOC } from './ClusterMarker.js';
 import simpleMarkerStyles from './SimpleMarker.sass';
 
 export const simpleMarker = ({
-  styles, hovered,
+  styles, hovered, $hover,
   defaultMotionStyle, motionStyle,
 }) => (
   <Motion
@@ -20,7 +20,7 @@ export const simpleMarker = ({
         className={styles.marker}
         style={{
           transform: `translate3D(0,0,0) scale(${scale}, ${scale})`,
-          zIndex: hovered ? 1 : 0,
+          zIndex: (hovered || $hover) ? 1 : 0,
         }}
       >
       </div>
@@ -32,7 +32,7 @@ export const simpleMarker = ({
 export const simpleMarkerHOC = compose(
   defaultProps({
     styles: simpleMarkerStyles,
-    initialScale: 0.3,
+    initialScale: 0.6,
     defaultScale: 0.6,
     hoveredScale: 0.7,
   }),

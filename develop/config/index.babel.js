@@ -1,10 +1,19 @@
 import path from 'path'; // eslint-disable-line no-var
 import autoprefixer from 'autoprefixer';  // eslint-disable-line no-var
+import webpack from 'webpack';
 
 export default {
   devtool: 'cheap-module-eval-source-map',
   postcss: [
     autoprefixer({ browsers: ['last 2 versions'] }),
+  ],
+  plugins: [
+    new webpack.DefinePlugin(process.env.NODE_ENV
+      ? {
+        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      }
+      : {}
+    ),
   ],
   module: {
     loaders: [

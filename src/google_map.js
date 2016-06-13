@@ -435,6 +435,7 @@ export default class GoogleMap extends Component {
           ReactDOM.render(
             (
             <GoogleMapMarkers
+              experimental={this_.props.experimental}
               onChildClick={this_._onChildClick}
               onChildMouseDown={this_._onChildMouseDown}
               onChildMouseEnter={this_._onChildMouseEnter}
@@ -873,6 +874,7 @@ export default class GoogleMap extends Component {
     const mapMarkerPrerender = !this.state.overlayCreated
     ? (
       <GoogleMapMarkersPrerender
+        experimental={this.props.experimental}
         onChildClick={this._onChildClick}
         onChildMouseDown={this._onChildMouseDown}
         onChildMouseEnter={this._onChildMouseEnter}

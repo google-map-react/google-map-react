@@ -1,3 +1,9 @@
+// Example to test the React Reconciler, and even this
+// is 100x faster in development mode, I see no difference
+// with NODE_ENV==='production'
+// so the simple example with same params at ./GMap.js works with same speed
+// works very well
+
 import React from 'react';
 import compose from 'recompose/compose';
 import defaultProps from 'recompose/defaultProps';
@@ -7,15 +13,17 @@ import withState from 'recompose/withState';
 import withPropsOnChange from 'recompose/withPropsOnChange';
 import ptInBounds from './utils/ptInBounds';
 import GoogleMapReact from '../src';
-import SimpleMarker from './markers/SimpleMarker';
+// import SimpleMarker from './markers/SimpleMarker';
+import ReactiveMarker from './markers/ReactiveMarker';
 import { createSelector } from 'reselect';
 import { susolvkaCoords, generateMarkers } from './data/fakeData';
+import props2Stream from './utils/props2Stream';
 
 export const gMap = ({
   style, hoverDistance, options,
   mapParams: { center, zoom },
   onChange, onChildMouseEnter, onChildMouseLeave,
-  markers, // hoveredMarkerId,
+  markers,
 }) => (
   <GoogleMapReact
     style={style}
@@ -26,10 +34,9 @@ export const gMap = ({
     onChange={onChange}
     onChildMouseEnter={onChildMouseEnter}
     onChildMouseLeave={onChildMouseLeave}
+    experimental
   >
-    {
-      markers
-    }
+    {markers}
   </GoogleMapReact>
 );
 
@@ -80,14 +87,16 @@ export const gMapHOC = compose(
         : [],
     })
   ),
+  props2Stream('hoveredMarkerId'),
   withPropsOnChange(
-    ['markers'],
-    ({ markers }) => ({
+    ['markers', 'hoveredMarkerId$'],
+    ({ markers, hoveredMarkerId$ }) => ({
       markers: markers
         .map(({ ...markerProps, id }) => (
-          <SimpleMarker
+          <ReactiveMarker
             key={id}
             id={id}
+            hoveredMarkerId$={hoveredMarkerId$}
             {...markerProps}
           />
         )),
