@@ -1,1 +1,1 @@
-export default from './utils.js';
+export * from './utils.js';

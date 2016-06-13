@@ -63,7 +63,7 @@ function meters2WorldSize(meters, { lat, lng }) {
   return { w, h };
 }
 
-export default {
+const exports = {
   fitBounds({ nw, se }, { width, height }) {
     const EPS = 0.000000001;
     const nwWorld = latLng2World(nw);
@@ -146,3 +146,10 @@ export default {
     return ids;
   },
 };
+
+export const fitBounds = exports.fitBounds;
+export const meters2ScreenPixels = exports.meters2ScreenPixels;
+export const tile2LatLng = exports.tile2LatLng;
+export const latLng2Tile = exports.latLng2Tile;
+export const getTilesIds = exports.getTilesIds;
+// export default exports;
