@@ -1,12 +1,12 @@
 import { Component } from 'react';
 import createEagerFactory from './createEagerFactory';
-import { createSelector } from 'reselect';
+import createHelper from 'recompose/createHelper';
 
-const withStateSelector = (stateName, stateUpdaterName, ...selectorArgs) =>
+const withStateSelector = (stateName, stateUpdaterName, selectorFactory) =>
   BaseComponent => {
     const factory = createEagerFactory(BaseComponent);
     return class extends Component {
-      selector = createSelector(...selectorArgs);
+      selector = selectorFactory();
       state = {
         stateValue: this.selector(this.props),
       };
@@ -39,4 +39,4 @@ const withStateSelector = (stateName, stateUpdaterName, ...selectorArgs) =>
     };
   };
 
-export default withStateSelector;
+export default createHelper(withStateSelector, 'withStateSelector');

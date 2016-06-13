@@ -8,7 +8,7 @@ import withPropsOnChange from 'recompose/withPropsOnChange';
 import ptInBounds from './utils/ptInBounds';
 import GoogleMapReact from '../src';
 import SimpleMarker from './markers/SimpleMarker';
-
+import { createSelector } from 'reselect';
 import { susolvkaCoords, generateMarkers } from './data/fakeData';
 
 export const gMap = ({
@@ -60,8 +60,10 @@ export const gMapHOC = compose(
   withStateSelector(
     'markers',
     'setMarkers',
-    ({ route: { markersCount = 20 } }) => markersCount,
-    (markersCount) => generateMarkers(markersCount)
+    () => createSelector(
+      ({ route: { markersCount = 20 } }) => markersCount,
+      (markersCount) => generateMarkers(markersCount)
+    )
   ),
   withState('hoveredMarkerId', 'setHoveredMarkerId', -1),
   withState('mapParams', 'setMapParams', { center: susolvkaCoords, zoom: 10 }),
