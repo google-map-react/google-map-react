@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
+import { Link } from 'react-router';
 import defaultProps from 'recompose/defaultProps';
 import layoutStyles from './Layout.sass';
-import GMap from './GMap';
 // for hmr to work I need the first class to extend Component
 export class Layout extends Component { // eslint-disable-line
   render() {
-    const { styles: { layout, header, main, footer, logo } } = this.props;
+    const { styles: { layout, header, main, footer, logo, links } } = this.props;
     return (
       <div className={layout}>
         <header className={header}>
-          <div>
-            Clustering example google-map-react (zoom, move to play with)
+          <div className={links}>
+            <Link to="/">Multi Markers</Link>
+            <Link to="/hoveroptim">Hover optim</Link>
           </div>
           <div>
             <a href="https://github.com/istarkov/google-map-clustering-example">
@@ -20,7 +21,7 @@ export class Layout extends Component { // eslint-disable-line
           </div>
         </header>
         <main className={main}>
-          <GMap />
+          {this.props.children}
         </main>
         <footer className={footer}>
           <div>

@@ -1,13 +1,15 @@
 import React from 'react';
 import compose from 'recompose/compose';
 import defaultProps from 'recompose/defaultProps';
-import withState from 'recompose/withState';
+import withStateSelector from './utils/withStateSelector';
 import withHandlers from 'recompose/withHandlers';
-// import withPropsOnChange from 'recompose/withPropsOnChange';
+import withState from 'recompose/withState';
+import withPropsOnChange from 'recompose/withPropsOnChange';
+import ptInBounds from './utils/ptInBounds';
 import GoogleMapReact from '../src';
 import SimpleMarker from './markers/SimpleMarker';
 
-import { susolvkaCoords, markersData } from './data/fakeData';
+import { susolvkaCoords, generateMarkers } from './data/fakeData';
 
 export const gMap = ({
   style, hoverDistance, options,
@@ -53,8 +55,14 @@ export const gMapHOC = compose(
       flex: 1,
     },
   }),
+
   // withState so you could change markers if you want
-  withState('markers', 'setMarkers', markersData),
+  withStateSelector(
+    'markers',
+    'setMarkers',
+    ({ route: { markersCount = 20 } }) => markersCount,
+    (markersCount) => generateMarkers(markersCount)
+  ),
   withState('hoveredMarkerId', 'setHoveredMarkerId', -1),
   withState('mapParams', 'setMapParams', { center: susolvkaCoords, zoom: 10 }),
   // describe events
@@ -69,6 +77,14 @@ export const gMapHOC = compose(
       setHoveredMarkerId(-1);
     },
   }),
+  withPropsOnChange(
+    ['markers', 'mapParams'],
+    ({ markers, mapParams: { bounds } }) => ({
+      markers: bounds
+        ? markers.filter(m => ptInBounds(bounds, m))
+        : [],
+    })
+  )
 );
 
 export default gMapHOC(gMap);
