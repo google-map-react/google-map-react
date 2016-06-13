@@ -4,7 +4,7 @@ import defaultProps from 'recompose/defaultProps';
 import layoutStyles from './Layout.sass';
 import GMap from './GMap';
 // for hmr to work I need the first class to extend Component
-export class Layout extends Component {
+export class Layout extends Component { // eslint-disable-line
   render() {
     const { styles: { layout, header, main, footer, logo } } = this.props;
     return (
