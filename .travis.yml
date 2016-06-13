@@ -1,6 +1,9 @@
 language: node_js
 node_js:
-  - "iojs-2"
+- stable
+cache:
+  directories:
+  - node_modules
 script:
   - npm run lint
   - npm test
