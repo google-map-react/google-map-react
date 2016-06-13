@@ -1,11 +1,10 @@
 import './utils/jsdomInit.js';
 
-const React = require('react');
-const { PropTypes, Component } = React;
-const expect = require('expect');
+import React, { PropTypes, Component } from 'react';
+import expect from 'expect';
 
-const TestUtils = require('react-addons-test-utils');
-const GoogleMap = require('../../src/index');
+import TestUtils from 'react-addons-test-utils';
+import GoogleMap from '../../src/google_map';
 
 describe('Components', () => {
   it('Should work', () => {
@@ -31,10 +30,6 @@ describe('Components', () => {
         zoom: 9,
       };
 
-      constructor(props) {
-        super(props);
-      }
-
       render() {
         return (
            <GoogleMap
@@ -46,6 +41,8 @@ describe('Components', () => {
         );
       }
     }
+
+    // console.log('GoogleMap', GoogleMap);
 
     const mapHolder = TestUtils.renderIntoDocument(
       <MapHolder />
