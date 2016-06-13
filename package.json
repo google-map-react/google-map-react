@@ -47,6 +47,7 @@
     "scriptjs": "^2.5.7"
   },
   "devDependencies": {
+    "autoprefixer": "^6.3.6",
     "babel-cli": "^6.10.1",
     "babel-core": "^6.9.1",
     "babel-eslint": "^6.0.4",

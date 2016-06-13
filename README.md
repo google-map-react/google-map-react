@@ -123,6 +123,7 @@ To get a reloadable env, with map, clone this project and
 ```shell
 npm install
 npm run start
+# open browser at localhost:4000
 ```
 
 ## GoogleMap API
