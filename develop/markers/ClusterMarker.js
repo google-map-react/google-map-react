@@ -7,7 +7,7 @@ import { Motion, spring } from 'react-motion';
 import clusterMarkerStyles from './ClusterMarker.sass';
 
 export const clusterMarker = ({
-  styles, text,
+  styles, text, hovered,
   defaultMotionStyle, motionStyle,
 }) => (
   <Motion
@@ -20,6 +20,7 @@ export const clusterMarker = ({
         className={styles.marker}
         style={{
           transform: `translate3D(0,0,0) scale(${scale}, ${scale})`,
+          zIndex: hovered ? 1 : 0,
         }}
       >
         <div
