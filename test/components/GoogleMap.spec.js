@@ -1,3 +1,4 @@
+/* eslint-disable */
 import './utils/jsdomInit.js';
 
 import React, { PropTypes, Component } from 'react';

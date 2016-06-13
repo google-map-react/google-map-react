@@ -1,27 +1,38 @@
 [ignore]
-.*/node_modules/fbjs/.*
-.*/node_modules/babel-types/.*
-.*/node_modules/babel-traverse/.*
-.*/node_modules/babylon/.*
-.*/node_modules/babel-generator/.*
-.*/node_modules/babel-core/lib/.*
-.*/node_modules/babel-helper.*
+.*/coverage/.*
+.*/scripts/.*
+.*/node_modules/flow-bin/.*
+# .*/node_modules/fbjs/.*
+.*/node_modules/fbjs/lib/Deferred.js.flow
+.*/node_modules/.*/flow-bin.*/.*
+.*/node_modules/.*/fbjs.*/.*
+.*/node_modules/.*/broken.json
+.*/node_modules/fixed-data-table/*
+.*/node_modules/.*/fixtures/package.json
+# .*/node_modules/.*/*.json
+.*/node_modules/react-motion.*/*.js
+.*/build/**/*.json
+
+[libs]
+./flowtypes
 
 [include]
 
-[libs]
-src/typedefs
-
 [options]
+module.system=haste
+esproposal.class_static_fields=enable
+esproposal.class_instance_fields=enable
+esproposal.decorators=ignore
+suppress_comment=.*\\$FlowIssue
+module.system.node.resolve_dirname=node_modules
+module.system.node.resolve_dirname=src
+module.system.node.resolve_dirname=app
+munge_underscores=true
+
 suppress_type=$FlowIssue
 suppress_type=$FlowFixMe
 suppress_type=$FixMe
 
-suppress_comment=\\(.\\|\n\\)*\\$FlowFixMe\\($\\|[^(]\\|(\\(>=0\\.\\(1[0-6]\\|[0-9]\\).[0-9]\\)? *\\(site=[a-z,_]*www[a-z,_]*\\)?)\\)
-suppress_comment=\\(.\\|\n\\)*\\$FlowIssue\\((\\(>=0\\.\\(1[0-6]\\|[0-9]\\).[0-9]\\)? *\\(site=[a-z,_]*www[a-z,_]*\\)?)\\)? #[0-9]+
+suppress_comment=\\(.\\|\n\\)*\\$FlowFixMe\\($\\|[^(]\\|(\\(>=0\\.\\(2[0-0]\\|1[0-9]\\|[0-9]\\).[0-9]\\)? *\\(site=[a-z,_]*react_native[a-z,_]*\\)?)\\)
+suppress_comment=\\(.\\|\n\\)*\\$FlowIssue\\((\\(>=0\\.\\(2[0-0]\\|1[0-9]\\|[0-9]\\).[0-9]\\)? *\\(site=[a-z,_]*react_native[a-z,_]*\\)?)\\)?:? #[0-9]+
 suppress_comment=\\(.\\|\n\\)*\\$FlowFixedInNextDeploy
-
-esproposal.class_instance_fields=ignore
-esproposal.class_static_fields=ignore
-module.name_mapper='react-babel-playground' -> '../src/playground'
-munge_underscores=true
