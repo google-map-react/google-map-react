@@ -1,7 +1,6 @@
 // Example to test the React Reconciler. This example
 // is 100x faster in development mode,
-// but I see no difference with NODE_ENV==='production'
-// so the simple example with same params at ./GMap.js works with the same speed.
+// and 1.5-2x faster with NODE_ENV==='production'
 
 // The idea was to not draw map children on hovers, but subscribe inside children on hover change
 // see ./markers/ReactiveMarker source
