@@ -228,10 +228,14 @@ export default class GoogleMap extends Component {
 
     if (this.map_) {
       const centerLatLng = this.geoService_.getCenter();
-      if (nextProps.center) {
+      if (this._isCenterDefined(nextProps.center)) {
         const nextPropsCenter = latLng2Obj(nextProps.center);
-        const currCenter = latLng2Obj(this.props.center);
+        const currCenter = this._isCenterDefined(this.props.center) ?
+          latLng2Obj(this.props.center) :
+          null;
+
         if (
+          !currCenter ||
           Math.abs(nextPropsCenter.lat - currCenter.lat) +
           Math.abs(nextPropsCenter.lng - currCenter.lng) > kEPS
         ) {
