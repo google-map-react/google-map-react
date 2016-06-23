@@ -5,8 +5,8 @@
   "main": "lib/index",
   "scripts": {
     "build:lib": "babel ./src -d lib",
-    "build:umd": "webpack src/index.js dist/GoogleMapReact.js --config webpack.config.dev.js",
-    "build:umd:min": "webpack src/index.js dist/GoogleMapReact.min.js --config webpack.config.prod.js",
+    "build:umd": "webpack src/index_umd.js dist/GoogleMapReact.js --config webpack.config.dev.js",
+    "build:umd:min": "webpack src/index_umd.js dist/GoogleMapReact.min.js --config webpack.config.prod.js",
     "build": "npm run build:lib && npm run build:umd && npm run build:umd:min",
     "clean": "rimraf lib dist",
     "prepublish": "npm run clean && npm run build",

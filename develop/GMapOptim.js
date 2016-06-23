@@ -12,6 +12,7 @@ import withStateSelector from './utils/withStateSelector';
 import withHandlers from 'recompose/withHandlers';
 import withState from 'recompose/withState';
 import withPropsOnChange from 'recompose/withPropsOnChange';
+import withProps from 'recompose/withProps';
 import ptInBounds from './utils/ptInBounds';
 import GoogleMapReact from '../src';
 // import SimpleMarker from './markers/SimpleMarker';
@@ -24,7 +25,7 @@ export const gMap = ({
   style, hoverDistance, options,
   mapParams: { center, zoom },
   onChange, onChildMouseEnter, onChildMouseLeave,
-  markers,
+  markers, draggable,
 }) => (
   <GoogleMapReact
     style={style}
@@ -35,6 +36,7 @@ export const gMap = ({
     onChange={onChange}
     onChildMouseEnter={onChildMouseEnter}
     onChildMouseLeave={onChildMouseLeave}
+    draggable={draggable}
     experimental
   >
     {markers}
@@ -88,6 +90,9 @@ export const gMapHOC = compose(
         : [],
     })
   ),
+  withProps(({ hoveredMarkerId }) => ({
+    draggable: hoveredMarkerId === -1,
+  })),
   props2Stream('hoveredMarkerId'),
   withPropsOnChange(
     ['markers', 'hoveredMarkerId$'],
