@@ -4,6 +4,7 @@ import defaultProps from 'recompose/defaultProps';
 import withStateSelector from './utils/withStateSelector';
 import withHandlers from 'recompose/withHandlers';
 import withState from 'recompose/withState';
+import withProps from 'recompose/withProps';
 import withPropsOnChange from 'recompose/withPropsOnChange';
 import ptInBounds from './utils/ptInBounds';
 import GoogleMapReact from '../src';
@@ -15,9 +16,10 @@ export const gMap = ({
   style, hoverDistance, options,
   mapParams: { center, zoom },
   onChange, onChildMouseEnter, onChildMouseLeave,
-  markers, // hoveredMarkerId,
+  markers, draggable, // hoveredMarkerId,
 }) => (
   <GoogleMapReact
+    draggable={draggable}
     style={style}
     options={options}
     hoverDistance={hoverDistance}
@@ -80,6 +82,9 @@ export const gMapHOC = compose(
         : [],
     })
   ),
+  withProps(({ hoveredMarkerId }) => ({
+    draggable: hoveredMarkerId === -1,
+  })),
   withPropsOnChange(
     ['markers'],
     ({ markers }) => ({
