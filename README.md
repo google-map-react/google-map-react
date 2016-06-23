@@ -111,7 +111,7 @@ export default class SimpleMapPage extends Component {
 [google-map-react-examples](https://github.com/istarkov/google-map-react-examples)
 
 * jsbin example
-[jsbin example](https://jsbin.com/kumalejahe/edit?js,console,output)
+[jsbin example](https://jsbin.com/roqutisoqu/1/edit?js,console,output)
 
 * local develop example (new)
 [develop example](./develop)
