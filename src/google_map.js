@@ -725,6 +725,8 @@ export default class GoogleMap extends Component {
 
   _onMapClick = (event) => {
     if (this.markersDispatcher_) {
+      // support touch events and recalculate mouse position on click
+      this._onMapMouseMove(event);
       const currTime = (new Date()).getTime();
       if (currTime - this.dragTime_ > K_IDLE_TIMEOUT) {
         if (this.mouse_) {
