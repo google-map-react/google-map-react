@@ -628,8 +628,8 @@ export default class GoogleMap extends Component {
   }
 
   _onChildMouseDown = (hoverKey, childProps) => {
+    this.childMouseDownArgs_ = [hoverKey, childProps];
     if (this.props.onChildMouseDown) {
-      this.childMouseDownArgs_ = [hoverKey, childProps];
       this.props.onChildMouseDown(hoverKey, childProps, { ...this.mouse_ });
     }
   }
