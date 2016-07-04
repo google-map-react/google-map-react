@@ -308,7 +308,7 @@ const size = {
   height: 380, // Map height in pixels
 };
 
-const {center, zoom} = fitBounds({nw, se}, size);
+const {center, zoom} = fitBounds(bounds, size);
 ```
 
 #### tile2LatLng (func)
