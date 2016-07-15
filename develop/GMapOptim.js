@@ -24,7 +24,7 @@ import props2Stream from './utils/props2Stream';
 export const gMap = ({
   style, hoverDistance, options,
   mapParams: { center, zoom },
-  onChange, onChildMouseEnter, onChildMouseLeave,
+  onChange, onChildMouseEnter, onChildMouseLeave, hijackScroll,
   markers, draggable,
 }) => (
   <GoogleMapReact
@@ -37,6 +37,7 @@ export const gMap = ({
     onChildMouseEnter={onChildMouseEnter}
     onChildMouseLeave={onChildMouseLeave}
     draggable={draggable}
+    hijackScroll={hijackScroll}
     experimental
   >
     {markers}
@@ -80,6 +81,13 @@ export const gMapHOC = compose(
     },
     onChildMouseLeave: ({ setHoveredMarkerId }) => () => {
       setHoveredMarkerId(-1);
+    },
+    hijackScroll: () => (event, currentZoom, originalSetZoom) => {
+      const maxZoom = 20;
+      const minZoom = 1;
+      const scrollDelta = (event.wheelDelta > 0 || event.detail < 0) ? 1 : -1;
+      const newZoom = Math.max(minZoom, Math.min(maxZoom, currentZoom + scrollDelta));
+      originalSetZoom(newZoom);
     },
   }),
   withPropsOnChange(

@@ -78,6 +78,7 @@ export default class GoogleMap extends Component {
     onChildMouseLeave: PropTypes.func,
     onZoomAnimationStart: PropTypes.func,
     onZoomAnimationEnd: PropTypes.func,
+    hijackZoom: PropTypes.func,
     onDrag: PropTypes.func,
     options: PropTypes.any,
     distanceToMouse: PropTypes.func,
@@ -331,6 +332,11 @@ export default class GoogleMap extends Component {
     return this._getMinZoom();
   }
 
+  _originalSetZoom = (zoom) => {
+    this.zoomControlClickTime_ = (new Date()).getTime();
+    this.map_.setZoom(zoom);
+  }
+
   _initMap = () => {
     // only initialize the map once
     if (this.initialized_) {
@@ -377,6 +383,9 @@ export default class GoogleMap extends Component {
         ? this.props.options(mapPlainObjects)
         : this.props.options;
       const defaultOptions = defaultOptions_(mapPlainObjects);
+      const hijackZoomOption = typeof this.props.hijackScroll === 'function'
+        ? { scrollwheel: false }
+        : {};
 
       const draggableOptions = this.props.draggable !== undefined &&
         { draggable: this.props.draggable };
@@ -387,6 +396,7 @@ export default class GoogleMap extends Component {
       const preMapOptions = {
         ...defaultOptions,
         minZoom,
+        ...hijackZoomOption,
         ...options,
         ...propsOptions,
       };
@@ -419,6 +429,15 @@ export default class GoogleMap extends Component {
 
       // render in overlay
       const this_ = this;
+
+      if (this.props.hijackScroll) {
+        const hijackScroll = (event) => {
+          this.props.hijackScroll(event, map.getZoom(), this._originalSetZoom);
+        };
+        maps.event.addDomListener(map.getDiv(), 'DOMMouseScroll', hijackScroll);
+        maps.event.addDomListener(map.getDiv(), 'mousewheel', hijackScroll);
+      }
+
       const overlay = this.overlay_ = Object.assign(new maps.OverlayView(), {
         onAdd() {
           const K_MAX_WIDTH = (typeof screen !== 'undefined') ? `${screen.width}px` : '2000px';

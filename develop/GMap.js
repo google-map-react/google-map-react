@@ -15,7 +15,7 @@ import { susolvkaCoords, generateMarkers } from './data/fakeData';
 export const gMap = ({
   style, hoverDistance, options,
   mapParams: { center, zoom },
-  onChange, onChildMouseEnter, onChildMouseLeave,
+  onChange, onChildMouseEnter, onChildMouseLeave, hijackScroll,
   markers, draggable, // hoveredMarkerId,
 }) => (
   <GoogleMapReact
@@ -26,6 +26,7 @@ export const gMap = ({
     center={center}
     zoom={zoom}
     onChange={onChange}
+    hijackScroll={hijackScroll}
     onChildMouseEnter={onChildMouseEnter}
     onChildMouseLeave={onChildMouseLeave}
   >
@@ -72,6 +73,13 @@ export const gMapHOC = compose(
     },
     onChildMouseLeave: ({ setHoveredMarkerId }) => () => {
       setHoveredMarkerId(-1);
+    },
+    hijackScroll: () => (event, currentZoom, originalSetZoom) => {
+      const maxZoom = 20;
+      const minZoom = 1;
+      const scrollDelta = (event.wheelDelta > 0 || event.detail < 0) ? 1 : -1;
+      const newZoom = Math.max(minZoom, Math.min(maxZoom, currentZoom + scrollDelta));
+      originalSetZoom(newZoom);
     },
   }),
   withPropsOnChange(
