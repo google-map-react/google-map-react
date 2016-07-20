@@ -14,8 +14,8 @@ const mountNode = document.getElementById('app');
 render(
   <Router history={browserHistory}>
     <Route path="/" component={Layout}>
-      <Route markersCount={500} path="hoverunoptim" component={GMap} />
-      <Route markersCount={500} path="hoveroptim" component={GMapOptim} />
+      <Route markersCount={50} path="hoverunoptim" component={GMap} />
+      <Route markersCount={50} path="hoveroptim" component={GMapOptim} />
       <IndexRoute markersCount={20} component={GMap} />
     </Route>
   </Router>

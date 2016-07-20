@@ -436,8 +436,8 @@ export default class GoogleMap extends Component {
           const panes = this.getPanes();
           panes.overlayMouseTarget.appendChild(div);
 
-          ReactDOM.render(
-            (
+          ReactDOM.unstable_renderSubtreeIntoContainer(
+            this_,
             <GoogleMapMarkers
               experimental={this_.props.experimental}
               onChildClick={this_._onChildClick}
@@ -449,8 +449,7 @@ export default class GoogleMap extends Component {
               distanceToMouse={this_.props.distanceToMouse}
               getHoverDistance={this_._getHoverDistance}
               dispatcher={this_.markersDispatcher_}
-            />
-            ),
+            />,
             div,
             // remove prerendered markers
             () => this_.setState({ overlayCreated: true }),

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import compose from 'recompose/compose';
 import defaultProps from 'recompose/defaultProps';
 import withStateSelector from './utils/withStateSelector';
 import withHandlers from 'recompose/withHandlers';
 import withState from 'recompose/withState';
+import withContext from 'recompose/withContext';
 import withProps from 'recompose/withProps';
 import withPropsOnChange from 'recompose/withPropsOnChange';
 import ptInBounds from './utils/ptInBounds';
@@ -50,7 +51,10 @@ export const gMapHOC = compose(
       flex: 1,
     },
   }),
-
+  withContext(
+    { hello: PropTypes.string },
+    () => ({ hello: 'world' })
+  ),
   // withState so you could change markers if you want
   withStateSelector(
     'markers',
