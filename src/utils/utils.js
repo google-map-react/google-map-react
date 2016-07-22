@@ -97,12 +97,12 @@ const exports = {
 
     const newNW = world2LatLng({
       x: middle.x - halfW,
-      y: middle.y - halfH
+      y: middle.y - halfH,
     });
 
     const newSE = world2LatLng({
       x: middle.x + halfW,
-      y: middle.y + halfH
+      y: middle.y + halfH,
     });
 
     return {
@@ -110,8 +110,8 @@ const exports = {
       zoom,
       newBounds: {
         nw: newNW,
-        se: newSE
-      }
+        se: newSE,
+      },
     };
   },
 
