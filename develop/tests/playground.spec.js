@@ -10,7 +10,7 @@ describe('Playground', () => {
     const props$ = (new BehaviorSubject(1))
       .distinctUntilChanged(comparator);
 
-    props$.subscribe(v => console.log(v));
+    props$.subscribe(v => console.log(v)); // eslint-disable-line
     props$.next(1);
     props$.next(2);
     props$.next(1);

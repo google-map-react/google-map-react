@@ -91,9 +91,27 @@ const exports = {
       y: 0.5 * (nwWorld.y + seWorld.y),
     };
 
+    const scale = Math.pow(2, zoom);
+    const halfW = width / scale / GOOGLE_TILE_SIZE / 2;
+    const halfH = height / scale / GOOGLE_TILE_SIZE / 2;
+
+    const newNW = world2LatLng({
+      x: middle.x - halfW,
+      y: middle.y - halfH,
+    });
+
+    const newSE = world2LatLng({
+      x: middle.x + halfW,
+      y: middle.y + halfH,
+    });
+
     return {
       center: world2LatLng(middle),
       zoom,
+      newBounds: {
+        nw: newNW,
+        se: newSE,
+      },
     };
   },
 

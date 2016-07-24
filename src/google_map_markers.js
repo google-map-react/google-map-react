@@ -170,7 +170,7 @@ export default class GoogleMapMarkers extends Component {
     }
   }
 
-  _onMouseChangeHandler_raf = () => {
+  _onMouseChangeHandler_raf = () => { // eslint-disable-line
     if (!this.dimesionsCache_) {
       return;
     }
