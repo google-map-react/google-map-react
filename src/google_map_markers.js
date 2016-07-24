@@ -229,6 +229,7 @@ export default class GoogleMapMarkers extends Component {
     this.dimesionsCache_ = {};
 
     const markers = React.Children.map(this.state.children, (child, childIndex) => {
+      if (!child) return undefined;
       if (child.props.latLng === undefined &&
           child.props.lat === undefined &&
           child.props.lng === undefined) {
