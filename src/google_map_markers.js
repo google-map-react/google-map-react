@@ -182,6 +182,7 @@ export default class GoogleMapMarkers extends Component {
       const hoverDistance = this.props.getHoverDistance();
 
       React.Children.forEach(this.state.children, (child, childIndex) => {
+        if (!child) return;
         // layers
         if (child.props.latLng === undefined &&
             child.props.lat === undefined &&
