@@ -240,6 +240,9 @@ Example:
 
 #### googleMapLoader (func)
 
+#### hijackScroll(func)
+Allows you to takeover gmaps default scroll handler and manage scrolling over the map. Calls your function with the following arguments (scrollEvent, currentZoom, mapZoomFunction) where mapZoomFunction is map.setZoom(zoom) under the hood.
+
 #### onGoogleApiLoaded (func)
 Directly access the maps API - *use at your own risk!*
 
