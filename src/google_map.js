@@ -262,6 +262,23 @@ export default class GoogleMap extends Component {
         // also prevent this on window 'mousedown' event to prevent map move
         this.map_.setOptions({ draggable: nextProps.draggable });
       }
+
+      // use shallowEqual to try avoid calling map._setOptions if only the ref changes
+      if (nextProps.options !== undefined && !shallowEqual(this.props.options, nextProps.options)) {
+        const mapPlainObjects = pick(this.maps_, isPlainObject);
+        let options = typeof nextProps.options === 'function'
+          ? nextProps.options(mapPlainObjects)
+          : nextProps.options;
+        // remove zoom, center and draggable options as these are managed by google-maps-react
+        options = omit(nextProps.options, ['zoom', 'center', 'draggable']);
+
+        if (options.hasOwnProperty('minZoom')) {
+          const minZoom = this._computeMinZoom(options.minZoomOverride, options.minZoom);
+          options.minZoom = this._checkMinZoom(options.minZoom, minZoom);
+        }
+
+        this.map_.setOptions(options);
+      }
     }
   }
 
@@ -329,6 +346,22 @@ export default class GoogleMap extends Component {
       return minZoom || DEFAULT_MIN_ZOOM;
     }
     return this._getMinZoom();
+  }
+
+  _checkMinZoom(zoom, minZoom) {
+    if (process.env.NODE_ENV !== 'production') {
+      if (zoom < minZoom) {
+        console.warn( 'GoogleMap: ' + // eslint-disable-line
+                      'minZoom option is less than recommended ' +
+                      'minZoom option for your map sizes.\n' +
+                      'overrided to value ' + minZoom);
+      }
+    }
+
+    if (minZoom < zoom) {
+      return zoom;
+    }
+    return minZoom;
   }
 
   _initMap = () => {
@@ -400,18 +433,7 @@ export default class GoogleMap extends Component {
         ...draggableOptions,
       };
 
-      if (process.env.NODE_ENV !== 'production') {
-        if (mapOptions.minZoom < minZoom) {
-          console.warn( 'GoogleMap: ' + // eslint-disable-line
-                        'minZoom option is less than recommended ' +
-                        'minZoom option for your map sizes.\n' +
-                        'overrided to value ' + minZoom);
-        }
-      }
-
-      if (mapOptions.minZoom < minZoom) {
-        mapOptions.minZoom = minZoom;
-      }
+      mapOptions.minZoom = this._checkMinZoom(mapOptions.minZoom, minZoom);
 
       const map = new maps.Map(ReactDOM.findDOMNode(this.refs.google_map_dom), mapOptions);
       this.map_ = map;
