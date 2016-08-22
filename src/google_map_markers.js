@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react';
-import shallowEqual from './utils/shallowEqual';
+import shallowEqual from 'fbjs/lib/shallowEqual';
 import omit from './utils/omit';
 
 const mainStyle = {

@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import ReactDOM from 'react-dom';
 
-import shallowEqual from './utils/shallowEqual';
+import shallowEqual from 'fbjs/lib/shallowEqual';
 
 import MarkerDispatcher from './marker_dispatcher';
 

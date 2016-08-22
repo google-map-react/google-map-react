@@ -22,7 +22,7 @@ export class Layout extends Component { // eslint-disable-line
             </a>
           </div>
         </header>
-        <main className={main} id="main" ref="main">
+        <main className={main}>
           {this.props.children}
         </main>
         <footer className={footer}>
