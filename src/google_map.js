@@ -307,12 +307,13 @@ export default class GoogleMap extends Component {
 
   componentWillUnmount() {
     this.mounted_ = false;
-
+    const that = this;
+    const mapDom = ReactDOM.findDOMNode(this.refs.google_map_dom);
     window.removeEventListener('resize', this._onWindowResize);
     window.removeEventListener('keydown', this._onKeyDownCapture);
-    ReactDOM.findDOMNode(this.refs.google_map_dom)
-      .removeEventListener('mousedown', this._onMapMouseDownNative, true);
+    mapDom.removeEventListener('mousedown', this._onMapMouseDownNative, true);
     window.removeEventListener('mouseup', this._onChildMouseUp, false);
+    detectElementResize.addResizeListener(mapDom, that._mapDomResizeCallback);
 
     if (this.overlay_) {
       // this triggers overlay_.onRemove(), which will unmount the <GoogleMapMarkers/>
@@ -370,13 +371,10 @@ export default class GoogleMap extends Component {
   }
 
   _mapDomResizeCallback = () => {
-    this._setViewSize();
-    this._onBoundsChanged();
     this.resetSizeOnIdle_ = true;
-    setTimeout(() => {
-      this.initialized_ = false;
-      this._initMap();
-    }, 100, this);
+    if (this.maps_) {
+      this.maps_.event.trigger(this.map_, 'resize');
+    }
   }
 
   _initMap = () => {
