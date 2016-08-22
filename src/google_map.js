@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import ReactDOM from 'react-dom';
 
-import shallowEqual from 'fbjs/lib/shallowEqual';
+import shallowEqual from './utils/shallowEqual';
 
 import MarkerDispatcher from './marker_dispatcher';
 
@@ -22,6 +22,7 @@ import log2 from './utils/math/log2';
 
 import isNumber from './utils/isNumber';
 import omit from './utils/omit';
+import detectElementResize from './utils/detectElementResize';
 
 const kEPS = 0.00001;
 const K_GOOGLE_TILE_SIZE = 256;
@@ -89,6 +90,7 @@ export default class GoogleMap extends Component {
     yesIWantToUseGoogleMapApiInternals: PropTypes.bool,
     draggable: PropTypes.bool,
     style: PropTypes.any,
+    resetBoundsOnResize: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -184,7 +186,7 @@ export default class GoogleMap extends Component {
     this.mounted_ = true;
     window.addEventListener('resize', this._onWindowResize);
     window.addEventListener('keydown', this._onKeyDownCapture, true);
-
+    const mapDom = ReactDOM.findDOMNode(this.refs.google_map_dom);
     // gmap can't prevent map drag if mousedown event already occured
     // the only workaround I find is prevent mousedown native browser event
     ReactDOM.findDOMNode(this.refs.google_map_dom)
@@ -205,6 +207,10 @@ export default class GoogleMap extends Component {
         this._initMap();
       }
     }, 0, this);
+    if (this.props.resetBoundsOnResize) {
+      const that = this;
+      detectElementResize.addResizeListener(mapDom, that._mapDomResizeCallback);
+    }
   }
 
 
@@ -326,7 +332,6 @@ export default class GoogleMap extends Component {
     delete this.map_;
     delete this.markersDispatcher_;
   }
-
   // calc minZoom if map size available
   // it's better to not set minZoom less than this calculation gives
   // otherwise there is no homeomorphism between screen coordinates and map
@@ -362,6 +367,13 @@ export default class GoogleMap extends Component {
       return zoom;
     }
     return minZoom;
+  }
+
+  _mapDomResizeCallback = () => {
+    this._setViewSize();
+    this._onBoundsChanged();
+    this.resetSizeOnIdle_ = true;
+    setTimeout(() => this._initMap(), 100);
   }
 
   _initMap = () => {
@@ -886,7 +898,7 @@ export default class GoogleMap extends Component {
               [centerLatLng.lat, centerLatLng.lng], [gmC.lat(), gmC.lng()]);
           }
 
-          if (!isArraysEqualEps(bounds, [ne.lat(), sw.lng(), sw.lat(), ne.lng()], kEPS)) {
+          if (!isArraysEqualEps(bounds, [ne.lat(), sw.lng(), sw.lat(), ne.lng()], kEPS) && !this.props.resetBoundsOnResize) {
             // this is normal if this message occured on resize
             console.info('GoogleMap bounds not eq:', '\n',  // eslint-disable-line no-console
               bounds, '\n', [ne.lat(), sw.lng(), sw.lat(), ne.lng()]);
