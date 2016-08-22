@@ -5,7 +5,7 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import Layout from './Layout';
 import GMap from './GMap';
 import GMapOptim from './GMapOptim';
-import gMapResizable from './gMapResizable';
+import GMapResizable from './GMapResizable';
 
 import 'normalize.css/normalize.css';
 import './Main.sass';
@@ -17,7 +17,7 @@ render(
     <Route path="/" component={Layout}>
       <Route markersCount={50} path="hoverunoptim" component={GMap} />
       <Route markersCount={50} path="hoveroptim" component={GMapOptim} />
-      <Route markersCount={20} path="resizable" component={gMapResizable} />
+      <Route markersCount={20} path="resizable" component={GMapResizable} />
       <IndexRoute markersCount={20} component={GMap} />
     </Route>
   </Router>
