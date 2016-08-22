@@ -22,6 +22,7 @@ import log2 from './utils/math/log2';
 
 import isNumber from './utils/isNumber';
 import omit from './utils/omit';
+import detectElementResize from './utils/detectElementResize';
 
 const kEPS = 0.00001;
 const K_GOOGLE_TILE_SIZE = 256;
@@ -89,6 +90,7 @@ export default class GoogleMap extends Component {
     yesIWantToUseGoogleMapApiInternals: PropTypes.bool,
     draggable: PropTypes.bool,
     style: PropTypes.any,
+    resetBoundsOnResize: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -184,7 +186,7 @@ export default class GoogleMap extends Component {
     this.mounted_ = true;
     window.addEventListener('resize', this._onWindowResize);
     window.addEventListener('keydown', this._onKeyDownCapture, true);
-
+    const mapDom = ReactDOM.findDOMNode(this.refs.google_map_dom);
     // gmap can't prevent map drag if mousedown event already occured
     // the only workaround I find is prevent mousedown native browser event
     ReactDOM.findDOMNode(this.refs.google_map_dom)
@@ -205,6 +207,10 @@ export default class GoogleMap extends Component {
         this._initMap();
       }
     }, 0, this);
+    if (this.props.resetBoundsOnResize) {
+      const that = this;
+      detectElementResize.addResizeListener(mapDom, that._mapDomResizeCallback);
+    }
   }
 
 
@@ -301,12 +307,13 @@ export default class GoogleMap extends Component {
 
   componentWillUnmount() {
     this.mounted_ = false;
-
+    const that = this;
+    const mapDom = ReactDOM.findDOMNode(this.refs.google_map_dom);
     window.removeEventListener('resize', this._onWindowResize);
     window.removeEventListener('keydown', this._onKeyDownCapture);
-    ReactDOM.findDOMNode(this.refs.google_map_dom)
-      .removeEventListener('mousedown', this._onMapMouseDownNative, true);
+    mapDom.removeEventListener('mousedown', this._onMapMouseDownNative, true);
     window.removeEventListener('mouseup', this._onChildMouseUp, false);
+    detectElementResize.addResizeListener(mapDom, that._mapDomResizeCallback);
 
     if (this.overlay_) {
       // this triggers overlay_.onRemove(), which will unmount the <GoogleMapMarkers/>
@@ -326,7 +333,6 @@ export default class GoogleMap extends Component {
     delete this.map_;
     delete this.markersDispatcher_;
   }
-
   // calc minZoom if map size available
   // it's better to not set minZoom less than this calculation gives
   // otherwise there is no homeomorphism between screen coordinates and map
@@ -362,6 +368,13 @@ export default class GoogleMap extends Component {
       return zoom;
     }
     return minZoom;
+  }
+
+  _mapDomResizeCallback = () => {
+    this.resetSizeOnIdle_ = true;
+    if (this.maps_) {
+      this.maps_.event.trigger(this.map_, 'resize');
+    }
   }
 
   _initMap = () => {
@@ -886,7 +899,9 @@ export default class GoogleMap extends Component {
               [centerLatLng.lat, centerLatLng.lng], [gmC.lat(), gmC.lng()]);
           }
 
-          if (!isArraysEqualEps(bounds, [ne.lat(), sw.lng(), sw.lat(), ne.lng()], kEPS)) {
+          if (!isArraysEqualEps(bounds, // eslint-disable-line
+              [ne.lat(), sw.lng(), sw.lat(), ne.lng()], kEPS // eslint-disable-line no-console
+              ) && !this.props.resetBoundsOnResize) { // eslint-disable-line no-console
             // this is normal if this message occured on resize
             console.info('GoogleMap bounds not eq:', '\n',  // eslint-disable-line no-console
               bounds, '\n', [ne.lat(), sw.lng(), sw.lat(), ne.lng()]);

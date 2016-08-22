@@ -14,6 +14,7 @@ export class Layout extends Component { // eslint-disable-line
             <Link to="/">Multi Markers</Link>
             <Link to="/hoverunoptim">Hover unoptim</Link>
             <Link to="/hoveroptim">Hover optim</Link>
+            <Link to="/resizable">Resizable Map</Link>
           </div>
           <div>
             <a href="https://github.com/istarkov/google-map-clustering-example">
