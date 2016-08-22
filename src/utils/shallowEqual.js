@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.

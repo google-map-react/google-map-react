@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
 * Detect Element Resize.
 * Forked in order to guard against unsafe 'window' and 'document' references.
