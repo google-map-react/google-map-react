@@ -791,6 +791,9 @@ export default class GoogleMap extends Component {
     if (this.markersDispatcher_) {
       const currTime = (new Date()).getTime();
       if (currTime - this.dragTime_ > K_IDLE_TIMEOUT) {
+        // Hovered marker detected at mouse move could be deleted at mouse down time
+        // so it will be good to force hovered marker recalculation
+        this._onMapMouseMove(event);
         this.markersDispatcher_.emit('kON_MDOWN', event);
       }
     }
