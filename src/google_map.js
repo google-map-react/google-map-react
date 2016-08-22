@@ -901,8 +901,9 @@ export default class GoogleMap extends Component {
               [centerLatLng.lat, centerLatLng.lng], [gmC.lat(), gmC.lng()]);
           }
 
-          if (!isArraysEqualEps(bounds, [ne.lat(), sw.lng(), sw.lat(), ne.lng()], kEPS) && // eslint-disable-line no-console
-            !this.props.resetBoundsOnResize) { // eslint-disable-line no-console
+          if (!isArraysEqualEps(bounds, // eslint-disable-line
+              [ne.lat(), sw.lng(), sw.lat(), ne.lng()], kEPS
+              ) && !this.props.resetBoundsOnResize) { 
             // this is normal if this message occured on resize
             console.info('GoogleMap bounds not eq:', '\n',  // eslint-disable-line no-console
               bounds, '\n', [ne.lat(), sw.lng(), sw.lat(), ne.lng()]);
