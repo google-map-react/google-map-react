@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { PropTypes } from 'react';
 import compose from 'recompose/compose';
 import defaultProps from 'recompose/defaultProps';
@@ -18,7 +19,7 @@ export const gMapResizable = ({
   mapParams: { center, zoom },
   onChange, onChildMouseEnter, onChildMouseLeave,
   markers, draggable, // hoveredMarkerId,
-}) => ( /* eslint-disable */
+}) => (
   <GoogleMapReact
     draggable={draggable}
     style={style}
@@ -28,8 +29,8 @@ export const gMapResizable = ({
     zoom={zoom}
     onChange={onChange}
     onChildMouseEnter={onChildMouseEnter}
-    onChildMouseLeave={onChildMouseLeave} /* eslint-disable */
-    resetBoundsOnResize={true} /* eslint-disable */
+    onChildMouseLeave={onChildMouseLeave}
+    resetBoundsOnResize={true}
     apiKey={"AIzaSyC-BebC7ChnHPzxQm7DAHYFMCqR5H3Jlps"}
   >
     {
