@@ -18,7 +18,7 @@ export const gMapResizable = ({
   mapParams: { center, zoom },
   onChange, onChildMouseEnter, onChildMouseLeave,
   markers, draggable, // hoveredMarkerId,
-}) => (
+}) => ( /* eslint-disable */
   <GoogleMapReact
     draggable={draggable}
     style={style}
@@ -28,8 +28,8 @@ export const gMapResizable = ({
     zoom={zoom}
     onChange={onChange}
     onChildMouseEnter={onChildMouseEnter}
-    onChildMouseLeave={onChildMouseLeave}
-    resetBoundsOnResize={true}
+    onChildMouseLeave={onChildMouseLeave} /* eslint-disable */
+    resetBoundsOnResize={true} /* eslint-disable */
     apiKey={"AIzaSyC-BebC7ChnHPzxQm7DAHYFMCqR5H3Jlps"}
   >
     {

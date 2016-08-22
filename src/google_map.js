@@ -373,7 +373,10 @@ export default class GoogleMap extends Component {
     this._setViewSize();
     this._onBoundsChanged();
     this.resetSizeOnIdle_ = true;
-    setTimeout(() => this._initMap(), 100);
+    setTimeout(() => {
+      this.initialized_ = false;
+      this._initMap()
+    }, 100, this);
   }
 
   _initMap = () => {
@@ -898,7 +901,8 @@ export default class GoogleMap extends Component {
               [centerLatLng.lat, centerLatLng.lng], [gmC.lat(), gmC.lng()]);
           }
 
-          if (!isArraysEqualEps(bounds, [ne.lat(), sw.lng(), sw.lat(), ne.lng()], kEPS) && !this.props.resetBoundsOnResize) {
+          if (!isArraysEqualEps(bounds, [ne.lat(), sw.lng(), sw.lat(), ne.lng()], kEPS) && 
+            !this.props.resetBoundsOnResize) {
             // this is normal if this message occured on resize
             console.info('GoogleMap bounds not eq:', '\n',  // eslint-disable-line no-console
               bounds, '\n', [ne.lat(), sw.lng(), sw.lat(), ne.lng()]);
