@@ -22,7 +22,7 @@ if (typeof window !== 'undefined') {
 var attachEvent = typeof document !== 'undefined' && document.attachEvent;
 var stylesCreated = false;
 
-if (!attachEvent) {
+if (typeof window !== 'undefined' && !attachEvent) {
   var requestFrame = (function(){
     var raf = _window.requestAnimationFrame || _window.mozRequestAnimationFrame || _window.webkitRequestAnimationFrame ||
               function(fn){ return _window.setTimeout(fn, 20); };
