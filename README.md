@@ -33,7 +33,7 @@ This algorithm allows you to tweak hover probability of map objects, for example
 ## Known Issues
 
 * Small icons jiggle on Firefox (I don't see this in my older 'GoogleMap' version, so I will find the problem soon)
-
+* Older browsers (http://caniuse.com/#feat=promises) will need a ES6 Promise polyfill in order to work.
 
 ## Installation
 
