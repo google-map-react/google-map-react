@@ -820,7 +820,12 @@ export default class GoogleMap extends Component {
   }
 
   _onTouchMove = (event) => {
-    event.preventDefault();
+    if (this.refs.google_map_dom) {
+      const mapDom = ReactDOM.findDOMNode(this.refs.google_map_dom);
+      if (mapDom.contains(event.target)) {
+        event.preventDefault();
+      }
+    }
   }
 
   _isCenterDefined = (center) => center && (
