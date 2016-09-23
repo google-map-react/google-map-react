@@ -9,9 +9,15 @@
 * version: 0.5.3
 **/
 
+// Reliable `window` and `document` detection
+var canUseDOM = !!(
+    (typeof window !== 'undefined' &&
+    window.document && window.document.createElement)
+);
+
 // Check `document` and `window` in case of server-side rendering
 var _window
-if (typeof window !== 'undefined') {
+if (canUseDOM) {
   _window = window
 } else if (typeof self !== 'undefined') {
   _window = self
@@ -22,7 +28,7 @@ if (typeof window !== 'undefined') {
 var attachEvent = typeof document !== 'undefined' && document.attachEvent;
 var stylesCreated = false;
 
-if (typeof window !== 'undefined' && !attachEvent) {
+if (canUseDOM && !attachEvent) {
   var requestFrame = (function(){
     var raf = _window.requestAnimationFrame || _window.mozRequestAnimationFrame || _window.webkitRequestAnimationFrame ||
               function(fn){ return _window.setTimeout(fn, 20); };
@@ -76,7 +82,8 @@ if (typeof window !== 'undefined' && !attachEvent) {
     domPrefixes = 'Webkit Moz O ms'.split(' '),
     startEvents = 'webkitAnimationStart animationstart oAnimationStart MSAnimationStart'.split(' '),
     pfx  = '';
-  {
+
+  if(canUseDOM) {
     var elm = document.createElement('fakeelement');
     if( elm.style.animationName !== undefined ) { animation = true; }
 
