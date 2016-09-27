@@ -786,10 +786,6 @@ export default class GoogleMap extends Component {
     if (!this.mouseInMap_) return;
 
     this._onMapMouseDown(event);
-    if (this.props.draggable === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
   }
 
   _onMapMouseDown = (event) => {
