@@ -3,12 +3,13 @@ let $script_ = null;
 let loadPromise_;
 
 let resolveCustomPromise_;
-const _customPromise = new Promise(resolve => {
-  resolveCustomPromise_ = resolve;
-});
 
 // TODO add libraries language and other map options
 export default function googleMapLoader(bootstrapURLKeys) {
+  const _customPromise = new Promise(resolve => {
+    resolveCustomPromise_ = resolve;
+  });
+
   if (!$script_) {
     $script_ = require('scriptjs'); // eslint-disable-line
   }
