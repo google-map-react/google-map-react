@@ -894,33 +894,6 @@ export default class GoogleMap extends Component {
           this.prevBounds_ = bounds;
         }
       }
-      // uncomment for strange bugs
-      if (process.env.NODE_ENV !== 'production') { // compare with google calculations
-        if (map) {
-          const locBounds = map.getBounds();
-          const ne = locBounds.getNorthEast();
-          const sw = locBounds.getSouthWest();
-
-          const gmC = map.getCenter();
-          // compare with google map
-
-          if (!isArraysEqualEps(
-              [centerLatLng.lat, centerLatLng.lng],
-              [gmC.lat(), gmC.lng()], kEPS
-              )) {
-            console.info('GoogleMap center not eq:',  // eslint-disable-line no-console
-              [centerLatLng.lat, centerLatLng.lng], [gmC.lat(), gmC.lng()]);
-          }
-
-          if (!isArraysEqualEps(bounds, // eslint-disable-line
-              [ne.lat(), sw.lng(), sw.lat(), ne.lng()], kEPS // eslint-disable-line no-console
-              ) && !this.props.resetBoundsOnResize) { // eslint-disable-line no-console
-            // this is normal if this message occured on resize
-            console.info('GoogleMap bounds not eq:', '\n',  // eslint-disable-line no-console
-              bounds, '\n', [ne.lat(), sw.lng(), sw.lat(), ne.lng()]);
-          }
-        }
-      }
     }
   }
 
