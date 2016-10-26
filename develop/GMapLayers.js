@@ -11,7 +11,7 @@ import ptInBounds from './utils/ptInBounds';
 import GoogleMapReact from '../src';
 import SimpleMarker from './markers/SimpleMarker';
 import { createSelector } from 'reselect';
-import { susolvkaCoords, generateMarkers } from './data/fakeData';
+import { londonCoords, generateMarkers } from './data/fakeData';
 
 export const gMap = ({
   style, hoverDistance, options,
@@ -24,11 +24,8 @@ export const gMap = ({
     style={style}
     options={options}
     hoverDistance={hoverDistance}
-    center={{
-      lat: 51.508411,
-      lng: -0.125364,
-    }}
-    zoom={9}
+    center={center}
+    zoom={zoom}
     layerTypes={['TrafficLayer', 'TransitLayer']}
     onChange={onChange}
     onChildMouseEnter={onChildMouseEnter}
@@ -69,7 +66,7 @@ export const gMapHOC = compose(
     )
   ),
   withState('hoveredMarkerId', 'setHoveredMarkerId', -1),
-  withState('mapParams', 'setMapParams', { center: susolvkaCoords, zoom: 6 }),
+  withState('mapParams', 'setMapParams', { center: londonCoords, zoom: 9 }),
   // describe events
   withHandlers({
     onChange: ({ setMapParams }) => ({ center, zoom, bounds }) => {

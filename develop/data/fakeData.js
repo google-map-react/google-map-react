@@ -1,5 +1,6 @@
 export const susolvkaCoords = { lat: 60.814305, lng: 47.051773 };
 
+export const londonCoords = { lat: 51.508411, lng: -0.125364 };
 
 export const generateMarkers = (count) =>
   [...Array(count)].fill(0) // fill(0) for loose mode

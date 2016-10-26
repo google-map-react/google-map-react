@@ -458,13 +458,8 @@ export default class GoogleMap extends Component {
       const map = new maps.Map(ReactDOM.findDOMNode(this.refs.google_map_dom), mapOptions);
 
       this.props.layerTypes.forEach((layerType) => {
-
         const layer = new maps[layerType]();
-
         layer.setMap(map);
-
-        console.log(layer, '!!!!', layerType);
-
       });
 
       this.map_ = map;
