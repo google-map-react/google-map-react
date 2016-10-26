@@ -12,6 +12,7 @@ export class Layout extends Component { // eslint-disable-line
         <header className={header}>
           <div className={links}>
             <Link to="/">Multi Markers</Link>
+            <Link to="/layers">With layers</Link>
             <Link to="/hoverunoptim">Hover unoptim</Link>
             <Link to="/hoveroptim">Hover optim</Link>
             <Link to="/resizable">Resizable Map</Link>
