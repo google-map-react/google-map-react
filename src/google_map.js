@@ -91,6 +91,7 @@ export default class GoogleMap extends Component {
     draggable: PropTypes.bool,
     style: PropTypes.any,
     resetBoundsOnResize: PropTypes.bool,
+    layerTypes: PropTypes.arrayOf(PropTypes.string), // ['TransitLayer', 'TrafficLayer']
   };
 
   static defaultProps = {
@@ -111,6 +112,7 @@ export default class GoogleMap extends Component {
       padding: 0,
       position: 'relative',
     },
+    layerTypes: [],
   };
 
   static googleMapLoader = googleMapLoader; // eslint-disable-line
@@ -454,6 +456,12 @@ export default class GoogleMap extends Component {
       mapOptions.minZoom = this._checkMinZoom(mapOptions.minZoom, minZoom);
 
       const map = new maps.Map(ReactDOM.findDOMNode(this.refs.google_map_dom), mapOptions);
+
+      this.props.layerTypes.forEach((layerType) => {
+        const layer = new maps[layerType]();
+        layer.setMap(map);
+      });
+
       this.map_ = map;
       this.maps_ = maps;
 

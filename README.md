@@ -178,6 +178,16 @@ In onChange callback, gives you a marginBounds argument property, where lat lng 
 
 Default: true
 
+#### layerTypes (string[])
+
+You can add some "layers" for map like a
+[traffic](https://developers.google.com/maps/documentation/javascript/examples/layer-traffic) or
+[transit](https://developers.google.com/maps/documentation/javascript/examples/layer-transit)
+
+```javascript
+layerTypes={['TrafficLayer', 'TransitLayer']}
+```
+
 ### callbacks
 
 #### options (func|object)
