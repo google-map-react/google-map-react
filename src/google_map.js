@@ -1,5 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import ReactDOM from 'react-dom';
+import isEqual from 'lodash/isEqual';
 
 import shallowEqual from 'fbjs/lib/shallowEqual';
 
@@ -126,6 +127,8 @@ export default class GoogleMap extends Component {
     this.map_ = null;
     this.maps_ = null;
     this.prevBounds_ = null;
+
+    this.layers_ = {};
 
     this.mouse_ = null;
     this.mouseMoveTime_ = 0;
@@ -291,6 +294,14 @@ export default class GoogleMap extends Component {
 
         this.map_.setOptions(options);
       }
+
+      if (!isEqual(nextProps.layerTypes.sort(), this.props.layerTypes.sort())) {
+        for (const layerKey of Object.keys(this.layers_)) {
+          this.layers_[layerKey].setMap(null);
+          delete this.layers_[layerKey];
+        }
+        this._setLayers(nextProps.layerTypes);
+      }
     }
   }
 
@@ -384,9 +395,16 @@ export default class GoogleMap extends Component {
     }
   }
 
-  _initMap = () => {
+  _setLayers = (layerTypes) => {
+    layerTypes.forEach((layerType) => {
+      this.layers_[layerType] = new this.maps_[layerType]();
+      this.layers_[layerType].setMap(this.map_);
+    });
+  };
+
+  _initMap = (force) => {
     // only initialize the map once
-    if (this.initialized_) {
+    if (this.initialized_ && !force) {
       return;
     }
     this.initialized_ = true;
@@ -457,13 +475,10 @@ export default class GoogleMap extends Component {
 
       const map = new maps.Map(ReactDOM.findDOMNode(this.refs.google_map_dom), mapOptions);
 
-      this.props.layerTypes.forEach((layerType) => {
-        const layer = new maps[layerType]();
-        layer.setMap(map);
-      });
-
       this.map_ = map;
       this.maps_ = maps;
+
+      this._setLayers(this.props.layerTypes);
 
       // render in overlay
       const this_ = this;
