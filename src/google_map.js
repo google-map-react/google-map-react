@@ -402,9 +402,9 @@ export default class GoogleMap extends Component {
     });
   };
 
-  _initMap = (force) => {
+  _initMap = () => {
     // only initialize the map once
-    if (this.initialized_ && !force) {
+    if (this.initialized_) {
       return;
     }
     this.initialized_ = true;
