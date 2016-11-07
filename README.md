@@ -212,7 +212,9 @@ See "Custom map options example" in Examples below for a further example.
 
 #### onClick (func)
 
-`(x, y, lat, lng, event)`
+```
+({ x, y, lat, lng, event })
+```
 
 The `event` prop in args is the outer div onClick event, not the gmap-api 'click' event.
 
@@ -229,7 +231,7 @@ Example:
 #### onBoundsChange (func) (_Deprecated use onChange_)
 
 ```
-(center, zoom, bounds, marginBounds)
+({ center, zoom, bounds, marginBounds })
 ```
 ```
 [lat, lng] = center;
