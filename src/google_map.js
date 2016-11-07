@@ -1,6 +1,5 @@
 import React, { PropTypes, Component } from 'react';
 import ReactDOM from 'react-dom';
-import isEqual from 'lodash/isEqual';
 
 import shallowEqual from 'fbjs/lib/shallowEqual';
 
@@ -295,7 +294,7 @@ export default class GoogleMap extends Component {
         this.map_.setOptions(options);
       }
 
-      if (!isEqual(nextProps.layerTypes.sort(), this.props.layerTypes.sort())) {
+      if (nextProps.layerTypes !== this.props.layerTypes) {
         for (const layerKey of Object.keys(this.layers_)) {
           this.layers_[layerKey].setMap(null);
           delete this.layers_[layerKey];
