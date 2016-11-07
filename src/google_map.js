@@ -282,7 +282,7 @@ export default class GoogleMap extends Component {
           ? nextProps.options(mapPlainObjects)
           : nextProps.options;
         // remove zoom, center and draggable options as these are managed by google-maps-react
-        options = omit(nextProps.options, ['zoom', 'center', 'draggable']);
+        options = omit(options, ['zoom', 'center', 'draggable']);
 
         if (options.hasOwnProperty('minZoom')) {
           const minZoom = this._computeMinZoom(options.minZoomOverride, options.minZoom);
