@@ -248,6 +248,9 @@ Example:
 
 #### onZoomAnimationEnd (func)
 
+#### onMapTypeIdChange (func)
+When the user changes the map type (HYBRID, ROADMAP, SATELLITE, TERRAIN) this fires
+
 #### distanceToMouse (func)
 
 #### googleMapLoader (func)
