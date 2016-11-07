@@ -127,6 +127,8 @@ export default class GoogleMap extends Component {
     this.maps_ = null;
     this.prevBounds_ = null;
 
+    this.layers_ = {};
+
     this.mouse_ = null;
     this.mouseMoveTime_ = 0;
     this.boundingRect_ = null;
@@ -291,6 +293,14 @@ export default class GoogleMap extends Component {
 
         this.map_.setOptions(options);
       }
+
+      if (nextProps.layerTypes !== this.props.layerTypes) {
+        for (const layerKey of Object.keys(this.layers_)) {
+          this.layers_[layerKey].setMap(null);
+          delete this.layers_[layerKey];
+        }
+        this._setLayers(nextProps.layerTypes);
+      }
     }
   }
 
@@ -384,6 +394,13 @@ export default class GoogleMap extends Component {
     }
   }
 
+  _setLayers = (layerTypes) => {
+    layerTypes.forEach((layerType) => {
+      this.layers_[layerType] = new this.maps_[layerType]();
+      this.layers_[layerType].setMap(this.map_);
+    });
+  };
+
   _initMap = () => {
     // only initialize the map once
     if (this.initialized_) {
@@ -457,13 +474,10 @@ export default class GoogleMap extends Component {
 
       const map = new maps.Map(ReactDOM.findDOMNode(this.refs.google_map_dom), mapOptions);
 
-      this.props.layerTypes.forEach((layerType) => {
-        const layer = new maps[layerType]();
-        layer.setMap(map);
-      });
-
       this.map_ = map;
       this.maps_ = maps;
+
+      this._setLayers(this.props.layerTypes);
 
       // render in overlay
       const this_ = this;
