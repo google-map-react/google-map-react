@@ -80,6 +80,7 @@ export default class GoogleMap extends Component {
     onZoomAnimationStart: PropTypes.func,
     onZoomAnimationEnd: PropTypes.func,
     onDrag: PropTypes.func,
+    onMapTypeIdChange: PropTypes.func,
     options: PropTypes.any,
     distanceToMouse: PropTypes.func,
     hoverDistance: PropTypes.number,
@@ -298,7 +299,6 @@ export default class GoogleMap extends Component {
       }
 
       if (nextProps.layerTypes !== this.props.layerTypes) {
-        console.log('THIS IS ALSO different');
         for (const layerKey of Object.keys(this.layers_)) {
           this.layers_[layerKey].setMap(null);
           delete this.layers_[layerKey];
@@ -306,7 +306,6 @@ export default class GoogleMap extends Component {
         this._setLayers(nextProps.layerTypes);
       }
       if (nextProps.geoJsonUrls !== this.props.geoJsonUrls) {
-        console.log('its different', nextProps.geoJsonUrls, this.props.geoJsonUrls);
         // we got some new URLS
         for (const urlKey of Object.keys(this.geoJsonDict)) {
           // nuke all ones that aren't in new list
@@ -314,7 +313,6 @@ export default class GoogleMap extends Component {
             const oldFeatures = this.geoJsonDict[urlKey];
             if (oldFeatures !== true) {
               for (const feature of oldFeatures) {
-                console.log('removing feature');
                 this.map_.data.remove(feature);
                 delete this.geoJsonDict[urlKey];
               }
@@ -442,7 +440,6 @@ export default class GoogleMap extends Component {
   }
 
   _setLayers = (layerTypes) => {
-    console.log('setting layers');
     layerTypes.forEach((layerType) => {
       this.layers_[layerType] = new this.maps_[layerType]();
       this.layers_[layerType].setMap(this.map_);
@@ -697,6 +694,9 @@ export default class GoogleMap extends Component {
         this_.dragTime_ = (new Date()).getTime();
         this_._onDrag();
       });
+      maps.event.addListener(map, 'maptypeid_changed', () => {
+        this_._onMapTypeIdChange(map.getMapTypeId());
+      });
     })
     .catch(e => {
       console.error(e); // eslint-disable-line no-console
@@ -723,6 +723,9 @@ export default class GoogleMap extends Component {
 
   _onDrag = (...args) => this.props.onDrag &&
     this.props.onDrag(...args);
+
+  _onMapTypeIdChange = (...args) => this.props.onMapTypeIdChange &&
+    this.props.onMapTypeIdChange(...args);
 
   _onZoomAnimationStart = (...args) => this.props.onZoomAnimationStart &&
     this.props.onZoomAnimationStart(...args)
@@ -970,7 +973,6 @@ export default class GoogleMap extends Component {
 
 
   render() {
-    console.log('rendering');
     const mapMarkerPrerender = !this.state.overlayCreated
     ? (
       <GoogleMapMarkersPrerender
