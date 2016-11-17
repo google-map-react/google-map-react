@@ -1,5 +1,5 @@
 {
-  "name": "google-map-react",
+  "name": "google-map-react-mark43",
   "version": "0.21.3",
   "description": "isomorphic google map react component, allows render react components on the google map",
   "main": "lib/index",

@@ -80,6 +80,7 @@ export default class GoogleMap extends Component {
     onZoomAnimationStart: PropTypes.func,
     onZoomAnimationEnd: PropTypes.func,
     onDrag: PropTypes.func,
+    onMapTypeIdChange: PropTypes.func,
     options: PropTypes.any,
     distanceToMouse: PropTypes.func,
     hoverDistance: PropTypes.number,
@@ -92,6 +93,7 @@ export default class GoogleMap extends Component {
     style: PropTypes.any,
     resetBoundsOnResize: PropTypes.bool,
     layerTypes: PropTypes.arrayOf(PropTypes.string), // ['TransitLayer', 'TrafficLayer']
+    geoJsonUrls: PropTypes.arrayOf(PropTypes.string) // [url1, url2]
   };
 
   static defaultProps = {
@@ -149,6 +151,8 @@ export default class GoogleMap extends Component {
 
     this.childMouseDownArgs_ = null;
     this.childMouseUpTime_ = 0;
+
+    this.geoJsonDict = {};
 
     if (process.env.NODE_ENV !== 'production') {
       if (this.props.apiKey) {
@@ -301,6 +305,30 @@ export default class GoogleMap extends Component {
         }
         this._setLayers(nextProps.layerTypes);
       }
+      if (nextProps.geoJsonUrls !== this.props.geoJsonUrls) {
+        // we got some new URLS
+        for (const urlKey of Object.keys(this.geoJsonDict)) {
+          // nuke all ones that aren't in new list
+          if (!this._isInList(nextProps.geoJsonUrls, urlKey)) {
+            const oldFeatures = this.geoJsonDict[urlKey];
+            if (oldFeatures !== true) {
+              for (const feature of oldFeatures) {
+                this.map_.data.remove(feature);
+                delete this.geoJsonDict[urlKey];
+              }
+            }
+          }
+        }
+        for (const newUrl of nextProps.geoJsonUrls) {
+          if (!this.geoJsonDict[newUrl]) {
+            this._loadGeoJson(newUrl);
+          }
+        }
+        this.map_.data.setStyle({
+          fillColor: 'white',
+          strokeColor: 'white',
+        });
+      }
     }
   }
 
@@ -369,6 +397,23 @@ export default class GoogleMap extends Component {
       return minZoom || DEFAULT_MIN_ZOOM;
     }
     return this._getMinZoom();
+  }
+
+  _loadGeoJson = url => {
+    this.geoJsonDict[url] = true;
+    this.map_.data.loadGeoJson(url, null, data => {
+      this.geoJsonDict[url] = data;
+    });
+  }
+
+  _isInList = (list, val) => {
+    let found = false;
+    for (const guy of list) {
+      if (guy === val) {
+        found = true;
+      }
+    }
+    return found;
   }
 
   _checkMinZoom(zoom, minZoom) {
@@ -473,7 +518,8 @@ export default class GoogleMap extends Component {
       mapOptions.minZoom = this._checkMinZoom(mapOptions.minZoom, minZoom);
 
       const map = new maps.Map(ReactDOM.findDOMNode(this.refs.google_map_dom), mapOptions);
-
+      //console.log('map init OMGO OMG OM G');
+      
       this.map_ = map;
       this.maps_ = maps;
 
@@ -648,6 +694,9 @@ export default class GoogleMap extends Component {
         this_.dragTime_ = (new Date()).getTime();
         this_._onDrag();
       });
+      maps.event.addListener(map, 'maptypeid_changed', () => {
+        this_._onMapTypeIdChange(map.getMapTypeId());
+      });
     })
     .catch(e => {
       console.error(e); // eslint-disable-line no-console
@@ -674,6 +723,9 @@ export default class GoogleMap extends Component {
 
   _onDrag = (...args) => this.props.onDrag &&
     this.props.onDrag(...args);
+
+  _onMapTypeIdChange = (...args) => this.props.onMapTypeIdChange &&
+    this.props.onMapTypeIdChange(...args);
 
   _onZoomAnimationStart = (...args) => this.props.onZoomAnimationStart &&
     this.props.onZoomAnimationStart(...args)
