@@ -19,6 +19,9 @@
     "type": "git",
     "url": "git+https://github.com/istarkov/google-map-react.git"
   },
+  "publishConfig": {
+    "registry": "https://repository.mark43.io/artifactory/api/npm/thirdparty-npm"
+  },
   "keywords": [
     "react",
     "reactjs",
