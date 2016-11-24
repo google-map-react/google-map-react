@@ -391,7 +391,9 @@ export default class GoogleMap extends Component {
   _mapDomResizeCallback = () => {
     this.resetSizeOnIdle_ = true;
     if (this.maps_) {
+      const originalCenter = this.maps_.getCenter();
       this.maps_.event.trigger(this.map_, 'resize');
+      this.maps_.setCenter(originalCenter);
     }
   }
 
