@@ -44,6 +44,7 @@
     "eventemitter3": "^1.1.0",
     "fbjs": "^0.8.3",
     "point-geometry": "0.0.0",
+    "points-cluster": "^0.1.4",
     "react-addons-transition-group": "^15.4.1",
     "scriptjs": "^2.5.7"
   },

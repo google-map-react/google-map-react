@@ -34,6 +34,7 @@ export const gMap = ({
     center={center}
     zoom={zoom}
     onChange={onChange}
+    apiKey={"AIzaSyC-BebC7ChnHPzxQm7DAHYFMCqR5H3Jlps"}
     onChildMouseEnter={onChildMouseEnter}
     onChildMouseLeave={onChildMouseLeave}
   >
@@ -48,7 +49,7 @@ export const gMapHOC = compose(
     clusterRadius: 60,
     hoverDistance: 30,
     options: {
-      minZoom: 3,
+      minZoom: 1,
       maxZoom: 15,
     },
     style: {
