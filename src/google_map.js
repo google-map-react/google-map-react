@@ -80,6 +80,7 @@ export default class GoogleMap extends Component {
     onZoomAnimationStart: PropTypes.func,
     onZoomAnimationEnd: PropTypes.func,
     onDrag: PropTypes.func,
+    onMapTypeIdChange: PropTypes.func,
     options: PropTypes.any,
     distanceToMouse: PropTypes.func,
     hoverDistance: PropTypes.number,
@@ -648,6 +649,10 @@ export default class GoogleMap extends Component {
         this_.dragTime_ = (new Date()).getTime();
         this_._onDrag();
       });
+      // user choosing satellite vs roads, etc
+      maps.event.addListener(map, 'maptypeid_changed', () => {
+        this_._onMapTypeIdChange(map.getMapTypeId());
+      });
     })
     .catch(e => {
       console.error(e); // eslint-disable-line no-console
@@ -674,6 +679,9 @@ export default class GoogleMap extends Component {
 
   _onDrag = (...args) => this.props.onDrag &&
     this.props.onDrag(...args);
+
+  _onMapTypeIdChange = (...args) => this.props.onMapTypeIdChange &&
+    this.props.onMapTypeIdChange(...args);
 
   _onZoomAnimationStart = (...args) => this.props.onZoomAnimationStart &&
     this.props.onZoomAnimationStart(...args)
