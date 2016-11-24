@@ -7,7 +7,7 @@ import { Motion, spring } from 'react-motion';
 import clusterMarkerStyles from './ClusterMarker.sass';
 
 export const clusterMarker = ({
-  styles, text, hovered, $hover,
+  styles, markerIcon, hovered, $hover,
   defaultMotionStyle, motionStyle,
 }) => (
   <Motion
@@ -26,7 +26,7 @@ export const clusterMarker = ({
         <div
           className={styles.text}
         >
-          {text}
+          {markerIcon}
         </div>
       </div>
     )
