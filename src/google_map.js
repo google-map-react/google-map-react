@@ -899,6 +899,14 @@ export default class GoogleMap extends Component {
                   lat: bounds[2],
                   lng: bounds[3],
                 },
+                sw: {
+                  lat: bounds[4],
+                  lng: bounds[5],
+                },
+                ne: {
+                  lat: bounds[6],
+                  lng: bounds[7],
+                },
               },
               marginBounds: {
                 nw: {
@@ -908,6 +916,14 @@ export default class GoogleMap extends Component {
                 se: {
                   lat: marginBounds[2],
                   lng: marginBounds[3],
+                },
+                sw: {
+                  lat: marginBounds[4],
+                  lng: marginBounds[5],
+                },
+                ne: {
+                  lat: marginBounds[6],
+                  lng: marginBounds[7],
                 },
               },
 

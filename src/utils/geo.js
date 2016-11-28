@@ -97,8 +97,10 @@ export default class Geo {
       });
 
       let res = [
-        topLeftCorner.lat, topLeftCorner.lng,
-        bottomRightCorner.lat, bottomRightCorner.lng,
+        topLeftCorner.lat, topLeftCorner.lng, // NW
+        bottomRightCorner.lat, bottomRightCorner.lng, // SE
+        bottomRightCorner.lat, topLeftCorner.lng, // SW
+        topLeftCorner.lat, bottomRightCorner.lng, // NE
       ];
 
       if (roundFactor) {
