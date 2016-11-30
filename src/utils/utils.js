@@ -116,21 +116,22 @@ function fitNwSe(nw, se, width, height) {
 
 const exports = {
   fitBounds({ nw, se, ne, sw }, { width, height }) {
+    let fittedData;
+
     if (nw && se) {
-      return fitNwSe(nw, se, width, height);
+      fittedData = fitNwSe(nw, se, width, height);
+    } else {
+      const calculatedNwSe = this.convertNeSwToNwSe({ ne, sw });
+      fittedData = fitNwSe(calculatedNwSe.nw, calculatedNwSe.se, width, height);
     }
 
-    const calculatedNw = {
-      lat: ne.lat,
-      lng: sw.lng,
+    return {
+      ...fittedData,
+      newBounds: {
+        ...fittedData.newBounds,
+        ...this.convertNwSeToNeSw(fittedData.newBounds),
+      },
     };
-
-    const calculatedSe = {
-      lat: sw.lat,
-      lng: ne.lng,
-    };
-
-    return fitNwSe(calculatedNw, calculatedSe, width, height);
   },
 
   // -------------------------------------------------------------------
@@ -181,6 +182,32 @@ const exports = {
 
     return ids;
   },
+
+  convertNeSwToNwSe({ ne, sw }) {
+    return {
+      nw: {
+        lat: ne.lat,
+        lng: sw.lng,
+      },
+      se: {
+        lat: sw.lat,
+        lng: ne.lng,
+      },
+    };
+  },
+
+  convertNwSeToNeSw({ nw, se }) {
+    return {
+      ne: {
+        lat: nw.lat,
+        lng: se.lng,
+      },
+      sw: {
+        lat: se.lat,
+        lng: nw.lng,
+      },
+    };
+  },
 };
 
 export const fitBounds = exports.fitBounds;
@@ -188,4 +215,6 @@ export const meters2ScreenPixels = exports.meters2ScreenPixels;
 export const tile2LatLng = exports.tile2LatLng;
 export const latLng2Tile = exports.latLng2Tile;
 export const getTilesIds = exports.getTilesIds;
+export const convertNeSwToNwSe = exports.convertNeSwToNwSe;
+export const convertNwSeToNeSw = exports.convertNwSeToNeSw;
 // export default exports;
