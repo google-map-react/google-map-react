@@ -114,107 +114,96 @@ function fitNwSe(nw, se, width, height) {
   };
 }
 
-const exports = {
-  fitBounds({ nw, se, ne, sw }, { width, height }) {
-    let fittedData;
+export function convertNeSwToNwSe({ ne, sw }) {
+  return {
+    nw: {
+      lat: ne.lat,
+      lng: sw.lng,
+    },
+    se: {
+      lat: sw.lat,
+      lng: ne.lng,
+    },
+  };
+}
 
-    if (nw && se) {
-      fittedData = fitNwSe(nw, se, width, height);
-    } else {
-      const calculatedNwSe = this.convertNeSwToNwSe({ ne, sw });
-      fittedData = fitNwSe(calculatedNwSe.nw, calculatedNwSe.se, width, height);
+export function convertNwSeToNeSw({ nw, se }) {
+  return {
+    ne: {
+      lat: nw.lat,
+      lng: se.lng,
+    },
+    sw: {
+      lat: se.lat,
+      lng: nw.lng,
+    },
+  };
+}
+
+export function fitBounds({ nw, se, ne, sw }, { width, height }) {
+  let fittedData;
+
+  if (nw && se) {
+    fittedData = fitNwSe(nw, se, width, height);
+  } else {
+    const calculatedNwSe = convertNeSwToNwSe({ ne, sw });
+    fittedData = fitNwSe(calculatedNwSe.nw, calculatedNwSe.se, width, height);
+  }
+
+  return {
+    ...fittedData,
+    newBounds: {
+      ...fittedData.newBounds,
+      ...convertNwSeToNeSw(fittedData.newBounds),
+    },
+  };
+}
+
+// -------------------------------------------------------------------
+// Helpers to calc some markers size
+
+export function meters2ScreenPixels(meters, { lat, lng }, zoom) {
+  const { w, h } = meters2WorldSize(meters, { lat, lng });
+  const scale = Math.pow(2, zoom);
+  const wScreen = w * scale * GOOGLE_TILE_SIZE;
+  const hScreen = h * scale * GOOGLE_TILE_SIZE;
+  return {
+    w: wScreen,
+    h: hScreen,
+  };
+}
+
+// --------------------------------------------------
+// Helper functions for working with svg tiles, (examples coming soon)
+
+export function tile2LatLng({ x, y }, zoom) {
+  const n = Math.PI - 2 * Math.PI * y / Math.pow(2, zoom);
+
+  return ({
+    lat: (180 / Math.PI * Math.atan(0.5 * (Math.exp(n) - Math.exp(-n)))),
+    lng: (x / Math.pow(2, zoom) * 360 - 180),
+  });
+}
+
+export function latLng2Tile({ lat, lng }, zoom) {
+  const worldCoords = latLng2World({ lat, lng });
+  const scale = Math.pow(2, zoom);
+
+  return {
+    x: Math.floor(worldCoords.x * scale),
+    y: Math.floor(worldCoords.y * scale),
+  };
+}
+
+export function getTilesIds({ from, to }, zoom) {
+  const scale = Math.pow(2, zoom);
+
+  const ids = [];
+  for (let x = from.x; x !== (to.x + 1) % scale; x = (x + 1) % scale) {
+    for (let y = from.y; y !== (to.y + 1) % scale; y = (y + 1) % scale) {
+      ids.push([zoom, x, y]);
     }
+  }
 
-    return {
-      ...fittedData,
-      newBounds: {
-        ...fittedData.newBounds,
-        ...this.convertNwSeToNeSw(fittedData.newBounds),
-      },
-    };
-  },
-
-  // -------------------------------------------------------------------
-  // Helpers to calc some markers size
-
-  meters2ScreenPixels(meters, { lat, lng }, zoom) {
-    const { w, h } = meters2WorldSize(meters, { lat, lng });
-    const scale = Math.pow(2, zoom);
-    const wScreen = w * scale * GOOGLE_TILE_SIZE;
-    const hScreen = h * scale * GOOGLE_TILE_SIZE;
-    return {
-      w: wScreen,
-      h: hScreen,
-    };
-  },
-
-  // --------------------------------------------------
-  // Helper functions for working with svg tiles, (examples coming soon)
-
-  tile2LatLng({ x, y }, zoom) {
-    const n = Math.PI - 2 * Math.PI * y / Math.pow(2, zoom);
-
-    return ({
-      lat: (180 / Math.PI * Math.atan(0.5 * (Math.exp(n) - Math.exp(-n)))),
-      lng: (x / Math.pow(2, zoom) * 360 - 180),
-    });
-  },
-
-  latLng2Tile({ lat, lng }, zoom) {
-    const worldCoords = latLng2World({ lat, lng });
-    const scale = Math.pow(2, zoom);
-
-    return {
-      x: Math.floor(worldCoords.x * scale),
-      y: Math.floor(worldCoords.y * scale),
-    };
-  },
-
-  getTilesIds({ from, to }, zoom) {
-    const scale = Math.pow(2, zoom);
-
-    const ids = [];
-    for (let x = from.x; x !== (to.x + 1) % scale; x = (x + 1) % scale) {
-      for (let y = from.y; y !== (to.y + 1) % scale; y = (y + 1) % scale) {
-        ids.push([zoom, x, y]);
-      }
-    }
-
-    return ids;
-  },
-
-  convertNeSwToNwSe({ ne, sw }) {
-    return {
-      nw: {
-        lat: ne.lat,
-        lng: sw.lng,
-      },
-      se: {
-        lat: sw.lat,
-        lng: ne.lng,
-      },
-    };
-  },
-
-  convertNwSeToNeSw({ nw, se }) {
-    return {
-      ne: {
-        lat: nw.lat,
-        lng: se.lng,
-      },
-      sw: {
-        lat: se.lat,
-        lng: nw.lng,
-      },
-    };
-  },
-};
-
-export const fitBounds = exports.fitBounds;
-export const meters2ScreenPixels = exports.meters2ScreenPixels;
-export const tile2LatLng = exports.tile2LatLng;
-export const latLng2Tile = exports.latLng2Tile;
-export const getTilesIds = exports.getTilesIds;
-export const convertNeSwToNwSe = exports.convertNeSwToNwSe;
-export const convertNwSeToNeSw = exports.convertNwSeToNeSw;
-// export default exports;
+  return ids;
+}
