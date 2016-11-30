@@ -63,56 +63,74 @@ function meters2WorldSize(meters, { lat, lng }) {
   return { w, h };
 }
 
-const exports = {
-  fitBounds({ nw, se }, { width, height }) {
-    const EPS = 0.000000001;
-    const nwWorld = latLng2World(nw);
-    const seWorld = latLng2World(se);
-    const dx = nwWorld.x < seWorld.x
-      ? seWorld.x - nwWorld.x
-      : (1 - nwWorld.x) + seWorld.x;
-    const dy = seWorld.y - nwWorld.y;
+function fitNwSe(nw, se, width, height) {
+  const EPS = 0.000000001;
+  const nwWorld = latLng2World(nw);
+  const seWorld = latLng2World(se);
+  const dx = nwWorld.x < seWorld.x
+    ? seWorld.x - nwWorld.x
+    : (1 - nwWorld.x) + seWorld.x;
+  const dy = seWorld.y - nwWorld.y;
 
-    if (dx <= 0 && dy <= 0) {
-      return null;
+  if (dx <= 0 && dy <= 0) {
+    return null;
+  }
+
+  const zoomX = log2(width / GOOGLE_TILE_SIZE / dx);
+  const zoomY = log2(height / GOOGLE_TILE_SIZE / dy);
+  const zoom = Math.floor(EPS + Math.min(zoomX, zoomY));
+
+  // TODO find center just unproject middle world point
+  const middle = {
+    x: nwWorld.x < seWorld.x // eslint-disable-line
+      ? 0.5 * (nwWorld.x + seWorld.x)
+      : nwWorld.x + seWorld.x - 1 > 0
+        ? 0.5 * (nwWorld.x + seWorld.x - 1)
+        : 0.5 * (1 + nwWorld.x + seWorld.x),
+    y: 0.5 * (nwWorld.y + seWorld.y),
+  };
+
+  const scale = Math.pow(2, zoom);
+  const halfW = width / scale / GOOGLE_TILE_SIZE / 2;
+  const halfH = height / scale / GOOGLE_TILE_SIZE / 2;
+
+  const newNW = world2LatLng({
+    x: middle.x - halfW,
+    y: middle.y - halfH,
+  });
+
+  const newSE = world2LatLng({
+    x: middle.x + halfW,
+    y: middle.y + halfH,
+  });
+
+  return {
+    center: world2LatLng(middle),
+    zoom,
+    newBounds: {
+      nw: newNW,
+      se: newSE,
+    },
+  };
+}
+
+const exports = {
+  fitBounds({ nw, se, ne, sw }, { width, height }) {
+    if (nw && se) {
+      return fitNwSe(nw, se, width, height);
     }
 
-    const zoomX = log2(width / GOOGLE_TILE_SIZE / dx);
-    const zoomY = log2(height / GOOGLE_TILE_SIZE / dy);
-    const zoom = Math.floor(EPS + Math.min(zoomX, zoomY));
-
-    // TODO find center just unproject middle world point
-    const middle = {
-      x: nwWorld.x < seWorld.x // eslint-disable-line
-        ? 0.5 * (nwWorld.x + seWorld.x)
-        : nwWorld.x + seWorld.x - 1 > 0
-          ? 0.5 * (nwWorld.x + seWorld.x - 1)
-          : 0.5 * (1 + nwWorld.x + seWorld.x),
-      y: 0.5 * (nwWorld.y + seWorld.y),
+    const calculatedNw = {
+      lat: ne.lat,
+      lng: sw.lng,
     };
 
-    const scale = Math.pow(2, zoom);
-    const halfW = width / scale / GOOGLE_TILE_SIZE / 2;
-    const halfH = height / scale / GOOGLE_TILE_SIZE / 2;
-
-    const newNW = world2LatLng({
-      x: middle.x - halfW,
-      y: middle.y - halfH,
-    });
-
-    const newSE = world2LatLng({
-      x: middle.x + halfW,
-      y: middle.y + halfH,
-    });
-
-    return {
-      center: world2LatLng(middle),
-      zoom,
-      newBounds: {
-        nw: newNW,
-        se: newSE,
-      },
+    const calculatedSe = {
+      lat: sw.lat,
+      lng: ne.lng,
     };
+
+    return fitNwSe(calculatedNw, calculatedSe, width, height);
   },
 
   // -------------------------------------------------------------------

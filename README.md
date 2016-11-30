@@ -50,7 +50,7 @@ UMD AMD and other build are available under dist folder after `npm install`
 
 ## What's it Look Like?
 
-In the simple case you just need to add `lat` `lng` props to any child of `GoogleMap` component.   
+In the simple case you just need to add `lat` `lng` props to any child of `GoogleMap` component.
 [simple example in action](http://istarkov.github.io/google-map-react/map/simple)
 
 ```javascript
@@ -318,6 +318,19 @@ const bounds = {
   }
 };
 
+// Or
+
+const bounds = {
+  ne: {
+    lat: 50.01038826014866,
+    lng: -118.6525866875
+  },
+  sw: {
+    lat: 32.698335045970396,
+    lng: -92.0217273125
+  }
+};
+
 const size = {
   width: 640, // Map width in pixels
   height: 380, // Map height in pixels
@@ -430,10 +443,10 @@ function createMapOptions() {
 
 ---
 
-(*Really big thanks to [April Arcus](https://github.com/AprilArcus) for documentation fixes*)   
-(*thank you [Dan Abramov](http://gaearon.github.io/react-dnd/) for titles structure*)   
+(*Really big thanks to [April Arcus](https://github.com/AprilArcus) for documentation fixes*)
+(*thank you [Dan Abramov](http://gaearon.github.io/react-dnd/) for titles structure*)
 (*great thanks to [Vladimir Akimov](https://github.com/b2whats) he knows why*)
 
 ## License
 
-MIT (http://www.opensource.org/licenses/mit-license.php)   
+MIT (http://www.opensource.org/licenses/mit-license.php)
