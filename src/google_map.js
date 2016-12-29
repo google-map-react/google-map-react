@@ -340,6 +340,8 @@ export default class GoogleMap extends Component {
     }
 
     if (this.maps_ && this.map_) {
+       // fix google, as otherwise listeners works even without map
+      this.map_.setOptions({ scrollwheel: false });
       this.maps_.event.clearInstanceListeners(this.map_);
     }
 
