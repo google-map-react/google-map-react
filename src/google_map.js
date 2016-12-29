@@ -324,14 +324,15 @@ export default class GoogleMap extends Component {
 
   componentWillUnmount() {
     this.mounted_ = false;
-    const that = this;
     const mapDom = ReactDOM.findDOMNode(this.refs.google_map_dom);
     window.removeEventListener('resize', this._onWindowResize);
     window.removeEventListener('keydown', this._onKeyDownCapture);
     mapDom.removeEventListener('mousedown', this._onMapMouseDownNative, true);
     window.removeEventListener('mouseup', this._onChildMouseUp, false);
     window.removeEventListener('touchmove', this._onTouchMove);
-    detectElementResize.removeResizeListener(mapDom, that._mapDomResizeCallback);
+    if (this.props.resetBoundsOnResize) {
+      detectElementResize.removeResizeListener(mapDom, this._mapDomResizeCallback);
+    }
 
     if (this.overlay_) {
       // this triggers overlay_.onRemove(), which will unmount the <GoogleMapMarkers/>
