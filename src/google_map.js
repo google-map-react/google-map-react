@@ -93,7 +93,8 @@ export default class GoogleMap extends Component {
     style: PropTypes.any,
     resetBoundsOnResize: PropTypes.bool,
     layerTypes: PropTypes.arrayOf(PropTypes.string), // ['TransitLayer', 'TrafficLayer']
-    geoJsonUrls: PropTypes.arrayOf(PropTypes.string) // [url1, url2]
+    geoJsonUrls: PropTypes.arrayOf(PropTypes.string), // [url1, url2]
+    geoJsonFeatures: PropTypes.object // { key: json, key2: json2}
   };
 
   static defaultProps = {
@@ -153,6 +154,8 @@ export default class GoogleMap extends Component {
     this.childMouseUpTime_ = 0;
 
     this.geoJsonDict = {};
+    this.geoJsonFeatureDict = {};
+    this.geoJsonRendered = false;
 
     if (process.env.NODE_ENV !== 'production') {
       if (this.props.apiKey) {
@@ -324,10 +327,44 @@ export default class GoogleMap extends Component {
             this._loadGeoJson(newUrl);
           }
         }
-        this.map_.data.setStyle({
-          fillColor: 'white',
-          strokeColor: 'white',
+      }
+      if (!this.geoJsonRendered) {
+        // only run this once
+        this.map_.data.setStyle(feature => {
+          const fillColor = feature.getProperty('fill') || 'white';
+          const fillOpacity = feature.getProperty('fill-opacity') || 0.5;
+          const strokeColor = feature.getProperty('stroke') || 'white';
+          const strokeWidth = feature.getProperty('stroke-width') || 2;
+          const strokeOpacity = feature.getProperty('stroke-opacity') || 1;
+          return {
+            fillColor,
+            fillOpacity,
+            strokeColor,
+            strokeWidth,
+            strokeOpacity,
+          };
         });
+      }
+      if (nextProps.geoJsonFeatures !== this.props.geoJsonFeatures || !this.geoJsonRendered) {
+        // we got some new geojson features
+        this.geoJsonRendered = true;
+        for (const key of Object.keys(this.props.geoJsonFeatures)) {
+          // nuke all ones that aren't in new list
+          if (!this._isInList(Object.keys(nextProps.geoJsonFeatures), key)) {
+            const oldFeatures = this.geoJsonFeatureDict[key];
+            if (oldFeatures !== true) {
+              for (const feature of oldFeatures) {
+                this.map_.data.remove(feature);
+                delete this.geoJsonFeatureDict[key];
+              }
+            }
+          }
+        }
+        for (const newKey of Object.keys(nextProps.geoJsonFeatures)) {
+          if (!this.geoJsonFeatureDict[newKey]) {
+            this._addGeoJson(newKey, nextProps.geoJsonFeatures[newKey]);
+          }
+        }
       }
     }
   }
@@ -404,6 +441,10 @@ export default class GoogleMap extends Component {
     this.map_.data.loadGeoJson(url, null, data => {
       this.geoJsonDict[url] = data;
     });
+  }
+
+  _addGeoJson = (key, data) => {
+    this.geoJsonFeatureDict[key] = this.map_.data.addGeoJson(data);
   }
 
   _isInList = (list, val) => {
