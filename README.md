@@ -188,6 +188,12 @@ You can add some "layers" for map like a
 layerTypes={['TrafficLayer', 'TransitLayer']}
 ```
 
+#### resetBoundsOnResize (bool)
+
+When true this will reset the map bounds if the parent resizes.
+
+Default: false
+
 ### callbacks
 
 #### options (func|object)
