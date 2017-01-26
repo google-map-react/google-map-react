@@ -107,6 +107,9 @@ export default class SimpleMapPage extends Component {
 * Clustering example (new)
 [google-map-clustering-example](http://istarkov.github.io/google-map-clustering-example/)
 
+* How to render thousands of markers (new)
+[google-map-thousands-markers](https://istarkov.github.io/google-map-thousands-markers/)
+
 * All api examples:
 [google-map-react-examples](https://github.com/istarkov/google-map-react-examples)
 
