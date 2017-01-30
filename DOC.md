@@ -31,7 +31,7 @@ and second value is the value provided by `GoogleMapReact` component at initiali
 }
 ```
 
-It's needed because `map bounds` can't be calculated without knowledge of map size,
+Calling `onChange` at initialization is needed because `map bounds` can't be calculated without knowledge of map size,
 and bounds are really usefull in a lot of situations. (_see Note below_)
 
 Please move and zoom the map to see log changes.
