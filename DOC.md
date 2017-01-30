@@ -44,7 +44,7 @@ one of the ways was to use `idle` callback.
 _NOTE: Now I think it was wrong decision to call onChange at initialization.
 In the future releases
 I'll remove such behavior and will provide helper to calculate size and bounds outside map control.
-Now I think about helper similar to [AutoSizer](https://github.com/bvaughn/react-virtualized/blob/master/docs/AutoSizer.md)_
+I think about helper similar to [AutoSizer](https://github.com/bvaughn/react-virtualized/blob/master/docs/AutoSizer.md)_
 
 PS: I highly recommend you to use GoogleMapReact as a controllable component,
 and always provide `center`, `zoom` and `onChange` props. (_see withState_)
