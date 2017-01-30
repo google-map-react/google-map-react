@@ -38,10 +38,10 @@ Be sure that `onChange` callback is not called at realtime, and only at `idle` g
 It's because google api itself provides changes with some delay and to avoid synchronization issues
 one of the ways was to use `idle` callback.
 
-_NOTE: Now I think it was wrong decision to call onChange on initialization.
+_NOTE: Now I think it was wrong decision to call onChange at initialization.
 In the future releases
 I'll deprecate such behavior and will provide helper to calculate size and bounds outside map control.
-Now I think about heper similar to [AutoSizer](https://github.com/bvaughn/react-virtualized/blob/master/docs/AutoSizer.md)_
+Now I think about helper similar to [AutoSizer](https://github.com/bvaughn/react-virtualized/blob/master/docs/AutoSizer.md)_
 
 PS: I highly recommend you to use GoogleMapReact as a controllable component,
 and always provide `center`, `zoom` and `onChange` props. (_see withState_)
