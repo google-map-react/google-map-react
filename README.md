@@ -132,7 +132,7 @@ npm run start
 
 [API](./API.md)
 
-[NEW DOCS](./DOC.md)
+[NEW DOCS](./DOC.md) (In progress)
 
 
 ## Thank you
