@@ -134,8 +134,13 @@ npm run start
 
 [NEW DOCS](./DOC.md)
 
+
+## Thank you
+
 (*Really big thanks to [April Arcus](https://github.com/AprilArcus) for documentation fixes*)
+
 (*thank you [Dan Abramov](http://gaearon.github.io/react-dnd/) for titles structure*)
+
 (*great thanks to [Vladimir Akimov](https://github.com/b2whats) he knows why*)
 
 ## License
