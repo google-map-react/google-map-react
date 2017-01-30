@@ -16,8 +16,8 @@ And a `MyMarker.js` is a simple React component.
 Open `Log` tab at the top of `webpackbin` and see the `mapProps` log.
 (_see the `withProps` at `Map.js`_)
 
-First value is the { `center` and `zoom` } which is set by you,
-and second value is the value provided by `GoogleMapReact` component at initialization,
+First value is the { `center` and `zoom` } which is set by you (_see withState at Map.js_),
+and second value is the value provided by `GoogleMapReact` component at initialization in `onChange` callback.
 
 ```javascript
 {
@@ -28,8 +28,8 @@ and second value is the value provided by `GoogleMapReact` component at initiali
 }
 ```
 
-Component calls the `onChange` callback on initialization,
-it's because `map bounds` can't be calculated without knowledge of map size.
+It's needed because `map bounds` can't be calculated without knowledge of map size,
+and bounds are really usefull in a lot of situations. (_see Note below_)
 
 Please move and zoom the map to see log changes.
 
