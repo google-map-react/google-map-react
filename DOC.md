@@ -3,7 +3,7 @@
 Here I'll try to explain why some methods in google map react are needed and how to use them.
 
 For all examples I'll use [recompose](github.com/acdlite/recompose)
-and you must understand what `css-modules` is.
+and you must have basic understanding what `css-modules` is.
 
 _Looks like to rewrite current api I need to create Documentation about current version,
 so it will be easier to detect wrong ideas and solutions_
