@@ -101,24 +101,24 @@ Let's see what has changed,
 
 So what does that properties means.
 
- - `distanceToMouse` you need to pass a distance function which will compute distance based on mouse position,
+- `distanceToMouse` you need to pass a distance function which will compute distance based on mouse position,
 marker position, and any other properties you want.
 
-It can be non euclidean distance based on some of your internals.
-For example you can return a smaller distance for some markers making them more hoverable,
-or to return infinite distance for other markers making them unhoverable.
+  It can be non euclidean distance based on some of your internals.
+  For example you can return a smaller distance for some markers making them more hoverable,
+  or to return infinite distance for other markers making them unhoverable.
 
-For circle markers of equal radius it can be euclidean distance
+  For circle markers of equal radius it can be euclidean distance
 
-```javascript
-function distanceToMouse({ x, y }, { x: mouseX, y: mouseY }) {
-  return Math.sqrt((x - mouseX) * (x - mouseX) + (y - mouseY) * (y - mouseY))
-}
-```
+  ```javascript
+  function distanceToMouse({ x, y }, { x: mouseX, y: mouseY }) {
+    return Math.sqrt((x - mouseX) * (x - mouseX) + (y - mouseY) * (y - mouseY))
+  }
+  ```
 
-At the example above I use some kind of rectangular distance.
+  At the example above I use some kind of rectangular distance.
 
-[Other distanceToMouse example](https://github.com/istarkov/google-map-react-examples/blob/dbfc2fcd381cc39da315875f5a45d4ebee765f26/web/flux/components/examples/x_distance_hover/distance_hover_map_page.jsx#L31-L46)
+  [Other distanceToMouse example](https://github.com/istarkov/google-map-react-examples/blob/dbfc2fcd381cc39da315875f5a45d4ebee765f26/web/flux/components/examples/x_distance_hover/distance_hover_map_page.jsx#L31-L46)
 
 
 - `hoverDistance: number` distance threshold,
