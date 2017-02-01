@@ -79,6 +79,7 @@ export default class SimpleMapPage extends Component {
         defaultZoom={this.props.zoom}>
         <MyGreatPlace lat={59.955413} lng={30.337844} text={'A'} /* Kreyser Avrora */ />
         <MyGreatPlace {...this.props.greatPlaceCoords} text={'B'} /* road circle */ />
+        <div lat={59.94817} lng={30.337512} text={'C'} />
       </GoogleMap>
     );
   }
