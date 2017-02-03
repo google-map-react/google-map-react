@@ -345,7 +345,7 @@ export default class GoogleMap extends Component {
           };
         });
       }
-      if (nextProps.geoJsonFeatures !== this.props.geoJsonFeatures || !this.geoJsonRendered) {
+      if ((isPlainObject(this.props.geoJsonFeatures) && isPlainObject(nextProps.geoJsonFeatures)) && (nextProps.geoJsonFeatures !== this.props.geoJsonFeatures || !this.geoJsonRendered)) {
         // we got some new geojson features
         this.geoJsonRendered = true;
         for (const key of Object.keys(this.props.geoJsonFeatures)) {
