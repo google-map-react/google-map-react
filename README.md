@@ -21,7 +21,7 @@ It renders components on the map before (and even without) the Google Maps API l
 
 ### Google Maps API Loads on Demand
 
-There is no need to place a `<script src=` tag at top of page. The Google Maps API loads upon the first usage of the `GoogleMap` component.
+There is no need to place a `<script src=` tag at top of page. The Google Maps API loads upon the first usage of the `GoogleMapReact` component.
 
 ### Internal Hover Algorithm
 
@@ -29,13 +29,13 @@ Now every object on the map can be hovered (however, you can still use css hover
 
 ## What's it Look Like?
 
-In the simple case you just need to add `lat` `lng` props to any child of `GoogleMap` component.
+In the simple case you just need to add `lat` `lng` props to any child of `GoogleMapReact` component.
 
 [See it in action at jsbin](https://jsbin.com/gaxapezowo/1/edit?js,output)
 
 ```javascript
 import React, { Component } from 'react';
-import GoogleMap from 'google-map-react';
+import GoogleMapReact from 'google-map-react';
 
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
