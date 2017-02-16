@@ -5,7 +5,6 @@
 
 It allows you to create interfaces like this [example](http://istarkov.github.io/google-map-react/map/main) *(You can scroll the table, zoom/move the map, hover/click on markers, and click on table rows)*
 
-
 ## Features
 
 ### Works with your Components
@@ -28,61 +27,45 @@ There is no need to place a `<script src=` tag at top of page. The Google Maps A
 
 Now every object on the map can be hovered (however, you can still use css hover selectors if you want). If you try zooming out here [example](http://istarkov.github.io/google-map-react/map/main), you will still be able to hover on almost every map marker.
 
-This algorithm allows you to tweak hover probability of map objects, for example making some objects "more hoverable". [distance_hover example with different hover probabilities](http://istarkov.github.io/google-map-react/map/distance_hover)
-
-## Known Issues
-
-* Older browsers (http://caniuse.com/#feat=promises) will need a ES6 Promise polyfill in order to work.
-
-## Installation
-
-### npm
-
-```
-npm install --save google-map-react
-```
-
-### bower
-
-We no longer intend to support Bower. Please stop using Bower. NPM works very well for front-end development, and you should use it instead. ((c)Dan Abramov)
-UMD AMD and other build are available under dist folder after `npm install`
-
 ## What's it Look Like?
 
 In the simple case you just need to add `lat` `lng` props to any child of `GoogleMap` component.
-[simple example in action](http://istarkov.github.io/google-map-react/map/simple)
+
+[See it in action at jsbin](https://jsbin.com/gaxapezowo/1/edit?js,output)
 
 ```javascript
-import React, {PropTypes, Component} from 'react';
-import shouldPureComponentUpdate from 'react-pure-render/function';
-
+import React, { Component } from 'react';
 import GoogleMap from 'google-map-react';
-import MyGreatPlace from './my_great_place.jsx';
 
-export default class SimpleMapPage extends Component {
+const AnyReactComponent = ({ text }) => <div>{text}</div>;
+
+class SimpleMap extends Component {
   static defaultProps = {
-    center: {lat: 59.938043, lng: 30.337157},
-    zoom: 9,
-    greatPlaceCoords: {lat: 59.724465, lng: 30.080121}
+    center: {lat: 59.95, lng: 30.33},
+    zoom: 11
   };
-
-  shouldComponentUpdate = shouldPureComponentUpdate;
-
-  constructor(props) {
-    super(props);
-  }
 
   render() {
     return (
-       <GoogleMap
+      <GoogleMapReact
         defaultCenter={this.props.center}
-        defaultZoom={this.props.zoom}>
-        <MyGreatPlace lat={59.955413} lng={30.337844} text={'A'} /* Kreyser Avrora */ />
-        <MyGreatPlace {...this.props.greatPlaceCoords} text={'B'} /* road circle */ />
-      </GoogleMap>
+        defaultZoom={this.props.zoom}
+      >
+        <AnyReactComponent
+          lat={59.955413}
+          lng={30.337844}
+          text={'Kreyser Avrora'}
+        />
+      </GoogleMapReact>
     );
   }
 }
+```
+
+## Installation
+
+```
+npm install --save google-map-react
 ```
 
 ## Examples
@@ -149,3 +132,13 @@ npm run start
 ## License
 
 MIT (http://www.opensource.org/licenses/mit-license.php)
+
+
+### bower
+
+We no longer intend to support Bower. Please stop using Bower. NPM works very well for front-end development, and you should use it instead. ((c)Dan Abramov)
+UMD AMD and other build are available under dist folder after `npm install`
+
+## Known Issues
+
+* Older browsers (http://caniuse.com/#feat=promises) will need a ES6 Promise polyfill in order to work.
