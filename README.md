@@ -50,7 +50,8 @@ UMD AMD and other build are available under dist folder after `npm install`
 ## What's it Look Like?
 
 In the simple case you just need to add `lat` `lng` props to any child of `GoogleMap` component.
-[jsbin](https://jsbin.com/gaxapezowo/1/edit?js,output)
+
+[See it in action at jsbin](https://jsbin.com/gaxapezowo/1/edit?js,output)
 
 ```javascript
 import React, { Component } from 'react';
