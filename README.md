@@ -5,7 +5,6 @@
 
 It allows you to create interfaces like this [example](http://istarkov.github.io/google-map-react/map/main) *(You can scroll the table, zoom/move the map, hover/click on markers, and click on table rows)*
 
-
 ## Features
 
 ### Works with your Components
@@ -27,25 +26,6 @@ There is no need to place a `<script src=` tag at top of page. The Google Maps A
 ### Internal Hover Algorithm
 
 Now every object on the map can be hovered (however, you can still use css hover selectors if you want). If you try zooming out here [example](http://istarkov.github.io/google-map-react/map/main), you will still be able to hover on almost every map marker.
-
-This algorithm allows you to tweak hover probability of map objects, for example making some objects "more hoverable". [distance_hover example with different hover probabilities](http://istarkov.github.io/google-map-react/map/distance_hover)
-
-## Known Issues
-
-* Older browsers (http://caniuse.com/#feat=promises) will need a ES6 Promise polyfill in order to work.
-
-## Installation
-
-### npm
-
-```
-npm install --save google-map-react
-```
-
-### bower
-
-We no longer intend to support Bower. Please stop using Bower. NPM works very well for front-end development, and you should use it instead. ((c)Dan Abramov)
-UMD AMD and other build are available under dist folder after `npm install`
 
 ## What's it Look Like?
 
@@ -80,6 +60,12 @@ class SimpleMap extends Component {
     );
   }
 }
+```
+
+## Installation
+
+```
+npm install --save google-map-react
 ```
 
 ## Examples
@@ -146,3 +132,13 @@ npm run start
 ## License
 
 MIT (http://www.opensource.org/licenses/mit-license.php)
+
+
+### bower
+
+We no longer intend to support Bower. Please stop using Bower. NPM works very well for front-end development, and you should use it instead. ((c)Dan Abramov)
+UMD AMD and other build are available under dist folder after `npm install`
+
+## Known Issues
+
+* Older browsers (http://caniuse.com/#feat=promises) will need a ES6 Promise polyfill in order to work.
