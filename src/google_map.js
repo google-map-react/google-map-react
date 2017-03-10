@@ -324,7 +324,7 @@ export default class GoogleMap extends Component {
     window.removeEventListener('resize', this._onWindowResize);
     window.removeEventListener('keydown', this._onKeyDownCapture);
     mapDom.removeEventListener('mousedown', this._onMapMouseDownNative, true);
-    window.removeEventListener('mouseup', this._onChildMouseUp, false);    
+    window.removeEventListener('mouseup', this._onChildMouseUp, false);
     if (this.props.resetBoundsOnResize) {
       detectElementResize.removeResizeListener(mapDom, this._mapDomResizeCallback);
     }
