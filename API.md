@@ -318,3 +318,21 @@ function createMapOptions() {
   };
 }
 ```
+
+### Define touch device behavior of scrolling & panning for the map
+
+Google Maps provides control over the behavior of touch based interaction with the map.
+For example, on mobile devices swiping up on the map might mean two things: Scrolling the container or panning the map.
+To resolve this ambigiuity, you can use the custom map option `gestureHandling` to get the required behavior.
+
+```javascript
+function createMapOptions() {
+  return {
+    gestureHandling: 'greedy' // Will capture all touch events on the map towards map panning
+  }
+}
+```
+
+The default setting is `gestureHandling:auto` which tries to detect based on the page/content sizes if a `greedy` setting is best (no scrolling is required) or `cooperative` (scrolling is possible)
+
+For more details see the [google documentation](https://developers.google.com/maps/documentation/javascript/interaction) for this setting.

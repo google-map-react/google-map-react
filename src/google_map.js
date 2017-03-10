@@ -191,10 +191,6 @@ export default class GoogleMap extends Component {
     this.mounted_ = true;
     window.addEventListener('resize', this._onWindowResize);
     window.addEventListener('keydown', this._onKeyDownCapture, true);
-
-    // prevent touch devices from moving the entire browser window on drag
-    window.addEventListener('touchmove', this._onTouchMove);
-
     const mapDom = ReactDOM.findDOMNode(this.refs.google_map_dom);
     // gmap can't prevent map drag if mousedown event already occured
     // the only workaround I find is prevent mousedown native browser event
@@ -329,7 +325,6 @@ export default class GoogleMap extends Component {
     window.removeEventListener('keydown', this._onKeyDownCapture);
     mapDom.removeEventListener('mousedown', this._onMapMouseDownNative, true);
     window.removeEventListener('mouseup', this._onChildMouseUp, false);
-    window.removeEventListener('touchmove', this._onTouchMove);
     if (this.props.resetBoundsOnResize) {
       detectElementResize.removeResizeListener(mapDom, this._mapDomResizeCallback);
     }
@@ -847,15 +842,6 @@ export default class GoogleMap extends Component {
   _onKeyDownCapture = () => {
     if (detectBrowser().isChrome) {
       this.zoomControlClickTime_ = (new Date()).getTime();
-    }
-  }
-
-  _onTouchMove = (event) => {
-    if (this.refs.google_map_dom) {
-      const mapDom = ReactDOM.findDOMNode(this.refs.google_map_dom);
-      if (mapDom.contains(event.target)) {
-        event.preventDefault();
-      }
     }
   }
 
