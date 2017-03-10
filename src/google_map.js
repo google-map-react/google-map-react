@@ -645,10 +645,10 @@ export default class GoogleMap extends Component {
       });
 
       // an alternative way to know the mouse is back within the map
-      // This would not fire when clicking/interacting with google maps own on-map countrols+markers.
-      // This handles an edge case for touch devices + 'draggable:false' custom option.
-      // See #332
-      maps.event.addListener(map, 'click', () => { 
+      // This would not fire when clicking/interacting with google maps
+      // own on-map countrols+markers. This handles an edge case for touch devices
+      // + 'draggable:false' custom option. See #332 for more details.
+      maps.event.addListener(map, 'click', () => {
         this_.mouseInMap_ = true;
       });
 
