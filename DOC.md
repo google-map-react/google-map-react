@@ -141,7 +141,7 @@ _)
 (_Note: defaults for `distanceToMouse` and `hoverDistance` will be removed in future releases_)
 
 
-# Helper utilities
+### Helper utilities
 
 ```javascript
 import { meters2ScreenPixels } from 'google-map-react/utils';
