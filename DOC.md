@@ -141,4 +141,16 @@ _)
 (_Note: defaults for `distanceToMouse` and `hoverDistance` will be removed in future releases_)
 
 
+# Helper utilities
+
+```javascript
+import { meters2ScreenPixels } from 'google-map-react/utils';
+const { w, h } = meters2ScreenPixels(sizeInMeters, { lat, lng } /* marker coords*/, zoom /* map zoom*/);
+```
+
+`meters2ScreenPixels` it returns `horizontal - w` and `vertical - h` sizes for given size in meters, point and zoom.
+
+Having the mercator map projection for some places w and h will be different, for most places almost the same.
+
+
 ## To be continued
