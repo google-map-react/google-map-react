@@ -51,7 +51,7 @@ export default class GoogleMap extends Component {
   static propTypes = {
     apiKey: PropTypes.string,
     bootstrapURLKeys: PropTypes.any,
-
+    className: PropTypes.string,
     defaultCenter: React.PropTypes.oneOfType([
       PropTypes.array,
       PropTypes.shape({
@@ -963,6 +963,7 @@ export default class GoogleMap extends Component {
 
     return (
       <div
+        className={this.props.className}
         style={this.props.style}
         onMouseMove={this._onMapMouseMove}
         onMouseDownCapture={this._onMapMouseDownCapture}
