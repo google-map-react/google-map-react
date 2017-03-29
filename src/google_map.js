@@ -23,6 +23,7 @@ import log2 from './utils/math/log2';
 import isNumber from './utils/isNumber';
 import omit from './utils/omit';
 import detectElementResize from './utils/detectElementResize';
+import latLngAreEqual from './utils/latLngAreEqual';
 
 const kEPS = 0.00001;
 const K_GOOGLE_TILE_SIZE = 256;
@@ -221,7 +222,7 @@ export default class GoogleMap extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (process.env.NODE_ENV !== 'production') {
-      if (this.props.defaultCenter !== nextProps.defaultCenter) {
+      if (!latLngAreEqual(this.props.defaultCenter, nextProps.defaultCenter)) {
         console.warn('GoogleMap: defaultCenter prop changed. ' +  // eslint-disable-line
                       'You can\'t change default props.');
       }
