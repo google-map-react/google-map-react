@@ -1,24 +1,31 @@
 import React, { PropTypes } from 'react';
 import compose from 'recompose/compose';
 import defaultProps from 'recompose/defaultProps';
-import withStateSelector from './utils/withStateSelector';
 import withHandlers from 'recompose/withHandlers';
 import withState from 'recompose/withState';
 import withContext from 'recompose/withContext';
 import withProps from 'recompose/withProps';
 import withPropsOnChange from 'recompose/withPropsOnChange';
+import { createSelector } from 'reselect';
 import ptInBounds from './utils/ptInBounds';
 import GoogleMapReact from '../src';
+import withStateSelector from './utils/withStateSelector';
 import SimpleMarker from './markers/SimpleMarker';
-import { createSelector } from 'reselect';
 import { londonCoords, generateMarkers } from './data/fakeData';
 
-export const gMap = ({
-  style, hoverDistance, options,
-  mapParams: { center, zoom },
-  onChange, onChildMouseEnter, onChildMouseLeave,
-  markers, draggable, // hoveredMarkerId,
-}) => (
+export const gMap = (
+  {
+    style,
+    hoverDistance,
+    options,
+    mapParams: { center, zoom },
+    onChange,
+    onChildMouseEnter,
+    onChildMouseLeave,
+    markers,
+    draggable, // hoveredMarkerId,
+  }
+) => (
   <GoogleMapReact
     draggable={draggable}
     style={style}
@@ -26,14 +33,16 @@ export const gMap = ({
     hoverDistance={hoverDistance}
     center={center}
     zoom={zoom}
-    layerTypes={zoom > 12 ? [] : zoom > 10 ? ['TrafficLayer'] : ['TrafficLayer', 'TransitLayer']}
+    layerTypes={
+      zoom > 12
+        ? []
+        : zoom > 10 ? ['TrafficLayer'] : ['TrafficLayer', 'TransitLayer']
+    }
     onChange={onChange}
     onChildMouseEnter={onChildMouseEnter}
     onChildMouseLeave={onChildMouseLeave}
   >
-    {
-      markers
-    }
+    {markers}
   </GoogleMapReact>
 );
 
@@ -52,57 +61,44 @@ export const gMapHOC = compose(
       flex: 1,
     },
   }),
-  withContext(
-    { hello: PropTypes.string },
-    () => ({ hello: 'world' })
-  ),
+  withContext({ hello: PropTypes.string }, () => ({ hello: 'world' })),
   // withState so you could change markers if you want
-  withStateSelector(
-    'markers',
-    'setMarkers',
-    () => createSelector(
+  withStateSelector('markers', 'setMarkers', () =>
+    createSelector(
       ({ route: { markersCount = 20 } }) => markersCount,
-      (markersCount) => generateMarkers(markersCount)
-    )
-  ),
+      markersCount => generateMarkers(markersCount)
+    )),
   withState('hoveredMarkerId', 'setHoveredMarkerId', -1),
   withState('mapParams', 'setMapParams', { center: londonCoords, zoom: 9 }),
   // describe events
   withHandlers({
-    onChange: ({ setMapParams }) => ({ center, zoom, bounds }) => {
-      setMapParams({ center, zoom, bounds });
-    },
-    onChildMouseEnter: ({ setHoveredMarkerId }) => (hoverKey, { id }) => {
-      setHoveredMarkerId(id);
-    },
-    onChildMouseLeave: ({ setHoveredMarkerId }) => () => {
-      setHoveredMarkerId(-1);
-    },
+    onChange: ({ setMapParams }) =>
+      ({ center, zoom, bounds }) => {
+        setMapParams({ center, zoom, bounds });
+      },
+    onChildMouseEnter: ({ setHoveredMarkerId }) =>
+      (hoverKey, { id }) => {
+        setHoveredMarkerId(id);
+      },
+    onChildMouseLeave: ({ setHoveredMarkerId }) =>
+      () => {
+        setHoveredMarkerId(-1);
+      },
   }),
-  withPropsOnChange(
-    ['markers', 'mapParams'],
-    ({ markers, mapParams: { bounds } }) => ({
-      markers: bounds
-        ? markers.filter(m => ptInBounds(bounds, m))
-        : [],
-    })
-  ),
+  withPropsOnChange(['markers', 'mapParams'], ({
+    markers,
+    mapParams: { bounds },
+  }) => ({
+    markers: bounds ? markers.filter(m => ptInBounds(bounds, m)) : [],
+  })),
   withProps(({ hoveredMarkerId }) => ({
     draggable: hoveredMarkerId === -1,
   })),
-  withPropsOnChange(
-    ['markers'],
-    ({ markers }) => ({
-      markers: markers
-        .map(({ ...markerProps, id }) => (
-          <SimpleMarker
-            key={id}
-            id={id}
-            {...markerProps}
-          />
-        )),
-    })
-  )
+  withPropsOnChange(['markers'], ({ markers }) => ({
+    markers: markers.map(({ ...markerProps, id }) => (
+      <SimpleMarker key={id} id={id} {...markerProps} />
+    )),
+  }))
 );
 
 export default gMapHOC(gMap);

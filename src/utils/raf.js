@@ -1,10 +1,10 @@
-
 export default function raf(callback) {
   if (window.requestAnimationFrame) {
     return window.requestAnimationFrame(callback);
   }
 
-  const nativeRaf = window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame;
+  const nativeRaf = window.webkitRequestAnimationFrame ||
+    window.mozRequestAnimationFrame;
 
   return nativeRaf
     ? nativeRaf(callback)

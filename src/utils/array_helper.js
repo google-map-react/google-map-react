@@ -1,4 +1,3 @@
-
 export default function isArraysEqualEps(arrayA, arrayB, eps) {
   if (arrayA && arrayB) {
     for (let i = 0; i !== arrayA.length; ++i) {
