@@ -1,18 +1,18 @@
 import { Component } from 'react';
-import createEagerFactory from './createEagerFactory';
 import createHelper from 'recompose/createHelper';
+import createEagerFactory from './createEagerFactory';
 
 // if stream prop will change this will fail,
 // this is expected behavior
-const stream2Props = (props2Stream) =>
+const stream2Props = props2Stream =>
   BaseComponent => {
     const factory = createEagerFactory(BaseComponent);
     return class extends Component {
       state = {};
 
       componentWillMount() {
-        this.subscription = props2Stream(this.props)
-          .subscribe(value => this.setState({ value }));
+        this.subscription = props2Stream(this.props).subscribe(value =>
+          this.setState({ value }));
       }
 
       componentWillUnmount() {

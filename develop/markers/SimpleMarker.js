@@ -4,31 +4,29 @@ import defaultProps from 'recompose/defaultProps';
 import getContext from 'recompose/getContext';
 // import mapPropsOnChange from 'recompose/mapPropsOnChange';
 import { Motion } from 'react-motion';
-import { clusterMarkerHOC } from './ClusterMarker.js';
+import { clusterMarkerHOC } from './ClusterMarker';
 import simpleMarkerStyles from './SimpleMarker.sass';
 
-export const simpleMarker = ({
-  styles, hovered, $hover,
-  defaultMotionStyle, motionStyle,
-  // hello,
-}) => (
-  // console.log('hello', hello),
-  <Motion
-    defaultStyle={defaultMotionStyle}
-    style={motionStyle}
-  >
+export const simpleMarker = (
   {
-    ({ scale }) => (
+    styles,
+    hovered,
+    $hover,
+    defaultMotionStyle,
+    motionStyle,
+    // hello,
+  } // console.log('hello', hello),
+) => (
+  <Motion defaultStyle={defaultMotionStyle} style={motionStyle}>
+    {({ scale }) => (
       <div
         className={styles.marker}
         style={{
           transform: `translate3D(0,0,0) scale(${scale}, ${scale})`,
-          zIndex: (hovered || $hover) ? 1 : 0,
+          zIndex: hovered || $hover ? 1 : 0,
         }}
-      >
-      </div>
-    )
-  }
+      />
+    )}
   </Motion>
 );
 
