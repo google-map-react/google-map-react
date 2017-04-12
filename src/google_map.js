@@ -94,7 +94,9 @@ export default class GoogleMap extends Component {
     resetBoundsOnResize: PropTypes.bool,
     layerTypes: PropTypes.arrayOf(PropTypes.string), // ['TransitLayer', 'TrafficLayer']
     geoJsonUrls: PropTypes.arrayOf(PropTypes.string), // [url1, url2]
-    geoJsonFeatures: PropTypes.object // { key: json, key2: json2}
+    geoJsonFeatures: PropTypes.object, // { key: json, key2: json2}
+    polygons: PropTypes.array,
+    circles: PropTypes.array,
   };
 
   static defaultProps = {
@@ -156,6 +158,9 @@ export default class GoogleMap extends Component {
     this.geoJsonDict = {};
     this.geoJsonFeatureDict = {};
     this.geoJsonRendered = false;
+
+    this.polygons = [];
+    this.circles = [];
 
     if (process.env.NODE_ENV !== 'production') {
       if (this.props.apiKey) {
@@ -366,6 +371,30 @@ export default class GoogleMap extends Component {
           }
         }
       }
+      if (this.props.polygons !== nextProps.polygons) {
+        this.polygons.map(polygon => polygon.setMap(null));
+        if (!nextProps.polygons) {
+          this.polygons = [];
+        } else {
+          this.polygons = nextProps.polygons.map(polygonConfig => {
+            const polygon = new this.maps_.Polygon(polygonConfig);
+            polygon.setMap(this.map_);
+            return polygon;
+          });
+        }
+      }
+      if (this.props.circles !== nextProps.circles) {
+        this.circles.map(circle => circle.setMap(null));
+        if (!nextProps.circles) {
+          this.circles = [];
+        } else {
+          this.circles = nextProps.circles.map(circleConfig => {
+            const circle = new this.maps_.Circle(circleConfig);
+            circle.setMap(this.map_);
+            return circle;
+          });
+        }
+      }
     }
   }
 
@@ -560,7 +589,7 @@ export default class GoogleMap extends Component {
 
       const map = new maps.Map(ReactDOM.findDOMNode(this.refs.google_map_dom), mapOptions);
       //console.log('map init OMGO OMG OM G');
-      
+
       this.map_ = map;
       this.maps_ = maps;
 
@@ -639,6 +668,22 @@ export default class GoogleMap extends Component {
       });
 
       overlay.setMap(map);
+
+
+      if (this.props.polygons) {
+        this.polygons = this.props.polygons.map(polygonConfig => {
+          const polygon = new this.maps_.Polygon(polygonConfig);
+          polygon.setMap(this.map_);
+          return polygon;
+        });
+      }
+      if (this.props.circles) {
+        this.circles = this.props.circles.map(circleConfig => {
+          const circle = new this.maps_.Circle(circleConfig);
+          circle.setMap(this.map_);
+          return circle;
+        });
+      }
 
       maps.event.addListener(map, 'zoom_changed', () => {
         // recalc position at zoom start
