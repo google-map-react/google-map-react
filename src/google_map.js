@@ -390,6 +390,9 @@ export default class GoogleMap extends Component {
         } else {
           this.circles = nextProps.circles.map(circleConfig => {
             const circle = new this.maps_.Circle(circleConfig);
+            if (circleConfig.onBoundsCreate) {
+              circle.onBoundsCreate(circle.getBounds());
+            }
             circle.setMap(this.map_);
             return circle;
           });
@@ -680,6 +683,9 @@ export default class GoogleMap extends Component {
       if (this.props.circles) {
         this.circles = this.props.circles.map(circleConfig => {
           const circle = new this.maps_.Circle(circleConfig);
+          if (circleConfig.onBoundsCreate) {
+            circle.onBoundsCreate(circle.getBounds());
+          }
           circle.setMap(this.map_);
           return circle;
         });
