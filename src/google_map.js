@@ -95,6 +95,7 @@ export default class GoogleMap extends Component {
     layerTypes: PropTypes.arrayOf(PropTypes.string), // ['TransitLayer', 'TrafficLayer']
     geoJsonUrls: PropTypes.arrayOf(PropTypes.string), // [url1, url2]
     geoJsonFeatures: PropTypes.object, // { key: json, key2: json2}
+    polylines: PropTypes.array,
     polygons: PropTypes.array,
     circles: PropTypes.array,
   };
@@ -159,6 +160,7 @@ export default class GoogleMap extends Component {
     this.geoJsonFeatureDict = {};
     this.geoJsonRendered = false;
 
+    this.polylines = [];
     this.polygons = [];
     this.circles = [];
 
@@ -369,6 +371,18 @@ export default class GoogleMap extends Component {
           if (!this.geoJsonFeatureDict[newKey]) {
             this._addGeoJson(newKey, nextProps.geoJsonFeatures[newKey]);
           }
+        }
+      }
+      if (this.props.polylines !== nextProps.polylines) {
+        this.polylines.map(polyline => polyline.setMap(null));
+        if (!nextProps.polylines) {
+          this.polylines = [];
+        } else {
+          this.polylines = nextProps.polylines.map(polylineConfig => {
+            const polyline = new this.maps_.Polyline(polylineConfig);
+            polyline.setMap(this.map_);
+            return polyline;
+          });
         }
       }
       if (this.props.polygons !== nextProps.polygons) {
@@ -673,6 +687,13 @@ export default class GoogleMap extends Component {
       overlay.setMap(map);
 
 
+      if (this.props.polylines) {
+        this.polylines = this.props.polylines.map(polylineConfig => {
+          const polyline = new this.maps_.Polyline(polylineConfig);
+          polyline.setMap(this.map_);
+          return polyline;
+        });
+      }
       if (this.props.polygons) {
         this.polygons = this.props.polygons.map(polygonConfig => {
           const polygon = new this.maps_.Polygon(polygonConfig);
