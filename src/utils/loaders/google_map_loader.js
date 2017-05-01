@@ -57,13 +57,20 @@ export default function googleMapLoader(bootstrapURLKeys) {
       }
     }
 
+    let baseUrl = 'https://maps.googleapis.com';
+
+    if (Object.keys(bootstrapURLKeys).indexOf('baseUrl') > -1) {
+      baseUrl = bootstrapURLKeys.baseUrl;
+      delete bootstrapURLKeys.baseUrl;
+    }
+
     const queryString = Object.keys(bootstrapURLKeys).reduce(
       (r, key) => `${r}&${key}=${bootstrapURLKeys[key]}`,
       ''
     );
 
     $script_(
-      `https://maps.googleapis.com/maps/api/js?callback=_$_google_map_initialize_$_${queryString}`,
+      `${baseUrl}/maps/api/js?callback=_$_google_map_initialize_$_${queryString}`,
       () =>
         typeof window.google === 'undefined' &&
         reject(new Error('google map initialization error (not loaded)'))
