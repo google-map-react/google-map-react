@@ -7,8 +7,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
 describe('Playground', () => {
   it('Play', async () => {
     const comparator = (a, b) => a === b;
-    const props$ = (new BehaviorSubject(1))
-      .distinctUntilChanged(comparator);
+    const props$ = new BehaviorSubject(1).distinctUntilChanged(comparator);
 
     props$.subscribe(v => console.log(v)); // eslint-disable-line
     props$.next(1);
