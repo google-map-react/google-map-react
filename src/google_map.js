@@ -805,7 +805,7 @@ export default class GoogleMap extends Component {
 
       maps.event.addListener(map, 'drag', () => {
         this_.dragTime_ = (new Date()).getTime();
-        this_._onDrag();
+        this_._onDrag(map);
       });
       maps.event.addListener(map, 'maptypeid_changed', () => {
         this_._onMapTypeIdChange(map.getMapTypeId());

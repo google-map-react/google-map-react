@@ -1,6 +1,6 @@
 {
   "name": "google-map-react-mark43",
-  "version": "0.21.8",
+  "version": "0.21.9",
   "description": "isomorphic google map react component, allows render react components on the google map",
   "main": "lib/index",
   "scripts": {
@@ -40,9 +40,7 @@
     "url": "https://github.com/istarkov/google-map-react/issues"
   },
   "homepage": "https://github.com/istarkov/google-map-react#readme",
-  "peerDependencies": {
-    "react": "^0.14.0 || ^15.0.0"
-  },
+  "peerDependencies": {},
   "dependencies": {
     "eventemitter3": "^1.1.0",
     "fbjs": "^0.8.3",
