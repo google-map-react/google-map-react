@@ -1,6 +1,7 @@
-import LatLng from './lat_lng';
+/* eslint-disable class-methods-use-this */
 import Point from 'point-geometry';
-import { wrap } from './wrap.js';
+import LatLng from './lat_lng';
+import { wrap } from './wrap';
 
 // A single transform, generally used for a single tile to be scaled, rotated, and zoomed.
 export default class Transform {
@@ -80,13 +81,15 @@ export default class Transform {
   project(latlng, worldSize) {
     return new Point(
       this.lngX(latlng.lng, worldSize),
-      this.latY(latlng.lat, worldSize));
+      this.latY(latlng.lat, worldSize)
+    );
   }
 
   unproject(point, worldSize) {
     return new LatLng(
       this.yLat(point.y, worldSize),
-      this.xLng(point.x, worldSize));
+      this.xLng(point.x, worldSize)
+    );
   }
 
   get x() {
@@ -108,7 +111,9 @@ export default class Transform {
 
   // latitude to absolute y coord
   latY(lat, worldSize) {
-    const y = 180 / Math.PI * Math.log(Math.tan(Math.PI / 4 + lat * Math.PI / 360));
+    const y = 180 /
+      Math.PI *
+      Math.log(Math.tan(Math.PI / 4 + lat * Math.PI / 360));
     return (180 - y) * (worldSize || this.worldSize) / 360;
   }
 

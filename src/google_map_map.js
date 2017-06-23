@@ -16,8 +16,7 @@ export default class GoogleMapMap extends Component {
   }
 
   render() {
-    return (
-      <div style={style} />
-    );
+    const { registerChild } = this.props;
+    return <div ref={registerChild} style={style} />;
   }
 }

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 let $script_ = null;
 
 let loadPromise_;
@@ -45,24 +46,27 @@ export default function googleMapLoader(bootstrapURLKeys) {
 
     if (process.env.NODE_ENV !== 'production') {
       if (Object.keys(bootstrapURLKeys).indexOf('callback') > -1) {
-        console.error('"callback" key in bootstrapURLKeys is not allowed, ' + // eslint-disable-line
-                      'use onGoogleApiLoaded property instead');
-        throw new Error('"callback" key in bootstrapURLKeys is not allowed, ' +
-                        'use onGoogleApiLoaded property instead');
+        console.error(
+          '"callback" key in bootstrapURLKeys is not allowed, ' + // eslint-disable-line
+            'use onGoogleApiLoaded property instead'
+        );
+        throw new Error(
+          '"callback" key in bootstrapURLKeys is not allowed, ' +
+            'use onGoogleApiLoaded property instead'
+        );
       }
     }
 
-    const queryString = Object.keys(bootstrapURLKeys)
-      .reduce(
-        (r, key) => `${r}&${key}=${bootstrapURLKeys[key]}`,
-        ''
-      );
+    const queryString = Object.keys(bootstrapURLKeys).reduce(
+      (r, key) => `${r}&${key}=${bootstrapURLKeys[key]}`,
+      ''
+    );
 
     $script_(
       `https://maps.googleapis.com/maps/api/js?callback=_$_google_map_initialize_$_${queryString}`,
       () =>
         typeof window.google === 'undefined' &&
-          reject(new Error('google map initialization error (not loaded)'))
+        reject(new Error('google map initialization error (not loaded)'))
     );
   });
 
