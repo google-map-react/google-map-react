@@ -399,17 +399,11 @@ export default class GoogleMap extends Component {
     window.removeEventListener('keydown', this._onKeyDownCapture);
     mapDom.removeEventListener('mousedown', this._onMapMouseDownNative, true);
     window.removeEventListener('mouseup', this._onChildMouseUp, false);
-<<<<<<< HEAD
-    window.removeEventListener('touchmove', this._onTouchMove);
     if (this.props.resetBoundsOnResize || this.props.lockCenter) {
-      detectElementResize.removeResizeListener(mapDom, this._mapDomResizeCallback);
-=======
-    if (this.props.resetBoundsOnResize) {
       detectElementResize.removeResizeListener(
         mapDom,
         this._mapDomResizeCallback
       );
->>>>>>> 31639b3d589bdd8a92ae4349aaae503be61c6295
     }
 
     if (this.overlay_) {
