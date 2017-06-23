@@ -1,12 +1,16 @@
+/* eslint-disable react/prefer-stateless-function */
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import { Link } from 'react-router';
 import defaultProps from 'recompose/defaultProps';
 import layoutStyles from './Layout.sass';
 // for hmr to work I need the first class to extend Component
-export class Layout extends Component { // eslint-disable-line
+export class Layout extends Component {
+  // eslint-disable-line
   render() {
-    const { styles: { layout, header, main, footer, logo, links } } = this.props;
+    const {
+      styles: { layout, header, main, footer, logo, links },
+    } = this.props;
     return (
       <div className={layout}>
         <header className={header}>
@@ -32,7 +36,7 @@ export class Layout extends Component { // eslint-disable-line
               Ivan Starkov
             </a>
           </div>
-          <div className={logo}></div>
+          <div className={logo} />
           <div>
             <a href="https://twitter.com/icelabaratory">
               @icelabaratory

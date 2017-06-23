@@ -1,10 +1,10 @@
 import LatLng from './lat_lng';
 
 export default class LatLngBounds {
-  static convert = (a) => {
+  static convert = a => {
     if (!a || a instanceof LatLngBounds) return a;
     return new LatLngBounds(a);
-  }
+  };
 
   constructor(sw, ne) {
     if (!sw) return;
@@ -49,23 +49,25 @@ export default class LatLngBounds {
     return this;
   }
 
-  getCenter = () => new LatLng(
-    (this._sw.lat + this._ne.lat) / 2,
-    (this._sw.lng + this._ne.lng) / 2)
+  getCenter = () =>
+    new LatLng(
+      (this._sw.lat + this._ne.lat) / 2,
+      (this._sw.lng + this._ne.lng) / 2
+    );
 
-  getSouthWest = () => this._sw
+  getSouthWest = () => this._sw;
 
-  getNorthEast = () => this._ne
+  getNorthEast = () => this._ne;
 
-  getNorthWest = () => new LatLng(this.getNorth(), this.getWest())
+  getNorthWest = () => new LatLng(this.getNorth(), this.getWest());
 
-  getSouthEast = () => new LatLng(this.getSouth(), this.getEast())
+  getSouthEast = () => new LatLng(this.getSouth(), this.getEast());
 
-  getWest = () => this._sw.lng
+  getWest = () => this._sw.lng;
 
-  getSouth = () => this._sw.lat
+  getSouth = () => this._sw.lat;
 
-  getEast = () => this._ne.lng
+  getEast = () => this._ne.lng;
 
-  getNorth = () => this._ne.lat
+  getNorth = () => this._ne.lat;
 }
