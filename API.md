@@ -272,6 +272,7 @@ render() {
 
 ```javascript
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 export default class SearchBox extends React.Component {
   static propTypes = {
@@ -287,7 +288,7 @@ export default class SearchBox extends React.Component {
     }
   }
   componentDidMount() {
-    var input = React.findDOMNode(this.refs.input);
+    var input = ReactDOM.findDOMNode(this.refs.input);
     this.searchBox = new google.maps.places.SearchBox(input);
     this.searchBox.addListener('places_changed', this.onPlacesChanged);
   }
