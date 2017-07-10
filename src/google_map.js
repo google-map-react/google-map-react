@@ -339,7 +339,7 @@ export default class GoogleMap extends Component {
         // only run this once
         this.map_.data.setStyle(feature => {
           const fillColor = feature.getProperty('fill') || 'white';
-          const fillOpacity = feature.getProperty('fill-opacity') || 0.5;
+          const fillOpacity = 0; // not sure if leaving fill + fill opacity blank will default to something, we want it clear
           const strokeColor = feature.getProperty('stroke') || 'white';
           const strokeWidth = feature.getProperty('stroke-width') || 2;
           const strokeOpacity = feature.getProperty('stroke-opacity') || 1;
