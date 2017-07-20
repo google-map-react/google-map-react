@@ -94,6 +94,7 @@ export default class GoogleMap extends Component {
     ]),
     defaultZoom: PropTypes.number,
     zoom: PropTypes.number,
+    mapTypeId: PropTypes.oneOf(['hybrid', 'roadmap', 'satellite', 'terrain']),
     onBoundsChange: PropTypes.func,
     onChange: PropTypes.func,
     onClick: PropTypes.func,
@@ -501,6 +502,7 @@ export default class GoogleMap extends Component {
         const propsOptions = {
           zoom: this.props.zoom || this.props.defaultZoom,
           center: new maps.LatLng(centerLatLng.lat, centerLatLng.lng),
+          mapTypeId: this.props.mapTypeId || 'roadmap',
         };
 
         // prevent to exapose full api
