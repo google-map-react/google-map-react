@@ -1,4 +1,5 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 
 import shallowEqual from 'fbjs/lib/shallowEqual';
@@ -52,14 +53,14 @@ export default class GoogleMap extends Component {
     apiKey: PropTypes.string,
     bootstrapURLKeys: PropTypes.any,
 
-    defaultCenter: React.PropTypes.oneOfType([
+    defaultCenter: PropTypes.oneOfType([
       PropTypes.array,
       PropTypes.shape({
         lat: PropTypes.number,
         lng: PropTypes.number,
       }),
     ]),
-    center: React.PropTypes.oneOfType([
+    center: PropTypes.oneOfType([
       PropTypes.array,
       PropTypes.shape({
         lat: PropTypes.number,
