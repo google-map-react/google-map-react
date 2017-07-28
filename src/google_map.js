@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { PropTypes, Component } from 'react';
 import ReactDOM from 'react-dom';
 
 import shallowEqual from 'fbjs/lib/shallowEqual';
@@ -53,14 +52,14 @@ export default class GoogleMap extends Component {
     apiKey: PropTypes.string,
     bootstrapURLKeys: PropTypes.any,
 
-    defaultCenter: PropTypes.oneOfType([
+    defaultCenter: React.PropTypes.oneOfType([
       PropTypes.array,
       PropTypes.shape({
         lat: PropTypes.number,
         lng: PropTypes.number,
       }),
     ]),
-    center: PropTypes.oneOfType([
+    center: React.PropTypes.oneOfType([
       PropTypes.array,
       PropTypes.shape({
         lat: PropTypes.number,
@@ -96,6 +95,8 @@ export default class GoogleMap extends Component {
     layerTypes: PropTypes.arrayOf(PropTypes.string), // ['TransitLayer', 'TrafficLayer']
     geoJsonUrls: PropTypes.arrayOf(PropTypes.string), // [url1, url2]
     geoJsonFeatures: PropTypes.object, // { key: json, key2: json2}
+    zoomBoxMode: PropTypes.bool,
+    mapMode: PropTypes.string,
     polylines: PropTypes.array,
     polygons: PropTypes.array,
     circles: PropTypes.array,
@@ -161,6 +162,8 @@ export default class GoogleMap extends Component {
     this.geoJsonFeatureDict = {};
     this.geoJsonRendered = false;
 
+    this.zoomBoxMode = false;
+    this.mapMode = "DARK_MODE";
     this.polylines = [];
     this.polygons = [];
     this.circles = [];
@@ -373,6 +376,70 @@ export default class GoogleMap extends Component {
             this._addGeoJson(newKey, nextProps.geoJsonFeatures[newKey]);
           }
         }
+      }
+      if (nextProps.zoomBoxMode) {
+        // add drawingManager for boxZoom
+        const drawingManager = new this.maps_.drawing.DrawingManager();
+        if (nextProps.mapMode === "DARK_MODE") {
+          drawingManager.setOptions({
+            drawingMode : google.maps.drawing.OverlayType.RECTANGLE,
+            drawingControl : false, // hides control bar
+            rectangleOptions : {
+              strokeColor : '#00C2FF',
+              strokeWeight : 1,
+              fillColor : '#00C2FF',
+              fillOpacity : 0.1,
+            }
+          });
+        } else {
+          drawingManager.setOptions({
+            drawingMode : google.maps.drawing.OverlayType.RECTANGLE,
+            drawingControl : false, // hides control bar
+            rectangleOptions : {
+              strokeColor : '#FFFFFF',
+              strokeWeight : 1,
+              fillColor : '#FFFFFF',
+              fillOpacity : 0.1,
+            }
+          });
+        }
+          
+        // Loading the drawing Tool in the Map.
+        drawingManager.setMap(this.map_);
+        const map = this.map_;
+
+        // listen for rectangle to be drawn
+        this.maps_.event.addListener(drawingManager, 'rectanglecomplete', function(event) {
+          // turn off drawCursor
+          drawingManager.setMap(null);
+          
+          const mapBounds = map.getBounds();
+          const mapHeight = mapBounds.getNorthEast().lat() - mapBounds.getSouthWest().lat();
+          const mapWidth = mapBounds.getNorthEast().lng() - mapBounds.getSouthWest().lng();
+
+          const rectBounds = event.getBounds();
+          const rectHeight = rectBounds.getNorthEast().lat() - rectBounds.getSouthWest().lat();
+          const rectWidth = rectBounds.getNorthEast().lng() - rectBounds.getSouthWest().lng();
+
+          // calc how much to zoom
+          const widthZoom = mapWidth/rectWidth;
+          const heightZoom = mapHeight/rectHeight;
+        
+          // apply new zoomLevel and center map
+          let newZoom;
+          if (heightZoom < widthZoom) {
+            newZoom = Math.floor(Math.log2(heightZoom));
+          } else {
+            newZoom = Math.floor(Math.log2(widthZoom));
+          }
+          if (newZoom > 0) {
+            map.setZoom(map.getZoom() + newZoom);
+          }
+          map.setCenter(event.getBounds().getCenter());
+          
+          // remove rectangle
+          event.setMap(null);
+        });
       }
       if (this.props.polylines !== nextProps.polylines) {
         this.polylines.map(polyline => polyline.setMap(null));
@@ -686,7 +753,6 @@ export default class GoogleMap extends Component {
       });
 
       overlay.setMap(map);
-
 
       if (this.props.polylines) {
         this.polylines = this.props.polylines.map(polylineConfig => {

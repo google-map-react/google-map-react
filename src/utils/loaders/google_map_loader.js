@@ -59,7 +59,7 @@ export default function googleMapLoader(bootstrapURLKeys) {
       );
 
     $script_(
-      `https://maps.googleapis.com/maps/api/js?callback=_$_google_map_initialize_$_${queryString}`,
+      `https://maps.googleapis.com/maps/api/js?callback=_$_google_map_initialize_$_${queryString}&libraries=drawing`,
       () =>
         typeof window.google === 'undefined' &&
           reject(new Error('google map initialization error (not loaded)'))
