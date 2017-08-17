@@ -382,79 +382,40 @@ export default class GoogleMap extends Component {
         }
       }
       if (nextProps.zoomBoxMode) {
-        // add drawingManager for boxZoom
+        // Update style based on the map mode only on change
+        if (this.props.mapMode !== nextProps.mapMode) {
+          if (nextProps.mapMode === "DARK_MODE") {
+            this.drawingManager_.setOptions({
+              rectangleOptions: {
+                strokeColor: '#00C2FF',
+                strokeWeight: 1,
+                fillColor: '#00C2FF',
+                fillOpacity: 0.1,
+              }
+            });
+          } else {
+            this.drawingManager_.setOptions({
+              rectangleOptions: {
+                strokeColor: '#FFFFFF',
+                strokeWeight: 1,
+                fillColor: '#FFFFFF',
+                fillOpacity: 0.1,
+              }
+            });
+          }
+        }
+        // turn on rectangle drawingManager for boxZoom
         if (!this.state.drawingManagerCreated) {
+          this.drawingManager_.setOptions({
+            drawingMode: google.maps.drawing.OverlayType.RECTANGLE
+          });
           this.setState({ drawingManagerCreated: true });
-          this.drawingManager_ = new this.maps_.drawing.DrawingManager();
-            
-          const map = this.map_;
-          const this_ = this;
-
-          // listen for rectangle to be drawn
-          this.maps_.event.addListener(this_.drawingManager_, 'rectanglecomplete', function(event) {
-            // turn off drawCursor
-            this_.drawingManager_.setMap(null);
-            this_.drawingManager_ = null;
-            this_.setState({ drawingManagerCreated: false });
-            
-            const mapBounds = map.getBounds();
-            const mapHeight = mapBounds.getNorthEast().lat() - mapBounds.getSouthWest().lat();
-            const mapWidth = mapBounds.getNorthEast().lng() - mapBounds.getSouthWest().lng();
-
-            const rectBounds = event.getBounds();
-            const rectHeight = rectBounds.getNorthEast().lat() - rectBounds.getSouthWest().lat();
-            const rectWidth = rectBounds.getNorthEast().lng() - rectBounds.getSouthWest().lng();
-
-            // calc how much to zoom
-            const widthZoom = mapWidth/rectWidth;
-            const heightZoom = mapHeight/rectHeight;
-          
-            // apply new zoomLevel and center map
-            let newZoom;
-            if (heightZoom < widthZoom) {
-              newZoom = Math.floor(Math.log2(heightZoom));
-            } else {
-              newZoom = Math.floor(Math.log2(widthZoom));
-            }
-            if (newZoom > 0) {
-              map.setZoom(map.getZoom() + newZoom);
-            }
-            map.setCenter(event.getBounds().getCenter());
-            
-            // remove rectangle
-            event.setMap(null);
-          });
         }
-        // Update style based on the map mode
-        if (nextProps.mapMode === "DARK_MODE") {
-          this.drawingManager_.setOptions({
-            drawingMode : google.maps.drawing.OverlayType.RECTANGLE,
-            drawingControl : false, // hides control bar
-            rectangleOptions : {
-              strokeColor : '#00C2FF',
-              strokeWeight : 1,
-              fillColor : '#00C2FF',
-              fillOpacity : 0.1,
-            }
-          });
-        } else {
-          this.drawingManager_.setOptions({
-            drawingMode : google.maps.drawing.OverlayType.RECTANGLE,
-            drawingControl : false, // hides control bar
-            rectangleOptions : {
-              strokeColor : '#FFFFFF',
-              strokeWeight : 1,
-              fillColor : '#FFFFFF',
-              fillOpacity : 0.1,
-            }
-          });
-        }
-        // Loading the drawing Tool in the Map.
-        this.drawingManager_.setMap(this.map_);
       } else if (this.state.drawingManagerCreated) {
-        // turn off drawing if zoomBoxMode is false and were currently drawing
-        this.drawingManager_.setMap(null);
-        this.drawingManager_ = null;
+        // turn off drawing if zoomBoxMode is false and you were currently drawing
+        this.drawingManager_.setOptions({
+          drawingMode : null
+        });
         this.setState({ drawingManagerCreated: false });
       }
       if (this.props.polylines !== nextProps.polylines) {
@@ -689,10 +650,23 @@ export default class GoogleMap extends Component {
       mapOptions.minZoom = this._checkMinZoom(mapOptions.minZoom, minZoom);
 
       const map = new maps.Map(ReactDOM.findDOMNode(this.refs.google_map_dom), mapOptions);
-      //console.log('map init OMGO OMG OM G');
+      // console.log('map init OMGO OMG OM G');
 
       this.map_ = map;
       this.maps_ = maps;
+
+      this.drawingManager_ = new this.maps_.drawing.DrawingManager();
+      this.drawingManager_.setOptions({
+        drawingMode: null,
+        drawingControl: false, // hides control bar
+        rectangleOptions : {
+          strokeColor: '#00C2FF',
+          strokeWeight: 1,
+          fillColor: '#00C2FF',
+          fillOpacity: 0.1,
+        }
+      });
+      this.drawingManager_.setMap(this.map_);
 
       this._setLayers(this.props.layerTypes);
 
@@ -794,6 +768,42 @@ export default class GoogleMap extends Component {
           return circle;
         });
       }
+
+      // listen for rectangle to be drawn
+      maps.event.addListener(this.drawingManager_, 'rectanglecomplete', function(event) {
+        // turn of draw
+        this_.drawingManager_.setOptions({
+          drawingMode: null,
+        });
+        this_.setState({ drawingManagerCreated: false });
+        
+        const mapBounds = map.getBounds();
+        const mapHeight = mapBounds.getNorthEast().lat() - mapBounds.getSouthWest().lat();
+        const mapWidth = mapBounds.getNorthEast().lng() - mapBounds.getSouthWest().lng();
+
+        const rectBounds = event.getBounds();
+        const rectHeight = rectBounds.getNorthEast().lat() - rectBounds.getSouthWest().lat();
+        const rectWidth = rectBounds.getNorthEast().lng() - rectBounds.getSouthWest().lng();
+
+        // calc how much to zoom
+        const widthZoom = mapWidth/rectWidth;
+        const heightZoom = mapHeight/rectHeight;
+      
+        // apply new zoomLevel and center map
+        let newZoom;
+        if (heightZoom < widthZoom) {
+          newZoom = Math.floor(Math.log2(heightZoom));
+        } else {
+          newZoom = Math.floor(Math.log2(widthZoom));
+        }
+        if (newZoom > 0) {
+          map.setZoom(map.getZoom() + newZoom);
+        }
+        map.setCenter(event.getBounds().getCenter());
+        
+        // remove rectangle
+        event.setMap(null);
+      });
 
       maps.event.addListener(map, 'zoom_changed', () => {
         // recalc position at zoom start
