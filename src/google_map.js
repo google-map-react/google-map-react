@@ -106,6 +106,7 @@ export default class GoogleMap extends Component {
     onZoomAnimationStart: PropTypes.func,
     onZoomAnimationEnd: PropTypes.func,
     onDrag: PropTypes.func,
+    onDragEnd: PropTypes.func,
     onMapTypeIdChange: PropTypes.func,
     options: PropTypes.any,
     distanceToMouse: PropTypes.func,
@@ -749,7 +750,12 @@ export default class GoogleMap extends Component {
 
         maps.event.addListener(map, 'drag', () => {
           this_.dragTime_ = new Date().getTime();
-          this_._onDrag();
+          this_._onDragEvent();
+        });
+
+        maps.event.addListener(map, 'dragend', () => {
+          this_.dragTime_ = new Date().getTime();
+          this_._onDragEvent(true);
         });
         // user choosing satellite vs roads, etc
         maps.event.addListener(map, 'maptypeid_changed', () => {
@@ -782,8 +788,6 @@ export default class GoogleMap extends Component {
   };
 
   _getHoverDistance = () => this.props.hoverDistance;
-
-  _onDrag = (...args) => this.props.onDrag && this.props.onDrag(...args);
 
   _onMapTypeIdChange = (...args) =>
     this.props.onMapTypeIdChange && this.props.onMapTypeIdChange(...args);
@@ -1042,6 +1046,76 @@ export default class GoogleMap extends Component {
 
           this.prevBounds_ = bounds;
         }
+      }
+    }
+  };
+
+  _onDragEvent = isEnd => {
+    if (
+      (this.props.onDrag || this.props.onDragEnd) &&
+      this.geoService_.canProject()
+    ) {
+      const zoom = this.geoService_.getZoom();
+      const bounds = this.geoService_.getBounds();
+      const centerLatLng = this.geoService_.getCenter();
+      const marginBounds = this.geoService_.getBounds(this.props.margin);
+
+      const eventData = {
+        center: { ...centerLatLng },
+        zoom,
+        bounds: {
+          nw: {
+            lat: bounds[0],
+            lng: bounds[1],
+          },
+          se: {
+            lat: bounds[2],
+            lng: bounds[3],
+          },
+          sw: {
+            lat: bounds[4],
+            lng: bounds[5],
+          },
+          ne: {
+            lat: bounds[6],
+            lng: bounds[7],
+          },
+        },
+        marginBounds: {
+          nw: {
+            lat: marginBounds[0],
+            lng: marginBounds[1],
+          },
+          se: {
+            lat: marginBounds[2],
+            lng: marginBounds[3],
+          },
+          sw: {
+            lat: marginBounds[4],
+            lng: marginBounds[5],
+          },
+          ne: {
+            lat: marginBounds[6],
+            lng: marginBounds[7],
+          },
+        },
+        size: this.geoService_.hasSize()
+          ? {
+              width: this.geoService_.getWidth(),
+              height: this.geoService_.getHeight(),
+            }
+          : {
+              width: 0,
+              height: 0,
+            },
+      };
+
+      if (!isEnd && this.props.onDrag) {
+        this.props.onDrag(eventData);
+      }
+
+      if (isEnd && this.props.onDragEnd) {
+        this.props.onDrag(eventData);
       }
     }
   };
