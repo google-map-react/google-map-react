@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this */
-import Point from 'point-geometry';
+import Point from '@mapbox/point-geometry';
 import LatLng from './lat_lng';
 import { wrap } from './wrap';
 
