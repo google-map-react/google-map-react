@@ -36,6 +36,24 @@ export const gMap = (
     onChange={onChange}
     onChildMouseEnter={onChildMouseEnter}
     onChildMouseLeave={onChildMouseLeave}
+    heatmapPositions={[
+      {
+        lat: 24.075,
+        lng: 54.947,
+      },
+      {
+        lat: 24.075,
+        lng: 54.940,
+      },
+      {
+        lat: 24.075,
+        lng: 54.943,
+      },
+      {
+        lat: 37.782,
+        lng: -122.445,
+      },
+    ]}
   >
     {markers}
   </GoogleMapReact>
