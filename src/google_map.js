@@ -10,7 +10,7 @@ import MarkerDispatcher from './marker_dispatcher';
 import GoogleMapMap from './google_map_map';
 import GoogleMapMarkers from './google_map_markers';
 import GoogleMapMarkersPrerender from './google_map_markers_prerender';
-import GoogleHeatmap from './google_heatmap';
+import * as GoogleHeatmap from './google_heatmap';
 
 import googleMapLoader from './utils/loaders/google_map_loader';
 import detectBrowser from './utils/detect';
@@ -142,7 +142,7 @@ export default class GoogleMap extends Component {
       position: 'relative',
     },
     layerTypes: [],
-    heatmapPositions: [],
+    heatmap: [],
   };
 
   static googleMapLoader = googleMapLoader; // eslint-disable-line
@@ -507,9 +507,10 @@ export default class GoogleMap extends Component {
         };
 
         // Start Heatmap
-        this.heatmap = GoogleHeatmap(maps, this.props.heatmapPositions);
-        this.heatmap.set('radius', 30);
-        this.heatmap.set('opacity', 0.8);
+        Object.assign(this, {
+          heatmap: GoogleHeatmap.generateHeatmap(maps, this.props.heatmap),
+        });
+        GoogleHeatmap.optionsHeatmap(this.heatmap, this.props.heatmap);
         // End Heatmap
 
         // prevent to exapose full api

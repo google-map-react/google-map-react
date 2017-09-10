@@ -1,6 +1,6 @@
 import fp from 'lodash/fp';
 
-export default (instance, data = []) => {
+export const generateHeatmap = (instance, { positions }) => {
   return new instance.visualization.HeatmapLayer({
     data: fp.reduce(
       (acc, { lat, lng }) => {
@@ -10,7 +10,13 @@ export default (instance, data = []) => {
         return acc;
       },
       [],
-      data
+      positions
     ),
   });
 };
+
+export const optionsHeatmap = (instance, { options }) =>
+  fp.map(
+    option => instance.set(option, options[option]),
+    Object.keys(options || {})
+  );
