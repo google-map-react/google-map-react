@@ -142,7 +142,7 @@ export default class GoogleMap extends Component {
       position: 'relative',
     },
     layerTypes: [],
-    heatmap: [],
+    heatmap: {},
   };
 
   static googleMapLoader = googleMapLoader; // eslint-disable-line
