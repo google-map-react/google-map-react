@@ -43,7 +43,7 @@
   "homepage": "https://github.com/istarkov/google-map-react#readme",
   "peerDependencies": {
     "prop-types": "^15.5.6",
-    "react": "^0.14.0 || ^15.0.0"
+    "react": "^0.14.0 || ^15.0.0 || ^16.0.0"
   },
   "dependencies": {
     "eventemitter3": "^1.1.0",
@@ -86,11 +86,10 @@
     "postcss-loader": "^0.9.1",
     "prettier": "^0.22.0",
     "prop-types": "^15.5.6",
-    "react": "^15.1.0",
-    "react-addons-test-utils": "^15.1.0",
-    "react-dom": "^15.1.0",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
     "react-motion": "^0.4.4",
-    "react-router": "^2.4.1",
+    "react-router": "^3.2.0",
     "recompose": "^0.19.0",
     "reselect": "^2.5.1",
     "rimraf": "^2.4.3",
