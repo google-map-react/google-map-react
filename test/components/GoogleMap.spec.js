@@ -1,10 +1,11 @@
 /* eslint-disable */
 import './utils/jsdomInit.js';
 
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import expect from 'expect';
 
-import TestUtils from 'react-addons-test-utils';
+import TestUtils from 'react-dom/test-utils';
 import GoogleMap from '../../src/google_map';
 
 describe('Components', () => {
