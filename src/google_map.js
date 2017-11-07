@@ -758,7 +758,6 @@ export default class GoogleMap extends Component {
       })
       .catch(e => {
         console.error(e); // eslint-disable-line no-console
-        throw e;
       });
   };
 
