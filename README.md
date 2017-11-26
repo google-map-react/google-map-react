@@ -1,7 +1,7 @@
 [![npm version](https://badge.fury.io/js/google-map-react.svg)](http://badge.fury.io/js/google-map-react)
 [![Build Status](https://travis-ci.org/istarkov/google-map-react.svg?branch=master)](https://travis-ci.org/istarkov/google-map-react)
 
-# !!! I'm looking for conributer-leader for this project
+# !!! I'm looking for contributor-leader for this project
 _For now in all of my projects I'm using mapbox library, IMO it's not good to support the project you are not using. Please contact me if you want to move this forward._
 
 
