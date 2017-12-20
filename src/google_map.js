@@ -848,9 +848,16 @@ export default class GoogleMap extends Component {
 
   _setViewSize = () => {
     if (!this.mounted_) return;
-
-    const mapDom = ReactDOM.findDOMNode(this.googleMapDom_);
-    this.geoService_.setViewSize(mapDom.clientWidth, mapDom.clientHeight);
+    if (
+      document.fullscreen ||
+      document.webkitIsFullScreen ||
+      document.mozFullScreen
+    ) {
+      this.geoService_.setViewSize(window.innerWidth, window.innerHeight);
+    } else {
+      const mapDom = ReactDOM.findDOMNode(this.googleMapDom_);
+      this.geoService_.setViewSize(mapDom.clientWidth, mapDom.clientHeight);
+    }
     this._onBoundsChanged();
   };
 
