@@ -457,7 +457,9 @@ export default class GoogleMap extends Component {
       const originalCenter = this.props.center || this.props.defaultCenter;
       const currentCenter = this.map_.getCenter();
       this.maps_.event.trigger(this.map_, 'resize');
-      this.map_.setCenter(this.props.lockCenter ? originalCenter : currentCenter);
+      this.map_.setCenter(
+        this.props.lockCenter ? originalCenter : currentCenter
+      );
     }
   };
 
