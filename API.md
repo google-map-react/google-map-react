@@ -303,7 +303,7 @@ You will need to preload the google maps API, but `google-map-react` checks if t
 and if so, uses it, so it won't load a second copy of the library.
 
 ```html
-<script type="text/javascript" src="https://maps.google.com/maps/api/js?libraries=places&sensor=false"></script>
+<script type="text/javascript" src="https://maps.google.com/maps/api/js?libraries=places"></script>
 ```
 
 ### Override the default minimum zoom
