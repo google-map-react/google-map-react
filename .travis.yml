@@ -5,5 +5,5 @@ cache:
   directories:
   - node_modules
 script:
-  - npm run lint
-  - npm test
+  - yarn run lint
+  - yarn test

@@ -9,10 +9,10 @@ import withProps from 'recompose/withProps';
 import withPropsOnChange from 'recompose/withPropsOnChange';
 import { createSelector } from 'reselect';
 import ptInBounds from './utils/ptInBounds';
-import SimpleMarker from './markers/SimpleMarker';
-import withStateSelector from './utils/withStateSelector';
 import GoogleMapReact from '../src';
-import { susolvkaCoords, generateMarkers } from './data/fakeData';
+import withStateSelector from './utils/withStateSelector';
+import SimpleMarker from './markers/SimpleMarker';
+import { londonCoords, generateMarkers } from './data/fakeData';
 
 export const gMap = (
   {
@@ -34,6 +34,11 @@ export const gMap = (
     hoverDistance={hoverDistance}
     center={center}
     zoom={zoom}
+    layerTypes={
+      zoom > 12
+        ? []
+        : zoom > 10 ? ['TrafficLayer'] : ['TrafficLayer', 'TransitLayer']
+    }
     onChange={onChange}
     onChildMouseEnter={onChildMouseEnter}
     onChildMouseLeave={onChildMouseLeave}
@@ -65,7 +70,7 @@ export const gMapHOC = compose(
       markersCount => generateMarkers(markersCount)
     )),
   withState('hoveredMarkerId', 'setHoveredMarkerId', -1),
-  withState('mapParams', 'setMapParams', { center: susolvkaCoords, zoom: 6 }),
+  withState('mapParams', 'setMapParams', { center: londonCoords, zoom: 9 }),
   // describe events
   withHandlers({
     onChange: ({ setMapParams }) =>

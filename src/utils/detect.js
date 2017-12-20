@@ -14,15 +14,21 @@ export default function detectBrowser() {
     let isChrome = navigator.userAgent.indexOf('Chrome') > -1;
     let isSafari = navigator.userAgent.indexOf('Safari') > -1;
 
-    if ((isChrome) && (isSafari)) {
+    if (isChrome && isSafari) {
       isSafari = false;
     }
 
-    if ((isChrome) && (isOpera)) {
+    if (isChrome && isOpera) {
       isChrome = false;
     }
 
-    detectBrowserResult_ = { isExplorer, isFirefox, isOpera, isChrome, isSafari };
+    detectBrowserResult_ = {
+      isExplorer,
+      isFirefox,
+      isOpera,
+      isChrome,
+      isSafari,
+    };
     return detectBrowserResult_;
   }
 

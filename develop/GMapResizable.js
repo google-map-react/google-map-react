@@ -1,20 +1,21 @@
+/* eslint-disable */
 import React from 'react';
 import PropTypes from 'prop-types';
 import compose from 'recompose/compose';
 import defaultProps from 'recompose/defaultProps';
+import withStateSelector from './utils/withStateSelector';
 import withHandlers from 'recompose/withHandlers';
 import withState from 'recompose/withState';
 import withContext from 'recompose/withContext';
 import withProps from 'recompose/withProps';
 import withPropsOnChange from 'recompose/withPropsOnChange';
-import { createSelector } from 'reselect';
 import ptInBounds from './utils/ptInBounds';
-import SimpleMarker from './markers/SimpleMarker';
-import withStateSelector from './utils/withStateSelector';
 import GoogleMapReact from '../src';
+import SimpleMarker from './markers/SimpleMarker';
+import { createSelector } from 'reselect';
 import { susolvkaCoords, generateMarkers } from './data/fakeData';
 
-export const gMap = (
+export const gMapResizable = (
   {
     style,
     hoverDistance,
@@ -37,6 +38,8 @@ export const gMap = (
     onChange={onChange}
     onChildMouseEnter={onChildMouseEnter}
     onChildMouseLeave={onChildMouseLeave}
+    resetBoundsOnResize={true}
+    apiKey={'AIzaSyC-BebC7ChnHPzxQm7DAHYFMCqR5H3Jlps'}
   >
     {markers}
   </GoogleMapReact>
@@ -52,8 +55,8 @@ export const gMapHOC = compose(
     },
     style: {
       position: 'relative',
-      margin: 0,
-      padding: 0,
+      margin: 10,
+      padding: 10,
       flex: 1,
     },
   }),
@@ -97,4 +100,4 @@ export const gMapHOC = compose(
   }))
 );
 
-export default gMapHOC(gMap);
+export default gMapHOC(gMapResizable);
