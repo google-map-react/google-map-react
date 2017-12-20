@@ -949,7 +949,7 @@ export default class GoogleMap extends Component {
   _onMapMouseDownCapture = () => {
     if (detectBrowser().isChrome) {
       // to fix strange zoom in chrome
-      this.zoomControlClickTime_ = (new Date()).getTime();
+      this.zoomControlClickTime_ = new Date().getTime();
     }
   };
 
