@@ -1,4 +1,4 @@
-import Point from 'point-geometry';
+import Point from '@mapbox/point-geometry';
 import LatLng from './lib_geo/lat_lng';
 import Transform from './lib_geo/transform';
 
