@@ -8,7 +8,7 @@ Google maps api key. (Optional, but your map will be rate-limited with no key)
 
 #### bootstrapURLKeys (object)
 
-Example:
+Example with api key:
 
 ```javascript
 <GoogleMap
@@ -16,6 +16,17 @@ Example:
     key: API_KEY,
     language: 'ru',
     ...otherUrlParams,
+  }}
+>
+```
+
+Example with client id and version:
+
+```javascript
+<GoogleMap
+  bootstrapURLKeys={{
+    client: CLIENT_ID,
+    v: '3.28'
   }}
 >
 ```
