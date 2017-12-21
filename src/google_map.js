@@ -118,6 +118,7 @@ export default class GoogleMap extends Component {
     draggable: PropTypes.bool,
     style: PropTypes.any,
     resetBoundsOnResize: PropTypes.bool,
+    lockCenter: PropTypes.bool,
     layerTypes: PropTypes.arrayOf(PropTypes.string), // ['TransitLayer', 'TrafficLayer']
   };
 
@@ -268,7 +269,7 @@ export default class GoogleMap extends Component {
       0,
       this
     );
-    if (this.props.resetBoundsOnResize) {
+    if (this.props.resetBoundsOnResize || this.props.lockCenter) {
       const that = this;
       detectElementResize.addResizeListener(mapDom, that._mapDomResizeCallback);
     }
@@ -398,7 +399,7 @@ export default class GoogleMap extends Component {
     window.removeEventListener('keydown', this._onKeyDownCapture);
     mapDom.removeEventListener('mousedown', this._onMapMouseDownNative, true);
     window.removeEventListener('mouseup', this._onChildMouseUp, false);
-    if (this.props.resetBoundsOnResize) {
+    if (this.props.resetBoundsOnResize || this.props.lockCenter) {
       detectElementResize.removeResizeListener(
         mapDom,
         this._mapDomResizeCallback
@@ -453,9 +454,10 @@ export default class GoogleMap extends Component {
   _mapDomResizeCallback = () => {
     this.resetSizeOnIdle_ = true;
     if (this.maps_) {
-      const originalCenter = this.map_.getCenter();
+      const originalCenter = this.props.center || this.props.defaultCenter;
+      const currentCenter = this.map_.getCenter();
       this.maps_.event.trigger(this.map_, 'resize');
-      this.map_.setCenter(originalCenter);
+      this.map_.setCenter(this.props.lockCenter ? originalCenter : currentCenter);
     }
   };
 
