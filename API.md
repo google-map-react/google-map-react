@@ -30,12 +30,6 @@ Default lat/lng at which to center the map - changing this prop throws a warning
 `[lat, lng]` or `{ lat: lat, lng: lng}`
 Lat/lng at which to center the map
 
-#### lockCenter (bool)
-
-When `true`, this will keep the map centered on `center` (above) when the map is resized.
-
-Default: `false`
-
 #### defaultZoom: (number)
 
 Default map zoom level - changing this prop throws a warning
