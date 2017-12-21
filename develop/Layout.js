@@ -20,6 +20,7 @@ export class Layout extends Component {
             <Link to="/hoverunoptim">Hover unoptim</Link>
             <Link to="/hoveroptim">Hover optim</Link>
             <Link to="/resizable">Resizable Map</Link>
+            <Link to="/heatmap">Heatmap</Link>
           </div>
           <div>
             <a href="https://github.com/istarkov/google-map-clustering-example">

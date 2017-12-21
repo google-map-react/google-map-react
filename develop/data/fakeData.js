@@ -19,3 +19,32 @@ export const generateMarkers = count =>
         Math.cos(50 * Math.PI * index / 180) +
       Math.sin(5 * index / 180),
   }));
+
+export const heatmapData = {
+  positions: [
+    {
+      lat: 60.714305,
+      lng: 47.051773,
+    },
+    {
+      lat: 60.734305,
+      lng: 47.061773,
+    },
+    {
+      lat: 60.754305,
+      lng: 47.081773,
+    },
+    {
+      lat: 60.774305,
+      lng: 47.101773,
+    },
+    {
+      lat: 60.804305,
+      lng: 47.111773,
+    },
+  ],
+  options: {
+    radius: 20,
+    opacity: 0.7,
+  },
+};
