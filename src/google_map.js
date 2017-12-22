@@ -854,7 +854,8 @@ export default class GoogleMap extends Component {
     if (
       document.fullscreen ||
       document.webkitIsFullScreen ||
-      document.mozFullScreen
+      document.mozFullScreen ||
+      document.msFullscreenElement
     ) {
       this.geoService_.setViewSize(window.innerWidth, window.innerHeight);
     } else {
