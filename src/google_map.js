@@ -453,9 +453,12 @@ export default class GoogleMap extends Component {
   _mapDomResizeCallback = () => {
     this.resetSizeOnIdle_ = true;
     if (this.maps_) {
-      const originalCenter = this.map_.getCenter();
+      const originalCenter = this.props.center || this.props.defaultCenter;
+      const currentCenter = this.map_.getCenter();
       this.maps_.event.trigger(this.map_, 'resize');
-      this.map_.setCenter(originalCenter);
+      this.map_.setCenter(
+        this.props.resetBoundsOnResize ? originalCenter : currentCenter
+      );
     }
   };
 
