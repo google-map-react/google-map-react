@@ -1,17 +1,19 @@
-/* eslint-disable */
 import React, { PropTypes } from 'react';
-import compose from 'recompose/compose';
-import defaultProps from 'recompose/defaultProps';
+import {
+  compose,
+  defaultProps,
+  withHandlers,
+  withState,
+  withContext,
+  withProps,
+  withPropsOnChange,
+} from 'recompose';
+import { createSelector } from 'reselect';
+
 import withStateSelector from './utils/withStateSelector';
-import withHandlers from 'recompose/withHandlers';
-import withState from 'recompose/withState';
-import withContext from 'recompose/withContext';
-import withProps from 'recompose/withProps';
-import withPropsOnChange from 'recompose/withPropsOnChange';
 import ptInBounds from './utils/ptInBounds';
 import GoogleMapReact from '../src';
 import SimpleMarker from './markers/SimpleMarker';
-import { createSelector } from 'reselect';
 import { susolvkaCoords, generateMarkers, heatmapData } from './data/fakeData';
 
 export const gMapHeatmap = (
