@@ -760,6 +760,8 @@ export default class GoogleMap extends Component {
         });
       })
       .catch(e => {
+        // notify callback of load failure
+        this._onGoogleApiLoaded({ map: null, maps: null });
         console.error(e); // eslint-disable-line no-console
         throw e;
       });
