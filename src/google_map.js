@@ -73,14 +73,11 @@ const _checkMinZoom = (zoom, minZoom) => {
   return minZoom;
 };
 
-const isFullScreen = () => {
-  return (
-    document.fullscreen ||
-    document.webkitIsFullScreen ||
-    document.mozFullScreen ||
-    document.msFullscreenElement
-  );
-};
+const isFullScreen = () =>
+  document.fullscreen ||
+  document.webkitIsFullScreen ||
+  document.mozFullScreen ||
+  document.msFullscreenElement;
 
 export default class GoogleMap extends Component {
   static propTypes = {
