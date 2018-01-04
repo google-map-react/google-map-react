@@ -73,6 +73,12 @@ const _checkMinZoom = (zoom, minZoom) => {
   return minZoom;
 };
 
+const isFullScreen = () =>
+  document.fullscreen ||
+  document.webkitIsFullScreen ||
+  document.mozFullScreen ||
+  document.msFullscreenElement;
+
 export default class GoogleMap extends Component {
   static propTypes = {
     apiKey: PropTypes.string,
@@ -853,11 +859,7 @@ export default class GoogleMap extends Component {
 
   _setViewSize = () => {
     if (!this.mounted_) return;
-    if (
-      document.fullscreen ||
-      document.webkitIsFullScreen ||
-      document.mozFullScreen
-    ) {
+    if (isFullScreen()) {
       this.geoService_.setViewSize(window.innerWidth, window.innerHeight);
     } else {
       const mapDom = ReactDOM.findDOMNode(this.googleMapDom_);
