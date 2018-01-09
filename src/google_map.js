@@ -143,6 +143,7 @@ export default class GoogleMap extends Component {
     },
     layerTypes: [],
     heatmap: {},
+    heatmapLibrary: false,
   };
 
   static googleMapLoader = googleMapLoader; // eslint-disable-line
@@ -256,7 +257,7 @@ export default class GoogleMap extends Component {
       ...this.props.bootstrapURLKeys,
     };
 
-    this.props.googleMapLoader(bootstrapURLKeys); // we can start load immediatly
+    this.props.googleMapLoader(bootstrapURLKeys, this.props.heatmapLibrary); // we can start load immediatly
 
     setTimeout(
       () => {
@@ -493,7 +494,7 @@ export default class GoogleMap extends Component {
     };
 
     this.props
-      .googleMapLoader(bootstrapURLKeys)
+      .googleMapLoader(bootstrapURLKeys, this.props.heatmapLibrary)
       .then(maps => {
         if (!this.mounted_) {
           return;
@@ -507,10 +508,12 @@ export default class GoogleMap extends Component {
         };
 
         // Start Heatmap
-        Object.assign(this, {
-          heatmap: generateHeatmap(maps, this.props.heatmap),
-        });
-        optionsHeatmap(this.heatmap, this.props.heatmap);
+        if (this.props.heatmap.positions) {
+          Object.assign(this, {
+            heatmap: generateHeatmap(maps, this.props.heatmap),
+          });
+          optionsHeatmap(this.heatmap, this.props.heatmap);
+        }
         // End Heatmap
 
         // prevent to exapose full api
@@ -649,7 +652,7 @@ export default class GoogleMap extends Component {
         this.overlay_ = overlay;
 
         overlay.setMap(map);
-        this.heatmap.setMap(map);
+        this.props.heatmap.positions && this.heatmap.setMap(map);
 
         maps.event.addListener(map, 'zoom_changed', () => {
           // recalc position at zoom start
