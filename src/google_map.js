@@ -652,7 +652,9 @@ export default class GoogleMap extends Component {
         this.overlay_ = overlay;
 
         overlay.setMap(map);
-        this.props.heatmap.positions && this.heatmap.setMap(map);
+        if (this.props.heatmap.positions) {
+          this.heatmap.setMap(map);
+        }
 
         maps.event.addListener(map, 'zoom_changed', () => {
           // recalc position at zoom start
