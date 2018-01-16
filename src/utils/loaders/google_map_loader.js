@@ -62,7 +62,9 @@ export default function googleMapLoader(bootstrapURLKeys) {
       ''
     );
 
-    var url = bootstrapURLKeys.region === 'cn' ? 'http://maps.google.cn' : 'https://maps.googleapis.com'
+    const url = bootstrapURLKeys.region === 'cn'
+      ? 'http://maps.google.cn'
+      : 'https://maps.googleapis.com';
 
     $script_(
       `${url}/maps/api/js?callback=_$_google_map_initialize_$_${queryString}`,
