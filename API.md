@@ -15,6 +15,7 @@ Example:
   bootstrapURLKeys={{
     key: API_KEY,
     language: 'ru',
+    region: 'ru',
     ...otherUrlParams,
   }}
 >
@@ -272,6 +273,7 @@ render() {
 
 ```javascript
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 export default class SearchBox extends React.Component {
   static propTypes = {
@@ -287,12 +289,13 @@ export default class SearchBox extends React.Component {
     }
   }
   componentDidMount() {
-    var input = React.findDOMNode(this.refs.input);
+    var input = ReactDOM.findDOMNode(this.refs.input);
     this.searchBox = new google.maps.places.SearchBox(input);
     this.searchBox.addListener('places_changed', this.onPlacesChanged);
   }
   componentWillUnmount() {
-    this.searchBox.removeListener('places_changed', this.onPlacesChanged);
+    // https://developers.google.com/maps/documentation/javascript/events#removing
+    google.maps.event.clearInstanceListeners(this.searchBox);
   }
 }
 ```
@@ -301,7 +304,7 @@ You will need to preload the google maps API, but `google-map-react` checks if t
 and if so, uses it, so it won't load a second copy of the library.
 
 ```html
-<script type="text/javascript" src="https://maps.google.com/maps/api/js?libraries=places&sensor=false"></script>
+<script type="text/javascript" src="https://maps.google.com/maps/api/js?libraries=places"></script>
 ```
 
 ### Override the default minimum zoom
@@ -336,3 +339,7 @@ function createMapOptions() {
 The default setting is `gestureHandling:auto` which tries to detect based on the page/content sizes if a `greedy` setting is best (no scrolling is required) or `cooperative` (scrolling is possible)
 
 For more details see the [google documentation](https://developers.google.com/maps/documentation/javascript/interaction) for this setting.
+
+### Localizing the Map
+
+This is done by setting bootstrapURLKeys.[language](https://developers.google.com/maps/documentation/javascript/localization#Language) and bootstrapURLKeys.[region](https://developers.google.com/maps/documentation/javascript/localization#Region). Also notice that setting region to 'cn' is required when using the map from within China, see [google documentation](https://developers.google.com/maps/documentation/javascript/localization#GoogleMapsChina) for more info. Setting 'cn' will result in use of the specific API URL for China.

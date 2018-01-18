@@ -4,6 +4,8 @@ node_js:
 cache:
   directories:
   - node_modules
+before_script:
+  - git diff --exit-code # make sure that yarn.lock didn't change
 script:
   - yarn run lint
   - yarn test

@@ -74,6 +74,12 @@ const _checkMinZoom = (zoom, minZoom) => {
   return minZoom;
 };
 
+const isFullScreen = () =>
+  document.fullscreen ||
+  document.webkitIsFullScreen ||
+  document.mozFullScreen ||
+  document.msFullscreenElement;
+
 export default class GoogleMap extends Component {
   static propTypes = {
     apiKey: PropTypes.string,
@@ -457,9 +463,12 @@ export default class GoogleMap extends Component {
   _mapDomResizeCallback = () => {
     this.resetSizeOnIdle_ = true;
     if (this.maps_) {
-      const originalCenter = this.map_.getCenter();
+      const originalCenter = this.props.center || this.props.defaultCenter;
+      const currentCenter = this.map_.getCenter();
       this.maps_.event.trigger(this.map_, 'resize');
-      this.map_.setCenter(originalCenter);
+      this.map_.setCenter(
+        this.props.resetBoundsOnResize ? originalCenter : currentCenter
+      );
     }
   };
 
@@ -773,6 +782,8 @@ export default class GoogleMap extends Component {
         });
       })
       .catch(e => {
+        // notify callback of load failure
+        this._onGoogleApiLoaded({ map: null, maps: null });
         console.error(e); // eslint-disable-line no-console
         throw e;
       });
@@ -864,9 +875,12 @@ export default class GoogleMap extends Component {
 
   _setViewSize = () => {
     if (!this.mounted_) return;
-
-    const mapDom = ReactDOM.findDOMNode(this.googleMapDom_);
-    this.geoService_.setViewSize(mapDom.clientWidth, mapDom.clientHeight);
+    if (isFullScreen()) {
+      this.geoService_.setViewSize(window.innerWidth, window.innerHeight);
+    } else {
+      const mapDom = ReactDOM.findDOMNode(this.googleMapDom_);
+      this.geoService_.setViewSize(mapDom.clientWidth, mapDom.clientHeight);
+    }
     this._onBoundsChanged();
   };
 
