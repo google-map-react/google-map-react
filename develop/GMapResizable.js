@@ -39,6 +39,7 @@ export const gMapResizable = (
     onChildMouseLeave={onChildMouseLeave}
     resetBoundsOnResize={true}
     apiKey={'AIzaSyC-BebC7ChnHPzxQm7DAHYFMCqR5H3Jlps'}
+    heatmapLibrary={true}
   >
     {markers}
   </GoogleMapReact>
