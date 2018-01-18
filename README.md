@@ -142,3 +142,6 @@ UMD AMD and other build are available under dist folder after `npm install`
 ## Known Issues
 
 * Older browsers (http://caniuse.com/#feat=promises) will need a ES6 Promise polyfill in order to work.
+
+## !!! We are looking for contributors
+We're actively looking for contributors, please send a message to the Owner or any of the Collaborators.
