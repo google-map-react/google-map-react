@@ -62,7 +62,7 @@ export default function googleMapLoader(bootstrapURLKeys) {
       ''
     );
 
-    const url = bootstrapURLKeys.region === 'cn'
+    const url = bootstrapURLKeys.region.toLocaleLowerCase() === 'cn'
       ? 'http://maps.google.cn'
       : 'https://maps.googleapis.com';
 
