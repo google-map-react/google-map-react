@@ -15,6 +15,7 @@ Example:
   bootstrapURLKeys={{
     key: API_KEY,
     language: 'ru',
+    region: 'ru',
     ...otherUrlParams,
   }}
 >
@@ -338,3 +339,7 @@ function createMapOptions() {
 The default setting is `gestureHandling:auto` which tries to detect based on the page/content sizes if a `greedy` setting is best (no scrolling is required) or `cooperative` (scrolling is possible)
 
 For more details see the [google documentation](https://developers.google.com/maps/documentation/javascript/interaction) for this setting.
+
+### Localizing the Map
+
+This is done by setting bootstrapURLKeys.[language](https://developers.google.com/maps/documentation/javascript/localization#Language) and bootstrapURLKeys.[region](https://developers.google.com/maps/documentation/javascript/localization#Region). Also notice that setting region to 'cn' is required when using the map from within China, see [google documentation](https://developers.google.com/maps/documentation/javascript/localization#GoogleMapsChina) for more info. Setting 'cn' will result in use of the specific API URL for China.
