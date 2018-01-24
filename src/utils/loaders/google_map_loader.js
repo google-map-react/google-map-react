@@ -60,9 +60,10 @@ export default function googleMapLoader(bootstrapURLKeys, heatmapLibrary) {
       (r, key) => `${r}&${key}=${bootstrapURLKeys[key]}`,
       ''
     );
-
+    
     const libraries = heatmapLibrary ? '&libraries=visualization' : '';
-    const url = bootstrapURLKeys.region.toLocaleLowerCase() === 'cn'
+    const url = bootstrapURLKeys.region &&
+      bootstrapURLKeys.region.toLowerCase() === 'cn'
       ? 'http://maps.google.cn'
       : 'https://maps.googleapis.com';
 
