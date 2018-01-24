@@ -60,7 +60,7 @@ export default function googleMapLoader(bootstrapURLKeys, heatmapLibrary) {
       (r, key) => `${r}&${key}=${bootstrapURLKeys[key]}`,
       ''
     );
-    
+
     const libraries = heatmapLibrary ? '&libraries=visualization' : '';
     const url = bootstrapURLKeys.region &&
       bootstrapURLKeys.region.toLowerCase() === 'cn'
