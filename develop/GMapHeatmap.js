@@ -41,7 +41,6 @@ export const gMapHeatmap = (
     onChildMouseEnter={onChildMouseEnter}
     onChildMouseLeave={onChildMouseLeave}
     resetBoundsOnResize={true}
-    apiKey={'AIzaSyC-BebC7ChnHPzxQm7DAHYFMCqR5H3Jlps'}
     heatmapLibrary={true}
     heatmap={heatmapData}
   >
