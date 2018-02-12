@@ -23,6 +23,54 @@ It renders components on the map before (and even without) the Google Maps API l
 
 There is no need to place a `<script src=` tag at top of page. The Google Maps API loads upon the first usage of the `GoogleMapReact` component.
 
+## What's it Look Like?
+
+In the simple case you just need to add `lat` `lng` props to any child of `GoogleMapReact` component.
+
+[See it in action at jsbin](https://jsbin.com/gaxapezowo/1/edit?js,output)
+
+```javascript
+import React, { Component } from 'react';
+import GoogleMapReact from 'google-map-react';
+
+const AnyReactComponent = ({ text }) => <div>{text}</div>;
+
+class SimpleMap extends Component {
+  static defaultProps = {
+    center: {lat: 59.95, lng: 30.33},
+    zoom: 11
+  };
+
+  render() {
+    return (
+      <GoogleMapReact
+        bootstrapURLKeys={{ key: [YOUR_KEY] }}
+        defaultCenter={this.props.center}
+        defaultZoom={this.props.zoom}
+      >
+        <AnyReactComponent
+          lat={59.955413}
+          lng={30.337844}
+          text={'Kreyser Avrora'}
+        />
+      </GoogleMapReact>
+    );
+  }
+}
+```
+
+## Installation
+
+npm:
+```
+npm install --save google-map-react
+```
+
+yarn:
+```
+yarn add google-map-react
+```
+
 ### Heatmap Layer
 
 For enabling heatmap layer, just add `heatmapLibrary={true}` and provide data for heatmap in `heatmap` as props.
@@ -31,17 +79,10 @@ For enabling heatmap layer, just add `heatmapLibrary={true}` and provide data fo
 
 ```javascript
 <GoogleMapReact
-    draggable={draggable}
-    style={style}
+    bootstrapURLKeys={{ key: [YOUR_KEY] }}
     options={options}
-    hoverDistance={hoverDistance}
     center={center}
     zoom={zoom}
-    onChange={onChange}
-    onChildMouseEnter={onChildMouseEnter}
-    onChildMouseLeave={onChildMouseLeave}
-    resetBoundsOnResize={true}
-    apiKey={'AIzaSyC-BebC7ChnHPzxQm7DAHYFMCqR5H3Jlps'}
     heatmapLibrary={true}
     heatmap={{
       positions: [
@@ -56,14 +97,6 @@ For enabling heatmap layer, just add `heatmapLibrary={true}` and provide data fo
         {
           lat: 60.754305,
           lng: 47.081773,
-        },
-        {
-          lat: 60.774305,
-          lng: 47.101773,
-        },
-        {
-          lat: 60.804305,
-          lng: 47.111773,
         },
       ],
       options: {
@@ -99,47 +132,6 @@ If you have multiple `GoogleMapReact` components in project and you want to use 
 ### Internal Hover Algorithm
 
 Now every object on the map can be hovered (however, you can still use css hover selectors if you want). If you try zooming out here [example](http://istarkov.github.io/google-map-react/map/main), you will still be able to hover on almost every map marker.
-
-## What's it Look Like?
-
-In the simple case you just need to add `lat` `lng` props to any child of `GoogleMapReact` component.
-
-[See it in action at jsbin](https://jsbin.com/gaxapezowo/1/edit?js,output)
-
-```javascript
-import React, { Component } from 'react';
-import GoogleMapReact from 'google-map-react';
-
-const AnyReactComponent = ({ text }) => <div>{text}</div>;
-
-class SimpleMap extends Component {
-  static defaultProps = {
-    center: {lat: 59.95, lng: 30.33},
-    zoom: 11
-  };
-
-  render() {
-    return (
-      <GoogleMapReact
-        defaultCenter={this.props.center}
-        defaultZoom={this.props.zoom}
-      >
-        <AnyReactComponent
-          lat={59.955413}
-          lng={30.337844}
-          text={'Kreyser Avrora'}
-        />
-      </GoogleMapReact>
-    );
-  }
-}
-```
-
-## Installation
-
-```
-npm install --save google-map-react
-```
 
 ## Examples
 
