@@ -44,6 +44,7 @@ class SimpleMap extends Component {
   render() {
     return (
       <GoogleMapReact
+        bootstrapURLKeys={{ key: [YOUR_KEY] }}
         defaultCenter={this.props.center}
         defaultZoom={this.props.zoom}
       >
@@ -78,6 +79,7 @@ For enabling heatmap layer, just add `heatmapLibrary={true}` and provide data fo
 
 ```javascript
 <GoogleMapReact
+    bootstrapURLKeys={{ key: [YOUR_KEY] }}
     options={options}
     center={center}
     zoom={zoom}
