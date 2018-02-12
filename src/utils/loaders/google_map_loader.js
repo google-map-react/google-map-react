@@ -9,7 +9,7 @@ const _customPromise = new Promise(resolve => {
 });
 
 // TODO add libraries language and other map options
-export default function googleMapLoader(bootstrapURLKeys) {
+export default function googleMapLoader(bootstrapURLKeys, heatmapLibrary) {
   if (!$script_) {
     $script_ = require('scriptjs'); // eslint-disable-line
   }
@@ -23,7 +23,6 @@ export default function googleMapLoader(bootstrapURLKeys) {
   if (loadPromise_) {
     return loadPromise_;
   }
-
   loadPromise_ = new Promise((resolve, reject) => {
     if (typeof window === 'undefined') {
       reject(new Error('google map cannot be loaded outside browser env'));
@@ -62,13 +61,14 @@ export default function googleMapLoader(bootstrapURLKeys) {
       ''
     );
 
+    const libraries = heatmapLibrary ? '&libraries=visualization' : '';
     const url = bootstrapURLKeys.region &&
       bootstrapURLKeys.region.toLowerCase() === 'cn'
       ? 'http://maps.google.cn'
       : 'https://maps.googleapis.com';
 
     $script_(
-      `${url}/maps/api/js?callback=_$_google_map_initialize_$_${queryString}`,
+      `${url}/maps/api/js?callback=_$_google_map_initialize_$_${queryString}${libraries}`,
       () =>
         typeof window.google === 'undefined' &&
         reject(new Error('google map initialization error (not loaded)'))

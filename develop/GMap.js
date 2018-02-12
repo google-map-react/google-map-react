@@ -37,6 +37,7 @@ export const gMap = (
     onChange={onChange}
     onChildMouseEnter={onChildMouseEnter}
     onChildMouseLeave={onChildMouseLeave}
+    heatmapLibrary={true}
   >
     {markers}
   </GoogleMapReact>

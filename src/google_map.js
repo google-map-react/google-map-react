@@ -10,6 +10,7 @@ import MarkerDispatcher from './marker_dispatcher';
 import GoogleMapMap from './google_map_map';
 import GoogleMapMarkers from './google_map_markers';
 import GoogleMapMarkersPrerender from './google_map_markers_prerender';
+import { generateHeatmap, optionsHeatmap } from './google_heatmap';
 
 import googleMapLoader from './utils/loaders/google_map_loader';
 import detectBrowser from './utils/detect';
@@ -147,6 +148,8 @@ export default class GoogleMap extends Component {
       position: 'relative',
     },
     layerTypes: [],
+    heatmap: {},
+    heatmapLibrary: false,
   };
 
   static googleMapLoader = googleMapLoader; // eslint-disable-line
@@ -160,6 +163,7 @@ export default class GoogleMap extends Component {
     this.map_ = null;
     this.maps_ = null;
     this.prevBounds_ = null;
+    this.heatmap = null;
 
     this.layers_ = {};
 
@@ -259,7 +263,7 @@ export default class GoogleMap extends Component {
       ...this.props.bootstrapURLKeys,
     };
 
-    this.props.googleMapLoader(bootstrapURLKeys); // we can start load immediatly
+    this.props.googleMapLoader(bootstrapURLKeys, this.props.heatmapLibrary); // we can start load immediatly
 
     setTimeout(
       () => {
@@ -499,7 +503,7 @@ export default class GoogleMap extends Component {
     };
 
     this.props
-      .googleMapLoader(bootstrapURLKeys)
+      .googleMapLoader(bootstrapURLKeys, this.props.heatmapLibrary)
       .then(maps => {
         if (!this.mounted_) {
           return;
@@ -511,6 +515,15 @@ export default class GoogleMap extends Component {
           zoom: this.props.zoom || this.props.defaultZoom,
           center: new maps.LatLng(centerLatLng.lat, centerLatLng.lng),
         };
+
+        // Start Heatmap
+        if (this.props.heatmap.positions) {
+          Object.assign(this, {
+            heatmap: generateHeatmap(maps, this.props.heatmap),
+          });
+          optionsHeatmap(this.heatmap, this.props.heatmap);
+        }
+        // End Heatmap
 
         // prevent to exapose full api
         // next props must be exposed (console.log(Object.keys(pick(maps, isPlainObject))))
@@ -648,6 +661,9 @@ export default class GoogleMap extends Component {
         this.overlay_ = overlay;
 
         overlay.setMap(map);
+        if (this.props.heatmap.positions) {
+          this.heatmap.setMap(map);
+        }
 
         maps.event.addListener(map, 'zoom_changed', () => {
           // recalc position at zoom start

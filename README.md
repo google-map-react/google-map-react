@@ -23,6 +23,79 @@ It renders components on the map before (and even without) the Google Maps API l
 
 There is no need to place a `<script src=` tag at top of page. The Google Maps API loads upon the first usage of the `GoogleMapReact` component.
 
+### Heatmap Layer
+
+For enabling heatmap layer, just add `heatmapLibrary={true}` and provide data for heatmap in `heatmap` as props.
+
+#### Example
+
+```javascript
+<GoogleMapReact
+    draggable={draggable}
+    style={style}
+    options={options}
+    hoverDistance={hoverDistance}
+    center={center}
+    zoom={zoom}
+    onChange={onChange}
+    onChildMouseEnter={onChildMouseEnter}
+    onChildMouseLeave={onChildMouseLeave}
+    resetBoundsOnResize={true}
+    apiKey={'AIzaSyC-BebC7ChnHPzxQm7DAHYFMCqR5H3Jlps'}
+    heatmapLibrary={true}
+    heatmap={{
+      positions: [
+        {
+          lat: 60.714305,
+          lng: 47.051773,
+        },
+        {
+          lat: 60.734305,
+          lng: 47.061773,
+        },
+        {
+          lat: 60.754305,
+          lng: 47.081773,
+        },
+        {
+          lat: 60.774305,
+          lng: 47.101773,
+        },
+        {
+          lat: 60.804305,
+          lng: 47.111773,
+        },
+      ],
+      options: {
+        radius: 20,
+        opacity: 0.7,
+        gradient: [
+          'rgba(0, 255, 255, 0)',
+          'rgba(0, 255, 255, 1)',
+          'rgba(0, 191, 255, 1)',
+          'rgba(0, 127, 255, 1)',
+          'rgba(0, 63, 255, 1)',
+          'rgba(0, 0, 255, 1)',
+          'rgba(0, 0, 223, 1)',
+          'rgba(0, 0, 191, 1)',
+          'rgba(0, 0, 159, 1)',
+          'rgba(0, 0, 127, 1)',
+          'rgba(63, 0, 91, 1)',
+          'rgba(127, 0, 63, 1)',
+          'rgba(191, 0, 31, 1)',
+          'rgba(255, 0, 0, 1)'
+        ]
+      },
+    }}
+  >
+    {markers}
+  </GoogleMapReact>
+```
+
+#### Important Note
+
+If you have multiple `GoogleMapReact` components in project and you want to use heatmap layer so provide `heatmapLibrary={true}` for all `GoogleMapReact` components so component will load heatmap library at the beginning with google map api.
+
 ### Internal Hover Algorithm
 
 Now every object on the map can be hovered (however, you can still use css hover selectors if you want). If you try zooming out here [example](http://istarkov.github.io/google-map-react/map/main), you will still be able to hover on almost every map marker.
