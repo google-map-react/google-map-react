@@ -719,6 +719,9 @@ export default class GoogleMap extends Component {
 
           const div = overlay.div;
           const overlayProjection = overlay.getProjection();
+          if (!div || !overlayProjection) {
+            return;
+          }
           const bounds = map.getBounds();
           const ne = bounds.getNorthEast();
           const sw = bounds.getSouthWest();
