@@ -717,19 +717,6 @@ export default class GoogleMap extends Component {
             this_._onZoomAnimationEnd();
           }
 
-          const div = overlay.div;
-          const overlayProjection = overlay.getProjection();
-          const bounds = map.getBounds();
-          const ne = bounds.getNorthEast();
-          const sw = bounds.getSouthWest();
-          const ptx = overlayProjection.fromLatLngToDivPixel(
-            new maps.LatLng(ne.lat(), sw.lng())
-          );
-          // need round for safari still can't find what need for firefox
-          const ptxRounded = detectBrowser().isSafari
-            ? { x: Math.round(ptx.x), y: Math.round(ptx.y) }
-            : { x: ptx.x, y: ptx.y };
-
           this_.updateCounter_++;
           this_._onBoundsChanged(map, maps);
 
@@ -742,8 +729,25 @@ export default class GoogleMap extends Component {
           this._onChildMouseMove();
 
           this_.dragTime_ = 0;
-          div.style.left = `${ptxRounded.x}px`;
-          div.style.top = `${ptxRounded.y}px`;
+
+          const div = overlay.div;
+          const overlayProjection = overlay.getProjection();
+          if (div && overlayProjection) {
+            const bounds = map.getBounds();
+            const ne = bounds.getNorthEast();
+            const sw = bounds.getSouthWest();
+            const ptx = overlayProjection.fromLatLngToDivPixel(
+              new maps.LatLng(ne.lat(), sw.lng())
+            );
+            // need round for safari still can't find what need for firefox
+            const ptxRounded = detectBrowser().isSafari
+              ? { x: Math.round(ptx.x), y: Math.round(ptx.y) }
+              : { x: ptx.x, y: ptx.y };
+
+            div.style.left = `${ptxRounded.x}px`;
+            div.style.top = `${ptxRounded.y}px`;
+          }
+
           if (this_.markersDispatcher_) {
             this_.markersDispatcher_.emit('kON_CHANGE');
             if (this_.fireMouseEventOnIdle_) {
