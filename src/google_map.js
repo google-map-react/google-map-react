@@ -451,7 +451,7 @@ export default class GoogleMap extends Component {
   };
 
   _computeMinZoom = minZoom => {
-    if (minZoom !== undefined || minZoom !== null) {
+    if (minZoom !== undefined && minZoom !== null) {
       return minZoom;
     }
     return this._getMinZoom();
