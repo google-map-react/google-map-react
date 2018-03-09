@@ -309,14 +309,13 @@ and if so, uses it, so it won't load a second copy of the library.
 
 ### Override the default minimum zoom
 
-*WARNING*: Setting these options can break markers calculation, causing no homeomorphism between screen coordinates and map.
+*WARNING*: Setting this option can break markers calculation, causing no homeomorphism between screen coordinates and map.
 
-You can use the `minZoomOverride` associated with the `minZoom` in the custom map options to prevent a minimum zoom from being calculated:
+You can use the `minZoom` custom option to prevent our minimum-zoom calculation:
 
 ```javascript
 function createMapOptions() {
   return {
-    minZoomOverride: true,
     minZoom: 2,
   };
 }

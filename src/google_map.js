@@ -365,10 +365,7 @@ export default class GoogleMap extends Component {
         options = omit(options, ['zoom', 'center', 'draggable']);
 
         if ('minZoom' in options) {
-          const minZoom = this._computeMinZoom(
-            options.minZoomOverride,
-            options.minZoom
-          );
+          const minZoom = this._computeMinZoom(options.minZoom);
           options.minZoom = _checkMinZoom(options.minZoom, minZoom);
         }
 
@@ -453,9 +450,9 @@ export default class GoogleMap extends Component {
     return DEFAULT_MIN_ZOOM;
   };
 
-  _computeMinZoom = (minZoomOverride, minZoom) => {
-    if (minZoomOverride) {
-      return minZoom || DEFAULT_MIN_ZOOM;
+  _computeMinZoom = minZoom => {
+    if (minZoom !== undefined && minZoom !== null) {
+      return minZoom;
     }
     return this._getMinZoom();
   };
@@ -546,10 +543,7 @@ export default class GoogleMap extends Component {
           draggable: this.props.draggable,
         };
 
-        const minZoom = this._computeMinZoom(
-          options.minZoomOverride,
-          options.minZoom
-        );
+        const minZoom = this._computeMinZoom(options.minZoom);
         this.minZoom_ = minZoom;
 
         const preMapOptions = {
@@ -700,7 +694,6 @@ export default class GoogleMap extends Component {
           if (this.resetSizeOnIdle_) {
             this._setViewSize();
             const currMinZoom = this._computeMinZoom(
-              this.props.options.minZoomOverride,
               this.props.options.minZoom
             );
 
