@@ -1,3 +1,4 @@
+import { isEmpty } from 'lodash';
 /* eslint-disable no-console */
 const BASE_URL = 'https://maps';
 const DEFAULT_URL = `${BASE_URL}.googleapis.com`;
@@ -64,13 +65,20 @@ export default (bootstrapURLKeys, heatmapLibrary) => {
       }
     }
 
-    const queryString = Object.keys(bootstrapURLKeys).reduce(
+    let queryString = Object.keys(bootstrapURLKeys).reduce(
       (r, key) => `${r}&${key}=${bootstrapURLKeys[key]}`,
       ''
     );
 
-    const libraries = heatmapLibrary ? '&libraries=visualization' : '';
+    // if no version is defined, we want to get the release version
+    // and not the experimental version, to do so, we set v=3
+    // src: https://developers.google.com/maps/documentation/javascript/versions
+    if (isEmpty(bootstrapURLKeys.v)) {
+      queryString += `&v=3`;
+    }
+
     const baseUrl = getUrl(bootstrapURLKeys.region);
+    const libraries = heatmapLibrary ? '&libraries=visualization' : '';
 
     $script_(
       `${baseUrl}/maps/api/js?callback=_$_google_map_initialize_$_${queryString}${libraries}`,
