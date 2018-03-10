@@ -1,15 +1,26 @@
 /* eslint-disable no-console */
+const BASE_URL = 'https://maps';
+const DEFAULT_URL = `${BASE_URL}.googleapis.com`;
+
+const getUrl = region => {
+  if (region && region.toLowerCase() === 'cn') {
+    return `${BASE_URL}.google.cn`;
+  }
+  return DEFAULT_URL;
+};
+
 let $script_ = null;
 
 let loadPromise_;
 
 let resolveCustomPromise_;
+
 const _customPromise = new Promise(resolve => {
   resolveCustomPromise_ = resolve;
 });
 
 // TODO add libraries language and other map options
-export default function googleMapLoader(bootstrapURLKeys, heatmapLibrary) {
+export default (bootstrapURLKeys, heatmapLibrary) => {
   if (!$script_) {
     $script_ = require('scriptjs'); // eslint-disable-line
   }
@@ -23,6 +34,7 @@ export default function googleMapLoader(bootstrapURLKeys, heatmapLibrary) {
   if (loadPromise_) {
     return loadPromise_;
   }
+
   loadPromise_ = new Promise((resolve, reject) => {
     if (typeof window === 'undefined') {
       reject(new Error('google map cannot be loaded outside browser env'));
@@ -62,13 +74,10 @@ export default function googleMapLoader(bootstrapURLKeys, heatmapLibrary) {
     );
 
     const libraries = heatmapLibrary ? '&libraries=visualization' : '';
-    const url = bootstrapURLKeys.region &&
-      bootstrapURLKeys.region.toLowerCase() === 'cn'
-      ? 'http://maps.google.cn'
-      : 'https://maps.googleapis.com';
+    const baseUrl = getUrl(bootstrapURLKeys.region);
 
     $script_(
-      `${url}/maps/api/js?callback=_$_google_map_initialize_$_${queryString}${libraries}`,
+      `${baseUrl}/maps/api/js?callback=_$_google_map_initialize_$_${queryString}${libraries}`,
       () =>
         typeof window.google === 'undefined' &&
         reject(new Error('google map initialization error (not loaded)'))
@@ -78,4 +87,4 @@ export default function googleMapLoader(bootstrapURLKeys, heatmapLibrary) {
   resolveCustomPromise_(loadPromise_);
 
   return loadPromise_;
-}
+};
