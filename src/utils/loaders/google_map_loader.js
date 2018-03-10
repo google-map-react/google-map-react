@@ -57,14 +57,10 @@ export default (bootstrapURLKeys, heatmapLibrary) => {
 
     if (process.env.NODE_ENV !== 'production') {
       if (Object.keys(bootstrapURLKeys).indexOf('callback') > -1) {
-        console.error(
-          '"callback" key in bootstrapURLKeys is not allowed, ' + // eslint-disable-line
-            'use onGoogleApiLoaded property instead'
-        );
-        throw new Error(
-          '"callback" key in bootstrapURLKeys is not allowed, ' +
-            'use onGoogleApiLoaded property instead'
-        );
+        const message = `"callback" key in bootstrapURLKeys is not allowed,
+                          use onGoogleApiLoaded property instead`;
+        console.error(message);
+        throw new Error(message);
       }
     }
 
