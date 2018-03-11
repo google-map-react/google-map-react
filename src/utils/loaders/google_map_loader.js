@@ -1,5 +1,5 @@
 import { isEmpty } from 'lodash';
-/* eslint-disable no-console */
+
 const BASE_URL = 'https://maps';
 const DEFAULT_URL = `${BASE_URL}.googleapis.com`;
 const API_PATH = '/maps/api/js?callback=_$_google_map_initialize_$_';
@@ -61,6 +61,7 @@ export default (bootstrapURLKeys, heatmapLibrary) => {
       if (Object.keys(bootstrapURLKeys).indexOf('callback') > -1) {
         const message = `"callback" key in bootstrapURLKeys is not allowed,
                           use onGoogleApiLoaded property instead`;
+        // eslint-disable-next-line no-console
         console.error(message);
         throw new Error(message);
       }
