@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
-import { isPlainObject, isNumber, pickBy } from 'lodash';
+import { isPlainObject, isNumber, pickBy, omit } from 'lodash';
 
 import shallowEqual from 'fbjs/lib/shallowEqual';
 
@@ -20,7 +20,6 @@ import Geo from './utils/geo';
 import raf from './utils/raf';
 import log2 from './utils/math/log2';
 
-import omit from './utils/omit';
 import isArraysEqualEps from './utils/array_helper';
 import detectElementResize from './utils/detectElementResize';
 
