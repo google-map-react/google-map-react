@@ -1,12 +1,12 @@
-/* eslint-disable react/prefer-stateless-function */
-import React, { Component } from 'react';
-import compose from 'recompose/compose';
 import { Link } from 'react-router';
-import defaultProps from 'recompose/defaultProps';
+import React, { Component } from 'react';
+import { compose, defaultProps } from 'recompose';
+
 import layoutStyles from './Layout.sass';
+
 // for hmr to work I need the first class to extend Component
+/* eslint-disable react/prefer-stateless-function */
 export class Layout extends Component {
-  // eslint-disable-line
   render() {
     const {
       styles: { layout, header, main, footer, logo, links },

@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import compose from 'recompose/compose';
-import defaultProps from 'recompose/defaultProps';
-import getContext from 'recompose/getContext';
-// import mapPropsOnChange from 'recompose/mapPropsOnChange';
 import { Motion } from 'react-motion';
+import { compose, defaultProps, getContext } from 'recompose';
+
 import { clusterMarkerHOC } from './ClusterMarker';
+
 import simpleMarkerStyles from './SimpleMarker.sass';
 
 export const simpleMarker = (

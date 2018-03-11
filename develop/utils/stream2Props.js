@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import createHelper from 'recompose/createHelper';
+import { createHelper } from 'recompose';
 import createEagerFactory from './createEagerFactory';
 
 // if stream prop will change this will fail,
