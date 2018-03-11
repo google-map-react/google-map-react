@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
+import omit from 'lodash.omit';
 import isNumber from 'lodash.isnumber';
 
 import shallowEqual from 'fbjs/lib/shallowEqual';
@@ -24,7 +25,6 @@ import pick from './utils/pick';
 import raf from './utils/raf';
 import log2 from './utils/math/log2';
 
-import omit from './utils/omit';
 import detectElementResize from './utils/detectElementResize';
 
 const kEPS = 0.00001;
