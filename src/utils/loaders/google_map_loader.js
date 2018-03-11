@@ -1,4 +1,4 @@
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash.isempty';
 
 const BASE_URL = 'https://maps';
 const DEFAULT_URL = `${BASE_URL}.googleapis.com`;
