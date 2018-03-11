@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { omit } from 'lodash';
-import createHelper from 'recompose/createHelper';
+import { createHelper } from 'recompose';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import 'rxjs/add/operator/distinctUntilChanged';

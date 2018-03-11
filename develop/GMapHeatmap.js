@@ -11,11 +11,13 @@ import {
 } from 'recompose';
 import { createSelector } from 'reselect';
 
-import withStateSelector from './utils/withStateSelector';
-import ptInBounds from './utils/ptInBounds';
+import { susolvkaCoords, generateMarkers, heatmapData } from './data/fakeData';
+
 import GoogleMapReact from '../src';
 import SimpleMarker from './markers/SimpleMarker';
-import { susolvkaCoords, generateMarkers, heatmapData } from './data/fakeData';
+
+import ptInBounds from './utils/ptInBounds';
+import withStateSelector from './utils/withStateSelector';
 
 export const gMapHeatmap = (
   {
