@@ -1,4 +1,4 @@
-export default function isArraysEqualEps(arrayA, arrayB, eps) {
+export default (arrayA, arrayB, eps) => {
   if (arrayA && arrayB) {
     for (let i = 0; i !== arrayA.length; ++i) {
       if (Math.abs(arrayA[i] - arrayB[i]) > eps) {
@@ -8,4 +8,4 @@ export default function isArraysEqualEps(arrayA, arrayB, eps) {
     return true;
   }
   return false;
-}
+};

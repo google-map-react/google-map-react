@@ -16,9 +16,9 @@ import googleMapLoader from './utils/loaders/google_map_loader';
 import detectBrowser from './utils/detect';
 
 import Geo from './utils/geo';
-import isArraysEqualEps from './utils/array_helper';
+import isArraysEqualEps from './utils/isArraysEqualEps';
 
-import isPlainObject from './utils/is_plain_object';
+import isPlainObject from './utils/isPlainObject';
 import pick from './utils/pick';
 import raf from './utils/raf';
 import log2 from './utils/math/log2';
