@@ -71,7 +71,7 @@ export default (bootstrapURLKeys, heatmapLibrary) => {
     );
 
     // if no version is defined, we want to get the release version
-    // and not the experimental version, to do so, we set v=3
+    // and not the experimental version, to do so, we set v=3.31
     // src: https://developers.google.com/maps/documentation/javascript/versions
     if (isEmpty(bootstrapURLKeys.v)) {
       queryString += '&v=3.31';
