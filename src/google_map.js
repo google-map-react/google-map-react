@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
-import { isPlainObject, isNumber } from 'lodash';
+import { isPlainObject, isNumber, pickBy } from 'lodash';
 
 import shallowEqual from 'fbjs/lib/shallowEqual';
 
@@ -18,7 +18,6 @@ import googleMapLoader from './utils/loaders/google_map_loader';
 
 import Geo from './utils/geo';
 import raf from './utils/raf';
-import pick from './utils/pick';
 import log2 from './utils/math/log2';
 
 import omit from './utils/omit';
@@ -355,7 +354,7 @@ export default class GoogleMap extends Component {
         nextProps.options !== undefined &&
         !shallowEqual(this.props.options, nextProps.options)
       ) {
-        const mapPlainObjects = pick(this.maps_, isPlainObject);
+        const mapPlainObjects = pickBy(this.maps_, isPlainObject);
         let options = typeof nextProps.options === 'function'
           ? nextProps.options(mapPlainObjects)
           : nextProps.options;
@@ -521,7 +520,7 @@ export default class GoogleMap extends Component {
         // End Heatmap
 
         // prevent to exapose full api
-        // next props must be exposed (console.log(Object.keys(pick(maps, isPlainObject))))
+        // next props must be exposed (console.log(Object.keys(pickBy(maps, isPlainObject))))
         // "Animation", "ControlPosition", "MapTypeControlStyle", "MapTypeId",
         // "NavigationControlStyle", "ScaleControlStyle", "StrokePosition",
         // "SymbolPath", "ZoomControlStyle",
@@ -531,7 +530,7 @@ export default class GoogleMap extends Component {
         // "GeocoderStatus", "KmlLayerStatus",
         // "MaxZoomStatus", "StreetViewStatus", "TransitMode", "TransitRoutePreference",
         // "TravelMode", "UnitSystem"
-        const mapPlainObjects = pick(maps, isPlainObject);
+        const mapPlainObjects = pickBy(maps, isPlainObject);
         const options = typeof this.props.options === 'function'
           ? this.props.options(mapPlainObjects)
           : this.props.options;
