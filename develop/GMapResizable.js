@@ -1,19 +1,23 @@
 /* eslint-disable */
 import React from 'react';
 import PropTypes from 'prop-types';
-import compose from 'recompose/compose';
-import defaultProps from 'recompose/defaultProps';
-import withStateSelector from './utils/withStateSelector';
-import withHandlers from 'recompose/withHandlers';
-import withState from 'recompose/withState';
-import withContext from 'recompose/withContext';
-import withProps from 'recompose/withProps';
-import withPropsOnChange from 'recompose/withPropsOnChange';
-import ptInBounds from './utils/ptInBounds';
+import {
+  compose,
+  defaultProps,
+  withHandlers,
+  withState,
+  withContext,
+  withProps,
+  withPropsOnChange,
+} from 'recompose';
+import { createSelector } from 'reselect';
+
+import { susolvkaCoords, generateMarkers } from './data/fakeData';
+
 import GoogleMapReact from '../src';
 import SimpleMarker from './markers/SimpleMarker';
-import { createSelector } from 'reselect';
-import { susolvkaCoords, generateMarkers } from './data/fakeData';
+
+import ptInBounds from './utils/ptInBounds';
 
 export const gMapResizable = (
   {
