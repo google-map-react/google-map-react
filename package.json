@@ -54,6 +54,7 @@
     "lodash.isplainobject": "^4.0.6",
     "lodash.map": "^4.6.0",
     "lodash.omit": "^4.5.0",
+    "lodash.pickby": "^4.6.0",
     "lodash.reduce": "^4.6.0",
     "scriptjs": "^2.5.7"
   },
