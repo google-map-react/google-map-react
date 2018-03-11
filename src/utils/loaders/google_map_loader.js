@@ -2,6 +2,7 @@ import { isEmpty } from 'lodash';
 /* eslint-disable no-console */
 const BASE_URL = 'https://maps';
 const DEFAULT_URL = `${BASE_URL}.googleapis.com`;
+const API_PATH = '/maps/api/js?callback=_$_google_map_initialize_$_';
 
 const getUrl = region => {
   if (region && region.toLowerCase() === 'cn') {
@@ -81,7 +82,7 @@ export default (bootstrapURLKeys, heatmapLibrary) => {
     const libraries = heatmapLibrary ? '&libraries=visualization' : '';
 
     $script_(
-      `${baseUrl}/maps/api/js?callback=_$_google_map_initialize_$_${queryString}${libraries}`,
+      `${baseUrl}${API_PATH}${queryString}${libraries}`,
       () =>
         typeof window.google === 'undefined' &&
         reject(new Error('google map initialization error (not loaded)'))
