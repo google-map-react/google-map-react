@@ -40,7 +40,7 @@ export const gMapHeatmap = (
     onChange={onChange}
     onChildMouseEnter={onChildMouseEnter}
     onChildMouseLeave={onChildMouseLeave}
-    heatmapLibrary={true}
+    heatmapLibrary
     heatmap={heatmapData}
   >
     {markers}

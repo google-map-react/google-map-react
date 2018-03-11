@@ -45,7 +45,7 @@ export const gMap = (
     onChildMouseLeave={onChildMouseLeave}
     draggable={draggable}
     experimental
-    heatmapLibrary={true}
+    heatmapLibrary
   >
     {markers}
   </GoogleMapReact>
