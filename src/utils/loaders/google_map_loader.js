@@ -1,7 +1,8 @@
 import { isEmpty } from 'lodash';
-/* eslint-disable no-console */
+
 const BASE_URL = 'https://maps';
 const DEFAULT_URL = `${BASE_URL}.googleapis.com`;
+const API_PATH = '/maps/api/js?callback=_$_google_map_initialize_$_';
 
 const getUrl = region => {
   if (region && region.toLowerCase() === 'cn') {
@@ -60,28 +61,29 @@ export default (bootstrapURLKeys, heatmapLibrary) => {
       if (Object.keys(bootstrapURLKeys).indexOf('callback') > -1) {
         const message = `"callback" key in bootstrapURLKeys is not allowed,
                           use onGoogleApiLoaded property instead`;
+        // eslint-disable-next-line no-console
         console.error(message);
         throw new Error(message);
       }
     }
 
-    let queryString = Object.keys(bootstrapURLKeys).reduce(
+    let params = Object.keys(bootstrapURLKeys).reduce(
       (r, key) => `${r}&${key}=${bootstrapURLKeys[key]}`,
       ''
     );
 
     // if no version is defined, we want to get the release version
-    // and not the experimental version, to do so, we set v=3
+    // and not the experimental version, to do so, we set v=3.31
     // src: https://developers.google.com/maps/documentation/javascript/versions
     if (isEmpty(bootstrapURLKeys.v)) {
-      queryString += `&v=3.31`;
+      params += '&v=3.31';
     }
 
     const baseUrl = getUrl(bootstrapURLKeys.region);
     const libraries = heatmapLibrary ? '&libraries=visualization' : '';
 
     $script_(
-      `${baseUrl}/maps/api/js?callback=_$_google_map_initialize_$_${queryString}${libraries}`,
+      `${baseUrl}${API_PATH}${params}${libraries}`,
       () =>
         typeof window.google === 'undefined' &&
         reject(new Error('google map initialization error (not loaded)'))
