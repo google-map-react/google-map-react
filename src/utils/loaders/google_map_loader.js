@@ -66,7 +66,7 @@ export default (bootstrapURLKeys, heatmapLibrary) => {
       }
     }
 
-    let queryString = Object.keys(bootstrapURLKeys).reduce(
+    let params = Object.keys(bootstrapURLKeys).reduce(
       (r, key) => `${r}&${key}=${bootstrapURLKeys[key]}`,
       ''
     );
@@ -75,14 +75,14 @@ export default (bootstrapURLKeys, heatmapLibrary) => {
     // and not the experimental version, to do so, we set v=3.31
     // src: https://developers.google.com/maps/documentation/javascript/versions
     if (isEmpty(bootstrapURLKeys.v)) {
-      queryString += '&v=3.31';
+      params += '&v=3.31';
     }
 
     const baseUrl = getUrl(bootstrapURLKeys.region);
     const libraries = heatmapLibrary ? '&libraries=visualization' : '';
 
     $script_(
-      `${baseUrl}${API_PATH}${queryString}${libraries}`,
+      `${baseUrl}${API_PATH}${params}${libraries}`,
       () =>
         typeof window.google === 'undefined' &&
         reject(new Error('google map initialization error (not loaded)'))
