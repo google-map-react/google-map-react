@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { createHelper } from 'recompose';
+import createHelper from 'recompose/createHelper';
 import createEagerFactory from './createEagerFactory';
 
 const withStateSelector = (stateName, stateUpdaterName, selectorFactory) =>
