@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { createHelper } from 'recompose';
+import createHelper from 'recompose/createHelper';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/distinctUntilChanged';
 import createEagerFactory from './createEagerFactory';
