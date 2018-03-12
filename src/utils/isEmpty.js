@@ -4,7 +4,7 @@ const isEmpty = val => {
     if (Object.keys(val).length === 0) {
       return true;
     }
-  } else if (val == null || val === '') {
+  } else if (val === null || val === undefined || val === '') {
     // check for undefined, null and ""
     return true;
   }
