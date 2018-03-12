@@ -49,7 +49,6 @@
     "@mapbox/point-geometry": "^0.1.0",
     "eventemitter3": "^1.1.0",
     "fbjs": "^0.8.3",
-    "lodash.isempty": "^4.4.0",
     "scriptjs": "^2.5.7"
   },
   "devDependencies": {
