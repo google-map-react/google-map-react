@@ -2,6 +2,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
+import omit from 'lodash.omit';
+import pickBy from 'lodash.pickby';
+import isNumber from 'lodash.isnumber';
+import isPlainObject from 'lodash.isplainobject';
 
 import shallowEqual from 'fbjs/lib/shallowEqual';
 
@@ -16,15 +20,11 @@ import googleMapLoader from './utils/loaders/google_map_loader';
 import detectBrowser from './utils/detect';
 
 import Geo from './utils/geo';
-import isArraysEqualEps from './utils/array_helper';
+import isArraysEqualEps from './utils/isArraysEqualEps';
 
-import isPlainObject from './utils/is_plain_object';
-import pick from './utils/pick';
 import raf from './utils/raf';
 import log2 from './utils/math/log2';
 
-import isNumber from './utils/isNumber';
-import omit from './utils/omit';
 import detectElementResize from './utils/detectElementResize';
 
 const kEPS = 0.00001;
@@ -357,7 +357,7 @@ export default class GoogleMap extends Component {
         nextProps.options !== undefined &&
         !shallowEqual(this.props.options, nextProps.options)
       ) {
-        const mapPlainObjects = pick(this.maps_, isPlainObject);
+        const mapPlainObjects = pickBy(this.maps_, isPlainObject);
         let options = typeof nextProps.options === 'function'
           ? nextProps.options(mapPlainObjects)
           : nextProps.options;
@@ -523,7 +523,7 @@ export default class GoogleMap extends Component {
         // End Heatmap
 
         // prevent to exapose full api
-        // next props must be exposed (console.log(Object.keys(pick(maps, isPlainObject))))
+        // next props must be exposed (console.log(Object.keys(pickBy(maps, isPlainObject))))
         // "Animation", "ControlPosition", "MapTypeControlStyle", "MapTypeId",
         // "NavigationControlStyle", "ScaleControlStyle", "StrokePosition",
         // "SymbolPath", "ZoomControlStyle",
@@ -533,7 +533,7 @@ export default class GoogleMap extends Component {
         // "GeocoderStatus", "KmlLayerStatus",
         // "MaxZoomStatus", "StreetViewStatus", "TransitMode", "TransitRoutePreference",
         // "TravelMode", "UnitSystem"
-        const mapPlainObjects = pick(maps, isPlainObject);
+        const mapPlainObjects = pickBy(maps, isPlainObject);
         const options = typeof this.props.options === 'function'
           ? this.props.options(mapPlainObjects)
           : this.props.options;

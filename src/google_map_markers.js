@@ -1,9 +1,8 @@
 /* eslint-disable react/forbid-prop-types */
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import omit from 'lodash.omit';
 import shallowEqual from 'fbjs/lib/shallowEqual';
-import omit from './utils/omit';
 
 const mainStyle = {
   width: '100%',

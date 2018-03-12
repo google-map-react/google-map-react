@@ -1,2 +1,3 @@
-var utils = require('../lib/utils'); // eslint-disable-line
+import utils from '../lib/utils';
+
 module.exports = utils;
