@@ -3,30 +3,32 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 
+// libs
 import shallowEqual from 'fbjs/lib/shallowEqual';
 
-import MarkerDispatcher from './marker_dispatcher';
-
+// helpers
 import GoogleMapMap from './google_map_map';
+import MarkerDispatcher from './marker_dispatcher';
 import GoogleMapMarkers from './google_map_markers';
 import GoogleMapMarkersPrerender from './google_map_markers_prerender';
 import { generateHeatmap, optionsHeatmap } from './google_heatmap';
 
-import googleMapLoader from './utils/loaders/google_map_loader';
-import detectBrowser from './utils/detect';
+// loaders
+import googleMapLoader from './loaders/google_map_loader';
 
+// utils
 import Geo from './utils/geo';
-
-import pick from './utils/pick';
 import raf from './utils/raf';
+import pick from './utils/pick';
+import omit from './utils/omit';
 import log2 from './utils/math/log2';
+import isNumber from './utils/isNumber';
+import detectBrowser from './utils/detect';
 import isPlainObject from './utils/isPlainObject';
 import isArraysEqualEps from './utils/isArraysEqualEps';
-
-import isNumber from './utils/isNumber';
-import omit from './utils/omit';
 import detectElementResize from './utils/detectElementResize';
 
+// consts
 const kEPS = 0.00001;
 const K_GOOGLE_TILE_SIZE = 256;
 // real minZoom calculated here _getMinZoom
