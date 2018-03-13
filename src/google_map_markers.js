@@ -25,6 +25,7 @@ const style = {
 };
 
 export default class GoogleMapMarkers extends Component {
+  /* eslint-disable react/forbid-prop-types */
   static propTypes = {
     geoService: PropTypes.any,
     style: PropTypes.any,
@@ -38,6 +39,7 @@ export default class GoogleMapMarkers extends Component {
     projectFromLeftTop: PropTypes.bool,
     prerender: PropTypes.bool,
   };
+  /* eslint-enable react/forbid-prop-types */
 
   static defaultProps = {
     projectFromLeftTop: false,
