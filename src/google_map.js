@@ -288,7 +288,8 @@ export default class GoogleMap extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (process.env.NODE_ENV !== 'production') {
-      if (this.props.defaultCenter !== nextProps.defaultCenter) {
+      if ((isPlainObject(nextProps) && !areObjectsEqual(this.props.defaultCenter, nextProps.defaultCenter))
+          || (!isPlainObject(nextProps.defaultCenter) && !isArraysEqualEps(this.props.defaultCenter, nextProps.defaultCenter))) {
         console.warn(
           'GoogleMap: defaultCenter prop changed. ' + // eslint-disable-line
             "You can't change default props."
