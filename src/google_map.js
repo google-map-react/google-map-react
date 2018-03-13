@@ -3,9 +3,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 
-// libs
-import shallowEqual from 'fbjs/lib/shallowEqual';
-
 // helpers
 import GoogleMapMap from './google_map_map';
 import MarkerDispatcher from './marker_dispatcher';
@@ -25,6 +22,7 @@ import log2 from './utils/math/log2';
 import isEmpty from './utils/isEmpty';
 import isNumber from './utils/isNumber';
 import detectBrowser from './utils/detect';
+import shallowEqual from './utils/shallowEqual';
 import isPlainObject from './utils/isPlainObject';
 import isArraysEqualEps from './utils/isArraysEqualEps';
 import detectElementResize from './utils/detectElementResize';

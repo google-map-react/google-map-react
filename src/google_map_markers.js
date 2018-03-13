@@ -1,9 +1,9 @@
-/* eslint-disable react/forbid-prop-types */
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import shallowEqual from 'fbjs/lib/shallowEqual';
+
+// utils
 import omit from './utils/omit';
+import shallowEqual from './utils/shallowEqual';
 
 const mainStyle = {
   width: '100%',
