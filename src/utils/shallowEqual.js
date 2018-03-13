@@ -9,8 +9,6 @@
  * @flow
  */
 
-/* eslint-disable no-self-compare */
-
 const hasOwnProperty = Object.prototype.hasOwnProperty;
 
 /**
@@ -26,6 +24,7 @@ function is(x: mixed, y: mixed): boolean {
     return x !== 0 || y !== 0 || 1 / x === 1 / y;
   }
   // Step 6.a: NaN == NaN
+  // eslint-disable-next-line no-self-compare
   return x !== x && y !== y;
 }
 
