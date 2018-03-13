@@ -22,6 +22,7 @@ import raf from './utils/raf';
 import pick from './utils/pick';
 import omit from './utils/omit';
 import log2 from './utils/math/log2';
+import isEmpty from './utils/isEmpty';
 import isNumber from './utils/isNumber';
 import detectBrowser from './utils/detect';
 import isPlainObject from './utils/isPlainObject';
@@ -209,18 +210,13 @@ export default class GoogleMap extends Component {
         );
       }
 
-      if (
-        this.props.center === undefined &&
-        this.props.defaultCenter === undefined
-      ) {
+      if (isEmpty(this.props.center) && isEmpty(this.props.defaultCenter)) {
         console.warn(
           'GoogleMap: center or defaultCenter property must be defined' // eslint-disable-line no-console
         );
       }
 
-      if (
-        this.props.zoom === undefined && this.props.defaultZoom === undefined
-      ) {
+      if (isEmpty(this.props.zoom) && isEmpty(this.props.defaultZoom)) {
         console.warn(
           'GoogleMap: zoom or defaultZoom property must be defined' // eslint-disable-line no-console
         );
@@ -335,16 +331,14 @@ export default class GoogleMap extends Component {
         }
       }
 
-      if (nextProps.zoom !== undefined) {
+      if (!isEmpty(nextProps.zoom)) {
         // if zoom chaged by user
         if (Math.abs(nextProps.zoom - this.props.zoom) > 0) {
           this.map_.setZoom(nextProps.zoom);
         }
       }
 
-      if (
-        this.props.draggable !== undefined && nextProps.draggable === undefined
-      ) {
+      if (!isEmpty(this.props.draggable) && isEmpty(nextProps.draggable)) {
         // reset to default
         this.map_.setOptions({ draggable: this.defaultDraggableOption_ });
       } else if (!shallowEqual(this.props.draggable, nextProps.draggable)) {
@@ -354,7 +348,7 @@ export default class GoogleMap extends Component {
 
       // use shallowEqual to try avoid calling map._setOptions if only the ref changes
       if (
-        nextProps.options !== undefined &&
+        !isEmpty(nextProps.options) &&
         !shallowEqual(this.props.options, nextProps.options)
       ) {
         const mapPlainObjects = pick(this.maps_, isPlainObject);
@@ -451,7 +445,7 @@ export default class GoogleMap extends Component {
   };
 
   _computeMinZoom = minZoom => {
-    if (minZoom !== undefined && minZoom !== null) {
+    if (!isEmpty(minZoom)) {
       return minZoom;
     }
     return this._getMinZoom();
@@ -539,7 +533,7 @@ export default class GoogleMap extends Component {
           : this.props.options;
         const defaultOptions = defaultOptions_(mapPlainObjects);
 
-        const draggableOptions = this.props.draggable !== undefined && {
+        const draggableOptions = !isEmpty(this.props.draggable) && {
           draggable: this.props.draggable,
         };
 
@@ -553,7 +547,7 @@ export default class GoogleMap extends Component {
           ...propsOptions,
         };
 
-        this.defaultDraggableOption_ = preMapOptions.draggable !== undefined
+        this.defaultDraggableOption_ = !isEmpty(preMapOptions.draggable)
           ? preMapOptions.draggable
           : this.defaultDraggableOption_;
 
