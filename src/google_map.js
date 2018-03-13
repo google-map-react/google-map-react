@@ -288,17 +288,15 @@ export default class GoogleMap extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (process.env.NODE_ENV !== 'production') {
-      if (this.props.defaultCenter !== nextProps.defaultCenter) {
+      if (!shallowEqual(this.props.defaultCenter, nextProps.defaultCenter)) {
         console.warn(
-          'GoogleMap: defaultCenter prop changed. ' + // eslint-disable-line
-            "You can't change default props."
+          "GoogleMap: defaultCenter prop changed. You can't change default props."
         );
       }
 
-      if (this.props.defaultZoom !== nextProps.defaultZoom) {
+      if (!shallowEqual(this.props.defaultZoom, nextProps.defaultZoom)) {
         console.warn(
-          'GoogleMap: defaultZoom prop changed. ' + // eslint-disable-line
-            "You can't change default props."
+          "GoogleMap: defaultZoom prop changed. You can't change default props."
         );
       }
     }
@@ -349,7 +347,7 @@ export default class GoogleMap extends Component {
       ) {
         // reset to default
         this.map_.setOptions({ draggable: this.defaultDraggableOption_ });
-      } else if (this.props.draggable !== nextProps.draggable) {
+      } else if (!shallowEqual(this.props.draggable, nextProps.draggable)) {
         // also prevent this on window 'mousedown' event to prevent map move
         this.map_.setOptions({ draggable: nextProps.draggable });
       }
@@ -374,7 +372,7 @@ export default class GoogleMap extends Component {
         this.map_.setOptions(options);
       }
 
-      if (nextProps.layerTypes !== this.props.layerTypes) {
+      if (!shallowEqual(nextProps.layerTypes, this.props.layerTypes)) {
         Object.keys(this.layers_).forEach(layerKey => {
           this.layers_[layerKey].setMap(null);
           delete this.layers_[layerKey];
@@ -395,7 +393,7 @@ export default class GoogleMap extends Component {
   componentDidUpdate(prevProps) {
     this.markersDispatcher_.emit('kON_CHANGE');
 
-    if (this.props.hoverDistance !== prevProps.hoverDistance) {
+    if (!shallowEqual(this.props.hoverDistance, prevProps.hoverDistance)) {
       this.markersDispatcher_.emit('kON_MOUSE_POSITION_CHANGE');
     }
   }
