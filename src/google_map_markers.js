@@ -1,9 +1,9 @@
-/* eslint-disable react/forbid-prop-types */
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import shallowEqual from 'fbjs/lib/shallowEqual';
+
+// utils
 import omit from './utils/omit';
+import shallowEqual from './utils/shallowEqual';
 
 const mainStyle = {
   width: '100%',
@@ -25,6 +25,7 @@ const style = {
 };
 
 export default class GoogleMapMarkers extends Component {
+  /* eslint-disable react/forbid-prop-types */
   static propTypes = {
     geoService: PropTypes.any,
     style: PropTypes.any,
@@ -38,6 +39,7 @@ export default class GoogleMapMarkers extends Component {
     projectFromLeftTop: PropTypes.bool,
     prerender: PropTypes.bool,
   };
+  /* eslint-enable react/forbid-prop-types */
 
   static defaultProps = {
     projectFromLeftTop: false,
