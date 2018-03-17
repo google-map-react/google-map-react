@@ -71,6 +71,8 @@ yarn:
 yarn add google-map-react
 ```
 
+## NOTE: Without explicitly styling the parent div, the map will NOT show up. Example:
+
 ```javascript
 
 import React, { Component } from 'react';
