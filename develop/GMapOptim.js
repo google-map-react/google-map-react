@@ -49,7 +49,7 @@ export const gMap = (
     onChildMouseLeave={onChildMouseLeave}
     draggable={draggable}
     experimental
-    heatmapLibrary
+    apiKey={'AIzaSyC-BebC7ChnHPzxQm7DAHYFMCqR5H3Jlps'}
   >
     {markers}
   </GoogleMapReact>

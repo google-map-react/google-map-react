@@ -44,6 +44,7 @@ export const gMapHeatmap = (
     onChildMouseLeave={onChildMouseLeave}
     heatmapLibrary
     heatmap={heatmapData}
+    apiKey={'AIzaSyC-BebC7ChnHPzxQm7DAHYFMCqR5H3Jlps'}
   >
     {markers}
   </GoogleMapReact>
