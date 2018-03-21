@@ -1,4 +1,4 @@
-import createEagerElementUtil from './utils/createEagerElementUtil';
+import createEagerElementUtil from './createEagerElementUtil';
 import isReferentiallyTransparentFunctionComponent
   from './isReferentiallyTransparentFunctionComponent';
 
