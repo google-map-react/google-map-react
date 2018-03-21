@@ -46,7 +46,7 @@ export const gMapResizable = (
     onChange={onChange}
     onChildMouseEnter={onChildMouseEnter}
     onChildMouseLeave={onChildMouseLeave}
-    resetBoundsOnResize={true}
+    resetBoundsOnResize
   >
     {markers}
   </GoogleMapReact>
