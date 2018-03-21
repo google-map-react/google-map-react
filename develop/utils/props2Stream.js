@@ -1,9 +1,11 @@
 import { Component } from 'react';
-import createHelper from 'recompose/createHelper';
+import omit from 'lodash.omit';
+
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/distinctUntilChanged';
+
+import createHelper from './createHelper';
 import createEagerFactory from './createEagerFactory';
-import omit from './omit';
 
 const prop2Stream = (propName, comparator = (a, b) => a === b) =>
   BaseComponent => {

@@ -33,16 +33,18 @@ export const gMap = (
   }
 ) => (
   <GoogleMapReact
-    draggable={draggable}
+    bootstrapURLKeys={{
+      key: 'AIzaSyC-BebC7ChnHPzxQm7DAHYFMCqR5H3Jlps',
+    }}
     style={style}
     options={options}
+    draggable={draggable}
     hoverDistance={hoverDistance}
-    center={center}
     zoom={zoom}
+    center={center}
     onChange={onChange}
     onChildMouseEnter={onChildMouseEnter}
     onChildMouseLeave={onChildMouseLeave}
-    heatmapLibrary
   >
     {markers}
   </GoogleMapReact>
