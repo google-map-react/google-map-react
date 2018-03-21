@@ -18,6 +18,7 @@ import GoogleMapReact from '../src';
 import SimpleMarker from './markers/SimpleMarker';
 
 import ptInBounds from './utils/ptInBounds';
+import withStateSelector from './utils/withStateSelector';
 
 export const gMapResizable = (
   {
