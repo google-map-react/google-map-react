@@ -1,9 +1,69 @@
-[![npm version](https://badge.fury.io/js/google-map-react.svg)](http://badge.fury.io/js/google-map-react)
-[![Build Status](https://travis-ci.org/istarkov/google-map-react.svg?branch=master)](https://travis-ci.org/istarkov/google-map-react)
+# Google Map React &middot; [![npm version](https://badge.fury.io/js/google-map-react.svg)](http://badge.fury.io/js/google-map-react) [![Build Status](https://travis-ci.org/istarkov/google-map-react.svg?branch=master)](https://travis-ci.org/istarkov/google-map-react) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](github.com/istarkov/google-map-react/CONTRIBUTING.md)
 
 `google-map-react` is a component written over a small set of the [Google Maps API](https://developers.google.com/maps/). It allows you to render any React component on the Google Map. It is fully isomorphic and can render on a server. Additionally, it can render map components in the browser even if the Google Maps API is not loaded. It uses an internal, tweakable hover algorithm - every object on the map can be hovered.
 
 It allows you to create interfaces like this [example](http://istarkov.github.io/google-map-react/map/main) *(You can scroll the table, zoom/move the map, hover/click on markers, and click on table rows)*
+
+## Getting started
+
+In the simple case you just need to add `lat` and `lng` props to any child of `GoogleMapReact` component.
+
+[See it in action at jsbin](https://jsbin.com/gaxapezowo/1/edit?js,output)
+
+```javascript
+import React, { Component } from 'react';
+import GoogleMapReact from 'google-map-react';
+
+const AnyReactComponent = ({ text }) => <div>{text}</div>;
+
+class SimpleMap extends Component {
+  static defaultProps = {
+    center: {
+      lat: 59.95,
+      lng: 30.33
+    },
+    zoom: 11
+  };
+
+  render() {
+    return (
+      // Important! Always set the container height explicitly
+      <div style={{ height: '100vh', width: '100%' }}>
+        <GoogleMapReact
+          bootstrapURLKeys={{ key: /* YOUR KEY HERE */ }}
+          defaultCenter={this.props.center}
+          defaultZoom={this.props.zoom}
+        >
+          <AnyReactComponent
+            lat={59.955413}
+            lng={30.337844}
+            text={'Kreyser Avrora'}
+          />
+        </GoogleMapReact>
+      </div>
+    );
+  }
+}
+
+export default SimpleMap;
+```
+
+### My map doesn't appear!
+
+- Make sure the container element has width and height. The map will try to fill the parent container, but if the container has no size, the map will collapse to 0 width / height. This is not a requirement for google-map-react, [its a requirement for google-maps in general](https://developers.google.com/maps/documentation/javascript/tutorial).
+
+
+## Installation
+
+npm:
+```
+npm install --save google-map-react
+```
+
+yarn:
+```
+yarn add google-map-react
+```
 
 ## Features
 
@@ -22,112 +82,6 @@ It renders components on the map before (and even without) the Google Maps API l
 ### Google Maps API Loads on Demand
 
 There is no need to place a `<script src=` tag at top of page. The Google Maps API loads upon the first usage of the `GoogleMapReact` component.
-
-## What's it Look Like?
-
-In the simple case you just need to add `lat` `lng` props to any child of `GoogleMapReact` component.
-
-[See it in action at jsbin](https://jsbin.com/gaxapezowo/1/edit?js,output)
-
-```javascript
-import React, { Component } from 'react';
-import GoogleMapReact from 'google-map-react';
-
-const AnyReactComponent = ({ text }) => <div>{text}</div>;
-
-class SimpleMap extends Component {
-  static defaultProps = {
-    center: {lat: 59.95, lng: 30.33},
-    zoom: 11
-  };
-
-  render() {
-    return (
-      <GoogleMapReact
-        bootstrapURLKeys={{ key: [YOUR_KEY] }}
-        defaultCenter={this.props.center}
-        defaultZoom={this.props.zoom}
-      >
-        <AnyReactComponent
-          lat={59.955413}
-          lng={30.337844}
-          text={'Kreyser Avrora'}
-        />
-      </GoogleMapReact>
-    );
-  }
-}
-```
-
-## Installation
-
-npm:
-```
-npm install --save google-map-react
-```
-
-yarn:
-```
-yarn add google-map-react
-```
-
-### Heatmap Layer
-
-For enabling heatmap layer, just add `heatmapLibrary={true}` and provide data for heatmap in `heatmap` as props.
-
-#### Example
-
-```javascript
-<GoogleMapReact
-    bootstrapURLKeys={{ key: [YOUR_KEY] }}
-    options={options}
-    center={center}
-    zoom={zoom}
-    heatmapLibrary={true}
-    heatmap={{
-      positions: [
-        {
-          lat: 60.714305,
-          lng: 47.051773,
-        },
-        {
-          lat: 60.734305,
-          lng: 47.061773,
-        },
-        {
-          lat: 60.754305,
-          lng: 47.081773,
-        },
-      ],
-      options: {
-        radius: 20,
-        opacity: 0.7,
-        gradient: [
-          'rgba(0, 255, 255, 0)',
-          'rgba(0, 255, 255, 1)',
-          'rgba(0, 191, 255, 1)',
-          'rgba(0, 127, 255, 1)',
-          'rgba(0, 63, 255, 1)',
-          'rgba(0, 0, 255, 1)',
-          'rgba(0, 0, 223, 1)',
-          'rgba(0, 0, 191, 1)',
-          'rgba(0, 0, 159, 1)',
-          'rgba(0, 0, 127, 1)',
-          'rgba(63, 0, 91, 1)',
-          'rgba(127, 0, 63, 1)',
-          'rgba(191, 0, 31, 1)',
-          'rgba(255, 0, 0, 1)'
-        ]
-      },
-    }}
-  >
-    {markers}
-  </GoogleMapReact>
-```
-
-#### Important Note
-
-If you have multiple `GoogleMapReact` components in project and you want to use heatmap layer so provide `heatmapLibrary={true}` for all `GoogleMapReact` components so component will load heatmap library at the beginning with google map api.
 
 ### Internal Hover Algorithm
 
@@ -169,6 +123,14 @@ Now every object on the map can be hovered (however, you can still use css hover
 * local develop example (new)
 [develop example](./develop)
 
+## Documentation
+
+You can find the documentation here:
+
+- [API Reference](./API.md)
+
+- [NEW DOCS](./DOC.md) (In progress)
+
 ## Contribute
 
 To get a reloadable env, with map, clone this project and
@@ -178,13 +140,6 @@ npm install
 npm run start
 # open browser at localhost:4000
 ```
-
-## API
-
-[API](./API.md)
-
-[NEW DOCS](./DOC.md) (In progress)
-
 
 ## Thank you
 
@@ -197,12 +152,6 @@ npm run start
 ## License
 
 MIT (http://www.opensource.org/licenses/mit-license.php)
-
-
-### bower
-
-We no longer intend to support Bower. Please stop using Bower. NPM works very well for front-end development, and you should use it instead. ((c)Dan Abramov)
-UMD AMD and other build are available under dist folder after `npm install`
 
 ## Known Issues
 
