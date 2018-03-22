@@ -123,6 +123,14 @@ Now every object on the map can be hovered (however, you can still use css hover
 * local develop example (new)
 [develop example](./develop)
 
+## Documentation
+
+You can find the documentation here:
+
+- [API Reference](./API.md)
+
+- [NEW DOCS](./DOC.md) (In progress)
+
 ## Contribute
 
 To get a reloadable env, with map, clone this project and
@@ -132,13 +140,6 @@ npm install
 npm run start
 # open browser at localhost:4000
 ```
-
-## API
-
-[API](./API.md)
-
-[NEW DOCS](./DOC.md) (In progress)
-
 
 ## Thank you
 
