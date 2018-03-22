@@ -37,17 +37,21 @@ import GoogleMapReact from 'google-map-react';
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
 const SimpleMap = ({ center, zoom }) => (
-  <GoogleMapReact
-    bootstrapURLKeys={{ key: [YOUR_KEY] }}
-    defaultCenter={center}
-    defaultZoom={zoom}
-  >
-    <AnyReactComponent
-      lat={59.955413}
-      lng={30.337844}
-      text={'Kreyser Avrora'}
-    />
-  </GoogleMapReact>
+  // !!important: Always set the container height explicitly to define
+  // the size of the div element that contains the map.
+  <div style={{ height: '100vh', width: '100%' }}>
+    <GoogleMapReact
+      bootstrapURLKeys={{ key: [YOUR_KEY] }}
+      defaultCenter={center}
+      defaultZoom={zoom}
+    >
+      <AnyReactComponent
+        lat={59.955413}
+        lng={30.337844}
+        text={'Kreyser Avrora'}
+      />
+    </GoogleMapReact>
+  </div>
 );
 
 SimpleMap.propTypes = {
@@ -65,6 +69,10 @@ SimpleMap.defaultProps = {
 
 export default SimpleMap;
 ```
+
+### My map doesn't appear
+
+Make sure the container element has width and height. The map will try to fill the parent container, but if the container has no size, the map will collapse to 0 width / height.
 
 ## Installation
 
