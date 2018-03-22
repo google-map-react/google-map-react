@@ -4,24 +4,6 @@
 
 It allows you to create interfaces like this [example](http://istarkov.github.io/google-map-react/map/main) *(You can scroll the table, zoom/move the map, hover/click on markers, and click on table rows)*
 
-## Features
-
-### Works with your Components
-
-Instead of the ugly Google Maps markers, balloons and other map components, you can render your cool animated react components on the map.
-
-### Isomorphic Rendering
-
-It renders on the server. *(Welcome search engines)* *(you can disable javascript in browser dev tools, and reload any example page to see how it works)*
-
-### Component Positions Calculated Independently of Google Maps API
-
-It renders components on the map before (and even without) the Google Maps API loaded.
-
-### Google Maps API Loads on Demand
-
-There is no need to place a `<script src=` tag at top of page. The Google Maps API loads upon the first usage of the `GoogleMapReact` component.
-
 ## Getting started
 
 In the simple case you just need to add `lat` and `lng` props to any child of `GoogleMapReact` component.
@@ -77,6 +59,24 @@ yarn:
 ```
 yarn add google-map-react
 ```
+
+## Features
+
+### Works with your Components
+
+Instead of the ugly Google Maps markers, balloons and other map components, you can render your cool animated react components on the map.
+
+### Isomorphic Rendering
+
+It renders on the server. *(Welcome search engines)* *(you can disable javascript in browser dev tools, and reload any example page to see how it works)*
+
+### Component Positions Calculated Independently of Google Maps API
+
+It renders components on the map before (and even without) the Google Maps API loaded.
+
+### Google Maps API Loads on Demand
+
+There is no need to place a `<script src=` tag at top of page. The Google Maps API loads upon the first usage of the `GoogleMapReact` component.
 
 ### Internal Hover Algorithm
 
