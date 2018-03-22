@@ -31,14 +31,12 @@ In the simple case you just need to add `lat` `lng` props to any child of `Googl
 
 ```javascript
 import React from 'react';
-import PropTypes from 'prop-types';
 import GoogleMapReact from 'google-map-react';
 
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
 const SimpleMap = ({ center, zoom }) => (
-  // !!important: Always set the container height explicitly to define
-  // the size of the div element that contains the map.
+  // Important! Always set the container height explicitly
   <div style={{ height: '100vh', width: '100%' }}>
     <GoogleMapReact
       bootstrapURLKeys={{ key: [YOUR_KEY] }}
@@ -54,14 +52,6 @@ const SimpleMap = ({ center, zoom }) => (
   </div>
 );
 
-SimpleMap.propTypes = {
-  center: PropTypes.shape({
-    lat: PropTypes.number.isRequired,
-    lng: PropTypes.number.isRequired,
-  }),
-  zoom: PropTypes.number.isRequired,
-};
-
 SimpleMap.defaultProps = {
   center: { lat: 59.95, lng: 30.33 },
   zoom: 11,
@@ -70,9 +60,11 @@ SimpleMap.defaultProps = {
 export default SimpleMap;
 ```
 
-### My map doesn't appear
+### My map doesn't appear!
 
 Make sure the container element has width and height. The map will try to fill the parent container, but if the container has no size, the map will collapse to 0 width / height.
+
+This is not a requirement for google-map-react, [its a requirement for google-maps in general](https://developers.google.com/maps/documentation/javascript/tutorial).
 
 ## Installation
 
