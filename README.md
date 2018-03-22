@@ -23,7 +23,7 @@ It renders components on the map before (and even without) the Google Maps API l
 
 There is no need to place a `<script src=` tag at top of page. The Google Maps API loads upon the first usage of the `GoogleMapReact` component.
 
-## What's it Look Like?
+## How it works
 
 In the simple case you just need to add `lat` `lng` props to any child of `GoogleMapReact` component.
 
@@ -70,64 +70,6 @@ yarn:
 ```
 yarn add google-map-react
 ```
-
-### Heatmap Layer
-
-For enabling heatmap layer, just add `heatmapLibrary={true}` and provide data for heatmap in `heatmap` as props.
-
-#### Example
-
-```javascript
-<GoogleMapReact
-    bootstrapURLKeys={{ key: [YOUR_KEY] }}
-    options={options}
-    center={center}
-    zoom={zoom}
-    heatmapLibrary={true}
-    heatmap={{
-      positions: [
-        {
-          lat: 60.714305,
-          lng: 47.051773,
-        },
-        {
-          lat: 60.734305,
-          lng: 47.061773,
-        },
-        {
-          lat: 60.754305,
-          lng: 47.081773,
-        },
-      ],
-      options: {
-        radius: 20,
-        opacity: 0.7,
-        gradient: [
-          'rgba(0, 255, 255, 0)',
-          'rgba(0, 255, 255, 1)',
-          'rgba(0, 191, 255, 1)',
-          'rgba(0, 127, 255, 1)',
-          'rgba(0, 63, 255, 1)',
-          'rgba(0, 0, 255, 1)',
-          'rgba(0, 0, 223, 1)',
-          'rgba(0, 0, 191, 1)',
-          'rgba(0, 0, 159, 1)',
-          'rgba(0, 0, 127, 1)',
-          'rgba(63, 0, 91, 1)',
-          'rgba(127, 0, 63, 1)',
-          'rgba(191, 0, 31, 1)',
-          'rgba(255, 0, 0, 1)'
-        ]
-      },
-    }}
-  >
-    {markers}
-  </GoogleMapReact>
-```
-
-#### Important Note
-
-If you have multiple `GoogleMapReact` components in project and you want to use heatmap layer so provide `heatmapLibrary={true}` for all `GoogleMapReact` components so component will load heatmap library at the beginning with google map api.
 
 ### Internal Hover Algorithm
 

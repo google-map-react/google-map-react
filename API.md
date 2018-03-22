@@ -269,7 +269,7 @@ render() {
 }
 ```
 
-### Adding a searchbox
+### Adding a SearchBox
 
 ```javascript
 import React from 'react';
@@ -338,6 +338,45 @@ function createMapOptions() {
 The default setting is `gestureHandling:auto` which tries to detect based on the page/content sizes if a `greedy` setting is best (no scrolling is required) or `cooperative` (scrolling is possible)
 
 For more details see the [google documentation](https://developers.google.com/maps/documentation/javascript/interaction) for this setting.
+
+### Heatmap Layer
+
+For enabling heatmap layer, just add `heatmapLibrary={true}` and provide data for heatmap in `heatmap` as props.
+
+#### Example
+
+```javascript
+<GoogleMapReact
+    bootstrapURLKeys={{ key: [YOUR_KEY] }}
+    zoom={zoom}
+    center={center}
+    heatmapLibrary={true}
+    heatmap={{
+      positions: [
+        {
+          lat: 60.714305,
+          lng: 47.051773,
+        },
+        ...
+      ],
+      options: {
+        radius: 20,
+        opacity: 0.7,
+        gradient: [
+          'rgba(0, 255, 255, 0)',
+          'rgba(0, 255, 255, 1)',
+          ...
+        ]
+      },
+    }}
+  >
+    {markers}
+  </GoogleMapReact>
+```
+
+#### Important Note
+
+If you have multiple `GoogleMapReact` components in project and you want to use heatmap layer so provide `heatmapLibrary={true}` for all `GoogleMapReact` components so component will load heatmap library at the beginning with google map api.
 
 ### Localizing the Map
 
