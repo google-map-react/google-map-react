@@ -11,32 +11,39 @@ In the simple case you just need to add `lat` and `lng` props to any child of `G
 [See it in action at jsbin](https://jsbin.com/gaxapezowo/1/edit?js,output)
 
 ```javascript
-import React from 'react';
+import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
 
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
-const SimpleMap = ({ center, zoom }) => (
-  // Important! Always set the container height explicitly
-  <div style={{ height: '100vh', width: '100%' }}>
-    <GoogleMapReact
-      bootstrapURLKeys={{ key: [YOUR_KEY] }}
-      defaultCenter={center}
-      defaultZoom={zoom}
-    >
-      <AnyReactComponent
-        lat={59.955413}
-        lng={30.337844}
-        text={'Kreyser Avrora'}
-      />
-    </GoogleMapReact>
-  </div>
-);
+class SimpleMap extends Component {
+  static defaultProps = {
+    center: {
+      lat: 59.95,
+      lng: 30.33
+    },
+    zoom: 11
+  };
 
-SimpleMap.defaultProps = {
-  center: { lat: 59.95, lng: 30.33 },
-  zoom: 11,
-};
+  render() {
+    return (
+      // Important! Always set the container height explicitly
+      <div style={{ height: '100vh', width: '100%' }}>
+        <GoogleMapReact
+          bootstrapURLKeys={{ key: /* YOUR KEY HERE */ }}
+          defaultCenter={this.props.center}
+          defaultZoom={this.props.zoom}
+        >
+          <AnyReactComponent
+            lat={59.955413}
+            lng={30.337844}
+            text={'Kreyser Avrora'}
+          />
+        </GoogleMapReact>
+      </div>
+    );
+  }
+}
 
 export default SimpleMap;
 ```
