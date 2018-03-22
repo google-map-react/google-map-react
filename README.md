@@ -30,33 +30,40 @@ In the simple case you just need to add `lat` `lng` props to any child of `Googl
 [See it in action at jsbin](https://jsbin.com/gaxapezowo/1/edit?js,output)
 
 ```javascript
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import GoogleMapReact from 'google-map-react';
 
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
-class SimpleMap extends Component {
-  static defaultProps = {
-    center: {lat: 59.95, lng: 30.33},
-    zoom: 11
-  };
+const SimpleMap = ({ center, zoom }) => (
+  <GoogleMapReact
+    bootstrapURLKeys={{ key: [YOUR_KEY] }}
+    defaultCenter={center}
+    defaultZoom={zoom}
+  >
+    <AnyReactComponent
+      lat={59.955413}
+      lng={30.337844}
+      text={'Kreyser Avrora'}
+    />
+  </GoogleMapReact>
+);
 
-  render() {
-    return (
-      <GoogleMapReact
-        bootstrapURLKeys={{ key: [YOUR_KEY] }}
-        defaultCenter={this.props.center}
-        defaultZoom={this.props.zoom}
-      >
-        <AnyReactComponent
-          lat={59.955413}
-          lng={30.337844}
-          text={'Kreyser Avrora'}
-        />
-      </GoogleMapReact>
-    );
-  }
-}
+SimpleMap.propTypes = {
+  center: PropTypes.shape({
+    lat: PropTypes.number.isRequired,
+    lng: PropTypes.number.isRequired,
+  }),
+  zoom: PropTypes.number.isRequired,
+};
+
+SimpleMap.defaultProps = {
+  center: { lat: 59.95, lng: 30.33 },
+  zoom: 11,
+};
+
+export default SimpleMap;
 ```
 
 ## Installation
