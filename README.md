@@ -152,12 +152,6 @@ npm run start
 
 MIT (http://www.opensource.org/licenses/mit-license.php)
 
-
-### bower
-
-We no longer intend to support Bower. Please stop using Bower. NPM works very well for front-end development, and you should use it instead. ((c)Dan Abramov)
-UMD AMD and other build are available under dist folder after `npm install`
-
 ## Known Issues
 
 * Older browsers (http://caniuse.com/#feat=promises) will need a ES6 Promise polyfill in order to work.
