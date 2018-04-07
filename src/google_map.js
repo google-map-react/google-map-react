@@ -610,7 +610,7 @@ export default class GoogleMap extends Component {
           },
 
           onRemove() {
-            ReactDOM.unmountComponentAtNode(this.div);
+            if(this.div) ReactDOM.unmountComponentAtNode(this.div);
           },
 
           draw() {
