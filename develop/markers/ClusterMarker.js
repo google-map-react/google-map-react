@@ -12,6 +12,7 @@ export const clusterMarker = (
     $hover,
     defaultMotionStyle,
     motionStyle,
+    markerIcon,
   }
 ) => (
   <Motion defaultStyle={defaultMotionStyle} style={motionStyle}>
@@ -24,7 +25,7 @@ export const clusterMarker = (
         }}
       >
         <div className={styles.text}>
-          {text}
+          {markerIcon}
         </div>
       </div>
     )}
