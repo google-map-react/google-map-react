@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -12,7 +11,7 @@ import {
 } from 'recompose';
 import { createSelector } from 'reselect';
 
-import { susolvkaCoords, generateMarkers } from './data/fakeData';
+import { susolvkaCoords, generateMarkers, heatmapData } from './data/fakeData';
 
 import GoogleMapReact from '../src';
 import SimpleMarker from './markers/SimpleMarker';
@@ -20,7 +19,7 @@ import SimpleMarker from './markers/SimpleMarker';
 import ptInBounds from './utils/ptInBounds';
 import withStateSelector from './utils/withStateSelector';
 
-export const gMapResizable = (
+export const gMapHeatmap = (
   {
     style,
     hoverDistance,
@@ -46,7 +45,8 @@ export const gMapResizable = (
     onChange={onChange}
     onChildMouseEnter={onChildMouseEnter}
     onChildMouseLeave={onChildMouseLeave}
-    resetBoundsOnResize
+    heatmap={heatmapData}
+    heatmapLibrary
   >
     {markers}
   </GoogleMapReact>
@@ -107,4 +107,4 @@ export const gMapHOC = compose(
   }))
 );
 
-export default gMapHOC(gMapResizable);
+export default gMapHOC(gMapHeatmap);

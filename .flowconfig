@@ -2,10 +2,7 @@
 .*/coverage/.*
 .*/scripts/.*
 .*/node_modules/flow-bin/.*
-# .*/node_modules/fbjs/.*
-.*/node_modules/fbjs/lib/Deferred.js.flow
 .*/node_modules/.*/flow-bin.*/.*
-.*/node_modules/.*/fbjs.*/.*
 .*/node_modules/.*/broken.json
 .*/node_modules/fixed-data-table/*
 .*/node_modules/.*/fixtures/package.json

@@ -1,12 +1,16 @@
-import React, { Component } from 'react';
-import compose from 'recompose/compose';
 import { Link } from 'react-router';
-import defaultProps from 'recompose/defaultProps';
+import React, { Component } from 'react';
+import { compose, defaultProps } from 'recompose';
+
 import layoutStyles from './Layout.sass';
+
 // for hmr to work I need the first class to extend Component
-export class Layout extends Component { // eslint-disable-line
+/* eslint-disable react/prefer-stateless-function */
+export class Layout extends Component {
   render() {
-    const { styles: { layout, header, main, footer, logo, links } } = this.props;
+    const {
+      styles: { layout, header, main, footer, logo, links },
+    } = this.props;
     return (
       <div className={layout}>
         <header className={header}>
@@ -17,7 +21,7 @@ export class Layout extends Component { // eslint-disable-line
             <Link to="/hoveroptim">Hover optim</Link>
             <Link to="/resizable">Resizable Map</Link>
             <Link to="/clustering">Clustered Marker</Link>
-
+            <Link to="/heatmap">Heatmap</Link>
           </div>
           <div>
             <a href="https://github.com/istarkov/google-map-clustering-example">
@@ -34,7 +38,7 @@ export class Layout extends Component { // eslint-disable-line
               Ivan Starkov
             </a>
           </div>
-          <div className={logo}></div>
+          <div className={logo} />
           <div>
             <a href="https://twitter.com/icelabaratory">
               @icelabaratory

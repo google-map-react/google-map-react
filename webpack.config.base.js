@@ -1,31 +1,27 @@
-var webpack = require('webpack');
-
-var reactExternal = {
+const reactExternal = {
   root: 'React',
   commonjs2: 'react',
   commonjs: 'react',
-  amd: 'react'
+  amd: 'react',
 };
 
-var reactDomExternal = {
+const reactDomExternal = {
   root: 'ReactDOM',
   commonjs2: 'react-dom',
   commonjs: 'react-dom',
-  amd: 'react-dom'
+  amd: 'react-dom',
 };
 
 module.exports = {
   output: {
     library: 'GoogleMapReact',
-    libraryTarget: 'umd'
+    libraryTarget: 'umd',
   },
   externals: {
-    'react': reactExternal,
+    react: reactExternal,
     'react-dom': reactDomExternal,
   },
   module: {
-    loaders: [
-      { test: /\.js$/, exclude: /node_modules/, loader: 'babel' }
-    ]
+    loaders: [{ test: /\.js$/, exclude: /node_modules/, loader: 'babel' }],
   },
 };

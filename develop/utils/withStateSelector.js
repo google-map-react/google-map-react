@@ -1,6 +1,6 @@
 import { Component } from 'react';
+import createHelper from './createHelper';
 import createEagerFactory from './createEagerFactory';
-import createHelper from 'recompose/createHelper';
 
 const withStateSelector = (stateName, stateUpdaterName, selectorFactory) =>
   BaseComponent => {
@@ -11,13 +11,15 @@ const withStateSelector = (stateName, stateUpdaterName, selectorFactory) =>
         stateValue: this.selector(this.props),
       };
 
-      updateStateValue = (updateFn, callback) => (
-        this.setState(({ stateValue }) => ({
-          stateValue: typeof updateFn === 'function'
-            ? updateFn(stateValue)
-            : updateFn,
-        }), callback)
-      );
+      updateStateValue = (updateFn, callback) =>
+        this.setState(
+          ({ stateValue }) => ({
+            stateValue: typeof updateFn === 'function'
+              ? updateFn(stateValue)
+              : updateFn,
+          }),
+          callback
+        );
 
       componentWillReceiveProps(nextProps) {
         // reselect memoize result
