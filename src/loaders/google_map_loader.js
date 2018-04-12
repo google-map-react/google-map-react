@@ -76,7 +76,7 @@ export default (bootstrapURLKeys, heatmapLibrary) => {
     // and not the experimental version, to do so, we set v=3.31
     // src: https://developers.google.com/maps/documentation/javascript/versions
     if (isEmpty(bootstrapURLKeys.v)) {
-      params += '&v=3.31';
+      params += '&v=3.exp';
     }
 
     const baseUrl = getUrl(bootstrapURLKeys.region);

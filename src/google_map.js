@@ -566,6 +566,9 @@ export default class GoogleMap extends Component {
 
         this._setLayers(this.props.layerTypes);
 
+        const versionMatch = maps.version.match(/^3\.(\d+)\./);
+        const mapsVersion = versionMatch ? Number(versionMatch[1]) : 99;
+
         // render in overlay
         const this_ = this;
         const overlay = Object.assign(new maps.OverlayView(), {
@@ -588,6 +591,9 @@ export default class GoogleMap extends Component {
 
             const panes = this.getPanes();
             panes.overlayMouseTarget.appendChild(div);
+            if (mapsVersion >= 32) {
+              this_.geoService_.setProjection(maps, overlay.getProjection());
+            }
 
             ReactDOM.unstable_renderSubtreeIntoContainer(
               this_,
@@ -616,12 +622,19 @@ export default class GoogleMap extends Component {
           draw() {
             const div = overlay.div;
             const overlayProjection = overlay.getProjection();
-            const bounds = map.getBounds();
-            const ne = bounds.getNorthEast();
-            const sw = bounds.getSouthWest();
-            const ptx = overlayProjection.fromLatLngToDivPixel(
-              new maps.LatLng(ne.lat(), sw.lng())
-            );
+            let ptx;
+            if (mapsVersion < 32) {
+              const bounds = map.getBounds();
+              const ne = bounds.getNorthEast();
+              const sw = bounds.getSouthWest();
+              ptx = overlayProjection.fromLatLngToDivPixel(
+                new maps.LatLng(ne.lat(), sw.lng())
+              );
+            } else {
+              ptx = overlayProjection.fromLatLngToDivPixel(
+                overlayProjection.fromContainerPixelToLatLng({ x: 0, y: 0 })
+              );
+            }
 
             // need round for safari still can't find what need for firefox
             const ptxRounded = detectBrowser().isSafari
@@ -659,25 +672,27 @@ export default class GoogleMap extends Component {
               this_._onZoomAnimationStart();
             }
 
-            const TIMEOUT_ZOOM = 300;
+            if (mapsVersion < 32) {
+              const TIMEOUT_ZOOM = 300;
 
-            if (
-              new Date().getTime() - this.zoomControlClickTime_ < TIMEOUT_ZOOM
-            ) {
-              // there is strange Google Map Api behavior in chrome when zoom animation of map
-              // is started only on second raf call, if was click on zoom control
-              // or +- keys pressed, so i wait for two rafs before change state
+              if (
+                new Date().getTime() - this.zoomControlClickTime_ < TIMEOUT_ZOOM
+              ) {
+                // there is strange Google Map Api behavior in chrome when zoom animation of map
+                // is started only on second raf call, if was click on zoom control
+                // or +- keys pressed, so i wait for two rafs before change state
 
-              // this does not fully prevent animation jump
-              // but reduce it's occurence probability
-              raf(() =>
-                raf(() => {
-                  this_.updateCounter_++;
-                  this_._onBoundsChanged(map, maps);
-                }));
-            } else {
-              this_.updateCounter_++;
-              this_._onBoundsChanged(map, maps);
+                // this does not fully prevent animation jump
+                // but reduce it's occurence probability
+                raf(() =>
+                  raf(() => {
+                    this_.updateCounter_++;
+                    this_._onBoundsChanged(map, maps);
+                  }));
+              } else {
+                this_.updateCounter_++;
+                this_._onBoundsChanged(map, maps);
+              }
             }
           }
         });
@@ -718,12 +733,19 @@ export default class GoogleMap extends Component {
           const div = overlay.div;
           const overlayProjection = overlay.getProjection();
           if (div && overlayProjection) {
-            const bounds = map.getBounds();
-            const ne = bounds.getNorthEast();
-            const sw = bounds.getSouthWest();
-            const ptx = overlayProjection.fromLatLngToDivPixel(
-              new maps.LatLng(ne.lat(), sw.lng())
-            );
+            let ptx;
+            if (mapsVersion < 32) {
+              const bounds = map.getBounds();
+              const ne = bounds.getNorthEast();
+              const sw = bounds.getSouthWest();
+              ptx = overlayProjection.fromLatLngToDivPixel(
+                new maps.LatLng(ne.lat(), sw.lng())
+              );
+            } else {
+              ptx = overlayProjection.fromLatLngToDivPixel(
+                overlayProjection.fromContainerPixelToLatLng({ x: 0, y: 0 })
+              );
+            }
             // need round for safari still can't find what need for firefox
             const ptxRounded = detectBrowser().isSafari
               ? { x: Math.round(ptx.x), y: Math.round(ptx.y) }
