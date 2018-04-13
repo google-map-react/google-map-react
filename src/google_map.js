@@ -591,9 +591,10 @@ export default class GoogleMap extends Component {
 
             const panes = this.getPanes();
             panes.overlayMouseTarget.appendChild(div);
-            if (mapsVersion >= 32) {
-              this_.geoService_.setProjection(maps, overlay.getProjection());
-            }
+            this_.geoService_.setMapCanvasProjection(
+              maps,
+              overlay.getProjection()
+            );
 
             ReactDOM.unstable_renderSubtreeIntoContainer(
               this_,
@@ -622,19 +623,9 @@ export default class GoogleMap extends Component {
           draw() {
             const div = overlay.div;
             const overlayProjection = overlay.getProjection();
-            let ptx;
-            if (mapsVersion < 32) {
-              const bounds = map.getBounds();
-              const ne = bounds.getNorthEast();
-              const sw = bounds.getSouthWest();
-              ptx = overlayProjection.fromLatLngToDivPixel(
-                new maps.LatLng(ne.lat(), sw.lng())
-              );
-            } else {
-              ptx = overlayProjection.fromLatLngToDivPixel(
-                overlayProjection.fromContainerPixelToLatLng({ x: 0, y: 0 })
-              );
-            }
+            const ptx = overlayProjection.fromLatLngToDivPixel(
+              overlayProjection.fromContainerPixelToLatLng({ x: 0, y: 0 })
+            );
 
             // need round for safari still can't find what need for firefox
             const ptxRounded = detectBrowser().isSafari
@@ -733,19 +724,9 @@ export default class GoogleMap extends Component {
           const div = overlay.div;
           const overlayProjection = overlay.getProjection();
           if (div && overlayProjection) {
-            let ptx;
-            if (mapsVersion < 32) {
-              const bounds = map.getBounds();
-              const ne = bounds.getNorthEast();
-              const sw = bounds.getSouthWest();
-              ptx = overlayProjection.fromLatLngToDivPixel(
-                new maps.LatLng(ne.lat(), sw.lng())
-              );
-            } else {
-              ptx = overlayProjection.fromLatLngToDivPixel(
-                overlayProjection.fromContainerPixelToLatLng({ x: 0, y: 0 })
-              );
-            }
+            const ptx = overlayProjection.fromLatLngToDivPixel(
+              overlayProjection.fromContainerPixelToLatLng({ x: 0, y: 0 })
+            );
             // need round for safari still can't find what need for firefox
             const ptxRounded = detectBrowser().isSafari
               ? { x: Math.round(ptx.x), y: Math.round(ptx.y) }

@@ -24,7 +24,7 @@ export default class Geo {
     this.hasSize_ = true;
   }
 
-  setProjection(maps, mapCanvasProjection) {
+  setMapCanvasProjection(maps, mapCanvasProjection) {
     this.maps_ = maps;
     this.mapCanvasProjection_ = mapCanvasProjection;
   }
@@ -38,13 +38,6 @@ export default class Geo {
   }
 
   unproject(ptXY, viewFromLeftTop) {
-    if (this.mapCanvasProjection_) {
-      const latLng = viewFromLeftTop
-        ? this.mapCanvasProjection_.fromContainerPixelToLatLng(ptXY)
-        : this.mapCanvasProjection_.fromDivPixelToLatLng(ptXY);
-      return { lat: latLng.lat(), lng: latLng.lng() };
-    }
-
     let ptRes;
     if (viewFromLeftTop) {
       const ptxy = { ...ptXY };
@@ -60,13 +53,6 @@ export default class Geo {
   }
 
   project(ptLatLng, viewFromLeftTop) {
-    if (this.mapCanvasProjection_) {
-      const latLng = new this.maps_.LatLng(ptLatLng.lat, ptLatLng.lng);
-      return viewFromLeftTop
-        ? this.mapCanvasProjection_.fromLatLngToContainerPixel(latLng)
-        : this.mapCanvasProjection_.fromLatLngToDivPixel(latLng);
-    }
-
     if (viewFromLeftTop) {
       const pt = this.transform_.locationPoint(LatLng.convert(ptLatLng));
       pt.x -= this.transform_.worldSize *
@@ -79,6 +65,15 @@ export default class Geo {
     }
 
     return this.transform_.locationPoint(LatLng.convert(ptLatLng));
+  }
+
+  fromLatLngToContainerPixel(ptLatLng) {
+    if (this.mapCanvasProjection_) {
+      const latLng = new this.maps_.LatLng(ptLatLng.lat, ptLatLng.lng);
+      return this.mapCanvasProjection_.fromLatLngToContainerPixel(latLng);
+    }
+
+    return this.project(ptLatLng, true);
   }
 
   getWidth() {

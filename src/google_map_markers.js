@@ -265,10 +265,9 @@ export default class GoogleMapMarkers extends Component {
           ? child.props.latLng
           : { lat: child.props.lat, lng: child.props.lng };
 
-        const pt = this.props.geoService.project(
-          latLng,
-          this.props.projectFromLeftTop
-        );
+        const pt = this.props.projectFromLeftTop
+          ? this.props.geoService.fromLatLngToContainerPixel(latLng)
+          : this.props.geoService.project(latLng);
 
         const stylePtPos = {
           left: pt.x,
