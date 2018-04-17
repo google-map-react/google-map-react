@@ -78,7 +78,6 @@
     "jsdom": "^6.5.1",
     "kotatsu": "^0.14.0",
     "lint-staged": "^3.4.0",
-    "lodash.omit": "^4.5.0",
     "mocha": "^2.3.3",
     "node-sass": "^3.7.0",
     "normalize.css": "^4.1.1",
