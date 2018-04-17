@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import omit from 'lodash.omit';
+import omit from './omit';
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/distinctUntilChanged';
