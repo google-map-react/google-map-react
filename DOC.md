@@ -45,7 +45,7 @@ On creation map uses the space of parent container and if parent container has z
 the map will be not visible. (_This is one of the most common issue_)
 
 If you want to place map inside `display: flex` container you need to pass `style` property
-with `{ flex: 1 }` to the control as like as [here](https://github.com/istarkov/google-map-thousands-markers/blob/master/src/Map.js#L32)
+with `{ flex: 1 }` to the control as like as [here](https://github.com/google-map-react/google-map-thousands-markers/blob/master/src/Map.js#L32)
 
 By default map will not raise `onChange` event if parent size has changed, to change such behavior
 add `resetBoundsOnResize = {true}` property.
@@ -118,7 +118,7 @@ marker position, and any other properties you want.
 
   At the example above I use some kind of rectangular distance.
 
-  [Other distanceToMouse example](https://github.com/istarkov/google-map-react-examples/blob/dbfc2fcd381cc39da315875f5a45d4ebee765f26/web/flux/components/examples/x_distance_hover/distance_hover_map_page.jsx#L31-L46)
+  [Other distanceToMouse example](https://github.com/google-map-react/google-map-react-examples/blob/dbfc2fcd381cc39da315875f5a45d4ebee765f26/web/flux/components/examples/x_distance_hover/distance_hover_map_page.jsx#L31-L46)
 
 
 - `hoverDistance: number` distance threshold,
