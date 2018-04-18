@@ -9,7 +9,7 @@ Add: `bootstrapURLKeys` (object) instead of `apiKey` prop
 Example:
 
 ```javascript
-<GoogleMap 
+<GoogleMap
   bootstrapURLKeys={{
     key: API_KEY,
     language: 'ru',
@@ -34,7 +34,7 @@ Add `utils` functions, with `fitBounds` and other functions
 ```javascript
   import { fitBounds } from 'google-map-react/utils';
 
-  const bounds = { 
+  const bounds = {
     nw: {
       lat: 50.01038826014866,
       lng: -118.6525866875,
@@ -44,7 +44,7 @@ Add `utils` functions, with `fitBounds` and other functions
       lng: -92.0217273125,
      },
   };
-  
+
   const size = {
     width: 640, // Map width in pixels
     height: 380, // Map height in pixels
