@@ -1,9 +1,9 @@
 import { Component } from 'react';
-import omit from './omit';
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/distinctUntilChanged';
 
+import omit from './omit';
 import createHelper from './createHelper';
 import createEagerFactory from './createEagerFactory';
 
