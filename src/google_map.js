@@ -34,6 +34,9 @@ const K_GOOGLE_TILE_SIZE = 256;
 const K_IDLE_TIMEOUT = 100;
 const K_IDLE_CLICK_TIMEOUT = 300;
 const DEFAULT_MIN_ZOOM = 3;
+// Starting with version 3.32, the maps API calls `draw()` each frame during
+// a zoom animation.
+const DRAW_CALLED_DURING_ANIMATION = 32;
 
 function defaultOptions_(/* maps */) {
   return {
@@ -566,8 +569,10 @@ export default class GoogleMap extends Component {
 
         this._setLayers(this.props.layerTypes);
 
+        // Parse `google.maps.version` to capture the major version number.
         const versionMatch = maps.version.match(/^3\.(\d+)\./);
-        const mapsVersion = versionMatch ? Number(versionMatch[1]) : 99;
+        // The major version is the first (and only) captured group.
+        const mapsVersion = versionMatch && Number(versionMatch[1]);
 
         // render in overlay
         const this_ = this;
@@ -663,7 +668,9 @@ export default class GoogleMap extends Component {
               this_._onZoomAnimationStart();
             }
 
-            if (mapsVersion < 32) {
+            // If draw() is not called each frame during a zoom animation,
+            // simulate it.
+            if (mapsVersion < DRAW_CALLED_DURING_ANIMATION) {
               const TIMEOUT_ZOOM = 300;
 
               if (
