@@ -36,7 +36,7 @@ const K_IDLE_CLICK_TIMEOUT = 300;
 const DEFAULT_MIN_ZOOM = 3;
 // Starting with version 3.32, the maps API calls `draw()` each frame during
 // a zoom animation.
-const DRAW_CALLED_DURING_ANIMATION = 32;
+const DRAW_CALLED_DURING_ANIMATION_VERSION = 32;
 
 function defaultOptions_(/* maps */) {
   return {
@@ -670,7 +670,7 @@ export default class GoogleMap extends Component {
 
             // If draw() is not called each frame during a zoom animation,
             // simulate it.
-            if (mapsVersion < DRAW_CALLED_DURING_ANIMATION) {
+            if (mapsVersion < DRAW_CALLED_DURING_ANIMATION_VERSION) {
               const TIMEOUT_ZOOM = 300;
 
               if (
