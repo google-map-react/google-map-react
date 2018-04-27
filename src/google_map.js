@@ -34,6 +34,9 @@ const K_GOOGLE_TILE_SIZE = 256;
 const K_IDLE_TIMEOUT = 100;
 const K_IDLE_CLICK_TIMEOUT = 300;
 const DEFAULT_MIN_ZOOM = 3;
+// Starting with version 3.32, the maps API calls `draw()` each frame during
+// a zoom animation.
+const DRAW_CALLED_DURING_ANIMATION_VERSION = 32;
 
 function defaultOptions_(/* maps */) {
   return {
@@ -566,6 +569,11 @@ export default class GoogleMap extends Component {
 
         this._setLayers(this.props.layerTypes);
 
+        // Parse `google.maps.version` to capture the major version number.
+        const versionMatch = maps.version.match(/^3\.(\d+)\./);
+        // The major version is the first (and only) captured group.
+        const mapsVersion = versionMatch && Number(versionMatch[1]);
+
         // render in overlay
         const this_ = this;
         const overlay = Object.assign(new maps.OverlayView(), {
@@ -588,6 +596,10 @@ export default class GoogleMap extends Component {
 
             const panes = this.getPanes();
             panes.overlayMouseTarget.appendChild(div);
+            this_.geoService_.setMapCanvasProjection(
+              maps,
+              overlay.getProjection()
+            );
 
             ReactDOM.unstable_renderSubtreeIntoContainer(
               this_,
@@ -618,11 +630,8 @@ export default class GoogleMap extends Component {
           draw() {
             const div = overlay.div;
             const overlayProjection = overlay.getProjection();
-            const bounds = map.getBounds();
-            const ne = bounds.getNorthEast();
-            const sw = bounds.getSouthWest();
             const ptx = overlayProjection.fromLatLngToDivPixel(
-              new maps.LatLng(ne.lat(), sw.lng())
+              overlayProjection.fromContainerPixelToLatLng({ x: 0, y: 0 })
             );
 
             // need round for safari still can't find what need for firefox
@@ -661,25 +670,29 @@ export default class GoogleMap extends Component {
               this_._onZoomAnimationStart();
             }
 
-            const TIMEOUT_ZOOM = 300;
+            // If draw() is not called each frame during a zoom animation,
+            // simulate it.
+            if (mapsVersion < DRAW_CALLED_DURING_ANIMATION_VERSION) {
+              const TIMEOUT_ZOOM = 300;
 
-            if (
-              new Date().getTime() - this.zoomControlClickTime_ < TIMEOUT_ZOOM
-            ) {
-              // there is strange Google Map Api behavior in chrome when zoom animation of map
-              // is started only on second raf call, if was click on zoom control
-              // or +- keys pressed, so i wait for two rafs before change state
+              if (
+                new Date().getTime() - this.zoomControlClickTime_ < TIMEOUT_ZOOM
+              ) {
+                // there is strange Google Map Api behavior in chrome when zoom animation of map
+                // is started only on second raf call, if was click on zoom control
+                // or +- keys pressed, so i wait for two rafs before change state
 
-              // this does not fully prevent animation jump
-              // but reduce it's occurence probability
-              raf(() =>
-                raf(() => {
-                  this_.updateCounter_++;
-                  this_._onBoundsChanged(map, maps);
-                }));
-            } else {
-              this_.updateCounter_++;
-              this_._onBoundsChanged(map, maps);
+                // this does not fully prevent animation jump
+                // but reduce it's occurence probability
+                raf(() =>
+                  raf(() => {
+                    this_.updateCounter_++;
+                    this_._onBoundsChanged(map, maps);
+                  }));
+              } else {
+                this_.updateCounter_++;
+                this_._onBoundsChanged(map, maps);
+              }
             }
           }
         });
@@ -720,11 +733,8 @@ export default class GoogleMap extends Component {
           const div = overlay.div;
           const overlayProjection = overlay.getProjection();
           if (div && overlayProjection) {
-            const bounds = map.getBounds();
-            const ne = bounds.getNorthEast();
-            const sw = bounds.getSouthWest();
             const ptx = overlayProjection.fromLatLngToDivPixel(
-              new maps.LatLng(ne.lat(), sw.lng())
+              overlayProjection.fromContainerPixelToLatLng({ x: 0, y: 0 })
             );
             // need round for safari still can't find what need for firefox
             const ptxRounded = detectBrowser().isSafari

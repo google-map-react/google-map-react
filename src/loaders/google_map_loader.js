@@ -1,5 +1,3 @@
-import isEmpty from '../utils/isEmpty';
-
 const BASE_URL = 'https://maps';
 const DEFAULT_URL = `${BASE_URL}.googleapis.com`;
 const API_PATH = '/maps/api/js?callback=_$_google_map_initialize_$_';
@@ -67,17 +65,10 @@ export default (bootstrapURLKeys, heatmapLibrary) => {
       }
     }
 
-    let params = Object.keys(bootstrapURLKeys).reduce(
+    const params = Object.keys(bootstrapURLKeys).reduce(
       (r, key) => `${r}&${key}=${bootstrapURLKeys[key]}`,
       ''
     );
-
-    // if no version is defined, we want to get the release version
-    // and not the experimental version, to do so, we set v=3.31
-    // src: https://developers.google.com/maps/documentation/javascript/versions
-    if (isEmpty(bootstrapURLKeys.v)) {
-      params += '&v=3.31';
-    }
 
     const baseUrl = getUrl(bootstrapURLKeys.region);
     const libraries = heatmapLibrary ? '&libraries=visualization' : '';

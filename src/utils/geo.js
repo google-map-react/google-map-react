@@ -24,6 +24,11 @@ export default class Geo {
     this.hasSize_ = true;
   }
 
+  setMapCanvasProjection(maps, mapCanvasProjection) {
+    this.maps_ = maps;
+    this.mapCanvasProjection_ = mapCanvasProjection;
+  }
+
   canProject() {
     return this.hasSize_ && this.hasView_;
   }
@@ -60,6 +65,15 @@ export default class Geo {
     }
 
     return this.transform_.locationPoint(LatLng.convert(ptLatLng));
+  }
+
+  fromLatLngToContainerPixel(ptLatLng) {
+    if (this.mapCanvasProjection_) {
+      const latLng = new this.maps_.LatLng(ptLatLng.lat, ptLatLng.lng);
+      return this.mapCanvasProjection_.fromLatLngToContainerPixel(latLng);
+    }
+
+    return this.project(ptLatLng, true);
   }
 
   getWidth() {
