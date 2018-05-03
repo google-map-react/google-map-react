@@ -396,9 +396,11 @@ export default class GoogleMap extends Component {
   componentWillUnmount() {
     this.mounted_ = false;
     const mapDom = ReactDOM.findDOMNode(this.googleMapDom_);
+    if (mapDom) {
+      mapDom.removeEventListener('mousedown', this._onMapMouseDownNative, true);
+    }
     window.removeEventListener('resize', this._onWindowResize);
     window.removeEventListener('keydown', this._onKeyDownCapture);
-    mapDom.removeEventListener('mousedown', this._onMapMouseDownNative, true);
     window.removeEventListener('mouseup', this._onChildMouseUp, false);
     if (this.props.resetBoundsOnResize) {
       detectElementResize.removeResizeListener(
