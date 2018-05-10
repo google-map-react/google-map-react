@@ -40,7 +40,7 @@ export const gMap = (
 ) => (
   <GoogleMapReact
     bootstrapURLKeys={{
-      key: 'AIzaSyC-BebC7ChnHPzxQm7DAHYFMCqR5H3Jlps',
+      key: 'AIzaSyBMqz4ueWMfGGqdXlvwE_cIVfar60GROi8',
     }}
     style={style}
     options={options}
