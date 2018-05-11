@@ -8,7 +8,7 @@ It allows you to create interfaces like this [example](http://google-map-react.g
 
 In the simple case you just need to add `lat` and `lng` props to any child of `GoogleMapReact` component.
 
-[See it in action at jsbin](https://jsbin.com/gaxapezowo/1/edit?js,output)
+[See it in action at jsbin](https://jsbin.com/dihewakive/2/edit?js,output)
 
 ```javascript
 import React, { Component } from 'react';
