@@ -48,7 +48,8 @@
   "dependencies": {
     "@mapbox/point-geometry": "^0.1.0",
     "eventemitter3": "^1.1.0",
-    "scriptjs": "^2.5.7"
+    "scriptjs": "^2.5.7",
+    "react-dom": "^16.0.0"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.6",
@@ -85,7 +86,6 @@
     "prettier": "^0.22.0",
     "prop-types": "^15.5.6",
     "react": "^16.0.0",
-    "react-dom": "^16.0.0",
     "react-motion": "^0.4.4",
     "react-router": "^3.2.0",
     "recompose": "^0.26.0",
