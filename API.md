@@ -351,24 +351,7 @@ For enabling heatmap layer, just add `heatmapLibrary={true}` and provide data fo
     zoom={zoom}
     center={center}
     heatmapLibrary={true}
-    heatmap={{
-      positions: [
-        {
-          lat: 60.714305,
-          lng: 47.051773,
-        },
-        ...
-      ],
-      options: {
-        radius: 20,
-        opacity: 0.7,
-        gradient: [
-          'rgba(0, 255, 255, 0)',
-          'rgba(0, 255, 255, 1)',
-          ...
-        ]
-      },
-    }}
+    heatmap={{data}}
   >
     {markers}
   </GoogleMapReact>
