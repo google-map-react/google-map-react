@@ -43,12 +43,12 @@
   "homepage": "https://github.com/google-map-react/google-map-react#readme",
   "peerDependencies": {
     "prop-types": "^15.5.6",
-    "react": "^0.14.0 || ^15.0.0 || ^16.0.0",
-    "react-dom": "^16.0.0"
+    "react": "^0.14.0 || ^15.0.0 || ^16.0.0"
   },
   "dependencies": {
     "@mapbox/point-geometry": "^0.1.0",
     "eventemitter3": "^1.1.0",
+    "react-dom": "^16.3.2",
     "scriptjs": "^2.5.7"
   },
   "devDependencies": {
