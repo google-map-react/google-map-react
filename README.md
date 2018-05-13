@@ -105,11 +105,11 @@ Now every object on the map can be hovered (however, you can still use css hover
 * Example project:
 [main](http://google-map-react.github.io/google-map-react/map/main/) ([source](https://github.com/google-map-react/google-map-react-examples/blob/master/web/flux/components/examples/x_main/main_map_block.jsx)); [balderdash](http://google-map-react.github.io/google-map-react/map/balderdash/) (same source as main)
 
-* Clustering example ([source](https://github.com/google-map-react/google-map-clustering-example))
-[google-map-clustering-example](http://google-map-react.github.io/google-map-clustering-example/)
+* Clustering example (**new**: [source](https://github.com/istarkov/google-map-clustering-example))
+[google-map-clustering-example](http://istarkov.github.io/google-map-clustering-example/)
 
-* How to render thousands of markers (**new**)
-[google-map-thousands-markers](https://google-map-react.github.io/google-map-thousands-markers/)
+* How to render thousands of markers (**new**: [source](https://github.com/istarkov/google-map-thousands-markers))
+[google-map-thousands-markers](https://istarkov.github.io/google-map-thousands-markers/)
 
 * All api examples:
 [google-map-react-examples](https://github.com/google-map-react/google-map-react-examples)
