@@ -8,7 +8,7 @@ It allows you to create interfaces like this [example](http://google-map-react.g
 
 In the simple case you just need to add `lat` and `lng` props to any child of `GoogleMapReact` component.
 
-[See it in action at jsbin](https://jsbin.com/dihewakive/2/edit?js,output)
+[See it in action at jsbin](https://jsbin.com/ruwogapuke/1/edit?js,output)
 
 ```javascript
 import React, { Component } from 'react';
@@ -115,7 +115,7 @@ Now every object on the map can be hovered (however, you can still use css hover
 [google-map-react-examples](https://github.com/google-map-react/google-map-react-examples)
 
 * jsbin example
-[jsbin example](https://jsbin.com/roqutisoqu/1/edit?js,console,output)
+[jsbin example](https://jsbin.com/ruwogapuke/1/edit?js,output)
 
 * webpackbin examples (**new**)
 [docs with webpackbin examples](./DOC.md) (In progress)
