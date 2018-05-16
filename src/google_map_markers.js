@@ -274,6 +274,9 @@ export default class GoogleMapMarkers extends Component {
           top: pt.y,
         };
 
+        // If the component has a southeast corner defined (either as a LatLng, or a separate
+        // lat and lng pair), set the width and height based on the distance between the northwest
+        // and the southeast corner to lock the overlay to the correct geographic bounds.
         if (
           child.props.seLatLng !== undefined ||
           (
