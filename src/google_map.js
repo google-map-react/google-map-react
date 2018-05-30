@@ -298,9 +298,11 @@ export default class GoogleMap extends Component {
     }
 
     if (
-      !this._isCenterDefined(this.props.center) &&
-      this._isCenterDefined(nextProps.center)
+      (!this._isCenterDefined(this.props.center) &&
+        this._isCenterDefined(nextProps.center)) ||
+      this.props.updateHeatmap
     ) {
+      this.initialized_ = this.props.updateHeatmap ? false : this.initialized_;
       setTimeout(() => this._initMap(), 0);
     }
 
