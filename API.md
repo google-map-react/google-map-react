@@ -238,13 +238,11 @@ Initially any map object has its top left corner at lat lng coordinates. It's up
 Example (centering the marker):
 
 ```javascript
-const MARKER_SIZE = 40;
 const greatPlaceStyle = {
   position: 'absolute',
-  width: MARKER_SIZE,
-  height: MARKER_SIZE,
-  left: -MARKER_SIZE / 2,
-  top: -MARKER_SIZE / 2
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 ```
 
