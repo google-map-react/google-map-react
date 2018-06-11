@@ -82,6 +82,7 @@ createMapOptions: function (maps) {
  <GoogleMap  options={createMapOptions} ... />
 ```
 See "Custom map options example" in Examples below for a further example.
+See full options at [Google Maps Javascript API docs](https://developers.google.com/maps/documentation/javascript/controls#ControlOptions)
 
 #### onClick (func)
 
