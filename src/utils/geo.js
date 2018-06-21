@@ -37,43 +37,54 @@ export default class Geo {
     return this.hasSize_;
   }
 
-  unproject(ptXY, viewFromLeftTop) {
-    let ptRes;
-    if (viewFromLeftTop) {
-      const ptxy = { ...ptXY };
-      ptxy.x -= this.transform_.width / 2;
-      ptxy.y -= this.transform_.height / 2;
-      ptRes = this.transform_.pointLocation(Point.convert(ptxy));
-    } else {
-      ptRes = this.transform_.pointLocation(Point.convert(ptXY));
-    }
-
-    ptRes.lng -= 360 * Math.round(ptRes.lng / 360); // convert 2 google format
-    return ptRes;
-  }
-
-  project(ptLatLng, viewFromLeftTop) {
-    if (viewFromLeftTop) {
-      const pt = this.transform_.locationPoint(LatLng.convert(ptLatLng));
-      pt.x -= this.transform_.worldSize *
-        Math.round(pt.x / this.transform_.worldSize);
-
-      pt.x += this.transform_.width / 2;
-      pt.y += this.transform_.height / 2;
-
-      return pt;
-    }
-
+  /** Returns the pixel position relative to the map center. */
+  fromLatLngToCenterPixel(ptLatLng) {
     return this.transform_.locationPoint(LatLng.convert(ptLatLng));
   }
 
+  /**
+   * Returns the pixel position relative to the map panes,
+   * or relative to the map center if there are no panes.
+   */
+  fromLatLngToDivPixel(ptLatLng) {
+    if (this.mapCanvasProjection_) {
+      const latLng = new this.maps_.LatLng(ptLatLng.lat, ptLatLng.lng);
+      return this.mapCanvasProjection_.fromLatLngToDivPixel(latLng);
+    }
+    return this.fromLatLngToCenterPixel(ptLatLng);
+  }
+
+  /** Returns the pixel position relative to the map top-left. */
   fromLatLngToContainerPixel(ptLatLng) {
     if (this.mapCanvasProjection_) {
       const latLng = new this.maps_.LatLng(ptLatLng.lat, ptLatLng.lng);
       return this.mapCanvasProjection_.fromLatLngToContainerPixel(latLng);
     }
 
-    return this.project(ptLatLng, true);
+    const pt = this.fromLatLngToCenterPixel(ptLatLng);
+    pt.x -= this.transform_.worldSize *
+      Math.round(pt.x / this.transform_.worldSize);
+
+    pt.x += this.transform_.width / 2;
+    pt.y += this.transform_.height / 2;
+
+    return pt;
+  }
+
+  /** Returns the LatLng for the given offset from the map top-left. */
+  fromContainerPixelToLatLng(ptXY) {
+    if (this.mapCanvasProjection_) {
+      const latLng = this.mapCanvasProjection_.fromDivPixelToLatLng(ptXY);
+      return { lat: latLng.lat(), lng: latLng.lng() };
+    }
+
+    const ptxy = { ...ptXY };
+    ptxy.x -= this.transform_.width / 2;
+    ptxy.y -= this.transform_.height / 2;
+    const ptRes = this.transform_.pointLocation(Point.convert(ptxy));
+
+    ptRes.lng -= 360 * Math.round(ptRes.lng / 360); // convert 2 google format
+    return ptRes;
   }
 
   getWidth() {
@@ -103,14 +114,18 @@ export default class Geo {
     if (
       this.getWidth() - bndR - bndL > 0 && this.getHeight() - bndT - bndB > 0
     ) {
-      const topLeftCorner = this.unproject({
-        x: bndL - this.getWidth() / 2,
-        y: bndT - this.getHeight() / 2,
-      });
-      const bottomRightCorner = this.unproject({
-        x: this.getWidth() / 2 - bndR,
-        y: this.getHeight() / 2 - bndB,
-      });
+      const topLeftCorner = this.transform_.pointLocation(
+        Point.convert({
+          x: bndL - this.getWidth() / 2,
+          y: bndT - this.getHeight() / 2,
+        })
+      );
+      const bottomRightCorner = this.transform_.pointLocation(
+        Point.convert({
+          x: this.getWidth() / 2 - bndR,
+          y: this.getHeight() / 2 - bndB,
+        })
+      );
 
       let res = [
         topLeftCorner.lat,
