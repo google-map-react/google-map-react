@@ -269,7 +269,7 @@ export default class GoogleMapMarkers extends Component {
           ? this.props.geoService.fromLatLngToContainerPixel(latLng)
           : this.props.geoService.project(latLng);
 
-        let stylePtPos = {
+        const stylePtPos = {
           left: pt.x,
           top: pt.y,
         };
@@ -279,14 +279,11 @@ export default class GoogleMapMarkers extends Component {
         // and the southeast corner to lock the overlay to the correct geographic bounds.
         if (
           child.props.seLatLng !== undefined ||
-          (
-            child.props.seLat !== undefined &&
-            child.props.seLng !== undefined
-          )
+          (child.props.seLat !== undefined && child.props.seLng !== undefined)
         ) {
           const seLatLng = child.props.seLatLng !== undefined
             ? child.props.seLatLng
-            : {lat: child.props.seLat, lng: child.props.seLng};
+            : { lat: child.props.seLat, lng: child.props.seLng };
 
           const sePt = this.props.projectFromLeftTop
             ? this.props.geoService.fromLatLngToContainerPixel(seLatLng)
