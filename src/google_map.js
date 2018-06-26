@@ -611,7 +611,7 @@ export default class GoogleMap extends Component {
                 onChildMouseEnter={this_._onChildMouseEnter}
                 onChildMouseLeave={this_._onChildMouseLeave}
                 geoService={this_.geoService_}
-                projectFromLeftTop
+                insideMapPanes
                 distanceToMouse={this_.props.distanceToMouse}
                 getHoverDistance={this_._getHoverDistance}
                 dispatcher={this_.markersDispatcher_}
@@ -629,17 +629,6 @@ export default class GoogleMap extends Component {
           },
 
           draw() {
-            const div = overlay.div;
-            const overlayProjection = overlay.getProjection();
-            const ptx = overlayProjection.fromLatLngToDivPixel(
-              overlayProjection.fromContainerPixelToLatLng({ x: 0, y: 0 })
-            );
-
-            // need round for safari still can't find what need for firefox
-            const ptxRounded = detectBrowser().isSafari
-              ? { x: Math.round(ptx.x), y: Math.round(ptx.y) }
-              : { x: ptx.x, y: ptx.y };
-
             this_.updateCounter_++;
             this_._onBoundsChanged(map, maps, !this_.props.debounced);
 
@@ -648,10 +637,21 @@ export default class GoogleMap extends Component {
               this_.googleApiLoadedCalled_ = true;
             }
 
-            div.style.left = `${ptxRounded.x}px`;
-            div.style.top = `${ptxRounded.y}px`;
+            if (this_.mouse_) {
+              const latLng = this_.geoService_.fromContainerPixelToLatLng(
+                this_.mouse_
+              );
+              this_.mouse_.lat = latLng.lat;
+              this_.mouse_.lng = latLng.lng;
+            }
+
+            this_._onChildMouseMove();
+
             if (this_.markersDispatcher_) {
               this_.markersDispatcher_.emit('kON_CHANGE');
+              if (this_.fireMouseEventOnIdle_) {
+                this_.markersDispatcher_.emit('kON_MOUSE_POSITION_CHANGE');
+              }
             }
           },
         });
@@ -721,36 +721,10 @@ export default class GoogleMap extends Component {
           this_.updateCounter_++;
           this_._onBoundsChanged(map, maps);
 
-          if (this.mouse_) {
-            const latLng = this.geoService_.unproject(this.mouse_, true);
-            this.mouse_.lat = latLng.lat;
-            this.mouse_.lng = latLng.lng;
-          }
-
-          this._onChildMouseMove();
-
           this_.dragTime_ = 0;
-
-          const div = overlay.div;
-          const overlayProjection = overlay.getProjection();
-          if (div && overlayProjection) {
-            const ptx = overlayProjection.fromLatLngToDivPixel(
-              overlayProjection.fromContainerPixelToLatLng({ x: 0, y: 0 })
-            );
-            // need round for safari still can't find what need for firefox
-            const ptxRounded = detectBrowser().isSafari
-              ? { x: Math.round(ptx.x), y: Math.round(ptx.y) }
-              : { x: ptx.x, y: ptx.y };
-
-            div.style.left = `${ptxRounded.x}px`;
-            div.style.top = `${ptxRounded.y}px`;
-          }
 
           if (this_.markersDispatcher_) {
             this_.markersDispatcher_.emit('kON_CHANGE');
-            if (this_.fireMouseEventOnIdle_) {
-              this_.markersDispatcher_.emit('kON_MOUSE_POSITION_CHANGE');
-            }
           }
         });
 
@@ -911,7 +885,7 @@ export default class GoogleMap extends Component {
     this.mouse_.x = mousePosX;
     this.mouse_.y = mousePosY;
 
-    const latLng = this.geoService_.unproject(this.mouse_, true);
+    const latLng = this.geoService_.fromContainerPixelToLatLng(this.mouse_);
     this.mouse_.lat = latLng.lat;
     this.mouse_.lng = latLng.lng;
 
@@ -1089,7 +1063,7 @@ export default class GoogleMap extends Component {
           onChildMouseEnter={this._onChildMouseEnter}
           onChildMouseLeave={this._onChildMouseLeave}
           geoService={this.geoService_}
-          projectFromLeftTop={false}
+          insideMapPanes={false}
           distanceToMouse={this.props.distanceToMouse}
           getHoverDistance={this._getHoverDistance}
           dispatcher={this.markersDispatcher_}
