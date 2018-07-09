@@ -4,7 +4,7 @@
 
 #### apiKey (string) (_Deprecated use bootstrapURLKeys_)
 
-Google maps api key. (Optional, but your map will be rate-limited with no key)
+Google maps api key.
 
 #### bootstrapURLKeys (object)
 
