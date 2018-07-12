@@ -1,5 +1,8 @@
 Add [google-map-clustering-example](https://github.com/istarkov/google-map-clustering-example)
 
+###1.1.0v
+Add prop `onTilesLoaded` to react on the `tilesloaded` event
+
 ###0.9v
 
 Add: `bootstrapURLKeys` (object) instead of `apiKey` prop

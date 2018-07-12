@@ -138,6 +138,8 @@ When the user changes the map type (HYBRID, ROADMAP, SATELLITE, TERRAIN) this fi
 #### onGoogleApiLoaded (func)
 Directly access the maps API - *use at your own risk!*
 
+#### onTilesLoaded (func)
+
 ```javascript
 <GoogleMap  onGoogleApiLoaded={({map, maps}) => console.log(map, maps)} />
 ```
