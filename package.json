@@ -1,6 +1,6 @@
 {
   "name": "@jfw/google-map-react",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "isomorphic google map react component, allows render react components on the google map",
   "main": "lib/index",
   "scripts": {
@@ -103,5 +103,9 @@
       "prettier --trailing-comma es5 --single-quote --write",
       "git add"
     ]
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "test"
   }
 }
