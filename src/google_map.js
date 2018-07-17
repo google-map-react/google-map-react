@@ -502,7 +502,6 @@ export default class GoogleMap extends Component {
           return;
         }
 
-
         const centerLatLng = this.geoService_.getCenter();
 
         const propsOptions = {
@@ -602,7 +601,6 @@ export default class GoogleMap extends Component {
               maps,
               overlay.getProjection()
             );
-
             ReactDOM.unstable_renderSubtreeIntoContainer(
               this_,
               <GoogleMapMarkers
@@ -663,7 +661,6 @@ export default class GoogleMap extends Component {
         if (this.props.heatmap.positions) {
           this.heatmap.setMap(map);
         }
-
 
         maps.event.addListener(map, 'tilesloaded', () => {
           this_._onTilesLoaded();
@@ -803,8 +800,7 @@ export default class GoogleMap extends Component {
   _onZoomAnimationEnd = (...args) =>
     this.props.onZoomAnimationEnd && this.props.onZoomAnimationEnd(...args);
 
-  _onTilesLoaded = () =>
-    this.props.onTilesLoaded && this.props.onTilesLoaded();
+  _onTilesLoaded = () => this.props.onTilesLoaded && this.props.onTilesLoaded();
 
   _onChildClick = (...args) => {
     if (this.props.onChildClick) {
