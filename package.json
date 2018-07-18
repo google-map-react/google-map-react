@@ -103,9 +103,5 @@
       "prettier --trailing-comma es5 --single-quote --write",
       "git add"
     ]
-  },
-  "directories": {
-    "lib": "lib",
-    "test": "test"
   }
 }
