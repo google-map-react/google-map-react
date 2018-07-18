@@ -1,6 +1,6 @@
 Add [google-map-clustering-example](https://github.com/istarkov/google-map-clustering-example)
 
-###1.1.0v
+###[Unreleased]
 Add prop `onTilesLoaded` to react on the `tilesloaded` event
 
 ###0.9v
