@@ -662,9 +662,11 @@ export default class GoogleMap extends Component {
           this.heatmap.setMap(map);
         }
 
-        maps.event.addListener(map, 'tilesloaded', () => {
-          this_._onTilesLoaded();
-        });
+        if (this.props.onTilesLoaded) {
+          maps.event.addListener(map, 'tilesloaded', () => {
+            this_._onTilesLoaded();
+          });
+        }
 
         maps.event.addListener(map, 'zoom_changed', () => {
           // recalc position at zoom start
