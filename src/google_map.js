@@ -118,6 +118,7 @@ export default class GoogleMap extends Component {
     onZoomAnimationEnd: PropTypes.func,
     onDrag: PropTypes.func,
     onMapTypeIdChange: PropTypes.func,
+    onTilesLoaded: PropTypes.func,
     options: PropTypes.any,
     distanceToMouse: PropTypes.func,
     hoverDistance: PropTypes.number,
@@ -255,7 +256,6 @@ export default class GoogleMap extends Component {
     }
 
     window.addEventListener('mouseup', this._onChildMouseUp, false);
-
     const bootstrapURLKeys = {
       ...(this.props.apiKey && { key: this.props.apiKey }),
       ...this.props.bootstrapURLKeys,
@@ -601,7 +601,6 @@ export default class GoogleMap extends Component {
               maps,
               overlay.getProjection()
             );
-
             ReactDOM.unstable_renderSubtreeIntoContainer(
               this_,
               <GoogleMapMarkers
@@ -661,6 +660,12 @@ export default class GoogleMap extends Component {
         overlay.setMap(map);
         if (this.props.heatmap.positions) {
           this.heatmap.setMap(map);
+        }
+
+        if (this.props.onTilesLoaded) {
+          maps.event.addListener(map, 'tilesloaded', () => {
+            this_._onTilesLoaded();
+          });
         }
 
         maps.event.addListener(map, 'zoom_changed', () => {
@@ -796,6 +801,8 @@ export default class GoogleMap extends Component {
 
   _onZoomAnimationEnd = (...args) =>
     this.props.onZoomAnimationEnd && this.props.onZoomAnimationEnd(...args);
+
+  _onTilesLoaded = () => this.props.onTilesLoaded && this.props.onTilesLoaded();
 
   _onChildClick = (...args) => {
     if (this.props.onChildClick) {
