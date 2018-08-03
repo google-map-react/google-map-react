@@ -74,7 +74,7 @@ export default class Geo {
   /** Returns the LatLng for the given offset from the map top-left. */
   fromContainerPixelToLatLng(ptXY) {
     if (this.mapCanvasProjection_) {
-      const latLng = this.mapCanvasProjection_.fromDivPixelToLatLng(ptXY);
+      const latLng = this.mapCanvasProjection_.fromContainerPixelToLatLng(ptXY);
       return { lat: latLng.lat(), lng: latLng.lng() };
     }
 
