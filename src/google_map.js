@@ -195,6 +195,8 @@ export default class GoogleMap extends Component {
 
     this.googleMapDom_ = null;
 
+    this.pendingProps_ = null;
+
     if (process.env.NODE_ENV !== 'production') {
       if (this.props.apiKey) {
         console.warn(
@@ -373,6 +375,8 @@ export default class GoogleMap extends Component {
         });
         this._setLayers(nextProps.layerTypes);
       }
+    } else {
+      this.pendingProps_ = nextProps;
     }
   }
 
@@ -502,7 +506,9 @@ export default class GoogleMap extends Component {
           return;
         }
 
-        const centerLatLng = this.geoService_.getCenter();
+        const centerLatLng = this.pendingProps_
+          ? this.pendingProps_.center
+          : this.geoService_.getCenter();
 
         const propsOptions = {
           zoom: this.props.zoom || this.props.defaultZoom,
