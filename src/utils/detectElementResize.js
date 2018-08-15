@@ -9,6 +9,8 @@
 * version: 0.5.3
 **/
 
+import { hasPassiveSupport } from './detect';
+
 // Reliable `window` and `document` detection
 var canUseDOM = !!(typeof window !== 'undefined' &&
   window.document &&
@@ -171,7 +173,17 @@ var addResizeListener = function(element, fn) {
         '<div class="contract-trigger"></div>';
       element.appendChild(element.__resizeTriggers__);
       resetTriggers(element);
-      element.addEventListener('scroll', scrollListener, true);
+
+      element.addEventListener(
+        'scroll',
+        scrollListener,
+        hasPassiveSupport()
+          ? {
+              capture: true,
+              passive: true,
+            }
+          : true
+      );
 
       /* Listen for a css animation to detect element display/re-attach */
       animationstartevent &&
