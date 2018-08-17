@@ -9,7 +9,7 @@
 * version: 0.5.3
 **/
 
-import { hasPassiveSupport } from './detect';
+import addPassiveEventListener from './passiveEvents';
 
 // Reliable `window` and `document` detection
 var canUseDOM = !!(typeof window !== 'undefined' &&
@@ -174,16 +174,7 @@ var addResizeListener = function(element, fn) {
       element.appendChild(element.__resizeTriggers__);
       resetTriggers(element);
 
-      element.addEventListener(
-        'scroll',
-        scrollListener,
-        hasPassiveSupport()
-          ? {
-              capture: true,
-              passive: true,
-            }
-          : true
-      );
+      addPassiveEventListener(element, 'scroll', scrollListener, true);
 
       /* Listen for a css animation to detect element display/re-attach */
       animationstartevent &&

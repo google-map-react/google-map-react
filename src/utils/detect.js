@@ -1,23 +1,3 @@
-// feature detection for passive support
-export function hasPassiveSupport() {
-  let passiveSupported = false;
-
-  try {
-    const options = Object.defineProperty({}, 'passive', {
-      get() {
-        passiveSupported = true;
-      },
-    });
-
-    window.addEventListener('test', options, options);
-    window.removeEventListener('test', options, options);
-  } catch (err) {
-    passiveSupported = false;
-  }
-
-  return passiveSupported;
-}
-
 // http://stackoverflow.com/questions/5899783/detect-safari-chrome-ie-firefox-opera-with-user-agent
 let detectBrowserResult_ = null;
 
