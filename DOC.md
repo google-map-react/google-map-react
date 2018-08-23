@@ -118,7 +118,7 @@ marker position, and any other properties you want.
 
   At the example above I use some kind of rectangular distance.
 
-  [Other distanceToMouse example](https://github.com/google-map-react/google-map-react-examples/blob/dbfc2fcd381cc39da315875f5a45d4ebee765f26/web/flux/components/examples/x_distance_hover/distance_hover_map_page.jsx#L31-L46)
+  [Other distanceToMouse example](https://github.com/google-map-react/old-examples/blob/dbfc2fcd381cc39da315875f5a45d4ebee765f26/web/flux/components/examples/x_distance_hover/distance_hover_map_page.jsx#L31-L46)
 
 
 - `hoverDistance: number` distance threshold,
