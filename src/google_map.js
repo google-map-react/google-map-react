@@ -598,7 +598,7 @@ export default class GoogleMap extends Component {
             if (this_.props.divStyleOptions) {
               const { divStyleOptions } = this_.props;
               if (typeof divStyleOptions === 'object') {
-                Object.keys(divStyleOptions).map(property => {
+                Object.keys(divStyleOptions).forEach(property => {
                   div.style[property] = divStyleOptions[property];
                 });
               }
