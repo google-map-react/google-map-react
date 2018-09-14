@@ -595,11 +595,11 @@ export default class GoogleMap extends Component {
             div.style.width = K_MAX_WIDTH; // prevents some chrome draw defects
             div.style.height = K_MAX_HEIGHT;
 
-            if (this_.props.divStyleOptions) {
-              const { divStyleOptions } = this_.props;
-              if (typeof divStyleOptions === 'object') {
-                Object.keys(divStyleOptions).forEach(property => {
-                  div.style[property] = divStyleOptions[property];
+            if (this_.props.overlayViewDivStyle) {
+              const { overlayViewDivStyle } = this_.props;
+              if (typeof overlayViewDivStyle === 'object') {
+                Object.keys(overlayViewDivStyle).forEach(property => {
+                  div.style[property] = overlayViewDivStyle[property];
                 });
               }
             }
