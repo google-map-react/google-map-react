@@ -239,7 +239,7 @@ export default class GoogleMap extends Component {
     this.zoomAnimationInProgress_ = false;
 
     this.state = {
-      div: null,
+      overlay: null,
     };
   }
 
@@ -587,7 +587,7 @@ export default class GoogleMap extends Component {
               : '2000px';
 
             const div = document.createElement('div');
-            this.div = div;
+            this.overlay = div;
             div.style.backgroundColor = 'transparent';
             div.style.position = 'absolute';
             div.style.left = '0px';
@@ -604,18 +604,18 @@ export default class GoogleMap extends Component {
 
             this_.setState(state => ({
               ...state,
-              div,
+              overlay: div,
             }));
           },
 
           onRemove() {
             this_.setState(state => ({
               ...state,
-              div: null,
+              overlay: null,
             }));
 
-            if (this.div) {
-              ReactDOM.unmountComponentAtNode(this.div);
+            if (this.overlay) {
+              ReactDOM.unmountComponentAtNode(this.overlay);
             }
           },
 
@@ -1054,7 +1054,7 @@ export default class GoogleMap extends Component {
   };
 
   render() {
-    const mapMarkerPrerender = !this.state.div
+    const mapMarkerPrerender = !this.state.overlay
       ? <GoogleMapMarkersPrerender
           experimental={this.props.experimental}
           onChildClick={this._onChildClick}
@@ -1077,7 +1077,7 @@ export default class GoogleMap extends Component {
         onClick={this._onMapClick}
       >
         <GoogleMapMap registerChild={this._registerChild} />
-        {this.state.div &&
+        {this.state.overlay &&
           ReactDOM.createPortal(
             <GoogleMapMarkers
               experimental={this.props.experimental}
@@ -1091,7 +1091,7 @@ export default class GoogleMap extends Component {
               getHoverDistance={this._getHoverDistance}
               dispatcher={this.markersDispatcher_}
             />,
-            this.state.div
+            this.state.overlay
           )}
 
         {/* render markers before map load done */}
