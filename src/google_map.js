@@ -239,7 +239,7 @@ export default class GoogleMap extends Component {
     this.zoomAnimationInProgress_ = false;
 
     this.state = {
-      overlayCreated: false,
+      overlay: null,
     };
   }
 
@@ -587,7 +587,7 @@ export default class GoogleMap extends Component {
               : '2000px';
 
             const div = document.createElement('div');
-            this.div = div;
+            this.overlay = div;
             div.style.backgroundColor = 'transparent';
             div.style.position = 'absolute';
             div.style.left = '0px';
@@ -601,29 +601,21 @@ export default class GoogleMap extends Component {
               maps,
               overlay.getProjection()
             );
-            ReactDOM.unstable_renderSubtreeIntoContainer(
-              this_,
-              <GoogleMapMarkers
-                experimental={this_.props.experimental}
-                onChildClick={this_._onChildClick}
-                onChildMouseDown={this_._onChildMouseDown}
-                onChildMouseEnter={this_._onChildMouseEnter}
-                onChildMouseLeave={this_._onChildMouseLeave}
-                geoService={this_.geoService_}
-                insideMapPanes
-                distanceToMouse={this_.props.distanceToMouse}
-                getHoverDistance={this_._getHoverDistance}
-                dispatcher={this_.markersDispatcher_}
-              />,
-              div,
-              // remove prerendered markers
-              () => this_.setState({ overlayCreated: true })
-            );
+
+            this_.setState(state => ({
+              ...state,
+              overlay: div,
+            }));
           },
 
           onRemove() {
-            if (this.div) {
-              ReactDOM.unmountComponentAtNode(this.div);
+            this_.setState(state => ({
+              ...state,
+              overlay: null,
+            }));
+
+            if (this.overlay) {
+              ReactDOM.unmountComponentAtNode(this.overlay);
             }
           },
 
@@ -1062,7 +1054,7 @@ export default class GoogleMap extends Component {
   };
 
   render() {
-    const mapMarkerPrerender = !this.state.overlayCreated
+    const mapMarkerPrerender = !this.state.overlay
       ? <GoogleMapMarkersPrerender
           experimental={this.props.experimental}
           onChildClick={this._onChildClick}
@@ -1085,6 +1077,22 @@ export default class GoogleMap extends Component {
         onClick={this._onMapClick}
       >
         <GoogleMapMap registerChild={this._registerChild} />
+        {this.state.overlay &&
+          ReactDOM.createPortal(
+            <GoogleMapMarkers
+              experimental={this.props.experimental}
+              onChildClick={this._onChildClick}
+              onChildMouseDown={this._onChildMouseDown}
+              onChildMouseEnter={this._onChildMouseEnter}
+              onChildMouseLeave={this._onChildMouseLeave}
+              geoService={this.geoService_}
+              insideMapPanes
+              distanceToMouse={this.props.distanceToMouse}
+              getHoverDistance={this._getHoverDistance}
+              dispatcher={this.markersDispatcher_}
+            />,
+            this.state.overlay
+          )}
 
         {/* render markers before map load done */}
         {mapMarkerPrerender}
