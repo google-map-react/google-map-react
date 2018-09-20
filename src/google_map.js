@@ -26,6 +26,7 @@ import shallowEqual from './utils/shallowEqual';
 import isPlainObject from './utils/isPlainObject';
 import isArraysEqualEps from './utils/isArraysEqualEps';
 import detectElementResize from './utils/detectElementResize';
+import addPassiveEventListener from './utils/passiveEvents';
 
 // consts
 const kEPS = 0.00001;
@@ -245,17 +246,22 @@ export default class GoogleMap extends Component {
 
   componentDidMount() {
     this.mounted_ = true;
-    window.addEventListener('resize', this._onWindowResize);
-    window.addEventListener('keydown', this._onKeyDownCapture, true);
+    addPassiveEventListener(window, 'resize', this._onWindowResize, false);
+    addPassiveEventListener(window, 'keydown', this._onKeyDownCapture, true);
     const mapDom = ReactDOM.findDOMNode(this.googleMapDom_);
     // gmap can't prevent map drag if mousedown event already occured
     // the only workaround I find is prevent mousedown native browser event
 
     if (mapDom) {
-      mapDom.addEventListener('mousedown', this._onMapMouseDownNative, true);
+      addPassiveEventListener(
+        mapDom,
+        'mousedown',
+        this._onMapMouseDownNative,
+        true
+      );
     }
 
-    window.addEventListener('mouseup', this._onChildMouseUp, false);
+    addPassiveEventListener(window, 'mouseup', this._onChildMouseUp, false);
     const bootstrapURLKeys = {
       ...(this.props.apiKey && { key: this.props.apiKey }),
       ...this.props.bootstrapURLKeys,
