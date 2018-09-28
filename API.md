@@ -153,6 +153,10 @@ To prevent warning message add _yesIWantToUseGoogleMapApiInternals_ property to 
  />
  ```
 
+#### overlayViewDivStyle (object)
+
+Set custom style options on `div` (marker container element) created by OverlayView, for example: `{pointerEvents: 'none'}`.
+
 ## Child Component API
 
 ### parameters
