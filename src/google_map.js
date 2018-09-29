@@ -601,6 +601,15 @@ export default class GoogleMap extends Component {
             div.style.width = K_MAX_WIDTH; // prevents some chrome draw defects
             div.style.height = K_MAX_HEIGHT;
 
+            if (this_.props.overlayViewDivStyle) {
+              const { overlayViewDivStyle } = this_.props;
+              if (typeof overlayViewDivStyle === 'object') {
+                Object.keys(overlayViewDivStyle).forEach(property => {
+                  div.style[property] = overlayViewDivStyle[property];
+                });
+              }
+            }
+
             const panes = this.getPanes();
             panes.overlayMouseTarget.appendChild(div);
             this_.geoService_.setMapCanvasProjection(
