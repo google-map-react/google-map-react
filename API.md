@@ -126,6 +126,8 @@ Default: false
 
 #### onZoomAnimationStart (func)
 
+#### onDrag ((map) => void)
+
 #### onZoomAnimationEnd (func)
 
 #### onMapTypeIdChange (func)
