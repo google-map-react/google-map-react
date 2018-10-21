@@ -153,7 +153,12 @@ export default class GoogleMap extends Component {
     },
     layerTypes: [],
     heatmap: {},
-    heatmapLibrary: false,
+    libraries: {
+      visualization: false,
+      geometry: false,
+      places: false,
+      drawing: false,
+    },
   };
 
   static googleMapLoader = googleMapLoader; // eslint-disable-line
@@ -260,8 +265,14 @@ export default class GoogleMap extends Component {
       ...(this.props.apiKey && { key: this.props.apiKey }),
       ...this.props.bootstrapURLKeys,
     };
-
-    this.props.googleMapLoader(bootstrapURLKeys, this.props.heatmapLibrary); // we can start load immediatly
+    const libraries = {
+      visualization: this.props.heatmapLibrary,
+      geometry: this.props.geometryLibrary,
+      places: this.props.placesLibrary,
+      drawing: this.props.drawingLibrary,
+    };
+    this.props.googleMapLoader(bootstrapURLKeys, libraries);
+    // we can start load immediatly
 
     setTimeout(
       () => {
@@ -297,12 +308,14 @@ export default class GoogleMap extends Component {
       }
     }
 
+    if (this.props.updateHeatmap) {
+      setTimeout(() => optionsHeatmap(this.heatmap, this.props.heatmap));
+    }
+
     if (
-      (!this._isCenterDefined(this.props.center) &&
-        this._isCenterDefined(nextProps.center)) ||
-      this.props.updateHeatmap
+      !this._isCenterDefined(this.props.center) &&
+      this._isCenterDefined(nextProps.center)
     ) {
-      this.initialized_ = this.props.updateHeatmap ? false : this.initialized_;
       setTimeout(() => this._initMap(), 0);
     }
 
@@ -496,9 +509,14 @@ export default class GoogleMap extends Component {
       ...(this.props.apiKey && { key: this.props.apiKey }),
       ...this.props.bootstrapURLKeys,
     };
-
+    const libraries = {
+      visualization: this.props.heatmapLibrary,
+      geometry: this.props.geometryLibrary,
+      places: this.props.placesLibrary,
+      drawing: this.props.drawingLibrary,
+    };
     this.props
-      .googleMapLoader(bootstrapURLKeys, this.props.heatmapLibrary)
+      .googleMapLoader(bootstrapURLKeys, libraries)
       .then(maps => {
         if (!this.mounted_) {
           return;
