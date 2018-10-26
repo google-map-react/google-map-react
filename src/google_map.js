@@ -308,8 +308,8 @@ export default class GoogleMap extends Component {
       }
     }
 
-    if (this.props.updateHeatmap) {
-      setTimeout(() => optionsHeatmap(this.heatmap, this.props.heatmap));
+    if (nextProps.updateHeatmap) {
+      setTimeout(() => optionsHeatmap(this.heatmap, nextProps.heatmap));
     }
 
     if (
