@@ -80,8 +80,8 @@ function fitNwSe(nw, se, width, height) {
     return null;
   }
 
-  const zoomX = log2(width / GOOGLE_TILE_SIZE / dx);
-  const zoomY = log2(height / GOOGLE_TILE_SIZE / dy);
+  const zoomX = log2(width / GOOGLE_TILE_SIZE / Math.abs(dx));
+  const zoomY = log2(height / GOOGLE_TILE_SIZE / Math.abs(dy));
   const zoom = Math.floor(EPS + Math.min(zoomX, zoomY));
 
   // TODO find center just unproject middle world point
