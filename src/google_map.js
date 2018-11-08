@@ -770,7 +770,7 @@ export default class GoogleMap extends Component {
 
         maps.event.addListener(map, 'drag', () => {
           this_.dragTime_ = new Date().getTime();
-          this_._onDrag();
+          this_._onDrag(map);
         });
         // user choosing satellite vs roads, etc
         maps.event.addListener(map, 'maptypeid_changed', () => {
