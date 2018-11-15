@@ -507,7 +507,7 @@ export default class GoogleMap extends Component {
         }
 
         const centerLatLng = this.pendingProps_
-          ? this.pendingProps_.center
+          ? latLng2Obj(this.pendingProps_.center)
           : this.geoService_.getCenter();
 
         const propsOptions = {
