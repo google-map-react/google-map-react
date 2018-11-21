@@ -155,12 +155,7 @@ export default class GoogleMap extends Component {
     },
     layerTypes: [],
     heatmap: {},
-    libraries: {
-      visualization: false,
-      geometry: false,
-      places: false,
-      drawing: false,
-    },
+    heatmapLibrary: false,
   };
 
   static googleMapLoader = googleMapLoader; // eslint-disable-line
@@ -271,14 +266,8 @@ export default class GoogleMap extends Component {
       ...(this.props.apiKey && { key: this.props.apiKey }),
       ...this.props.bootstrapURLKeys,
     };
-    const libraries = {
-      visualization: this.props.heatmapLibrary,
-      geometry: this.props.geometryLibrary,
-      places: this.props.placesLibrary,
-      drawing: this.props.drawingLibrary,
-    };
-    this.props.googleMapLoader(bootstrapURLKeys, libraries);
-    // we can start load immediatly
+
+    this.props.googleMapLoader(bootstrapURLKeys, this.props.heatmapLibrary); // we can start load immediatly
 
     setTimeout(
       () => {
@@ -312,10 +301,6 @@ export default class GoogleMap extends Component {
           "GoogleMap: defaultZoom prop changed. You can't change default props."
         );
       }
-    }
-
-    if (nextProps.updateHeatmap) {
-      setTimeout(() => optionsHeatmap(this.heatmap, nextProps.heatmap));
     }
 
     if (
@@ -515,14 +500,9 @@ export default class GoogleMap extends Component {
       ...(this.props.apiKey && { key: this.props.apiKey }),
       ...this.props.bootstrapURLKeys,
     };
-    const libraries = {
-      visualization: this.props.heatmapLibrary,
-      geometry: this.props.geometryLibrary,
-      places: this.props.placesLibrary,
-      drawing: this.props.drawingLibrary,
-    };
+
     this.props
-      .googleMapLoader(bootstrapURLKeys, libraries)
+      .googleMapLoader(bootstrapURLKeys, this.props.heatmapLibrary)
       .then(maps => {
         if (!this.mounted_) {
           return;
