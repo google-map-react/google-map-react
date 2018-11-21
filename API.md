@@ -4,7 +4,7 @@
 
 #### apiKey (string) (_Deprecated use bootstrapURLKeys_)
 
-Google maps api key. (Optional, but your map will be rate-limited with no key)
+Google maps api key.
 
 #### bootstrapURLKeys (object)
 
@@ -126,6 +126,8 @@ Default: false
 
 #### onZoomAnimationStart (func)
 
+#### onDrag ((map) => void)
+
 #### onZoomAnimationEnd (func)
 
 #### onMapTypeIdChange (func)
@@ -138,6 +140,9 @@ When the user changes the map type (HYBRID, ROADMAP, SATELLITE, TERRAIN) this fi
 #### onGoogleApiLoaded (func)
 Directly access the maps API - *use at your own risk!*
 
+#### onTilesLoaded (func)
+This function is called when the visible tiles have finished loading.
+
 ```javascript
 <GoogleMap  onGoogleApiLoaded={({map, maps}) => console.log(map, maps)} />
 ```
@@ -149,6 +154,10 @@ To prevent warning message add _yesIWantToUseGoogleMapApiInternals_ property to 
                        yesIWantToUseGoogleMapApiInternals
  />
  ```
+
+#### overlayViewDivStyle (object)
+
+Add custom style to `div` (marker container element) created by OverlayView, for example: `{pointerEvents: 'none'}`.
 
 ## Child Component API
 

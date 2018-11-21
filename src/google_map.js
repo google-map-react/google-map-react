@@ -26,6 +26,7 @@ import shallowEqual from './utils/shallowEqual';
 import isPlainObject from './utils/isPlainObject';
 import isArraysEqualEps from './utils/isArraysEqualEps';
 import detectElementResize from './utils/detectElementResize';
+import addPassiveEventListener from './utils/passiveEvents';
 
 // consts
 const kEPS = 0.00001;
@@ -118,6 +119,7 @@ export default class GoogleMap extends Component {
     onZoomAnimationEnd: PropTypes.func,
     onDrag: PropTypes.func,
     onMapTypeIdChange: PropTypes.func,
+    onTilesLoaded: PropTypes.func,
     options: PropTypes.any,
     distanceToMouse: PropTypes.func,
     hoverDistance: PropTypes.number,
@@ -249,18 +251,22 @@ export default class GoogleMap extends Component {
 
   componentDidMount() {
     this.mounted_ = true;
-    window.addEventListener('resize', this._onWindowResize);
-    window.addEventListener('keydown', this._onKeyDownCapture, true);
+    addPassiveEventListener(window, 'resize', this._onWindowResize, false);
+    addPassiveEventListener(window, 'keydown', this._onKeyDownCapture, true);
     const mapDom = ReactDOM.findDOMNode(this.googleMapDom_);
     // gmap can't prevent map drag if mousedown event already occured
     // the only workaround I find is prevent mousedown native browser event
 
     if (mapDom) {
-      mapDom.addEventListener('mousedown', this._onMapMouseDownNative, true);
+      addPassiveEventListener(
+        mapDom,
+        'mousedown',
+        this._onMapMouseDownNative,
+        true
+      );
     }
 
-    window.addEventListener('mouseup', this._onChildMouseUp, false);
-
+    addPassiveEventListener(window, 'mouseup', this._onChildMouseUp, false);
     const bootstrapURLKeys = {
       ...(this.props.apiKey && { key: this.props.apiKey }),
       ...this.props.bootstrapURLKeys,
@@ -615,13 +621,21 @@ export default class GoogleMap extends Component {
             div.style.width = K_MAX_WIDTH; // prevents some chrome draw defects
             div.style.height = K_MAX_HEIGHT;
 
+            if (this_.props.overlayViewDivStyle) {
+              const { overlayViewDivStyle } = this_.props;
+              if (typeof overlayViewDivStyle === 'object') {
+                Object.keys(overlayViewDivStyle).forEach(property => {
+                  div.style[property] = overlayViewDivStyle[property];
+                });
+              }
+            }
+
             const panes = this.getPanes();
             panes.overlayMouseTarget.appendChild(div);
             this_.geoService_.setMapCanvasProjection(
               maps,
               overlay.getProjection()
             );
-
             ReactDOM.unstable_renderSubtreeIntoContainer(
               this_,
               <GoogleMapMarkers
@@ -631,7 +645,7 @@ export default class GoogleMap extends Component {
                 onChildMouseEnter={this_._onChildMouseEnter}
                 onChildMouseLeave={this_._onChildMouseLeave}
                 geoService={this_.geoService_}
-                projectFromLeftTop
+                insideMapPanes
                 distanceToMouse={this_.props.distanceToMouse}
                 getHoverDistance={this_._getHoverDistance}
                 dispatcher={this_.markersDispatcher_}
@@ -649,17 +663,6 @@ export default class GoogleMap extends Component {
           },
 
           draw() {
-            const div = overlay.div;
-            const overlayProjection = overlay.getProjection();
-            const ptx = overlayProjection.fromLatLngToDivPixel(
-              overlayProjection.fromContainerPixelToLatLng({ x: 0, y: 0 })
-            );
-
-            // need round for safari still can't find what need for firefox
-            const ptxRounded = detectBrowser().isSafari
-              ? { x: Math.round(ptx.x), y: Math.round(ptx.y) }
-              : { x: ptx.x, y: ptx.y };
-
             this_.updateCounter_++;
             this_._onBoundsChanged(map, maps, !this_.props.debounced);
 
@@ -668,10 +671,21 @@ export default class GoogleMap extends Component {
               this_.googleApiLoadedCalled_ = true;
             }
 
-            div.style.left = `${ptxRounded.x}px`;
-            div.style.top = `${ptxRounded.y}px`;
+            if (this_.mouse_) {
+              const latLng = this_.geoService_.fromContainerPixelToLatLng(
+                this_.mouse_
+              );
+              this_.mouse_.lat = latLng.lat;
+              this_.mouse_.lng = latLng.lng;
+            }
+
+            this_._onChildMouseMove();
+
             if (this_.markersDispatcher_) {
               this_.markersDispatcher_.emit('kON_CHANGE');
+              if (this_.fireMouseEventOnIdle_) {
+                this_.markersDispatcher_.emit('kON_MOUSE_POSITION_CHANGE');
+              }
             }
           },
         });
@@ -681,6 +695,12 @@ export default class GoogleMap extends Component {
         overlay.setMap(map);
         if (this.props.heatmap.positions) {
           this.heatmap.setMap(map);
+        }
+
+        if (this.props.onTilesLoaded) {
+          maps.event.addListener(map, 'tilesloaded', () => {
+            this_._onTilesLoaded();
+          });
         }
 
         maps.event.addListener(map, 'zoom_changed', () => {
@@ -741,36 +761,10 @@ export default class GoogleMap extends Component {
           this_.updateCounter_++;
           this_._onBoundsChanged(map, maps);
 
-          if (this.mouse_) {
-            const latLng = this.geoService_.unproject(this.mouse_, true);
-            this.mouse_.lat = latLng.lat;
-            this.mouse_.lng = latLng.lng;
-          }
-
-          this._onChildMouseMove();
-
           this_.dragTime_ = 0;
-
-          const div = overlay.div;
-          const overlayProjection = overlay.getProjection();
-          if (div && overlayProjection) {
-            const ptx = overlayProjection.fromLatLngToDivPixel(
-              overlayProjection.fromContainerPixelToLatLng({ x: 0, y: 0 })
-            );
-            // need round for safari still can't find what need for firefox
-            const ptxRounded = detectBrowser().isSafari
-              ? { x: Math.round(ptx.x), y: Math.round(ptx.y) }
-              : { x: ptx.x, y: ptx.y };
-
-            div.style.left = `${ptxRounded.x}px`;
-            div.style.top = `${ptxRounded.y}px`;
-          }
 
           if (this_.markersDispatcher_) {
             this_.markersDispatcher_.emit('kON_CHANGE');
-            if (this_.fireMouseEventOnIdle_) {
-              this_.markersDispatcher_.emit('kON_MOUSE_POSITION_CHANGE');
-            }
           }
         });
 
@@ -796,7 +790,7 @@ export default class GoogleMap extends Component {
 
         maps.event.addListener(map, 'drag', () => {
           this_.dragTime_ = new Date().getTime();
-          this_._onDrag();
+          this_._onDrag(map);
         });
         // user choosing satellite vs roads, etc
         maps.event.addListener(map, 'maptypeid_changed', () => {
@@ -842,6 +836,8 @@ export default class GoogleMap extends Component {
 
   _onZoomAnimationEnd = (...args) =>
     this.props.onZoomAnimationEnd && this.props.onZoomAnimationEnd(...args);
+
+  _onTilesLoaded = () => this.props.onTilesLoaded && this.props.onTilesLoaded();
 
   _onChildClick = (...args) => {
     if (this.props.onChildClick) {
@@ -931,7 +927,7 @@ export default class GoogleMap extends Component {
     this.mouse_.x = mousePosX;
     this.mouse_.y = mousePosY;
 
-    const latLng = this.geoService_.unproject(this.mouse_, true);
+    const latLng = this.geoService_.fromContainerPixelToLatLng(this.mouse_);
     this.mouse_.lat = latLng.lat;
     this.mouse_.lng = latLng.lng;
 
@@ -1109,7 +1105,7 @@ export default class GoogleMap extends Component {
           onChildMouseEnter={this._onChildMouseEnter}
           onChildMouseLeave={this._onChildMouseLeave}
           geoService={this.geoService_}
-          projectFromLeftTop={false}
+          insideMapPanes={false}
           distanceToMouse={this.props.distanceToMouse}
           getHoverDistance={this._getHoverDistance}
           dispatcher={this.markersDispatcher_}

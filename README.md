@@ -90,20 +90,20 @@ Now every object on the map can be hovered (however, you can still use css hover
 ## Examples
 
 * Placing react components on the map:
-[simple](http://google-map-react.github.io/google-map-react/map/simple/) ([source](https://github.com/google-map-react/google-map-react-examples/blob/master/web/flux/components/examples/x_simple/simple_map_page.jsx))
+[simple](http://google-map-react.github.io/google-map-react/map/simple/) ([source](https://github.com/google-map-react/old-examples/blob/master/web/flux/components/examples/x_simple/simple_map_page.jsx))
 
 * Custom map options:
-[example](http://google-map-react.github.io/google-map-react/map/options/) ([source](https://github.com/google-map-react/google-map-react-examples/blob/master/web/flux/components/examples/x_options/options_map_page.jsx))
+[example](http://google-map-react.github.io/google-map-react/map/options/) ([source](https://github.com/google-map-react/old-examples/blob/master/web/flux/components/examples/x_options/options_map_page.jsx))
 
 * Hover effects:
-[simple hover](http://google-map-react.github.io/google-map-react/map/simple_hover/) ([source](https://github.com/google-map-react/google-map-react-examples/blob/master/web/flux/components/examples/x_simple_hover/simple_hover_map_page.jsx));
-[distance hover](http://google-map-react.github.io/google-map-react/map/distance_hover/) ([source](https://github.com/google-map-react/google-map-react-examples/blob/master/web/flux/components/examples/x_distance_hover/distance_hover_map_page.jsx))
+[simple hover](http://google-map-react.github.io/google-map-react/map/simple_hover/) ([source](https://github.com/google-map-react/old-examples/blob/master/web/flux/components/examples/x_simple_hover/simple_hover_map_page.jsx));
+[distance hover](http://google-map-react.github.io/google-map-react/map/distance_hover/) ([source](https://github.com/google-map-react/old-examples/blob/master/web/flux/components/examples/x_distance_hover/distance_hover_map_page.jsx))
 
 * GoogleMap events:
-[example](http://google-map-react.github.io/google-map-react/map/events/) ([source](https://github.com/google-map-react/google-map-react-examples/blob/master/web/flux/components/examples/x_events/events_map_page.jsx))
+[example](http://google-map-react.github.io/google-map-react/map/events/) ([source](https://github.com/google-map-react/old-examples/blob/master/web/flux/components/examples/x_events/events_map_page.jsx))
 
 * Example project:
-[main](http://google-map-react.github.io/google-map-react/map/main/) ([source](https://github.com/google-map-react/google-map-react-examples/blob/master/web/flux/components/examples/x_main/main_map_block.jsx)); [balderdash](http://google-map-react.github.io/google-map-react/map/balderdash/) (same source as main)
+[main](http://google-map-react.github.io/google-map-react/map/main/) ([source](https://github.com/google-map-react/old-examples/blob/master/web/flux/components/examples/x_main/main_map_block.jsx)); [balderdash](http://google-map-react.github.io/google-map-react/map/balderdash/) (same source as main)
 
 * Clustering example (**new**: [source](https://github.com/istarkov/google-map-clustering-example))
 [google-map-clustering-example](http://istarkov.github.io/google-map-clustering-example/)
@@ -111,8 +111,9 @@ Now every object on the map can be hovered (however, you can still use css hover
 * How to render thousands of markers (**new**: [source](https://github.com/istarkov/google-map-thousands-markers))
 [google-map-thousands-markers](https://istarkov.github.io/google-map-thousands-markers/)
 
-* All api examples:
-[google-map-react-examples](https://github.com/google-map-react/google-map-react-examples)
+* Examples:
+[Examples](https://github.com/google-map-react/google-map-react-examples)
+[Old examples](https://github.com/google-map-react/old-examples)
 
 * jsbin example
 [jsbin example](https://jsbin.com/ruwogapuke/1/edit?js,output)

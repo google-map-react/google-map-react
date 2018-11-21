@@ -36,13 +36,13 @@ export default class GoogleMapMarkers extends Component {
     onChildMouseLeave: PropTypes.func,
     onChildMouseEnter: PropTypes.func,
     getHoverDistance: PropTypes.func,
-    projectFromLeftTop: PropTypes.bool,
+    insideMapPanes: PropTypes.bool,
     prerender: PropTypes.bool,
   };
   /* eslint-enable react/forbid-prop-types */
 
   static defaultProps = {
-    projectFromLeftTop: false,
+    insideMapPanes: false,
     prerender: false,
   };
 
@@ -56,7 +56,7 @@ export default class GoogleMapMarkers extends Component {
     this.props.dispatcher.on('kON_CLICK', this._onChildClick);
     this.props.dispatcher.on('kON_MDOWN', this._onChildMouseDown);
 
-    this.dimesionsCache_ = {};
+    this.dimensionsCache_ = {};
     this.hoverKey_ = null;
     this.hoverChildProps_ = null;
     this.allowMouse_ = true;
@@ -86,7 +86,7 @@ export default class GoogleMapMarkers extends Component {
     this.props.dispatcher.removeListener('kON_CLICK', this._onChildClick);
     this.props.dispatcher.removeListener('kON_MDOWN', this._onChildMouseDown);
 
-    this.dimesionsCache_ = null;
+    this.dimensionsCache_ = null;
   }
 
   _getState = () => ({
@@ -95,7 +95,7 @@ export default class GoogleMapMarkers extends Component {
   });
 
   _onChangeHandler = () => {
-    if (!this.dimesionsCache_) {
+    if (!this.dimensionsCache_) {
       return;
     }
 
@@ -133,7 +133,7 @@ export default class GoogleMapMarkers extends Component {
   };
 
   _onChildMouseEnter = (hoverKey, childProps) => {
-    if (!this.dimesionsCache_) {
+    if (!this.dimensionsCache_) {
       return;
     }
 
@@ -147,7 +147,7 @@ export default class GoogleMapMarkers extends Component {
   };
 
   _onChildMouseLeave = () => {
-    if (!this.dimesionsCache_) {
+    if (!this.dimensionsCache_) {
       return;
     }
 
@@ -180,7 +180,7 @@ export default class GoogleMapMarkers extends Component {
   };
 
   _onMouseChangeHandlerRaf = () => {
-    if (!this.dimesionsCache_) {
+    if (!this.dimensionsCache_) {
       return;
     }
 
@@ -205,7 +205,7 @@ export default class GoogleMapMarkers extends Component {
           ? child.key
           : childIndex;
         const dist = this.props.distanceToMouse(
-          this.dimesionsCache_[childKey],
+          this.dimensionsCache_[childKey],
           mp,
           child.props
         );
@@ -238,12 +238,12 @@ export default class GoogleMapMarkers extends Component {
 
   _getDimensions = key => {
     const childKey = key;
-    return this.dimesionsCache_[childKey];
+    return this.dimensionsCache_[childKey];
   };
 
   render() {
     const mainElementStyle = this.props.style || mainStyle;
-    this.dimesionsCache_ = {};
+    this.dimensionsCache_ = {};
 
     const markers = React.Children.map(
       this.state.children,
@@ -265,9 +265,9 @@ export default class GoogleMapMarkers extends Component {
           ? child.props.latLng
           : { lat: child.props.lat, lng: child.props.lng };
 
-        const pt = this.props.projectFromLeftTop
-          ? this.props.geoService.fromLatLngToContainerPixel(latLng)
-          : this.props.geoService.project(latLng);
+        const pt = this.props.insideMapPanes
+          ? this.props.geoService.fromLatLngToDivPixel(latLng)
+          : this.props.geoService.fromLatLngToCenterPixel(latLng);
 
         const stylePtPos = {
           left: pt.x,
@@ -285,24 +285,17 @@ export default class GoogleMapMarkers extends Component {
             ? child.props.seLatLng
             : { lat: child.props.seLat, lng: child.props.seLng };
 
-          const sePt = this.props.projectFromLeftTop
-            ? this.props.geoService.fromLatLngToContainerPixel(seLatLng)
-            : this.props.geoService.project(seLatLng);
+          const sePt = this.props.insideMapPanes
+            ? this.props.geoService.fromLatLngToDivPixel(seLatLng)
+            : this.props.geoService.fromLatLngToCenterPixel(seLatLng);
 
           stylePtPos.width = sePt.x - pt.x;
           stylePtPos.height = sePt.y - pt.y;
         }
 
-        let dx = 0;
-        let dy = 0;
-
-        if (!this.props.projectFromLeftTop) {
-          // center projection
-          if (this.props.geoService.hasSize()) {
-            dx = this.props.geoService.getWidth() / 2;
-            dy = this.props.geoService.getHeight() / 2;
-          }
-        }
+        const containerPt = this.props.geoService.fromLatLngToContainerPixel(
+          latLng
+        );
 
         // to prevent rerender on child element i need to pass
         // const params $getDimensions and $dimensionKey instead of dimension object
@@ -310,9 +303,9 @@ export default class GoogleMapMarkers extends Component {
           ? child.key
           : childIndex;
 
-        this.dimesionsCache_[childKey] = {
-          x: pt.x + dx,
-          y: pt.y + dy,
+        this.dimensionsCache_[childKey] = {
+          x: containerPt.x,
+          y: containerPt.y,
           ...latLng,
         };
 
