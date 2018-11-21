@@ -71,17 +71,19 @@ export default (bootstrapURLKeys, libraries) => {
     );
 
     const baseUrl = getUrl(bootstrapURLKeys.region);
-    const librariesUrl = Object.keys(libraries)
-      .reduce(
-        (libraryUrl, libraryKey) => {
-          if (libraries[libraryKey]) {
-            return `${libraryUrl}${libraryKey},`;
-          }
-          return libraryUrl;
-        },
-        '&libraries='
-      )
-      .slice(0, -1);
+    const librariesUrl = (Object.keys(libraries).some(e => libraries[e]) &&
+      Object.keys(libraries)
+        .reduce(
+          (libraryUrl, libraryKey) => {
+            if (libraries[libraryKey]) {
+              return `${libraryUrl}${libraryKey},`;
+            }
+            return libraryUrl;
+          },
+          '&libraries='
+        )
+        .slice(0, -1)) ||
+      '';
 
     $script_(
       `${baseUrl}${API_PATH}${params}${librariesUrl}`,
