@@ -81,7 +81,6 @@ createMapOptions: function (maps) {
 
  <GoogleMap  options={createMapOptions} ... />
 ```
-
 See "Custom map options example" in Examples below for a further example.
 See full options at [Google Maps Javascript API docs](https://developers.google.com/maps/documentation/javascript/controls#ControlOptions)
 
@@ -95,20 +94,19 @@ The `event` prop in args is the outer div onClick event, not the gmap-api 'click
 
 Example:
 
-```javascript
-_onClick = ({x, y, lat, lng, event}) => console.log(x, y, lat, lng, event)
-// ES5 users
-function _onClick(obj){ console.log(obj.x, obj.y, obj.lat, obj.lng, obj.event);}
+ ```javascript
+ _onClick = ({x, y, lat, lng, event}) => console.log(x, y, lat, lng, event)
+ // ES5 users
+ function _onClick(obj){ console.log(obj.x, obj.y, obj.lat, obj.lng, obj.event);}
 
-<GoogleMap  onClick={_onClick} ... />
-```
+ <GoogleMap  onClick={_onClick} ... />
+ ```
 
 #### onBoundsChange (func) (_Deprecated use onChange_)
 
 ```
 ({ center, zoom, bounds, marginBounds })
 ```
-
 ```
 [lat, lng] = center;
 [topLat, leftLng, bottomLat, rightLng] = bounds;
@@ -133,7 +131,6 @@ Default: false
 #### onZoomAnimationEnd (func)
 
 #### onMapTypeIdChange (func)
-
 When the user changes the map type (HYBRID, ROADMAP, SATELLITE, TERRAIN) this fires
 
 #### distanceToMouse (func)
@@ -141,21 +138,22 @@ When the user changes the map type (HYBRID, ROADMAP, SATELLITE, TERRAIN) this fi
 #### googleMapLoader (func)
 
 #### onGoogleApiLoaded (func)
-
-Directly access the maps API - _use at your own risk!_
+Directly access the maps API - *use at your own risk!*
 
 #### onTilesLoaded (func)
 This function is called when the visible tiles have finished loading.
 
 ```javascript
-<GoogleMap onGoogleApiLoaded={({ map, maps }) => console.log(map, maps)} />
+<GoogleMap  onGoogleApiLoaded={({map, maps}) => console.log(map, maps)} />
 ```
 
 To prevent warning message add _yesIWantToUseGoogleMapApiInternals_ property to GoogleMap
 
 ```javascript
-<GoogleMap onGoogleApiLoaded={({ map, maps }) => console.log(map, maps)} yesIWantToUseGoogleMapApiInternals />
-```
+<GoogleMap  onGoogleApiLoaded={({map, maps}) => console.log(map, maps)}
+                       yesIWantToUseGoogleMapApiInternals
+ />
+ ```
 
 #### overlayViewDivStyle (object)
 
@@ -166,19 +164,15 @@ Add custom style to `div` (marker container element) created by OverlayView, for
 ### parameters
 
 #### lat (number)
-
 Latitude to place the marker component
 
 #### lng (number)
-
 Longitude to place the marker component
 
 #### $hover (bool) [automatic]
-
 GoogleMap passes a $hover prop to hovered components. To detect hover it an uses internal mechanism, explained in x_distance_hover example
 
 Example:
-
 ```javascript
 render() {
     const style = this.props.$hover ? greatPlaceStyleHover : greatPlaceStyle;
@@ -189,13 +183,13 @@ render() {
        </div>
     );
   }
-```
+  ```
+
 
 ## Utility functions
 
 #### fitBounds (func)
-
-Use fitBounds to get zoom and center.
+   Use fitBounds to get zoom and center.
 
 Example:
 
@@ -228,10 +222,10 @@ const bounds = {
 
 const size = {
   width: 640, // Map width in pixels
-  height: 380 // Map height in pixels
+  height: 380, // Map height in pixels
 };
 
-const { center, zoom } = fitBounds(bounds, size);
+const {center, zoom} = fitBounds(bounds, size);
 ```
 
 #### tile2LatLng (func)
@@ -291,15 +285,15 @@ export default class SearchBox extends React.Component {
   static propTypes = {
     placeholder: React.PropTypes.string,
     onPlacesChanged: React.PropTypes.func
-  };
+  }
   render() {
-    return <input ref="input" {...this.props} type="text" />;
+    return <input ref="input" {...this.props} type="text"/>;
   }
   onPlacesChanged = () => {
     if (this.props.onPlacesChanged) {
       this.props.onPlacesChanged(this.searchBox.getPlaces());
     }
-  };
+  }
   componentDidMount() {
     var input = ReactDOM.findDOMNode(this.refs.input);
     this.searchBox = new google.maps.places.SearchBox(input);
@@ -321,14 +315,14 @@ and if so, uses it, so it won't load a second copy of the library.
 
 ### Override the default minimum zoom
 
-_WARNING_: Setting this option can break markers calculation, causing no homeomorphism between screen coordinates and map.
+*WARNING*: Setting this option can break markers calculation, causing no homeomorphism between screen coordinates and map.
 
 You can use the `minZoom` custom option to prevent our minimum-zoom calculation:
 
 ```javascript
 function createMapOptions() {
   return {
-    minZoom: 2
+    minZoom: 2,
   };
 }
 ```
@@ -343,7 +337,7 @@ To resolve this ambigiuity, you can use the custom map option `gestureHandling` 
 function createMapOptions() {
   return {
     gestureHandling: 'greedy' // Will capture all touch events on the map towards map panning
-  };
+  }
 }
 ```
 
@@ -359,40 +353,19 @@ For enabling heatmap layer, just add `heatmapLibrary={true}` and provide data fo
 
 ```javascript
 <GoogleMapReact
-  bootstrapURLKeys={{ key: [YOUR_KEY] }}
-  zoom={zoom}
-  center={center}
-  heatmapLibrary={true}
-  heatmap={{ data }}
->
-  {markers}
-</GoogleMapReact>
+    bootstrapURLKeys={{ key: [YOUR_KEY] }}
+    zoom={zoom}
+    center={center}
+    heatmapLibrary={true}
+    heatmap={{data}}
+  >
+    {markers}
+  </GoogleMapReact>
 ```
-
-#### Update heatmap during runtime
-
-The heatmap can be updated with new positions or with new settings (radius, zoom, ...) during the lifecycle of the `GoogleMapReact` component. This can be done by setting the prop `updateHeatmap` to true. Which will let the heatmap know it has to rerender itself.
 
 #### Important Note
 
 If you have multiple `GoogleMapReact` components in project and you want to use heatmap layer so provide `heatmapLibrary={true}` for all `GoogleMapReact` components so component will load heatmap library at the beginning with google map api.
-
-### Other libraries
-
-Some features of the Google Map Api are available through _libraries_, which are not loaded by default. Offering those components as optional libraries allow the main api to load quickly.
-
-In order to use one of the optional libraries, specify one of the following props in the `GoogleMapReact` component. Multiple libraries can be specified at the time.
-
-**Drawing library:** `drawingLibrary={true}`
-
-**Geometry library:** `geometryLibrary={true}`
-
-**Heatmap library:** `heatmapLibrary={true}`
-
-See [Google documentation](https://developers.google.com/maps/documentation/javascript/libraries) for more info about those libraries.
-
-The library can be used after setting the prop `onGoogleApiLoaded`, which allows to directly access the maps API - _use at your own risk!_
-The library is than accessable through the `google.maps.{libraryName}` namespace.
 
 ### Localizing the Map
 

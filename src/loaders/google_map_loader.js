@@ -20,7 +20,7 @@ const _customPromise = new Promise(resolve => {
 });
 
 // TODO add libraries language and other map options
-export default (bootstrapURLKeys, libraries) => {
+export default (bootstrapURLKeys, heatmapLibrary) => {
   if (!$script_) {
     $script_ = require('scriptjs'); // eslint-disable-line
   }
@@ -71,20 +71,10 @@ export default (bootstrapURLKeys, libraries) => {
     );
 
     const baseUrl = getUrl(bootstrapURLKeys.region);
-    const librariesUrl = Object.keys(libraries)
-      .reduce(
-        (libraryUrl, libraryKey) => {
-          if (libraries[libraryKey]) {
-            return `${libraryUrl}${libraryKey},`;
-          }
-          return libraryUrl;
-        },
-        '&libraries='
-      )
-      .slice(0, -1);
+    const libraries = heatmapLibrary ? '&libraries=visualization' : '';
 
     $script_(
-      `${baseUrl}${API_PATH}${params}${librariesUrl}`,
+      `${baseUrl}${API_PATH}${params}${libraries}`,
       () =>
         typeof window.google === 'undefined' &&
         reject(new Error('google map initialization error (not loaded)'))
