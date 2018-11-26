@@ -87,6 +87,19 @@ There is no need to place a `<script src=` tag at top of page. The Google Maps A
 
 Now every object on the map can be hovered (however, you can still use css hover selectors if you want). If you try zooming out here [example](http://google-map-react.github.io/google-map-react/map/main), you will still be able to hover on almost every map marker.
 
+### API Library Support
+
+Request Google Map libraries by adding any of the following as props to your <GoogleMapReact /> object.
+
+```
+<GoogleMapReact
+  heatmapLibrary
+  geometryLibrary
+  placesLibrary
+  drawingLibrary
+  bootstrapURLKeys=...
+```
+
 ## Examples
 
 * Placing react components on the map:
