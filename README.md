@@ -87,7 +87,7 @@ There is no need to place a `<script src=` tag at top of page. The Google Maps A
 
 You can access to Google Maps `map` and `maps` objects by using `onGoogleApiLoaded`:
 
-```
+```javascript
 ...
 
 const handleApiLoaded = (map, maps) => {
