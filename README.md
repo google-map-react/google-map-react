@@ -83,11 +83,25 @@ It renders components on the map before (and even without) the Google Maps API l
 
 There is no need to place a `<script src=` tag at top of page. The Google Maps API loads upon the first usage of the `GoogleMapReact` component.
 
+### Anything you can do with Google Maps, you can do with Google Map React
+
+You can access to Google Maps `map` and `maps` objects by using onGoogleApiLoaded:
+
 ```
+...
+
+const handleApiLoaded = (map, maps) => {
+  // use map and maps objects
+};
+
+...
+
 <GoogleMapReact
   bootstrapURLKeys={{ key: /* YOUR KEY HERE */ }}
   defaultCenter={this.props.center}
   defaultZoom={this.props.zoom}
+  yesIWantToUseGoogleMapApiInternals // in this case we need to pass yesIWantToUseGoogleMapApiInternals as true
+  onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
 >
   <AnyReactComponent
     lat={59.955413}
@@ -97,9 +111,9 @@ There is no need to place a `<script src=` tag at top of page. The Google Maps A
 </GoogleMapReact>
 ```
 
-### Anything you can do with Google Maps, you can do with Google Map React
+PST: Remember to set `yesIWantToUseGoogleMapApiInternals` to true.
 
-You can access to Google Maps `map` and `maps` objects by using onGoogleApiLoaded:
+[https://github.com/google-map-react/google-map-react-examples/blob/master/src/examples/Main.js#L69](Example here)
 
 ### Internal Hover Algorithm
 
