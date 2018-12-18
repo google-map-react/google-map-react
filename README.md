@@ -85,7 +85,7 @@ There is no need to place a `<script src=` tag at top of page. The Google Maps A
 
 ### Anything you can do with Google Maps, you can do with Google Map React
 
-You can access to Google Maps `map` and `maps` objects by using `onGoogleApiLoaded`:
+You can access to Google Maps `map` and `maps` objects by using `onGoogleApiLoaded`, in this case you will need to set `yesIWantToUseGoogleMapApiInternals` to `true`
 
 ```javascript
 ...
@@ -100,7 +100,7 @@ const handleApiLoaded = (map, maps) => {
   bootstrapURLKeys={{ key: /* YOUR KEY HERE */ }}
   defaultCenter={this.props.center}
   defaultZoom={this.props.zoom}
-  yesIWantToUseGoogleMapApiInternals // in this case we need to pass yesIWantToUseGoogleMapApiInternals as true
+  yesIWantToUseGoogleMapApiInternals
   onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
 >
   <AnyReactComponent
