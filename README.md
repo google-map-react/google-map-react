@@ -85,7 +85,7 @@ There is no need to place a `<script src=` tag at top of page. The Google Maps A
 
 ### Anything you can do with Google Maps, you can do with Google Map React
 
-You can access to Google Maps `map` and `maps` objects by using onGoogleApiLoaded:
+You can access to Google Maps `map` and `maps` objects by using `onGoogleApiLoaded`:
 
 ```
 ...
@@ -113,7 +113,7 @@ const handleApiLoaded = (map, maps) => {
 
 PST: Remember to set `yesIWantToUseGoogleMapApiInternals` to true.
 
-[https://github.com/google-map-react/google-map-react-examples/blob/master/src/examples/Main.js#L69](Example here)
+[Example here](https://github.com/google-map-react/google-map-react-examples/blob/master/src/examples/Main.js#L69)
 
 ### Internal Hover Algorithm
 
