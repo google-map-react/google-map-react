@@ -37,7 +37,7 @@ class SimpleMap extends Component {
           <AnyReactComponent
             lat={59.955413}
             lng={30.337844}
-            text={'Kreyser Avrora'}
+            text="My Marker"
           />
         </GoogleMapReact>
       </div>
@@ -82,6 +82,24 @@ It renders components on the map before (and even without) the Google Maps API l
 ### Google Maps API Loads on Demand
 
 There is no need to place a `<script src=` tag at top of page. The Google Maps API loads upon the first usage of the `GoogleMapReact` component.
+
+```
+<GoogleMapReact
+  bootstrapURLKeys={{ key: /* YOUR KEY HERE */ }}
+  defaultCenter={this.props.center}
+  defaultZoom={this.props.zoom}
+>
+  <AnyReactComponent
+    lat={59.955413}
+    lng={30.337844}
+    text="My Marker"
+  />
+</GoogleMapReact>
+```
+
+### Anything you can do with Google Maps, you can do with Google Map React
+
+You can access to Google Maps `map` and `maps` objects by using onGoogleApiLoaded:
 
 ### Internal Hover Algorithm
 
