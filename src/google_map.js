@@ -483,22 +483,20 @@ export default class GoogleMap extends Component {
     });
   };
 
-  _renderPortal = () => {
-    return (
-      <GoogleMapMarkers
-        experimental={this.props.experimental}
-        onChildClick={this._onChildClick}
-        onChildMouseDown={this._onChildMouseDown}
-        onChildMouseEnter={this._onChildMouseEnter}
-        onChildMouseLeave={this._onChildMouseLeave}
-        geoService={this.geoService_}
-        insideMapPanes
-        distanceToMouse={this.props.distanceToMouse}
-        getHoverDistance={this._getHoverDistance}
-        dispatcher={this.markersDispatcher_}
-      />
-    );
-  };
+  _renderPortal = () => (
+    <GoogleMapMarkers
+      experimental={this.props.experimental}
+      onChildClick={this._onChildClick}
+      onChildMouseDown={this._onChildMouseDown}
+      onChildMouseEnter={this._onChildMouseEnter}
+      onChildMouseLeave={this._onChildMouseLeave}
+      geoService={this.geoService_}
+      insideMapPanes
+      distanceToMouse={this.props.distanceToMouse}
+      getHoverDistance={this._getHoverDistance}
+      dispatcher={this.markersDispatcher_}
+    />
+  );
 
   _initMap = () => {
     // only initialize the map once
@@ -652,9 +650,9 @@ export default class GoogleMap extends Component {
           },
 
           onRemove() {
-            const overlay = this_.state.overlay;
-            if (overlay && !IS_REACT_16) {
-              ReactDOM.unmountComponentAtNode(overlay);
+            const renderedOverlay = this_.state.overlay;
+            if (renderedOverlay && !IS_REACT_16) {
+              ReactDOM.unmountComponentAtNode(renderedOverlay);
             }
             this_.setState({ overlay: null });
           },
