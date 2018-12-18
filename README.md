@@ -83,7 +83,7 @@ It renders components on the map before (and even without) the Google Maps API l
 
 There is no need to place a `<script src=` tag at top of page. The Google Maps API loads upon the first usage of the `GoogleMapReact` component.
 
-### Anything you can do with Google Maps, you can do with Google Map React
+### Use Google Maps API 
 
 You can access to Google Maps `map` and `maps` objects by using `onGoogleApiLoaded`, in this case you will need to set `yesIWantToUseGoogleMapApiInternals` to `true`
 
