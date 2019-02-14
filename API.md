@@ -348,7 +348,9 @@ For more details see the [google documentation](https://developers.google.com/ma
 ### Heatmap Layer
 
 To use the heatmap layer, add `heatmapLibrary={true}` to add the visualizations library, and provide the data&configuration for the heatmap in `heatmap` as props.
+
 The typescript interface for the heatmap prop is as follows:
+```typescript
 interface heatmapProp {
     positions: {
         lat: Number;
@@ -358,11 +360,12 @@ interface heatmapProp {
     options: {
         radius?: number;
         opacity?: number;
-        /* other options */
+        /* other options directly from Google Heatmaps API */
     };
 }
+```
 
-#### Example
+#### Example [Demo](https://google-map-react.github.io/google-map-react-examples/heatmap)
 
 ```javascript
 <GoogleMapReact
