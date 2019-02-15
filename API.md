@@ -249,7 +249,7 @@ Example (centering the marker):
 ```javascript
 const greatPlaceStyle = {
   position: 'absolute',
-  transform: 'translate(-50%, -50%)';
+  transform: 'translate(-50%, -50%)'
 }
 ```
 
