@@ -1,87 +1,89 @@
 const BASE_URL = 'https://maps';
 const DEFAULT_URL = `${BASE_URL}.googleapis.com`;
-const API_PATH = '/maps/api/js?callback=_$_google_map_initialize_$_';
+const API_PATH = '/maps/api/js?callback=googleMapsAPILoadedPromise';
+const EVENT_GMAPS_LOADED = 'EVENT_GMAPS_LOADED';
 
-const getUrl = region => {
+const getBaseUrl = region => {
   if (region && region.toLowerCase() === 'cn') {
     return `${BASE_URL}.google.cn`;
   }
   return DEFAULT_URL;
 };
 
-let $script_ = null;
+let currentResolver = null;
+let lastBaseUrl = '';
+let lastScriptUrl = '';
+let googleMapsPromise;
 
-let loadPromise_;
+const destroyOldGoogleMapsInstance = url => {
+  document
+    .querySelectorAll(`script[src^='${url}']`)
+    .forEach(script => script.remove());
+  if (window.google) delete window.google.maps;
+};
 
-let resolveCustomPromise_;
+// Callback for the Google Maps API src
+window.googleMapsAPILoadedPromise = () =>
+  window.dispatchEvent(new CustomEvent(EVENT_GMAPS_LOADED));
 
-const _customPromise = new Promise(resolve => {
-  resolveCustomPromise_ = resolve;
-});
+const getScriptUrl = bootstrapURLKeys => {
+  const baseUrl = getBaseUrl(bootstrapURLKeys.region);
+  const params = Object.keys(bootstrapURLKeys).reduce(
+    (r, key) => `${r}&${key}=${bootstrapURLKeys[key]}`,
+    ''
+  );
+  return `${baseUrl}${API_PATH}${params}`;
+};
 
-// TODO add libraries language and other map options
-export default (bootstrapURLKeys, heatmapLibrary) => {
-  if (!$script_) {
-    $script_ = require('scriptjs'); // eslint-disable-line
-  }
+const loadScript = url => {
+  const script = document.createElement('script');
 
-  // call from outside google-map-react
-  // will be as soon as loadPromise_ resolved
-  if (!bootstrapURLKeys) {
-    return _customPromise;
-  }
+  script.type = 'text/javascript';
+  script.async = true;
+  script.src = url;
+  document.querySelector('head').appendChild(script);
 
-  if (loadPromise_) {
-    return loadPromise_;
-  }
-
-  loadPromise_ = new Promise((resolve, reject) => {
-    if (typeof window === 'undefined') {
-      reject(new Error('google map cannot be loaded outside browser env'));
-      return;
+  return new Promise(resolve => {
+    if (currentResolver) {
+      window.removeEventListener(EVENT_GMAPS_LOADED, currentResolver);
     }
-
-    if (window.google && window.google.maps) {
-      resolve(window.google.maps);
-      return;
-    }
-
-    if (typeof window._$_google_map_initialize_$_ !== 'undefined') {
-      reject(new Error('google map initialization error'));
-    }
-
-    window._$_google_map_initialize_$_ = () => {
-      delete window._$_google_map_initialize_$_;
-      resolve(window.google.maps);
+    currentResolver = () => {
+      resolve();
     };
+    window.addEventListener(EVENT_GMAPS_LOADED, currentResolver);
+  });
+};
 
-    if (process.env.NODE_ENV !== 'production') {
-      if (Object.keys(bootstrapURLKeys).indexOf('callback') > -1) {
-        const message = `"callback" key in bootstrapURLKeys is not allowed,
-                          use onGoogleApiLoaded property instead`;
-        // eslint-disable-next-line no-console
-        console.error(message);
-        throw new Error(message);
-      }
-    }
-
-    const params = Object.keys(bootstrapURLKeys).reduce(
-      (r, key) => `${r}&${key}=${bootstrapURLKeys[key]}`,
-      ''
-    );
-
-    const baseUrl = getUrl(bootstrapURLKeys.region);
-    const libraries = heatmapLibrary ? '&libraries=visualization' : '';
-
-    $script_(
-      `${baseUrl}${API_PATH}${params}${libraries}`,
-      () =>
-        typeof window.google === 'undefined' &&
-        reject(new Error('google map initialization error (not loaded)'))
-    );
+const loadGoogleMaps = bootstrapURLKeys =>
+  new Promise(async resolve => {
+    lastScriptUrl = getScriptUrl(bootstrapURLKeys);
+    await loadScript(lastScriptUrl);
+    resolve(window.google.maps);
   });
 
-  resolveCustomPromise_(loadPromise_);
+export default bootstrapURLKeys => {
+  if (typeof window === 'undefined') {
+    throw new Error('google map cannot be loaded outside browser env');
+  }
 
-  return loadPromise_;
+  if (process.env.NODE_ENV !== 'production') {
+    if (Object.keys(bootstrapURLKeys).includes('callback')) {
+      const message = `'callback' key in bootstrapURLKeys is not allowed, use onGoogleapiLoadedPromise property instead`;
+      // eslint-disable-next-line no-console
+      console.error(message);
+      throw new Error(message);
+    }
+  }
+  if (googleMapsPromise) {
+    if (lastScriptUrl !== getScriptUrl(bootstrapURLKeys)) {
+      destroyOldGoogleMapsInstance(lastBaseUrl);
+      googleMapsPromise = loadGoogleMaps(bootstrapURLKeys);
+    }
+    return googleMapsPromise;
+  }
+
+  googleMapsPromise = loadGoogleMaps(bootstrapURLKeys);
+  lastBaseUrl = getBaseUrl(bootstrapURLKeys.region);
+
+  return googleMapsPromise;
 };
