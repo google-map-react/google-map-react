@@ -18,6 +18,7 @@ import SimpleMarker from './markers/SimpleMarker';
 
 import ptInBounds from './utils/ptInBounds';
 import withStateSelector from './utils/withStateSelector';
+import { GOOGLE_API_KEY } from './config/Google_API_key';
 
 export const gMap = (
   {
@@ -34,7 +35,7 @@ export const gMap = (
 ) => (
   <GoogleMapReact
     bootstrapURLKeys={{
-      key: 'AIzaSyBMqz4ueWMfGGqdXlvwE_cIVfar60GROi8',
+      key: GOOGLE_API_KEY,
     }}
     style={style}
     options={options}
