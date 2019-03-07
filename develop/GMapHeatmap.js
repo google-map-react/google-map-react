@@ -11,7 +11,12 @@ import {
 } from 'recompose';
 import { createSelector } from 'reselect';
 
-import { susolvkaCoords, generateMarkers, heatmapData } from './data/fakeData';
+import {
+  susolvkaCoords,
+  generateMarkers,
+  heatmapData,
+  generateHeatmapData,
+} from './data/fakeData';
 
 import GoogleMapReact from '../src';
 import SimpleMarker from './markers/SimpleMarker';
@@ -19,12 +24,14 @@ import SimpleMarker from './markers/SimpleMarker';
 import ptInBounds from './utils/ptInBounds';
 import withStateSelector from './utils/withStateSelector';
 import { GOOGLE_API_KEY } from './config/Google_API_key';
+import withSafeInterval from './utils/withSafeInterval';
 
 export const gMapHeatmap = (
   {
     style,
     hoverDistance,
     options,
+    heatmap,
     mapParams: { center, zoom },
     onChange,
     onChildMouseEnter,
@@ -46,7 +53,7 @@ export const gMapHeatmap = (
     onChange={onChange}
     onChildMouseEnter={onChildMouseEnter}
     onChildMouseLeave={onChildMouseLeave}
-    heatmap={heatmapData}
+    heatmap={heatmap}
     heatmapLibrary
   >
     {markers}
@@ -77,11 +84,22 @@ export const gMapHOC = compose(
     )),
   withState('hoveredMarkerId', 'setHoveredMarkerId', -1),
   withState('mapParams', 'setMapParams', { center: susolvkaCoords, zoom: 6 }),
+  withSafeInterval,
+  withState('heatmap', 'setHeatmap', heatmapData),
   // describe events
   withHandlers({
-    onChange: ({ setMapParams }) =>
+    onChange: ({ setMapParams, setSafeInterval, setHeatmap, mapParams }) =>
       ({ center, zoom, bounds }) => {
         setMapParams({ center, zoom, bounds });
+        const boundSetHeatmap = setHeatmap.bind(this);
+        setSafeInterval(
+          () => {
+            boundSetHeatmap(
+              generateHeatmapData(mapParams.center.lat, mapParams.center.lng)
+            );
+          },
+          3000
+        );
       },
     onChildMouseEnter: ({ setHoveredMarkerId }) =>
       (hoverKey, { id }) => {
