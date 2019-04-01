@@ -48,3 +48,26 @@ export const heatmapData = {
     opacity: 0.7,
   },
 };
+
+function getRandomNumberBetween(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+export const generateHeatmapData = (lat, lng) => {
+  const newFakeReadings = x => {
+    const newReadings = [];
+
+    for (let i = 0; i <= x; i++) {
+      newReadings.push({
+        weight: getRandomNumberBetween(0.1, 4),
+        lat: getRandomNumberBetween(lat - 1, lat + 1),
+        lng: getRandomNumberBetween(lng - 1, lng + 1),
+      });
+    }
+    return newReadings;
+  };
+  return {
+    positions: newFakeReadings(10),
+    options: heatmapData.options,
+  };
+};

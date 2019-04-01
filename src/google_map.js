@@ -386,6 +386,18 @@ export default class GoogleMap extends Component {
         });
         this._setLayers(nextProps.layerTypes);
       }
+
+      if (
+        this.heatmap &&
+        !shallowEqual(nextProps.heatmap.positions, this.props.heatmap.positions)
+      ) {
+        this.heatmap.setData(
+          nextProps.heatmap.positions.map(p => ({
+            location: new this.maps_.LatLng(p.lat, p.lng),
+            weight: p.weight,
+          }))
+        );
+      }
     }
   }
 

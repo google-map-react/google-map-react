@@ -24,6 +24,7 @@ import ReactiveMarker from './markers/ReactiveMarker';
 import ptInBounds from './utils/ptInBounds';
 import props2Stream from './utils/props2Stream';
 import withStateSelector from './utils/withStateSelector';
+import { GOOGLE_API_KEY } from './config/Google_API_key';
 
 export const gMap = (
   {
@@ -40,7 +41,7 @@ export const gMap = (
 ) => (
   <GoogleMapReact
     bootstrapURLKeys={{
-      key: 'AIzaSyBMqz4ueWMfGGqdXlvwE_cIVfar60GROi8',
+      key: GOOGLE_API_KEY,
     }}
     style={style}
     options={options}
