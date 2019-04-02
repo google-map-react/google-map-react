@@ -23,8 +23,10 @@ const destroyOldGoogleMapsInstance = url => {
 };
 
 // Callback for the Google Maps API src
-window.googleMapsAPILoadedPromise = () =>
-  window.dispatchEvent(new CustomEvent(EVENT_GMAPS_LOADED));
+if (typeof window !== 'undefined') {
+  window.googleMapsAPILoadedPromise = () =>
+    window.dispatchEvent(new CustomEvent(EVENT_GMAPS_LOADED));
+}
 
 const getScriptUrl = bootstrapURLKeys => {
   const baseUrl = getBaseUrl(bootstrapURLKeys.region);
