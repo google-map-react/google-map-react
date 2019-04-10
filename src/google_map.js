@@ -715,7 +715,7 @@ export default class GoogleMap extends Component {
           if (this_.geoService_.getZoom() !== map.getZoom()) {
             if (!this_.zoomAnimationInProgress_) {
               this_.zoomAnimationInProgress_ = true;
-              this_._onZoomAnimationStart();
+              this_._onZoomAnimationStart(map.zoom);
             }
 
             // If draw() is not called each frame during a zoom animation,
@@ -762,7 +762,7 @@ export default class GoogleMap extends Component {
 
           if (this_.zoomAnimationInProgress_) {
             this_.zoomAnimationInProgress_ = false;
-            this_._onZoomAnimationEnd();
+            this_._onZoomAnimationEnd(map.zoom);
           }
 
           this_.updateCounter_++;
