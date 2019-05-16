@@ -1,3 +1,5 @@
+Add prop `onDragEnd` to react on the `dragend` event
+
 Add [google-map-clustering-example](https://github.com/istarkov/google-map-clustering-example)
 
 Add prop `onTilesLoaded` to react on the `tilesloaded` event
