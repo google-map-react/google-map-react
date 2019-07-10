@@ -10,7 +10,7 @@ so it will be easier to detect wrong ideas and solutions_
 
 ## Simple example.
 
-[Simple example](https://google-map-react.github.io/google-map-react-examples/default)
+[Simple example](https://google-map-react.github.io/google-map-react-examples/default) ([source](https://github.com/google-map-react/google-map-react-examples/blob/master/src/examples/Main.js))
 
 At `Map.js` you will see the smallest possible boilerplate for GoogleMapReact component,
 
