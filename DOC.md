@@ -68,13 +68,13 @@ The wrong part is that React components are placed on the map positioning from t
 In most cases it's not the expected behaviour, so we need to change the MyMarker position by changing
 it's `position` and `left`, `top` css properties, or use `flex` as like as in this example.
 
-[Good position](http://www.webpackbin.com/VJBKkj_vM)
+[Good position]()
 
 Now `MyMarker` centered well, see the `myMarker.css` css changes and `MyMarker.js` layout change.
 
 ## Few markers with hover example.
 
-[Few markers with hover example](http://www.webpackbin.com/Ny9EW1cwf)
+[Few markers with hover example]()
 
 As we use ordinary React components we can use any methods we use for hover effects like
 - css
@@ -91,7 +91,7 @@ Yes, sometimes real life is like a magazine picture_)
 
 ## Few markers with hover example done right.
 
-[Few markers with hover example done right](http://www.webpackbin.com/N1Cmhy5wf)
+[Few markers with hover example done right]()
 
 Now markers are hoverable even if placed under other marker.
 
