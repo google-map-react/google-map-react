@@ -66,7 +66,7 @@ Add ability to access to internal google api
 <GoogleMap  onGoogleApiLoaded={({map, maps}) => console.log(map, maps)} />
 ```
 
-(*to prevent warn message add _yesIWantToUseGoogleMapApiInternals_ property to GoogleMap*)
+(*to prevent warn message add _useGoogleMapApiInternals_ property to GoogleMap*)
 
 
 ###Sun Oct 4 2015

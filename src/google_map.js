@@ -132,7 +132,7 @@ export default class GoogleMap extends Component {
     margin: PropTypes.array,
     googleMapLoader: PropTypes.any,
     onGoogleApiLoaded: PropTypes.func,
-    yesIWantToUseGoogleMapApiInternals: PropTypes.bool,
+    useGoogleMapApiInternals: PropTypes.bool,
     draggable: PropTypes.bool,
     style: PropTypes.any,
     resetBoundsOnResize: PropTypes.bool,
@@ -150,7 +150,7 @@ export default class GoogleMap extends Component {
     debounced: true,
     options: defaultOptions_,
     googleMapLoader,
-    yesIWantToUseGoogleMapApiInternals: false,
+    useGoogleMapApiInternals: false,
     style: {
       width: '100%',
       height: '100%',
@@ -816,13 +816,13 @@ export default class GoogleMap extends Component {
     if (this.props.onGoogleApiLoaded) {
       if (
         process.env.NODE_ENV !== 'production' &&
-        this.props.yesIWantToUseGoogleMapApiInternals !== true
+        this.props.useGoogleMapApiInternals !== true
       ) {
         console.warn(
           'GoogleMap: ' + // eslint-disable-line
             'Usage of internal api objects is dangerous ' +
             'and can cause a lot of issues.\n' +
-            'To hide this warning add yesIWantToUseGoogleMapApiInternals={true} ' +
+            'To hide this warning add useGoogleMapApiInternals={true} ' +
             'to <GoogleMap instance'
         );
       }

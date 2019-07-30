@@ -83,9 +83,9 @@ It renders components on the map before (and even without) the Google Maps API l
 
 There is no need to place a `<script src=` tag at top of page. The Google Maps API loads upon the first usage of the `GoogleMapReact` component.
 
-### Use Google Maps API 
+### Use Google Maps API
 
-You can access to Google Maps `map` and `maps` objects by using `onGoogleApiLoaded`, in this case you will need to set `yesIWantToUseGoogleMapApiInternals` to `true`
+You can access to Google Maps `map` and `maps` objects by using `onGoogleApiLoaded`, in this case you will need to set `useGoogleMapApiInternals` to `true`
 
 ```javascript
 ...
@@ -100,7 +100,7 @@ const handleApiLoaded = (map, maps) => {
   bootstrapURLKeys={{ key: /* YOUR KEY HERE */ }}
   defaultCenter={this.props.center}
   defaultZoom={this.props.zoom}
-  yesIWantToUseGoogleMapApiInternals
+  useGoogleMapApiInternals
   onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
 >
   <AnyReactComponent
@@ -111,7 +111,7 @@ const handleApiLoaded = (map, maps) => {
 </GoogleMapReact>
 ```
 
-PST: Remember to set `yesIWantToUseGoogleMapApiInternals` to true.
+PST: Remember to set `useGoogleMapApiInternals` to true.
 
 [Example here](https://github.com/google-map-react/google-map-react-examples/blob/master/src/examples/Main.js#L69)
 

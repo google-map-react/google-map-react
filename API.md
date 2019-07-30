@@ -147,11 +147,11 @@ This function is called when the visible tiles have finished loading.
 <GoogleMap  onGoogleApiLoaded={({map, maps}) => console.log(map, maps)} />
 ```
 
-To prevent warning message add _yesIWantToUseGoogleMapApiInternals_ property to GoogleMap
+To prevent warning message add _useGoogleMapApiInternals_ property to GoogleMap
 
 ```javascript
 <GoogleMap  onGoogleApiLoaded={({map, maps}) => console.log(map, maps)}
-                       yesIWantToUseGoogleMapApiInternals
+                       useGoogleMapApiInternals
  />
  ```
 
