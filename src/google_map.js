@@ -266,7 +266,8 @@ export default class GoogleMap extends Component {
       );
     }
 
-    addPassiveEventListener(window, 'mouseup', this._onChildMouseUp, false);    const bootstrapURLKeys = {
+    addPassiveEventListener(window, 'mouseup', this._onChildMouseUp, false);
+    const bootstrapURLKeys = {
       ...(this.props.apiKey && { key: this.props.apiKey }),
       ...this.props.bootstrapURLKeys,
     };
