@@ -15,7 +15,7 @@ const prop2Stream = (propName, comparator = (a, b) => a === b) =>
         comparator
       );
 
-      componentWillReceiveProps(nextProps) {
+      UNSAFE_componentWillReceiveProps(nextProps) {
         this.props$.next(nextProps[propName]);
       }
 

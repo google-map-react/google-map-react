@@ -293,7 +293,7 @@ export default class GoogleMap extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (process.env.NODE_ENV !== 'production') {
       if (!shallowEqual(this.props.defaultCenter, nextProps.defaultCenter)) {
         console.warn(

@@ -21,7 +21,7 @@ const withStateSelector = (stateName, stateUpdaterName, selectorFactory) =>
           callback
         );
 
-      componentWillReceiveProps(nextProps) {
+      UNSAFE_componentWillReceiveProps(nextProps) {
         // reselect memoize result
         const nextStateValue = this.selector(nextProps);
         if (nextStateValue !== this.state.stateValue) {

@@ -10,7 +10,7 @@ const stream2Props = props2Stream =>
     return class extends Component {
       state = {};
 
-      componentWillMount() {
+      UNSAFE_componentWillMount() {
         this.subscription = props2Stream(this.props).subscribe(value =>
           this.setState({ value }));
       }
