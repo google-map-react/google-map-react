@@ -42,13 +42,13 @@
   },
   "homepage": "https://github.com/google-map-react/google-map-react#readme",
   "peerDependencies": {
-    "prop-types": "^15.5.6",
     "react": "^0.14.0 || ^15.0.0 || ^16.0.0",
     "react-dom": "^0.14.0 || ^15.0.0 || ^16.0.0"
   },
   "dependencies": {
     "@mapbox/point-geometry": "^0.1.0",
     "eventemitter3": "^1.1.0",
+    "prop-types": "^15.5.6",
     "scriptjs": "^2.5.7"
   },
   "devDependencies": {
@@ -84,7 +84,6 @@
     "normalize.css": "^4.1.1",
     "postcss-loader": "^0.9.1",
     "prettier": "^0.22.0",
-    "prop-types": "^15.5.6",
     "react": "^16.0.0",
     "react-dom": "^16.4.1",
     "react-motion": "^0.4.4",
