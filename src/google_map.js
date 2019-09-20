@@ -138,6 +138,7 @@ export default class GoogleMap extends Component {
     style: PropTypes.any,
     resetBoundsOnResize: PropTypes.bool,
     layerTypes: PropTypes.arrayOf(PropTypes.string), // ['TransitLayer', 'TrafficLayer']
+    shouldUnregisterMapOnUnmount: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -162,6 +163,7 @@ export default class GoogleMap extends Component {
     layerTypes: [],
     heatmap: {},
     heatmapLibrary: false,
+    shouldUnregisterMapOnUnmount: true,
   };
 
   static googleMapLoader = googleMapLoader; // eslint-disable-line
@@ -437,20 +439,24 @@ export default class GoogleMap extends Component {
       this.overlay_.setMap(null);
     }
 
-    if (this.maps_ && this.map_) {
+    if (this.maps_ && this.map_ && this.props.shouldUnregisterMapOnUnmount) {
       // fix google, as otherwise listeners works even without map
       this.map_.setOptions({ scrollwheel: false });
       this.maps_.event.clearInstanceListeners(this.map_);
     }
 
-    this.map_ = null;
-    this.maps_ = null;
+    if (this.props.shouldUnregisterMapOnUnmount) {
+      this.map_ = null;
+      this.maps_ = null;
+    }
     this.markersDispatcher_.dispose();
 
     this.resetSizeOnIdle_ = false;
 
-    delete this.map_;
-    delete this.markersDispatcher_;
+    if (this.props.shouldUnregisterMapOnUnmount) {
+      delete this.map_;
+      delete this.markersDispatcher_;
+    }
   }
   // calc minZoom if map size available
   // it's better to not set minZoom less than this calculation gives
@@ -675,7 +681,7 @@ export default class GoogleMap extends Component {
             this_._onBoundsChanged(map, maps, !this_.props.debounced);
 
             if (!this_.googleApiLoadedCalled_) {
-              this_._onGoogleApiLoaded({ map, maps });
+              this_._onGoogleApiLoaded({ map, maps, ref: this_.googleMapDom_ });
               this_.googleApiLoadedCalled_ = true;
             }
 
@@ -816,7 +822,11 @@ export default class GoogleMap extends Component {
       })
       .catch(e => {
         // notify callback of load failure
-        this._onGoogleApiLoaded({ map: null, maps: null });
+        this._onGoogleApiLoaded({
+          map: null,
+          maps: null,
+          ref: this.googleMapDom_,
+        });
         console.error(e); // eslint-disable-line no-console
         throw e;
       });
