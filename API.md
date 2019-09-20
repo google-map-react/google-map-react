@@ -128,6 +128,9 @@ Default: false
 
 #### onDrag ((map) => void)
 
+#### onDragEnd ((map) => void)
+When the map stops moving after the user drags. Takes into account drag inertia.
+
 #### onZoomAnimationEnd (func)
 
 #### onMapTypeIdChange (func)

@@ -123,6 +123,7 @@ export default class GoogleMap extends Component {
     onZoomAnimationStart: PropTypes.func,
     onZoomAnimationEnd: PropTypes.func,
     onDrag: PropTypes.func,
+    onDragEnd: PropTypes.func,
     onMapTypeIdChange: PropTypes.func,
     onTilesLoaded: PropTypes.func,
     options: PropTypes.any,
@@ -799,6 +800,15 @@ export default class GoogleMap extends Component {
           this_.dragTime_ = new Date().getTime();
           this_._onDrag(map);
         });
+
+        maps.event.addListener(map, 'dragend', () => {
+          // 'dragend' fires on mouse release.
+          // 'idle' listener waits until drag inertia ends before firing `onDragEnd`
+          const idleListener = maps.event.addListener(map, 'idle', () => {
+            maps.event.removeListener(idleListener);
+            this_._onDragEnd(map);
+          });
+        });
         // user choosing satellite vs roads, etc
         maps.event.addListener(map, 'maptypeid_changed', () => {
           this_._onMapTypeIdChange(map.getMapTypeId());
@@ -834,6 +844,9 @@ export default class GoogleMap extends Component {
   _getHoverDistance = () => this.props.hoverDistance;
 
   _onDrag = (...args) => this.props.onDrag && this.props.onDrag(...args);
+
+  _onDragEnd = (...args) =>
+    this.props.onDragEnd && this.props.onDragEnd(...args);
 
   _onMapTypeIdChange = (...args) =>
     this.props.onMapTypeIdChange && this.props.onMapTypeIdChange(...args);
