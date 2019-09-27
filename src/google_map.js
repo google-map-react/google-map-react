@@ -344,12 +344,10 @@ export default class GoogleMap extends Component {
           }
         }
       }
-
-      if (!isEmpty(nextProps.zoom)) {
-        // if zoom chaged by user
-        if (Math.abs(nextProps.zoom - this.props.zoom) > 0) {
-          this.map_.setZoom(nextProps.zoom);
-        }
+      
+      // if zoom chaged by user
+      if (!isEmpty(nextProps.zoom) && this.props.zoom !== nextProps.zoom) {
+        this.map_.setZoom(nextProps.zoom);
       }
 
       if (!isEmpty(this.props.draggable) && isEmpty(nextProps.draggable)) {
