@@ -85,7 +85,7 @@ There is no need to place a `<script src=` tag at top of page. The Google Maps A
 
 ### Use Google Maps API 
 
-You can access to Google Maps `map` and `maps` objects by using `onGoogleApiLoaded`, in this case you will need to set `yesIWantToUseGoogleMapApiInternals` to `true`
+You can access to Google Maps `map` and `maps` objects by using `onGoogleApiLoaded`, in this case you will need to set `yesIWantToUseGoogleMapApiInternals` to `true`. `map` and `maps` will be `null` in case the Google API failed to load.
 
 ```javascript
 ...
