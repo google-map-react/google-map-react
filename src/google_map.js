@@ -111,6 +111,7 @@ export default class GoogleMap extends Component {
     ]),
     defaultZoom: PropTypes.number,
     zoom: PropTypes.number,
+    controlSize: PropTypes.number,
     onBoundsChange: PropTypes.func,
     onChange: PropTypes.func,
     onClick: PropTypes.func,
@@ -552,6 +553,7 @@ export default class GoogleMap extends Component {
         const propsOptions = {
           zoom: this.props.zoom || this.props.defaultZoom,
           center: new maps.LatLng(centerLatLng.lat, centerLatLng.lng),
+          controlSize: this.props.controlSize,
         };
 
         // Start Heatmap
