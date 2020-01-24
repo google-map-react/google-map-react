@@ -2,13 +2,6 @@ const BASE_URL = 'https://maps';
 const DEFAULT_URL = `${BASE_URL}.googleapis.com`;
 const API_PATH = '/maps/api/js?callback=_$_google_map_initialize_$_';
 
-const getUrl = region => {
-  if (region && region.toLowerCase() === 'cn') {
-    return `${BASE_URL}.google.cn`;
-  }
-  return DEFAULT_URL;
-};
-
 let $script_ = null;
 
 let loadPromise_;
@@ -70,11 +63,10 @@ export default (bootstrapURLKeys, heatmapLibrary) => {
       ''
     );
 
-    const baseUrl = getUrl(bootstrapURLKeys.region);
     const libraries = heatmapLibrary ? '&libraries=visualization' : '';
 
     $script_(
-      `${baseUrl}${API_PATH}${params}${libraries}`,
+      `${DEFAULT_URL}${API_PATH}${params}${libraries}`,
       () =>
         typeof window.google === 'undefined' &&
         reject(new Error('google map initialization error (not loaded)'))
