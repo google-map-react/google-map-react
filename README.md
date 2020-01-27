@@ -69,7 +69,7 @@ yarn add google-map-react
 
 ### Works with your Components
 
-Instead of the ugly Google Maps markers, balloons and other map components, you can render your cool animated react components on the map.
+Instead of the default Google Maps markers, balloons and other map components, you can render your cool animated react components on the map.
 
 ### Isomorphic Rendering
 
