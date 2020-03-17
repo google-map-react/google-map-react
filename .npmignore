@@ -4,3 +4,5 @@ __tests__
 examples
 .babelrc
 .eslintrc
+.github
+.vscode
