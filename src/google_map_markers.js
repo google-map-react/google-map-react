@@ -183,6 +183,9 @@ export default class GoogleMapMarkers extends Component {
     if (!this.dimensionsCache_) {
       return;
     }
+    if(Object.keys(this.dimensionsCache_).length === 0 && this.dimensionsCache_.constructor === Object) {
+      return;
+    }
 
     const mp = this.props.dispatcher.getMousePosition();
 
