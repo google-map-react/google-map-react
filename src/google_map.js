@@ -756,7 +756,7 @@ export default class GoogleMap extends Component {
           if (this.resetSizeOnIdle_) {
             this._setViewSize();
             const currMinZoom = this._computeMinZoom(
-              this.props.options.minZoom
+              options.minZoom
             );
 
             if (currMinZoom !== this.minZoom_) {
