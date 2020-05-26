@@ -48,13 +48,6 @@ export default class GoogleMapMarkers extends Component {
 
   constructor(props) {
     super(props);
-    this.props.dispatcher.on('kON_CHANGE', this._onChangeHandler);
-    this.props.dispatcher.on(
-      'kON_MOUSE_POSITION_CHANGE',
-      this._onMouseChangeHandler
-    );
-    this.props.dispatcher.on('kON_CLICK', this._onChildClick);
-    this.props.dispatcher.on('kON_MDOWN', this._onChildMouseDown);
 
     this.dimensionsCache_ = {};
     this.hoverKey_ = null;
@@ -62,6 +55,16 @@ export default class GoogleMapMarkers extends Component {
     this.allowMouse_ = true;
 
     this.state = { ...this._getState(), hoverKey: null };
+  }
+
+  componentDidMount() {
+    this.props.dispatcher.on('kON_CHANGE', this._onChangeHandler);
+    this.props.dispatcher.on(
+      'kON_MOUSE_POSITION_CHANGE',
+      this._onMouseChangeHandler
+    );
+    this.props.dispatcher.on('kON_CLICK', this._onChildClick);
+    this.props.dispatcher.on('kON_MDOWN', this._onChildMouseDown);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
