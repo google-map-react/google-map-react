@@ -186,7 +186,7 @@ npm run start
 
 ## License
 
-MIT (http://www.opensource.org/licenses/mit-license.php)
+[MIT](./LICENSE.md)
 
 ## Known Issues
 
