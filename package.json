@@ -80,6 +80,7 @@
     "kotatsu": "^0.14.0",
     "lint-staged": "^3.4.0",
     "mocha": "^2.3.3",
+    "node-sass": "^3.7.0",
     "normalize.css": "^4.1.1",
     "postcss-loader": "^0.9.1",
     "prettier": "^0.22.0",
