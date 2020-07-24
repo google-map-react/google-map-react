@@ -15,6 +15,7 @@ const prop2Stream = (propName, comparator = (a, b) => a === b) =>
         comparator
       );
 
+      // eslint-disable-next-line camelcase
       UNSAFE_componentWillReceiveProps(nextProps) {
         this.props$.next(nextProps[propName]);
       }
