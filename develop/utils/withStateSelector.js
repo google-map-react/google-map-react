@@ -21,6 +21,7 @@ const withStateSelector = (stateName, stateUpdaterName, selectorFactory) =>
           callback
         );
 
+      // eslint-disable-next-line camelcase
       UNSAFE_componentWillReceiveProps(nextProps) {
         // reselect memoize result
         const nextStateValue = this.selector(nextProps);

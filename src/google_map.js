@@ -296,6 +296,7 @@ export default class GoogleMap extends Component {
     }
   }
 
+  // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (process.env.NODE_ENV !== 'production') {
       if (!shallowEqual(this.props.defaultCenter, nextProps.defaultCenter)) {
