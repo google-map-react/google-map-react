@@ -13,12 +13,14 @@ import { generateHeatmap, optionsHeatmap } from './google_heatmap';
 // loaders
 import googleMapLoader from './loaders/google_map_loader';
 
-// utils
-import Geo from './utils/geo';
+// lib
+import Geo from './lib/geo';
+
+// tools
 import raf from './utils/raf';
-import pick from './utils/pick';
+import log2 from './utils/log2';
 import omit from './utils/omit';
-import log2 from './utils/math/log2';
+import pick from './utils/pick';
 import isEmpty from './utils/isEmpty';
 import isNumber from './utils/isNumber';
 import detectBrowser from './utils/detect';

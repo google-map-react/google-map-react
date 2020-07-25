@@ -1,4 +1,4 @@
-import log2 from './math/log2';
+import log2 from '../utils/log2';
 
 const GOOGLE_TILE_SIZE = 256;
 

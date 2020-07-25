@@ -144,7 +144,7 @@ _)
 ### Helper utilities
 
 ```javascript
-import { meters2ScreenPixels } from 'google-map-react/utils';
+import { meters2ScreenPixels } from 'google-map-react';
 const { w, h } = meters2ScreenPixels(sizeInMeters, { lat, lng } /* marker coords*/, zoom /* map zoom*/);
 ```
 

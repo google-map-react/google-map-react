@@ -197,7 +197,7 @@ render() {
 Example:
 
 ```javascript
-import { fitBounds } from 'google-map-react/utils';
+import { fitBounds } from 'google-map-react';
 
 const bounds = {
   nw: {
