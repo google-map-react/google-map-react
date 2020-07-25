@@ -1,6 +1,3 @@
-/* eslint-disable */
-import './utils/jsdomInit.js';
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import TestUtils from 'react-dom/test-utils';
