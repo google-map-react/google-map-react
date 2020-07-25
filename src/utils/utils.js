@@ -3,13 +3,15 @@ import log2 from './math/log2';
 const GOOGLE_TILE_SIZE = 256;
 
 function latLng2World({ lat, lng }) {
-  const sin = Math.sin(lat * Math.PI / 180);
+  const sin = Math.sin((lat * Math.PI) / 180);
   const x = lng / 360 + 0.5;
-  let y = 0.5 - 0.25 * Math.log((1 + sin) / (1 - sin)) / Math.PI;
+  let y = 0.5 - (0.25 * Math.log((1 + sin) / (1 - sin))) / Math.PI;
 
   y = y < 0 // eslint-disable-line
-    ? 0
-    : y > 1 ? 1 : y;
+      ? 0
+      : y > 1
+      ? 1
+      : y;
   return { x, y };
 }
 
@@ -19,19 +21,21 @@ function world2LatLng({ x, y }) {
   // TODO test that this is faster
   // 360 * Math.atan(Math.exp((180 - y * 360) * Math.PI / 180)) / Math.PI - 90;
   return {
-    lat: 180 / Math.PI * Math.atan(0.5 * (Math.exp(n) - Math.exp(-n))),
+    lat: (180 / Math.PI) * Math.atan(0.5 * (Math.exp(n) - Math.exp(-n))),
     lng: x * 360 - 180,
   };
 }
 
 // Thank you wiki https://en.wikipedia.org/wiki/Geographic_coordinate_system
 function latLng2MetersPerDegree({ lat }) {
-  const phi = lat * Math.PI / 180;
-  const metersPerLatDegree = 111132.92 -
+  const phi = (lat * Math.PI) / 180;
+  const metersPerLatDegree =
+    111132.92 -
     559.82 * Math.cos(2 * phi) +
     1.175 * Math.cos(4 * phi) -
     0.0023 * Math.cos(6 * phi);
-  const metersPerLngDegree = 111412.84 * Math.cos(phi) -
+  const metersPerLngDegree =
+    111412.84 * Math.cos(phi) -
     93.5 * Math.cos(3 * phi) +
     0.118 * Math.cos(5 * phi);
   return { metersPerLatDegree, metersPerLngDegree };
@@ -42,8 +46,8 @@ function meters2LatLngBounds(meters, { lat, lng }) {
     lat,
   });
 
-  const latDelta = 0.5 * meters / metersPerLatDegree;
-  const lngDelta = 0.5 * meters / metersPerLngDegree;
+  const latDelta = (0.5 * meters) / metersPerLatDegree;
+  const lngDelta = (0.5 * meters) / metersPerLngDegree;
 
   return {
     nw: {
@@ -71,9 +75,8 @@ function fitNwSe(nw, se, width, height) {
   const EPS = 0.000000001;
   const nwWorld = latLng2World(nw);
   const seWorld = latLng2World(se);
-  const dx = nwWorld.x < seWorld.x
-    ? seWorld.x - nwWorld.x
-    : 1 - nwWorld.x + seWorld.x;
+  const dx =
+    nwWorld.x < seWorld.x ? seWorld.x - nwWorld.x : 1 - nwWorld.x + seWorld.x;
   const dy = seWorld.y - nwWorld.y;
 
   if (dx <= 0 && dy <= 0) {
@@ -87,10 +90,10 @@ function fitNwSe(nw, se, width, height) {
   // TODO find center just unproject middle world point
   const middle = {
     x: nwWorld.x < seWorld.x // eslint-disable-line
-      ? 0.5 * (nwWorld.x + seWorld.x)
-      : nwWorld.x + seWorld.x - 1 > 0
-          ? 0.5 * (nwWorld.x + seWorld.x - 1)
-          : 0.5 * (1 + nwWorld.x + seWorld.x),
+        ? 0.5 * (nwWorld.x + seWorld.x)
+        : nwWorld.x + seWorld.x - 1 > 0
+        ? 0.5 * (nwWorld.x + seWorld.x - 1)
+        : 0.5 * (1 + nwWorld.x + seWorld.x),
     y: 0.5 * (nwWorld.y + seWorld.y),
   };
 
@@ -181,11 +184,11 @@ export function meters2ScreenPixels(meters, { lat, lng }, zoom) {
 // Helper functions for working with svg tiles, (examples coming soon)
 
 export function tile2LatLng({ x, y }, zoom) {
-  const n = Math.PI - 2 * Math.PI * y / Math.pow(2, zoom);
+  const n = Math.PI - (2 * Math.PI * y) / Math.pow(2, zoom);
 
   return {
-    lat: 180 / Math.PI * Math.atan(0.5 * (Math.exp(n) - Math.exp(-n))),
-    lng: x / Math.pow(2, zoom) * 360 - 180,
+    lat: (180 / Math.PI) * Math.atan(0.5 * (Math.exp(n) - Math.exp(-n))),
+    lng: (x / Math.pow(2, zoom)) * 360 - 180,
   };
 }
 

@@ -8,7 +8,7 @@ let loadPromise_;
 
 let resolveCustomPromise_;
 
-const _customPromise = new Promise(resolve => {
+const _customPromise = new Promise((resolve) => {
   resolveCustomPromise_ = resolve;
 });
 

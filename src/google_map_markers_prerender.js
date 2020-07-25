@@ -13,7 +13,7 @@ const style = {
   // opacity: 0.3
 };
 
-export default function(props) {
+export default function (props) {
   return (
     <div style={style}>
       <GoogleMapMarkers {...props} prerender />

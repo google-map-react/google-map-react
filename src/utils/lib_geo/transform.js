@@ -51,11 +51,11 @@ export default class Transform {
   }
 
   get bearing() {
-    return -this.angle / Math.PI * 180;
+    return (-this.angle / Math.PI) * 180;
   }
 
   set bearing(bearing) {
-    this.angle = -wrap(bearing, -180, 180) * Math.PI / 180;
+    this.angle = (-wrap(bearing, -180, 180) * Math.PI) / 180;
   }
 
   get zoom() {
@@ -106,24 +106,23 @@ export default class Transform {
 
   // lat/lon <-> absolute pixel coords convertion
   lngX(lon, worldSize) {
-    return (180 + lon) * (worldSize || this.worldSize) / 360;
+    return ((180 + lon) * (worldSize || this.worldSize)) / 360;
   }
 
   // latitude to absolute y coord
   latY(lat, worldSize) {
-    const y = 180 /
-      Math.PI *
-      Math.log(Math.tan(Math.PI / 4 + lat * Math.PI / 360));
-    return (180 - y) * (worldSize || this.worldSize) / 360;
+    const y =
+      (180 / Math.PI) * Math.log(Math.tan(Math.PI / 4 + (lat * Math.PI) / 360));
+    return ((180 - y) * (worldSize || this.worldSize)) / 360;
   }
 
   xLng(x, worldSize) {
-    return x * 360 / (worldSize || this.worldSize) - 180;
+    return (x * 360) / (worldSize || this.worldSize) - 180;
   }
 
   yLat(y, worldSize) {
-    const y2 = 180 - y * 360 / (worldSize || this.worldSize);
-    return 360 / Math.PI * Math.atan(Math.exp(y2 * Math.PI / 180)) - 90;
+    const y2 = 180 - (y * 360) / (worldSize || this.worldSize);
+    return (360 / Math.PI) * Math.atan(Math.exp((y2 * Math.PI) / 180)) - 90;
   }
 
   locationPoint(latlng) {

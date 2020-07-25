@@ -1,28 +1,67 @@
 {
   "name": "google-map-react",
   "version": "1.1.7",
-  "description": "isomorphic google map react component, allows render react components on the google map",
-  "main": "lib/index",
-  "scripts": {
-    "build:lib": "babel ./src -d lib",
-    "build:umd": "webpack src/index_umd.js dist/GoogleMapReact.js --config webpack.config.dev.js",
-    "build:umd:min": "webpack src/index_umd.js dist/GoogleMapReact.min.js --config webpack.config.prod.js",
-    "build": "yarn run build:lib && yarn run build:umd && yarn run build:umd:min",
-    "clean": "rimraf lib dist",
-    "prepublish": "yarn run clean && yarn run build",
-    "format": "prettier --trailing-comma es5 --single-quote --write 'src/**/*.js' 'src/**/*.js'",
-    "format:dev": "prettier --trailing-comma es5 --single-quote --write 'develop/**/*.js' 'develop/**/*.js'",
-    "lint": "eslint src",
-    "lint:dev": "eslint develop",
-    "test": "NODE_ENV=eee mocha --compilers js:babel-register --recursive --require babel-polyfill",
-    "test:watch": "NODE_ENV=eee mocha --compilers js:babel-register --recursive  --require babel-polyfill --watch",
-    "start": "kotatsu serve --port 4000 --config ./develop/config/index.babel.js --presets es2015,stage-0,react,react-hmre ./develop/Main.js",
-    "precommit": "lint-staged"
-  },
+  "description": "Isomorphic component that allows rendering react components on a google map",
+  "author": "istarkov https://github.com/istarkov",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/google-map-react/google-map-react.git"
   },
+  "main": "dist/index.js",
+  "module": "dist/index.modern.js",
+  "source": "src/index.js",
+  "engines": {
+    "node": ">=10"
+  },
+  "scripts": {
+    "build": "microbundle-crl --no-compress --format modern,cjs",
+    "start": "microbundle-crl watch --no-compress --format modern,cjs",
+    "prepare": "run-s build",
+    "test": "run-s test:unit test:lint test:build",
+    "test:build": "run-s build",
+    "test:lint": "eslint .",
+    "test:unit": "cross-env CI=1 react-scripts test --env=jsdom",
+    "test:watch": "react-scripts test --env=jsdom",
+    "predeploy": "cd example && yarn install && yarn run build",
+    "deploy": "gh-pages -d example/build"
+  },
+  "dependencies": {
+    "@mapbox/point-geometry": "^0.1.0",
+    "eventemitter3": "^4.0.4",
+    "prop-types": "^15.7.2",
+    "scriptjs": "^2.5.9"
+  },
+  "peerDependencies": {
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.3",
+    "cross-env": "^7.0.2",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-config-standard-react": "^9.2.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.17.0",
+    "eslint-plugin-standard": "^4.0.1",
+    "expect": "1.20.2",
+    "jsdom": "^6.5.1",
+    "gh-pages": "^2.2.0",
+    "microbundle-crl": "^0.13.10",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.0.4",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts": "^3.4.1"
+  },
+  "files": [
+    "dist"
+  ],
   "keywords": [
     "react",
     "reactjs",
@@ -34,73 +73,5 @@
     "component",
     "javascript",
     "react-component"
-  ],
-  "author": "istarkov https://github.com/istarkov",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/google-map-react/google-map-react/issues"
-  },
-  "homepage": "https://github.com/google-map-react/google-map-react#readme",
-  "peerDependencies": {
-    "react": "^0.14.0 || ^15.0.0 || ^16.0.0",
-    "react-dom": "^0.14.0 || ^15.0.0 || ^16.0.0"
-  },
-  "dependencies": {
-    "@mapbox/point-geometry": "^0.1.0",
-    "eventemitter3": "^4.0.4",
-    "prop-types": "^15.5.6",
-    "scriptjs": "^2.5.9"
-  },
-  "devDependencies": {
-    "autoprefixer": "^6.3.6",
-    "babel-cli": "^6.14.0",
-    "babel-core": "^6.14.0",
-    "babel-eslint": "^7.2.2",
-    "babel-loader": "^6.2.5",
-    "babel-plugin-webpack-loaders": "^0.5.0",
-    "babel-polyfill": "^6.13.0",
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-react": "^6.11.1",
-    "babel-preset-react-hmre": "^1.1.1",
-    "babel-preset-stage-0": "^6.5.0",
-    "babel-register": "^6.14.0",
-    "css-loader": "^0.23.1",
-    "eslint": "^4.18.2",
-    "eslint-config-airbnb": "^14.0.0",
-    "eslint-config-prettier": "^1.5.0",
-    "eslint-plugin-babel": "^4.1.1",
-    "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-jsx-a11y": "^4.0.0",
-    "eslint-plugin-prettier": "^2.0.1",
-    "eslint-plugin-react": "^6.8.0",
-    "expect": "^1.11.1",
-    "file-loader": "^0.8.5",
-    "husky": "^0.13.3",
-    "jsdom": "^6.5.1",
-    "kotatsu": "^0.14.0",
-    "lint-staged": "^3.4.0",
-    "mocha": "^5.2.0",
-    "node-sass": "^4.14.1",
-    "normalize.css": "^4.1.1",
-    "postcss-loader": "^0.9.1",
-    "prettier": "^0.22.0",
-    "react": "^16.0.0",
-    "react-dom": "^16.4.1",
-    "react-motion": "^0.4.4",
-    "react-router": "^3.2.0",
-    "recompose": "^0.26.0",
-    "reselect": "^2.5.1",
-    "rimraf": "^2.4.3",
-    "rxjs": "^5.0.0-beta.8",
-    "sass-loader": "^4.1.1",
-    "style-loader": "^0.13.1",
-    "url-loader": "^0.5.7",
-    "webpack": "^1.12.2"
-  },
-  "lint-staged": {
-    "*.js": [
-      "prettier --trailing-comma es5 --single-quote --write",
-      "git add"
-    ]
-  }
+  ]
 }

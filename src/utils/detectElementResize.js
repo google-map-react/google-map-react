@@ -30,29 +30,29 @@ var attachEvent = typeof document !== 'undefined' && document.attachEvent;
 var stylesCreated = false;
 
 if (canUseDOM && !attachEvent) {
-  var requestFrame = (function() {
+  var requestFrame = (function () {
     var raf = _window.requestAnimationFrame ||
       _window.mozRequestAnimationFrame ||
       _window.webkitRequestAnimationFrame ||
-      function(fn) {
+      function (fn) {
         return _window.setTimeout(fn, 20);
       };
-    return function(fn) {
+    return function (fn) {
       return raf(fn);
     };
   })();
 
-  var cancelFrame = (function() {
+  var cancelFrame = (function () {
     var cancel = _window.cancelAnimationFrame ||
       _window.mozCancelAnimationFrame ||
       _window.webkitCancelAnimationFrame ||
       _window.clearTimeout;
-    return function(id) {
+    return function (id) {
       return cancel(id);
     };
   })();
 
-  var resetTriggers = function(element) {
+  var resetTriggers = function (element) {
     var triggers = element.__resizeTriggers__,
       expand = triggers.firstElementChild,
       contract = triggers.lastElementChild,
@@ -65,20 +65,20 @@ if (canUseDOM && !attachEvent) {
     expand.scrollTop = expand.scrollHeight;
   };
 
-  var checkTriggers = function(element) {
+  var checkTriggers = function (element) {
     return element.offsetWidth != element.__resizeLast__.width ||
       element.offsetHeight != element.__resizeLast__.height;
   };
 
-  var scrollListener = function(e) {
+  var scrollListener = function (e) {
     var element = this;
     resetTriggers(this);
     if (this.__resizeRAF__) cancelFrame(this.__resizeRAF__);
-    this.__resizeRAF__ = requestFrame(function() {
+    this.__resizeRAF__ = requestFrame(function () {
       if (checkTriggers(element)) {
         element.__resizeLast__.width = element.offsetWidth;
         element.__resizeLast__.height = element.offsetHeight;
-        element.__resizeListeners__.forEach(function(fn) {
+        element.__resizeListeners__.forEach(function (fn) {
           fn.call(element, e);
         });
       }
@@ -128,7 +128,7 @@ if (canUseDOM && !attachEvent) {
     '; ';
 }
 
-var createStyles = function() {
+var createStyles = function () {
   if (!stylesCreated) {
     //opacity:0 works around a chrome bug https://code.google.com/p/chromium/issues/detail?id=286360
     var css = (animationKeyframes ? animationKeyframes : '') +
@@ -151,7 +151,7 @@ var createStyles = function() {
   }
 };
 
-var addResizeListener = function(element, fn) {
+var addResizeListener = function (element, fn) {
   if (element.parentNode === undefined) {
     var tempParentDiv = document.createElement('div');
     element.parentNode = tempParentDiv;
@@ -180,7 +180,7 @@ var addResizeListener = function(element, fn) {
       animationstartevent &&
         element.__resizeTriggers__.addEventListener(
           animationstartevent,
-          function(e) {
+          function (e) {
             if (e.animationName == animationName) resetTriggers(element);
           }
         );
@@ -189,7 +189,7 @@ var addResizeListener = function(element, fn) {
   }
 };
 
-var removeResizeListener = function(element, fn) {
+var removeResizeListener = function (element, fn) {
   element = element.parentNode;
   if (attachEvent)
     element.detachEvent('onresize', fn);
@@ -207,7 +207,7 @@ var removeResizeListener = function(element, fn) {
   }
 };
 
-module.exports = {
-  addResizeListener: addResizeListener,
-  removeResizeListener: removeResizeListener,
+export {
+  addResizeListener,
+  removeResizeListener,
 };

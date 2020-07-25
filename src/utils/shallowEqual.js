@@ -15,7 +15,7 @@ const hasOwnProperty = Object.prototype.hasOwnProperty;
  * inlined Object.is polyfill to avoid requiring consumers ship their own
  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is
  */
-function is(x: mixed, y: mixed): boolean {
+function is(x, y) {
   // SameValue algorithm
   if (x === y) {
     // Steps 1-5, 7-10
@@ -33,7 +33,7 @@ function is(x: mixed, y: mixed): boolean {
  * when any key has values which are not strictly equal between the arguments.
  * Returns true when the values of all keys are strictly equal.
  */
-function shallowEqual(objA: mixed, objB: mixed): boolean {
+function shallowEqual(objA, objB) {
   if (is(objA, objB)) {
     return true;
   }
@@ -67,5 +67,5 @@ function shallowEqual(objA: mixed, objB: mixed): boolean {
   return true;
 }
 
-module.exports = shallowEqual;
+export default shallowEqual;
 /* src: https://github.com/facebook/fbjs/blob/master/packages/fbjs/src/core/shallowEqual.js */

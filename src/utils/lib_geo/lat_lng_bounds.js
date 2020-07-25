@@ -1,7 +1,7 @@
 import LatLng from './lat_lng';
 
 export default class LatLngBounds {
-  static convert = a => {
+  static convert = (a) => {
     if (!a || a instanceof LatLngBounds) return a;
     return new LatLngBounds(a);
   };

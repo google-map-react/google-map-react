@@ -62,8 +62,8 @@ export default class Geo {
     }
 
     const pt = this.fromLatLngToCenterPixel(ptLatLng);
-    pt.x -= this.transform_.worldSize *
-      Math.round(pt.x / this.transform_.worldSize);
+    pt.x -=
+      this.transform_.worldSize * Math.round(pt.x / this.transform_.worldSize);
 
     pt.x += this.transform_.width / 2;
     pt.y += this.transform_.height / 2;
@@ -112,7 +112,8 @@ export default class Geo {
     const bndL = (margins && margins[3]) || 0;
 
     if (
-      this.getWidth() - bndR - bndL > 0 && this.getHeight() - bndT - bndB > 0
+      this.getWidth() - bndR - bndL > 0 &&
+      this.getHeight() - bndT - bndB > 0
     ) {
       const topLeftCorner = this.transform_.pointLocation(
         Point.convert({
@@ -139,7 +140,7 @@ export default class Geo {
       ];
 
       if (roundFactor) {
-        res = res.map(r => Math.round(r * roundFactor) / roundFactor);
+        res = res.map((r) => Math.round(r * roundFactor) / roundFactor);
       }
       return res;
     }

@@ -1,7 +1,7 @@
 import { wrap } from './wrap';
 
 export default class LatLng {
-  static convert = a => {
+  static convert = (a) => {
     if (a instanceof LatLng) {
       return a;
     }

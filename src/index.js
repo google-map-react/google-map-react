@@ -1,1 +1,3 @@
-export default from './google_map';
+import GoogleMap from './google_map';
+
+export default GoogleMap;
