@@ -66,15 +66,19 @@ export default class GoogleMapMarkers extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     if (this.props.experimental === true) {
-      return !shallowEqual(this.props, nextProps) ||
+      return (
+        !shallowEqual(this.props, nextProps) ||
         !shallowEqual(
           omit(this.state, ['hoverKey']),
           omit(nextState, ['hoverKey'])
-        );
+        )
+      );
     }
 
-    return !shallowEqual(this.props, nextProps) ||
-      !shallowEqual(this.state, nextState);
+    return (
+      !shallowEqual(this.props, nextProps) ||
+      !shallowEqual(this.state, nextState)
+    );
   }
 
   componentWillUnmount() {
@@ -165,7 +169,7 @@ export default class GoogleMapMarkers extends Component {
     }
   };
 
-  _onMouseAllow = value => {
+  _onMouseAllow = (value) => {
     if (!value) {
       this._onChildMouseLeave();
     }
@@ -201,9 +205,10 @@ export default class GoogleMapMarkers extends Component {
           return;
         }
 
-        const childKey = child.key !== undefined && child.key !== null
-          ? child.key
-          : childIndex;
+        const childKey =
+          child.key !== undefined && child.key !== null
+            ? child.key
+            : childIndex;
         const dist = this.props.distanceToMouse(
           this.dimensionsCache_[childKey],
           mp,
@@ -236,7 +241,7 @@ export default class GoogleMapMarkers extends Component {
     }
   };
 
-  _getDimensions = key => {
+  _getDimensions = (key) => {
     const childKey = key;
     return this.dimensionsCache_[childKey];
   };
@@ -261,9 +266,10 @@ export default class GoogleMapMarkers extends Component {
           });
         }
 
-        const latLng = child.props.latLng !== undefined
-          ? child.props.latLng
-          : { lat: child.props.lat, lng: child.props.lng };
+        const latLng =
+          child.props.latLng !== undefined
+            ? child.props.latLng
+            : { lat: child.props.lat, lng: child.props.lng };
 
         const pt = this.props.insideMapPanes
           ? this.props.geoService.fromLatLngToDivPixel(latLng)
@@ -281,9 +287,10 @@ export default class GoogleMapMarkers extends Component {
           child.props.seLatLng !== undefined ||
           (child.props.seLat !== undefined && child.props.seLng !== undefined)
         ) {
-          const seLatLng = child.props.seLatLng !== undefined
-            ? child.props.seLatLng
-            : { lat: child.props.seLat, lng: child.props.seLng };
+          const seLatLng =
+            child.props.seLatLng !== undefined
+              ? child.props.seLatLng
+              : { lat: child.props.seLat, lng: child.props.seLng };
 
           const sePt = this.props.insideMapPanes
             ? this.props.geoService.fromLatLngToDivPixel(seLatLng)
@@ -299,9 +306,10 @@ export default class GoogleMapMarkers extends Component {
 
         // to prevent rerender on child element i need to pass
         // const params $getDimensions and $dimensionKey instead of dimension object
-        const childKey = child.key !== undefined && child.key !== null
-          ? child.key
-          : childIndex;
+        const childKey =
+          child.key !== undefined && child.key !== null
+            ? child.key
+            : childIndex;
 
         this.dimensionsCache_[childKey] = {
           x: containerPt.x,
@@ -328,10 +336,6 @@ export default class GoogleMapMarkers extends Component {
       }
     );
 
-    return (
-      <div style={mainElementStyle}>
-        {markers}
-      </div>
-    );
+    return <div style={mainElementStyle}>{markers}</div>;
   }
 }

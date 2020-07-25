@@ -1,10 +1,17 @@
+## [unreleased(major)]
+
+### Changed
+
+- Rewrite library using [create-react-library](https://www.npmjs.com/package/create-react-library)
+- **Breaking** Move `google-map-react/utils` to module import, so instead of doing `import { utilName } from 'google-map-react/utils` you will do `import { utilName } from google-map-react`
+
+## 0.9v
+
 Add prop `onDragEnd` to react on the `dragend` event
 
 Add [google-map-clustering-example](https://github.com/istarkov/google-map-clustering-example)
 
 Add prop `onTilesLoaded` to react on the `tilesloaded` event
-
-###0.9v
 
 Add: `bootstrapURLKeys` (object) instead of `apiKey` prop
 
@@ -22,12 +29,11 @@ Example:
 >
 ```
 
-###0.8v
+## 0.8v
 
 Draggable markers support, examples comig soon.
 
-
-###Mon Oct 5 2015
+## Mon Oct 5 2015
 
 Add `OnChange({center, zoom, bounds: {nw, se}, size, ...oherMapProps})`
 
@@ -58,10 +64,10 @@ Add `utils` functions, with `fitBounds` and other functions
 ```
 
 
-###Sun Oct 4 2015
+## Sun Oct 4 2015
 Add minZoom calculation, to prevent situations when one map point can have multiple screen coordinates.
 
-###Sun Oct 4 2015
+## Sun Oct 4 2015
 Add ability to access to internal google api
 
 ```javascript
@@ -71,14 +77,14 @@ Add ability to access to internal google api
 (*to prevent warn message add _yesIWantToUseGoogleMapApiInternals_ property to GoogleMap*)
 
 
-###Sun Oct 4 2015
+## Sun Oct 4 2015
 
 Add: `defaultZoom` `defaultCenter` properties, it closes #9 #10
 
-###Sat Oct 3 2015
+## Sat Oct 3 2015
 
 Support `center` prop as `{lat, lng}` object
 
-###Thu Oct 1 2015
+## Thu Oct 1 2015
 
 Add `onClick`, `onZoomAnimationStart`, `onZoomAnimationEnd` events.

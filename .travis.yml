@@ -1,11 +1,11 @@
 language: node_js
 node_js:
-- stable
+  - stable
 cache:
   directories:
-  - node_modules
+    - node_modules
 before_script:
   - git diff --exit-code # make sure that yarn.lock didn't change
 script:
-  - yarn run lint
+  - yarn test:lint
   - yarn test
