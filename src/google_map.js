@@ -406,6 +406,14 @@ export default class GoogleMap extends Component {
           }))
         );
       }
+      if (
+        this.heatmap &&
+        !shallowEqual(nextProps.heatmap.options, this.props.heatmap.options)
+      ) {
+        Object.keys(nextProps.heatmap.options).forEach((option) => {
+          this.heatmap.set(option, nextProps.heatmap.options[option]);
+        });
+      }
     }
   }
 
