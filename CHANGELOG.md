@@ -1,3 +1,8 @@
+## [2.0.1] - 2020-07-30
+
+- #864 On resize it's getting undefined minZoom
+- #873 Moves marker dispatcher binds to componentDidMount
+
 ## [2.0.0] - 2020-07-30
 
 ### Changed
