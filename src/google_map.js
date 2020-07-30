@@ -761,9 +761,7 @@ export default class GoogleMap extends Component {
         maps.event.addListener(map, 'idle', () => {
           if (this.resetSizeOnIdle_) {
             this._setViewSize();
-            const currMinZoom = this._computeMinZoom(
-              this.props.options.minZoom
-            );
+            const currMinZoom = this._computeMinZoom(options.minZoom);
 
             if (currMinZoom !== this.minZoom_) {
               this.minZoom_ = currMinZoom;
