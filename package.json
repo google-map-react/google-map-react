@@ -1,6 +1,6 @@
 {
   "name": "google-map-react",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Isomorphic component that allows rendering react components on a google map",
   "author": "istarkov https://github.com/istarkov",
   "license": "MIT",

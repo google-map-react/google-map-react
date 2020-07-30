@@ -1,3 +1,7 @@
+## [2.0.2] - 2020-07-30
+
+- #878 Fix heatmap options not being updated
+
 ## [2.0.1] - 2020-07-30
 
 - #864 On resize it's getting undefined minZoom
@@ -8,7 +12,7 @@
 ### Changed
 
 - Rewrite library using [create-react-library](https://www.npmjs.com/package/create-react-library)
-- **Breaking** Move `google-map-react/utils` to module import, so instead of doing `import { utilName } from 'google-map-react/utils` you will do `import { utilName } from google-map-react`
+- **Breaking** Move `google-map-react/utils` to module import, meaning that instead of doing: `import { utilName } from 'google-map-react/utils` you will do `import { utilName } from google-map-react`
 
 ## [1.1.7] - 2020-03-17
 
