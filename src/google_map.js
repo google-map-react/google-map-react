@@ -95,7 +95,7 @@ const isFullScreen = () =>
   document.mozFullScreen ||
   document.msFullscreenElement;
 
-export default class GoogleMap extends Component {
+class GoogleMap extends Component {
   static propTypes = {
     apiKey: PropTypes.string,
     bootstrapURLKeys: PropTypes.any,
@@ -1171,3 +1171,5 @@ export default class GoogleMap extends Component {
     );
   }
 }
+
+export default GoogleMap;
