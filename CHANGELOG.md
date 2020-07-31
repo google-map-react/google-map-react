@@ -1,3 +1,7 @@
+## [2.0.3] - 2020-07-30
+
+- Fix default and lib imports
+
 ## [2.0.2] - 2020-07-30
 
 - #878 Fix heatmap options not being updated
