@@ -168,21 +168,23 @@ You can find the documentation here:
 
 ## Contribute
 
-To get a reloadable env, with map, clone this project and
+Local development is broken into two parts (ideally using two tabs).
 
-```shell
-npm install
-npm run start
-# open browser at localhost:4000
+First, run rollup to watch your `src/` module and automatically recompile it into `dist/` whenever you make changes.
+
+```bash
+npm start # runs rollup with watch flag
 ```
 
-## Thank you
+The second part will be running the `example/` create-react-app that's linked to the local version of your module.
 
-(*Really big thanks to [April Arcus](https://github.com/AprilArcus) for documentation fixes*)
+```bash
+# (in another tab)
+cd example
+npm start # runs create-react-app dev server
+```
 
-(*thank you [Dan Abramov](http://gaearon.github.io/react-dnd/) for titles structure*)
-
-(*great thanks to [Vladimir Akimov](https://github.com/b2whats) he knows why*)
+Now, anytime you make a change to your library in `src/` or to the example app's `example/src`, `create-react-app` will live-reload your local dev server so you can iterate on your component in real-time.
 
 ## License
 
