@@ -168,6 +168,7 @@ class GoogleMap extends Component {
     layerTypes: [],
     heatmap: {},
     heatmapLibrary: false,
+    libraries: [],
     shouldUnregisterMapOnUnmount: true,
   };
 
