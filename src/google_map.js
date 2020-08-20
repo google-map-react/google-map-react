@@ -280,7 +280,7 @@ class GoogleMap extends Component {
       ...this.props.bootstrapURLKeys,
     };
 
-    this.props.googleMapLoader(bootstrapURLKeys, this.props.heatmapLibrary); // we can start load immediatly
+    this.props.googleMapLoader(bootstrapURLKeys, this.props.heatmapLibrary, this.props.libraries); // we can start load immediatly
 
     setTimeout(
       () => {
@@ -554,7 +554,7 @@ class GoogleMap extends Component {
     };
 
     this.props
-      .googleMapLoader(bootstrapURLKeys, this.props.heatmapLibrary)
+      .googleMapLoader(bootstrapURLKeys, this.props.heatmapLibrary, this.props.libraries)
       .then((maps) => {
         if (!this.mounted_) {
           return;
