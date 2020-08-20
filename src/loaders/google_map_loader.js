@@ -13,7 +13,7 @@ const _customPromise = new Promise((resolve) => {
 });
 
 // TODO add libraries language and other map options
-export default (bootstrapURLKeys, heatmapLibrary) => {
+export default (bootstrapURLKeys, heatmapLibrary, libraries) => {
   if (!$script_) {
     $script_ = require('scriptjs'); // eslint-disable-line
   }
@@ -62,8 +62,15 @@ export default (bootstrapURLKeys, heatmapLibrary) => {
       (r, key) => `${r}&${key}=${bootstrapURLKeys[key]}`,
       ''
     );
-
-    const libraries = heatmapLibrary ? '&libraries=visualization' : '';
+    
+    // Support for older version using heatMapLibrary option:
+    if(heatMapLibrary){
+      libarries.append('visualization')
+    }
+    
+    const googleMapsLibs = ['places', 'drawing', 'geometry', 'visualization'];  // existing libraries
+    const cleanLibraries = libraries.filter((lib, i) => libraries.indexOf(lib) === i &&googleMapsLibs.includes(lib)); // clean unknown and remove duplicates
+    const librariesStr = cleanLibraries.length > 0 ? `&libraries=${cleanLibraries.join(',')}`: '';
 
     $script_(
       `${DEFAULT_URL}${API_PATH}${params}${libraries}`,
