@@ -65,7 +65,8 @@ export default (bootstrapURLKeys, heatmapLibrary, libraries) => {
     
     // Support for older version using heatMapLibrary option:
     if(heatMapLibrary){
-      libarries.append('visualization')
+      libraries.append('visualization')
+      console.warn("heatMapLibrary will be deprecated in the future. please use libraries prop instead (libraries=['visualization']).")
     }
     
     const googleMapsLibs = ['places', 'drawing', 'geometry', 'visualization'];  // existing libraries
