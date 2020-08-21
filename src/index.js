@@ -1,13 +1,4 @@
 import GoogleMap from './google_map';
-import {
-  convertNeSwToNwSe,
-  convertNwSeToNeSw,
-  fitBounds,
-  meters2ScreenPixels,
-  tile2LatLng,
-  latLng2Tile,
-  getTilesIds,
-} from './lib';
 
 export {
   convertNeSwToNwSe,
@@ -17,5 +8,5 @@ export {
   tile2LatLng,
   latLng2Tile,
   getTilesIds,
-};
+} from './lib';
 export default GoogleMap;
