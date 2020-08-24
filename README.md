@@ -186,6 +186,17 @@ npm start # runs create-react-app dev server
 
 Now, anytime you make a change to your library in `src/` or to the example app's `example/src`, `create-react-app` will live-reload your local dev server so you can iterate on your component in real-time.
 
+### Manual link-install
+If you get the error `Module not found: Can't resolve 'google-react-map'...` while trying to run the example app, you need to manually link your local development module, try the following steps:
+  1. In the root folder:
+  ```bash
+  npm link
+  ```
+  2. Go into `example/` and (after installing other dependencies) execute:
+  ```bash
+  npm link google-map-react
+  ```
+
 ## License
 
 [MIT](./LICENSE.md)
