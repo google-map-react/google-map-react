@@ -13,7 +13,7 @@ const _customPromise = new Promise((resolve) => {
 });
 
 // TODO add libraries language and other map options
-export default (bootstrapURLKeys, heatmapLibrary, libraries) => {
+export default (bootstrapURLKeys, heatmapLibrary) => {
   if (!$script_) {
     $script_ = require('scriptjs'); // eslint-disable-line
   }
@@ -58,21 +58,31 @@ export default (bootstrapURLKeys, heatmapLibrary, libraries) => {
       }
     }
 
+    // Support for older version using heatMapLibrary option
+    if (heatMapLibrary) {
+      bootstrapURLKeys.libraries
+        ? bootstrapURLKeys.libraries.append('visualization')
+        : (bootstrapURLKeys['libraries'] = ['visualization']);
+      console.warn(
+        "heatMapLibrary will be deprecated in the future. Please use bootstrapURLKeys.libraries property instead (libraries=['visualization'])."
+      );
+    }
+
+    // clean unknown and remove duplicates
+    const googleMapsLibs = ['places', 'drawing', 'geometry', 'visualization'];
+    if (bootstrapURLKeys.libraries) {
+      bootstrapURLKeys.libraries = bootstrapURLKeys.libraries.filter(
+        (lib, i) =>
+          bootstrapURLKeys.libraries.indexOf(lib) === i &&
+          googleMapsLibs.includes(lib)
+      );
+    }
+
     const params = Object.keys(bootstrapURLKeys).reduce(
       (r, key) => `${r}&${key}=${bootstrapURLKeys[key]}`,
       ''
     );
     
-    // Support for older version using heatMapLibrary option:
-    if(heatMapLibrary){
-      libraries.append('visualization')
-      console.warn("heatMapLibrary will be deprecated in the future. please use libraries prop instead (libraries=['visualization']).")
-    }
-    
-    const googleMapsLibs = ['places', 'drawing', 'geometry', 'visualization'];  // existing libraries
-    const cleanLibraries = libraries.filter((lib, i) => libraries.indexOf(lib) === i &&googleMapsLibs.includes(lib)); // clean unknown and remove duplicates
-    const librariesStr = cleanLibraries.length > 0 ? `&libraries=${cleanLibraries.join(',')}`: '';
-
     $script_(
       `${DEFAULT_URL}${API_PATH}${params}${libraries}`,
       () =>

@@ -16,6 +16,7 @@ Example:
     key: API_KEY,
     language: 'ru',
     region: 'ru',
+    libraries:['places'],
     ...otherUrlParams,
   }}
 >
@@ -350,7 +351,7 @@ For more details see the [google documentation](https://developers.google.com/ma
 
 ### Heatmap Layer
 
-To use the heatmap layer, add `heatmapLibrary={true}` to add the visualizations library, and provide the data&configuration for the heatmap in `heatmap` as props.
+To use the heatmap layer, add `visualization` to the libraries property array on `bootstrapURLKeys` and provide the data & configuration for the heatmap in `heatmap` as props.
 
 The typescript interface for the heatmap prop is as follows:
 ```typescript
@@ -372,10 +373,12 @@ interface heatmapProp {
 
 ```javascript
 <GoogleMapReact
-    bootstrapURLKeys={{ key: [YOUR_KEY] }}
+    bootstrapURLKeys={{
+      key: [YOUR_KEY],
+      libraries:['visualization']
+    }}
     zoom={zoom}
     center={center}
-    heatmapLibrary={true}
     heatmap={{data}}
   >
     {markers}
@@ -384,8 +387,24 @@ interface heatmapProp {
 
 #### Important Note
 
-If you have multiple `GoogleMapReact` components in project and you want to use heatmap layer so provide `heatmapLibrary={true}` for all `GoogleMapReact` components so component will load heatmap library at the beginning with google map api.
+If you have multiple `GoogleMapReact` components in project and you want to use heatmap layer provide `libraries:['visualization']` to `bootstrapURLKeys` so that the visualization library will be loaded with the google map api.
 
 ### Localizing the Map
 
 This is done by setting bootstrapURLKeys.[language](https://developers.google.com/maps/documentation/javascript/localization#Language) and bootstrapURLKeys.[region](https://developers.google.com/maps/documentation/javascript/localization#Region). Also notice that setting region to 'cn' is required when using the map from within China, see [google documentation](https://developers.google.com/maps/documentation/javascript/localization#GoogleMapsChina) for more info. Setting 'cn' will result in use of the specific API URL for China.
+
+
+### Libraries
+
+If you want to include additional libraries to load with the maps api, indicate them in the libraries property of the `bootstrapURLKeys` object.
+
+Example:
+```JSX
+<GoogleMapReact
+    bootstrapURLKeys={{
+      key: [YOUR_KEY],
+      libraries:['places', 'geometry', 'drawing', 'visualization']
+    }}
+    {markers}
+  </GoogleMapReact>
+```
