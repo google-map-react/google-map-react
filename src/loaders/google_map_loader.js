@@ -58,13 +58,31 @@ export default (bootstrapURLKeys, heatmapLibrary) => {
       }
     }
 
+    // Support for older version using heatMapLibrary option
+    if (heatMapLibrary) {
+      bootstrapURLKeys.libraries
+        ? bootstrapURLKeys.libraries.append('visualization')
+        : (bootstrapURLKeys['libraries'] = ['visualization']);
+      console.warn(
+        "heatMapLibrary will be deprecated in the future. Please use bootstrapURLKeys.libraries property instead (libraries=['visualization'])."
+      );
+    }
+
+    // clean unknown and remove duplicates
+    const googleMapsLibs = ['places', 'drawing', 'geometry', 'visualization'];
+    if (bootstrapURLKeys.libraries) {
+      bootstrapURLKeys.libraries = bootstrapURLKeys.libraries.filter(
+        (lib, i) =>
+          bootstrapURLKeys.libraries.indexOf(lib) === i &&
+          googleMapsLibs.includes(lib)
+      );
+    }
+
     const params = Object.keys(bootstrapURLKeys).reduce(
       (r, key) => `${r}&${key}=${bootstrapURLKeys[key]}`,
       ''
     );
-
-    const libraries = heatmapLibrary ? '&libraries=visualization' : '';
-
+    
     $script_(
       `${DEFAULT_URL}${API_PATH}${params}${libraries}`,
       () =>
