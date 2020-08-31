@@ -1,3 +1,8 @@
+## [2.1.0] - 2020-08-31
+
+- #921 Add support to libraries: places, visualization, places, and geomerty.
+And keeps support for previous heatMapLibrary prop to avoid breaking older usage.
+
 ## [2.0.4] - 2020-07-30
 
 - Fix default and lib imports
