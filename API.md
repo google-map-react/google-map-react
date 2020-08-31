@@ -373,16 +373,16 @@ interface heatmapProp {
 
 ```javascript
 <GoogleMapReact
-    bootstrapURLKeys={{
-      key: [YOUR_KEY],
-      libraries:['visualization']
-    }}
-    zoom={zoom}
-    center={center}
-    heatmap={{data}}
-  >
-    {markers}
-  </GoogleMapReact>
+  bootstrapURLKeys={{
+    key: [YOUR_KEY],
+    libraries:['visualization']
+  }}
+  zoom={zoom}
+  center={center}
+  heatmap={{data}}
+>
+  {markers}
+</GoogleMapReact>
 ```
 
 #### Important Note
