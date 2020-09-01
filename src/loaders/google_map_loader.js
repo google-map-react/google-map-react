@@ -59,12 +59,12 @@ export default (bootstrapURLKeys, heatmapLibrary) => {
     }
 
     // Support for older version using heatMapLibrary option
-    if (heatMapLibrary) {
+    if (heatmapLibrary) {
       bootstrapURLKeys.libraries
         ? bootstrapURLKeys.libraries.append('visualization')
         : (bootstrapURLKeys['libraries'] = ['visualization']);
       console.warn(
-        "heatMapLibrary will be deprecated in the future. Please use bootstrapURLKeys.libraries property instead (libraries=['visualization'])."
+        "heatmapLibrary will be deprecated in the future. Please use bootstrapURLKeys.libraries property instead (libraries=['visualization'])."
       );
     }
 
@@ -84,7 +84,7 @@ export default (bootstrapURLKeys, heatmapLibrary) => {
     );
     
     $script_(
-      `${DEFAULT_URL}${API_PATH}${params}${libraries}`,
+      `${DEFAULT_URL}${API_PATH}${params}`,
       () =>
         typeof window.google === 'undefined' &&
         reject(new Error('google map initialization error (not loaded)'))
