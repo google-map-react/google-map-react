@@ -15,8 +15,8 @@
     "node": ">=10"
   },
   "scripts": {
-    "build": "microbundle-crl --no-compress --format modern,cjs",
-    "start": "microbundle-crl watch --no-compress --format modern,cjs",
+    "build": "microbundle-crl -f cjs,umd src/index.cjs.js && microbundle-crl -f es,modern src/index.js",
+    "start": "microbundle-crl watch -f cjs,umd",
     "prepare": "run-s build",
     "test": "run-s test:unit test:lint test:build",
     "test:build": "run-s build",
