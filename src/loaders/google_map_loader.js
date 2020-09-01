@@ -58,13 +58,13 @@ export default (bootstrapURLKeys, heatmapLibrary) => {
       }
     }
 
-    // Support for older version using heatmapLibrary option
-    if (heatmapLibrary) {
+    // Support for older version using heatMapLibrary option
+    if (heatMapLibrary) {
       bootstrapURLKeys.libraries
         ? bootstrapURLKeys.libraries.append('visualization')
-        : (bootstrapURLKeys.libraries = ['visualization']);
+        : (bootstrapURLKeys['libraries'] = ['visualization']);
       console.warn(
-        "heatmapLibrary will be deprecated in the future. Please use bootstrapURLKeys.libraries property instead (libraries=['visualization'])."
+        "heatMapLibrary will be deprecated in the future. Please use bootstrapURLKeys.libraries property instead (libraries=['visualization'])."
       );
     }
 
@@ -82,9 +82,7 @@ export default (bootstrapURLKeys, heatmapLibrary) => {
       (r, key) => `${r}&${key}=${bootstrapURLKeys[key]}`,
       ''
     );
-
-    const { libraries } = bootstrapURLKeys;
-
+    
     $script_(
       `${DEFAULT_URL}${API_PATH}${params}${libraries}`,
       () =>
