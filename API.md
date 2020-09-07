@@ -387,7 +387,7 @@ interface heatmapProp {
 
 #### Important Note
 
-If you have multiple `GoogleMapReact` components in project and you want to use heatmap layer provide `libraries:['visualization']` to `bootstrapURLKeys` so that the visualization library will be loaded with the google map api.
+If you have multiple instances of the map in your project and you are willing to use the heatmap layer in at least one of them, make sure to provide `libraries:['visualization']` to `bootstrapURLKeys` so that the visualization library will be loaded with the google map api.
 
 ### Localizing the Map
 
