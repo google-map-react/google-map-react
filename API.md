@@ -356,33 +356,33 @@ To use the heatmap layer, add `visualization` to the libraries property array on
 The typescript interface for the heatmap prop is as follows:
 ```typescript
 interface heatmapProp {
-    positions: {
-        lat: Number;
-        lng: Number;
-        weight?: Number;
-    }[];
-    options: {
-        radius?: number;
-        opacity?: number;
-        /* other options directly from Google Heatmaps API */
-    };
+  positions: {
+      lat: Number;
+      lng: Number;
+      weight?: Number;
+  }[];
+  options: {
+      radius?: number;
+      opacity?: number;
+      /* other options directly from Google Heatmaps API */
+  };
 }
 ```
 
 #### Example [Demo](https://google-map-react.github.io/google-map-react-examples/heatmap)
 
-```javascript
+```JSX
 <GoogleMapReact
-    bootstrapURLKeys={{
-      key: [YOUR_KEY],
-      libraries:['visualization']
-    }}
-    zoom={zoom}
-    center={center}
-    heatmap={{data}}
-  >
-    {markers}
-  </GoogleMapReact>
+  bootstrapURLKeys={{
+    key: [YOUR_KEY],
+    libraries:['visualization']
+  }}
+  zoom={zoom}
+  center={center}
+  heatmap={{data}}
+>
+  {markers}
+</GoogleMapReact>
 ```
 
 #### Important Note
@@ -401,10 +401,10 @@ If you want to include additional libraries to load with the maps api, indicate 
 Example:
 ```JSX
 <GoogleMapReact
-    bootstrapURLKeys={{
-      key: [YOUR_KEY],
-      libraries:['places', 'geometry', 'drawing', 'visualization']
-    }}
-    {markers}
-  </GoogleMapReact>
+  bootstrapURLKeys={{
+    key: [YOUR_KEY],
+    libraries:['places', 'geometry', 'drawing', 'visualization']
+  }}
+  {markers}
+</GoogleMapReact>
 ```
