@@ -353,22 +353,6 @@ For more details see the [google documentation](https://developers.google.com/ma
 
 To use the heatmap layer, add `visualization` to the libraries property array on `bootstrapURLKeys` and provide the data & configuration for the heatmap in `heatmap` as props.
 
-The typescript interface for the heatmap prop is as follows:
-```typescript
-interface heatmapProp {
-  positions: {
-      lat: Number;
-      lng: Number;
-      weight?: Number;
-  }[];
-  options: {
-      radius?: number;
-      opacity?: number;
-      /* other options directly from Google Heatmaps API */
-  };
-}
-```
-
 #### Example [Demo](https://google-map-react.github.io/google-map-react-examples/heatmap)
 
 ```JSX
@@ -387,7 +371,38 @@ interface heatmapProp {
 
 #### Important Note
 
-If you have multiple instances of the map in your project and you are willing to use the heatmap layer in at least one of them, make sure to provide `libraries:['visualization']` to `bootstrapURLKeys` so that the visualization library will be loaded with the google map api.
+If you have multiple maps in your project and require a heatmap layer in at least one of them, provide `libraries:['visualization']` to all of them. The Visualization library will then be included within the Google Map API.
+
+The Google Map API can be accessed from the `map` prop returned within `onGoogleApiLoaded`.
+
+```
+<GoogleMapReact
+  bootstrapURLKeys={{
+    key: XXXX,
+    libraries: ['visualization'],
+  }}
+  onGoogleApiLoaded={({ map, maps }) => {
+    // access to visualization methods within `map.visualization`
+  }}
+  yesIWantToUseGoogleMapApiInternals
+/>
+```
+
+The typescript interface for the heatmap prop is as follows:
+```typescript
+interface IHeatmap {
+  positions: {
+      lat: Number;
+      lng: Number;
+      weight?: Number;
+  }[];
+  options: {
+      radius?: number;
+      opacity?: number;
+      /* other options directly from Google Heatmaps API */
+  };
+}
+```
 
 ### Localizing the Map
 
