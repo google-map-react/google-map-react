@@ -21,6 +21,9 @@ export default (bootstrapURLKeys, heatmapLibrary) => {
   }
 
   if (heatmapLibrary && bootstrapURLKeys.indexOf('visualization') === -1) {
+    console.warn(
+      "heatmapLibrary will be deprecated in the future. Please use bootstrapURLKeys.libraries property instead (libraries=['visualization'])."
+    );
     bootstrapURLKeys.libraries.push('visualization');
   }
 
