@@ -1,4 +1,4 @@
-const { Loader } = require('@googlemaps/js-api-loader');
+import { Loader } from '@googlemaps/js-api-loader';
 
 let loader_ = null;
 
