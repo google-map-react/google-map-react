@@ -16,20 +16,20 @@ export default (bootstrapURLKeys, heatmapLibrary) => {
     return _customPromise;
   }
 
-  if (!bootstrapURLKeys.libraries) {
-    bootstrapURLKeys.libraries = [];
-  }
+  const libraries = [...bootstrapURLKeys.libraries];
 
-  if (heatmapLibrary && bootstrapURLKeys.indexOf('visualization') === -1) {
+  if (heatmapLibrary) {
+    // if heatmapLibrary is present
+    // check if we need to add visualization library
+    if (!libraries || !libraries.includes('visualization')) {
+      // if the array isEmpty or visualization is not set
+      // push the visualization library
+      libraries.push('visualization');
+    }
     console.warn(
-      "heatmapLibrary will be deprecated in the future. Please use bootstrapURLKeys.libraries property instead (libraries=['visualization'])."
+      "heatmapLibrary will be deprecated in the future. Please use { libraries: 'visualization' } in bootstrapURLKeys property instead"
     );
-    bootstrapURLKeys.libraries.push('visualization');
   }
-
-  const libraries = heatmapLibrary
-    ? [...bootstrapURLKeys.libraries, 'visualization']
-    : [];
 
   if (process.env.NODE_ENV !== 'production') {
     if (Object.keys(bootstrapURLKeys).indexOf('callback') > -1) {
