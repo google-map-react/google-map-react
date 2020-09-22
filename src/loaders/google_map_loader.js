@@ -51,7 +51,14 @@ export default (bootstrapURLKeys, heatmapLibrary) => {
   }
 
   if (!loader_) {
-    loader_ = new Loader({ ...bootstrapURLKeys, libraries });
+    const { key, ...restKeys } = bootstrapURLKeys;
+
+    loader_ = new Loader({
+      // need to keep key for backwards compatibility
+      apiKey: key || '',
+      ...restKeys,
+      libraries,
+    });
   }
 
   const loadPromise = loader_.load().then(() => {
