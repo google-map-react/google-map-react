@@ -32,7 +32,7 @@ export default (bootstrapURLKeys, heatmapLibrary) => {
       libraries.push('visualization');
     }
     console.warn(
-      "heatmapLibrary will be deprecated in the future. Please use { libraries: 'visualization' } in bootstrapURLKeys property instead"
+      "heatmapLibrary will be deprecated in the future. Please use { libraries: ['visualization'] } in bootstrapURLKeys property instead"
     );
   }
 
