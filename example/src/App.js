@@ -16,11 +16,15 @@ const Wrapper = styled.main`
 const App = () => {
   const [places, setPlaces] = useState([])
 
-  useEffect(() => {
+  const fetchPlaces = async () => {
     fetch('places.json')
-      .then((response) => response.json())
-      .then((data) => setPlaces(data.results))
-  })
+    .then((response) => response.json())
+    .then((data) => setPlaces(data.results))
+  }
+
+  useEffect(() => {
+    fetchPlaces();
+  }, [])
 
   if (!places || places.length === 0) {
     return null;
