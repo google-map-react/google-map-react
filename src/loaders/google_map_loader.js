@@ -16,6 +16,10 @@ export default (bootstrapURLKeys, heatmapLibrary) => {
     return _customPromise;
   }
 
+  if (!bootstrapURLKeys.libraries) {
+    bootstrapURLKeys.libraries = [];
+  }
+
   const libraries = [...bootstrapURLKeys.libraries];
 
   if (heatmapLibrary) {
