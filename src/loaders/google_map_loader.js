@@ -22,12 +22,13 @@ export default (bootstrapURLKeys, heatmapLibrary) => {
 
   const libraries = [...bootstrapURLKeys.libraries];
 
+  // note: heatmapLibrary will be deprecated on next major
   if (heatmapLibrary) {
     // if heatmapLibrary is present
     // check if we need to add visualization library
-    if (!libraries || !libraries.includes('visualization')) {
-      // if the array isEmpty or visualization is not set
-      // push the visualization library
+    if (libraries.length === 0 || !libraries.includes('visualization')) {
+      // if the array isEmpty or visualization is
+      // not present, push the visualization library
       libraries.push('visualization');
     }
     console.warn(
