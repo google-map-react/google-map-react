@@ -301,122 +301,6 @@ class GoogleMap extends Component {
     }
   }
 
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (process.env.NODE_ENV !== 'production') {
-      if (!shallowEqual(this.props.defaultCenter, nextProps.defaultCenter)) {
-        console.warn(
-          "GoogleMap: defaultCenter prop changed. You can't change default props."
-        );
-      }
-
-      if (!shallowEqual(this.props.defaultZoom, nextProps.defaultZoom)) {
-        console.warn(
-          "GoogleMap: defaultZoom prop changed. You can't change default props."
-        );
-      }
-    }
-
-    if (
-      !this._isCenterDefined(this.props.center) &&
-      this._isCenterDefined(nextProps.center)
-    ) {
-      setTimeout(() => this._initMap(), 0);
-    }
-
-    if (this.map_) {
-      const centerLatLng = this.geoService_.getCenter();
-      if (this._isCenterDefined(nextProps.center)) {
-        const nextPropsCenter = latLng2Obj(nextProps.center);
-        const currCenter = this._isCenterDefined(this.props.center)
-          ? latLng2Obj(this.props.center)
-          : null;
-
-        if (
-          !currCenter ||
-          Math.abs(nextPropsCenter.lat - currCenter.lat) +
-            Math.abs(nextPropsCenter.lng - currCenter.lng) >
-            kEPS
-        ) {
-          if (
-            Math.abs(nextPropsCenter.lat - centerLatLng.lat) +
-              Math.abs(nextPropsCenter.lng - centerLatLng.lng) >
-            kEPS
-          ) {
-            this.map_.panTo({
-              lat: nextPropsCenter.lat,
-              lng: nextPropsCenter.lng,
-            });
-          }
-        }
-      }
-
-      if (!isEmpty(nextProps.zoom)) {
-        // if zoom chaged by user
-        if (Math.abs(nextProps.zoom - this.props.zoom) > 0) {
-          this.map_.setZoom(nextProps.zoom);
-        }
-      }
-
-      if (!isEmpty(this.props.draggable) && isEmpty(nextProps.draggable)) {
-        // reset to default
-        this.map_.setOptions({ draggable: this.defaultDraggableOption_ });
-      } else if (!shallowEqual(this.props.draggable, nextProps.draggable)) {
-        // also prevent this on window 'mousedown' event to prevent map move
-        this.map_.setOptions({ draggable: nextProps.draggable });
-      }
-
-      // use shallowEqual to try avoid calling map._setOptions if only the ref changes
-      if (
-        !isEmpty(nextProps.options) &&
-        !shallowEqual(this.props.options, nextProps.options)
-      ) {
-        const mapPlainObjects = pick(this.maps_, isPlainObject);
-        let options =
-          typeof nextProps.options === 'function'
-            ? nextProps.options(mapPlainObjects)
-            : nextProps.options;
-        // remove zoom, center and draggable options as these are managed by google-maps-react
-        options = omit(options, ['zoom', 'center', 'draggable']);
-
-        if ('minZoom' in options) {
-          const minZoom = this._computeMinZoom(options.minZoom);
-          options.minZoom = _checkMinZoom(options.minZoom, minZoom);
-        }
-
-        this.map_.setOptions(options);
-      }
-
-      if (!shallowEqual(nextProps.layerTypes, this.props.layerTypes)) {
-        Object.keys(this.layers_).forEach((layerKey) => {
-          this.layers_[layerKey].setMap(null);
-          delete this.layers_[layerKey];
-        });
-        this._setLayers(nextProps.layerTypes);
-      }
-
-      if (
-        this.heatmap &&
-        !shallowEqual(nextProps.heatmap.positions, this.props.heatmap.positions)
-      ) {
-        this.heatmap.setData(
-          nextProps.heatmap.positions.map((p) => ({
-            location: new this.maps_.LatLng(p.lat, p.lng),
-            weight: p.weight,
-          }))
-        );
-      }
-      if (
-        this.heatmap &&
-        !shallowEqual(nextProps.heatmap.options, this.props.heatmap.options)
-      ) {
-        Object.keys(nextProps.heatmap.options).forEach((option) => {
-          this.heatmap.set(option, nextProps.heatmap.options[option]);
-        });
-      }
-    }
-  }
-
   shouldComponentUpdate(nextProps, nextState) {
     // draggable does not affect inner components
     return (
@@ -428,6 +312,119 @@ class GoogleMap extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    if (process.env.NODE_ENV !== 'production') {
+      if (!shallowEqual(prevProps.defaultCenter, this.props.defaultCenter)) {
+        console.warn(
+          "GoogleMap: defaultCenter prop changed. You can't change default props."
+        );
+      }
+
+      if (!shallowEqual(prevProps.defaultZoom, this.props.defaultZoom)) {
+        console.warn(
+          "GoogleMap: defaultZoom prop changed. You can't change default props."
+        );
+      }
+    }
+
+    if (
+      !this._isCenterDefined(prevProps.center) &&
+      this._isCenterDefined(this.props.center)
+    ) {
+      setTimeout(() => this._initMap(), 0);
+    }
+
+    if (this.map_) {
+      const centerLatLng = this.geoService_.getCenter();
+      if (this._isCenterDefined(this.props.center)) {
+        const currentCenter = latLng2Obj(this.props.center);
+        const prevCenter = this._isCenterDefined(prevProps.center)
+          ? latLng2Obj(prevProps.center)
+          : null;
+
+        if (
+          !prevCenter ||
+          Math.abs(currentCenter.lat - prevCenter.lat) +
+            Math.abs(currentCenter.lng - prevCenter.lng) >
+            kEPS
+        ) {
+          if (
+            Math.abs(currentCenter.lat - centerLatLng.lat) +
+              Math.abs(currentCenter.lng - centerLatLng.lng) >
+            kEPS
+          ) {
+            this.map_.panTo({
+              lat: currentCenter.lat,
+              lng: currentCenter.lng,
+            });
+          }
+        }
+      }
+
+      if (!isEmpty(this.props.zoom)) {
+        // if zoom chaged by user
+        if (Math.abs(this.props.zoom - prevProps.zoom) > 0) {
+          this.map_.setZoom(this.props.zoom);
+        }
+      }
+
+      if (!isEmpty(prevProps.draggable) && isEmpty(this.props.draggable)) {
+        // reset to default
+        this.map_.setOptions({ draggable: this.defaultDraggableOption_ });
+      } else if (!shallowEqual(prevProps.draggable, this.props.draggable)) {
+        // also prevent this on window 'mousedown' event to prevent map move
+        this.map_.setOptions({ draggable: this.props.draggable });
+      }
+
+      // use shallowEqual to try avoid calling map._setOptions if only the ref changes
+      if (
+        !isEmpty(this.props.options) &&
+        !shallowEqual(prevProps.options, this.props.options)
+      ) {
+        const mapPlainObjects = pick(this.maps_, isPlainObject);
+        let options =
+          typeof this.props.options === 'function'
+            ? this.props.options(mapPlainObjects)
+            : this.props.options;
+        // remove zoom, center and draggable options as these are managed by google-maps-react
+        options = omit(options, ['zoom', 'center', 'draggable']);
+
+        if ('minZoom' in options) {
+          const minZoom = this._computeMinZoom(options.minZoom);
+          options.minZoom = _checkMinZoom(options.minZoom, minZoom);
+        }
+
+        this.map_.setOptions(options);
+      }
+
+      if (!shallowEqual(this.props.layerTypes, prevProps.layerTypes)) {
+        Object.keys(this.layers_).forEach((layerKey) => {
+          this.layers_[layerKey].setMap(null);
+          delete this.layers_[layerKey];
+        });
+        this._setLayers(this.props.layerTypes);
+      }
+
+      if (
+        this.heatmap &&
+        !shallowEqual(this.props.heatmap.positions, prevProps.heatmap.positions)
+      ) {
+        this.heatmap.setData(
+          this.props.heatmap.positions.map((p) => ({
+            location: new this.maps_.LatLng(p.lat, p.lng),
+            weight: p.weight,
+          }))
+        );
+      }
+      if (
+        this.heatmap &&
+        !shallowEqual(this.props.heatmap.options, prevProps.heatmap.options)
+      ) {
+        Object.keys(this.props.heatmap.options).forEach((option) => {
+          this.heatmap.set(option, this.props.heatmap.options[option]);
+        });
+      }
+    }
+    // emit actions
     this.markersDispatcher_.emit('kON_CHANGE');
 
     if (!shallowEqual(this.props.hoverDistance, prevProps.hoverDistance)) {
