@@ -1,0 +1,1 @@
+export const LOS_ANGELES = [34.0522, -118.2437]

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import GoogleMapReact from 'google-map-react'
 // import 'google-map-react/dist/index.css'
 
-import LOS_ANGELES_CENTER from './const/la_center';
+import { LOS_ANGELES } from './const/cities';
 
 import Marker from './components/Marker';
 
@@ -34,7 +34,7 @@ const App = () => {
     <Wrapper>
       <GoogleMapReact
         defaultZoom={10}
-        defaultCenter={LOS_ANGELES_CENTER}
+        defaultCenter={LOS_ANGELES}
       >
         {places.map((place) => (
           <Marker
