@@ -167,7 +167,6 @@ class GoogleMap extends Component {
     },
     layerTypes: [],
     heatmap: {},
-    heatmapLibrary: false,
     shouldUnregisterMapOnUnmount: true,
   };
 
@@ -226,6 +225,12 @@ class GoogleMap extends Component {
         );
       }
 
+      if (this.props.heatmapLibrary) {
+        console.warn(
+          "heatmapLibrary is deprecated. Use { libraries: ['visualization'] } in bootstrapURLKeys property instead"
+        );
+      }
+
       if (isEmpty(this.props.center) && isEmpty(this.props.defaultCenter)) {
         console.warn(
           'GoogleMap: center or defaultCenter property must be defined' // eslint-disable-line no-console
@@ -280,7 +285,7 @@ class GoogleMap extends Component {
       ...this.props.bootstrapURLKeys,
     };
 
-    this.props.googleMapLoader(bootstrapURLKeys, this.props.heatmapLibrary); // we can start load immediatly
+    this.props.googleMapLoader(bootstrapURLKeys); // we can start load immediatly
 
     setTimeout(
       () => {
@@ -551,7 +556,7 @@ class GoogleMap extends Component {
     };
 
     this.props
-      .googleMapLoader(bootstrapURLKeys, this.props.heatmapLibrary)
+      .googleMapLoader(bootstrapURLKeys)
       .then((maps) => {
         if (!this.mounted_) {
           return;
