@@ -208,42 +208,6 @@ class GoogleMap extends Component {
 
     this.googleMapDom_ = null;
 
-    if (process.env.NODE_ENV !== 'production') {
-      if (this.props.apiKey) {
-        console.warn(
-          'GoogleMap: ' + // eslint-disable-line no-console
-            'apiKey is deprecated, use ' +
-            'bootstrapURLKeys={{key: YOUR_API_KEY}} instead.'
-        );
-      }
-
-      if (this.props.onBoundsChange) {
-        console.warn(
-          'GoogleMap: ' + // eslint-disable-line no-console
-            'onBoundsChange is deprecated, use ' +
-            'onChange({center, zoom, bounds, ...other}) instead.'
-        );
-      }
-
-      if (this.props.heatmapLibrary) {
-        console.warn(
-          "heatmapLibrary is deprecated. Use { libraries: ['visualization'] } in bootstrapURLKeys property instead"
-        );
-      }
-
-      if (isEmpty(this.props.center) && isEmpty(this.props.defaultCenter)) {
-        console.warn(
-          'GoogleMap: center or defaultCenter property must be defined' // eslint-disable-line no-console
-        );
-      }
-
-      if (isEmpty(this.props.zoom) && isEmpty(this.props.defaultZoom)) {
-        console.warn(
-          'GoogleMap: zoom or defaultZoom property must be defined' // eslint-disable-line no-console
-        );
-      }
-    }
-
     if (this._isCenterDefined(this.props.center || this.props.defaultCenter)) {
       const propsCenter = latLng2Obj(
         this.props.center || this.props.defaultCenter
@@ -304,6 +268,8 @@ class GoogleMap extends Component {
       const that = this;
       addResizeListener(mapDom, that._mapDomResizeCallback);
     }
+    // throw prop warnings if any
+    this.throwPropWarnings();
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -472,6 +438,44 @@ class GoogleMap extends Component {
     if (this.props.shouldUnregisterMapOnUnmount) {
       delete this.map_;
       delete this.markersDispatcher_;
+    }
+  }
+
+  throwPropWarnings() {
+    if (process.env.NODE_ENV !== 'production') {
+      if (this.props.apiKey) {
+        console.warn(
+          'GoogleMap: ' + // eslint-disable-line no-console
+            'apiKey is deprecated, use ' +
+            'bootstrapURLKeys={{key: YOUR_API_KEY}} instead.'
+        );
+      }
+
+      if (this.props.onBoundsChange) {
+        console.warn(
+          'GoogleMap: ' + // eslint-disable-line no-console
+            'onBoundsChange is deprecated, use ' +
+            'onChange({center, zoom, bounds, ...other}) instead.'
+        );
+      }
+
+      if (this.props.heatmapLibrary) {
+        console.warn(
+          "heatmapLibrary is deprecated. Use { libraries: ['visualization'] } in bootstrapURLKeys property instead"
+        );
+      }
+
+      if (isEmpty(this.props.center) && isEmpty(this.props.defaultCenter)) {
+        console.warn(
+          'GoogleMap: center or defaultCenter property must be defined' // eslint-disable-line no-console
+        );
+      }
+
+      if (isEmpty(this.props.zoom) && isEmpty(this.props.defaultZoom)) {
+        console.warn(
+          'GoogleMap: zoom or defaultZoom property must be defined' // eslint-disable-line no-console
+        );
+      }
     }
   }
 
