@@ -2,8 +2,6 @@
 
 ### parameters
 
-#### apiKey (string) (_Deprecated use bootstrapURLKeys_)
-
 Google maps api key.
 
 #### bootstrapURLKeys (object)
