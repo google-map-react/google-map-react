@@ -27,7 +27,7 @@ export default (bootstrapURLKeys) => {
   }
 
   if (typeof window === 'undefined') {
-    throw new Error('google map cannot be loaded outside browser env');
+    throw new Error('Google Map cannot be loaded outside browser env');
   }
 
   if (!loader_) {
