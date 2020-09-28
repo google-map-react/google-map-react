@@ -2,8 +2,6 @@
 
 ### parameters
 
-Google maps api key.
-
 #### bootstrapURLKeys (object)
 
 Example:
@@ -14,7 +12,7 @@ Example:
     key: API_KEY,
     language: 'ru',
     region: 'ru',
-    libraries:['places'],
+    libraries: ['places'],
     ...otherUrlParams,
   }}
 >
@@ -100,16 +98,6 @@ Example:
 
  <GoogleMap  onClick={_onClick} ... />
  ```
-
-#### onBoundsChange (func) (_Deprecated use onChange_)
-
-```
-({ center, zoom, bounds, marginBounds })
-```
-```
-[lat, lng] = center;
-[topLat, leftLng, bottomLat, rightLng] = bounds;
-```
 
 #### resetBoundsOnResize (bool)
 

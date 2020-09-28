@@ -195,7 +195,6 @@ class GoogleMap extends Component {
 
     this.markersDispatcher_ = new MarkerDispatcher(this);
     this.geoService_ = new Geo(K_GOOGLE_TILE_SIZE);
-    this.centerIsObject_ = isPlainObject(this.props.center);
 
     this.minZoom_ = DEFAULT_MIN_ZOOM;
     this.defaultDraggableOption_ = true;
@@ -226,6 +225,20 @@ class GoogleMap extends Component {
   }
 
   componentDidMount() {
+    if (process.env.NODE_ENV !== 'production') {
+      if (isEmpty(this.props.center) && isEmpty(this.props.defaultCenter)) {
+        console.warn(
+          'GoogleMap: center or defaultCenter property must be defined' // eslint-disable-line no-console
+        );
+      }
+
+      if (isEmpty(this.props.zoom) && isEmpty(this.props.defaultZoom)) {
+        console.warn(
+          'GoogleMap: zoom or defaultZoom property must be defined' // eslint-disable-line no-console
+        );
+      }
+    }
+
     this.mounted_ = true;
     addPassiveEventListener(window, 'resize', this._onWindowResize, false);
     addPassiveEventListener(window, 'keydown', this._onKeyDownCapture, true);
@@ -263,8 +276,6 @@ class GoogleMap extends Component {
       const that = this;
       addResizeListener(mapDom, that._mapDomResizeCallback);
     }
-    // throw prop warnings if any
-    this.throwPropWarnings();
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -433,36 +444,6 @@ class GoogleMap extends Component {
     if (this.props.shouldUnregisterMapOnUnmount) {
       delete this.map_;
       delete this.markersDispatcher_;
-    }
-  }
-
-  throwPropWarnings() {
-    if (process.env.NODE_ENV !== 'production') {
-      if (this.props.onBoundsChange) {
-        console.warn(
-          'GoogleMap: ' + // eslint-disable-line no-console
-            'onBoundsChange is deprecated, use ' +
-            'onChange({center, zoom, bounds, ...other}) instead.'
-        );
-      }
-
-      if (this.props.heatmapLibrary) {
-        console.warn(
-          "heatmapLibrary is deprecated. Use { libraries: ['visualization'] } in bootstrapURLKeys property instead"
-        );
-      }
-
-      if (isEmpty(this.props.center) && isEmpty(this.props.defaultCenter)) {
-        console.warn(
-          'GoogleMap: center or defaultCenter property must be defined' // eslint-disable-line no-console
-        );
-      }
-
-      if (isEmpty(this.props.zoom) && isEmpty(this.props.defaultZoom)) {
-        console.warn(
-          'GoogleMap: zoom or defaultZoom property must be defined' // eslint-disable-line no-console
-        );
-      }
     }
   }
 
@@ -1052,16 +1033,6 @@ class GoogleMap extends Component {
       if (!isArraysEqualEps(bounds, this.prevBounds_, kEPS)) {
         if (callExtBoundsChange !== false) {
           const marginBounds = this.geoService_.getBounds(this.props.margin);
-          if (this.props.onBoundsChange) {
-            this.props.onBoundsChange(
-              this.centerIsObject_
-                ? { ...centerLatLng }
-                : [centerLatLng.lat, centerLatLng.lng],
-              zoom,
-              bounds,
-              marginBounds
-            );
-          }
 
           if (this.props.onChange) {
             this.props.onChange({
