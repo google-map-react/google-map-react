@@ -97,7 +97,6 @@ const isFullScreen = () =>
 
 class GoogleMap extends Component {
   static propTypes = {
-    apiKey: PropTypes.string,
     bootstrapURLKeys: PropTypes.any,
 
     defaultCenter: PropTypes.oneOfType([
@@ -167,7 +166,6 @@ class GoogleMap extends Component {
     },
     layerTypes: [],
     heatmap: {},
-    heatmapLibrary: false,
     shouldUnregisterMapOnUnmount: true,
   };
 
@@ -197,7 +195,6 @@ class GoogleMap extends Component {
 
     this.markersDispatcher_ = new MarkerDispatcher(this);
     this.geoService_ = new Geo(K_GOOGLE_TILE_SIZE);
-    this.centerIsObject_ = isPlainObject(this.props.center);
 
     this.minZoom_ = DEFAULT_MIN_ZOOM;
     this.defaultDraggableOption_ = true;
@@ -208,36 +205,6 @@ class GoogleMap extends Component {
     this.childMouseUpTime_ = 0;
 
     this.googleMapDom_ = null;
-
-    if (process.env.NODE_ENV !== 'production') {
-      if (this.props.apiKey) {
-        console.warn(
-          'GoogleMap: ' + // eslint-disable-line no-console
-            'apiKey is deprecated, use ' +
-            'bootstrapURLKeys={{key: YOUR_API_KEY}} instead.'
-        );
-      }
-
-      if (this.props.onBoundsChange) {
-        console.warn(
-          'GoogleMap: ' + // eslint-disable-line no-console
-            'onBoundsChange is deprecated, use ' +
-            'onChange({center, zoom, bounds, ...other}) instead.'
-        );
-      }
-
-      if (isEmpty(this.props.center) && isEmpty(this.props.defaultCenter)) {
-        console.warn(
-          'GoogleMap: center or defaultCenter property must be defined' // eslint-disable-line no-console
-        );
-      }
-
-      if (isEmpty(this.props.zoom) && isEmpty(this.props.defaultZoom)) {
-        console.warn(
-          'GoogleMap: zoom or defaultZoom property must be defined' // eslint-disable-line no-console
-        );
-      }
-    }
 
     if (this._isCenterDefined(this.props.center || this.props.defaultCenter)) {
       const propsCenter = latLng2Obj(
@@ -258,6 +225,20 @@ class GoogleMap extends Component {
   }
 
   componentDidMount() {
+    if (process.env.NODE_ENV !== 'production') {
+      if (isEmpty(this.props.center) && isEmpty(this.props.defaultCenter)) {
+        console.warn(
+          'GoogleMap: center or defaultCenter property must be defined' // eslint-disable-line no-console
+        );
+      }
+
+      if (isEmpty(this.props.zoom) && isEmpty(this.props.defaultZoom)) {
+        console.warn(
+          'GoogleMap: zoom or defaultZoom property must be defined' // eslint-disable-line no-console
+        );
+      }
+    }
+
     this.mounted_ = true;
     addPassiveEventListener(window, 'resize', this._onWindowResize, false);
     addPassiveEventListener(window, 'keydown', this._onKeyDownCapture, true);
@@ -275,12 +256,8 @@ class GoogleMap extends Component {
     }
 
     addPassiveEventListener(window, 'mouseup', this._onChildMouseUp, false);
-    const bootstrapURLKeys = {
-      ...(this.props.apiKey && { key: this.props.apiKey }),
-      ...this.props.bootstrapURLKeys,
-    };
 
-    this.props.googleMapLoader(bootstrapURLKeys, this.props.heatmapLibrary); // we can start load immediatly
+    this.props.googleMapLoader(this.props.bootstrapURLKeys); // we can start load immediatly
 
     setTimeout(
       () => {
@@ -545,13 +522,8 @@ class GoogleMap extends Component {
 
     this._onBoundsChanged(); // now we can calculate map bounds center etc...
 
-    const bootstrapURLKeys = {
-      ...(this.props.apiKey && { key: this.props.apiKey }),
-      ...this.props.bootstrapURLKeys,
-    };
-
     this.props
-      .googleMapLoader(bootstrapURLKeys, this.props.heatmapLibrary)
+      .googleMapLoader(this.props.bootstrapURLKeys)
       .then((maps) => {
         if (!this.mounted_) {
           return;
@@ -1061,16 +1033,6 @@ class GoogleMap extends Component {
       if (!isArraysEqualEps(bounds, this.prevBounds_, kEPS)) {
         if (callExtBoundsChange !== false) {
           const marginBounds = this.geoService_.getBounds(this.props.margin);
-          if (this.props.onBoundsChange) {
-            this.props.onBoundsChange(
-              this.centerIsObject_
-                ? { ...centerLatLng }
-                : [centerLatLng.lat, centerLatLng.lng],
-              zoom,
-              bounds,
-              marginBounds
-            );
-          }
 
           if (this.props.onChange) {
             this.props.onChange({

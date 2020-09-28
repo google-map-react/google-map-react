@@ -1,6 +1,26 @@
+## [unreleased(major)]
+
+- Remove deprecated props (#952):
+  - Remove `apiKey` which has been deprecated for a long time
+  - Remove `heatmapLibrary` that we flagged as deprecated in #948
+  - Remove `onBoundsChange` which has been deprecated for a long time
+
+## [2.1.6] - 2020-09-25
+
+- Change `componentWillReceiveProps` to `componentDidUpdate` (#950)
+
+## [2.1.5] - 2020-09-22
+
+- Use `@googlemaps/js-api-loader` (#946)
+- Fix libraries usage (#946)
+
+## [2.1.3] - 2020-09-01
+
+- Produce CommonJS and UMD bundles (#932)
+
 ## [2.1.0] - 2020-08-31
 
-- #921 Add support to libraries: places, visualization, places, and geomerty.
+- Add support to libraries: places, visualization, places, and geomerty. (#921)
 And keeps support for previous heatMapLibrary prop to avoid breaking older usage.
 
 ## [2.0.4] - 2020-07-30
@@ -9,12 +29,12 @@ And keeps support for previous heatMapLibrary prop to avoid breaking older usage
 
 ## [2.0.2] - 2020-07-30
 
-- #878 Fix heatmap options not being updated
+- Fix heatmap options not being updated (#878)
 
 ## [2.0.1] - 2020-07-30
 
-- #864 On resize it's getting undefined minZoom
-- #873 Moves marker dispatcher binds to componentDidMount
+- On resize it's getting undefined minZoom (#864)
+- Moves marker dispatcher binds to componentDidMount (#873)
 
 ## [2.0.0] - 2020-07-30
 
@@ -25,120 +45,120 @@ And keeps support for previous heatMapLibrary prop to avoid breaking older usage
 
 ## [1.1.7] - 2020-03-17
 
-- #835 Add dev folders to .gitignore
+- Add dev folders to .gitignore (#835)
 
 ## [1.1.6] - 2020-02-04
 
-- #827 Updated China base url
+- Updated China base url (#827)
 
 ## [1.1.5] - 2019-09-20
 
-- #778 Add UNSAFE_ prefix to deprecated lifecycle methods
-- #769 Move prop-types to dependencies
-- #759 Add shouldUnregisterMapOnUnmount prop to persist map object on unmount
-- #754 Add prop 'onDragEnd'
+- Add UNSAFE_ prefix to deprecated lifecycle methods (#778)
+- Move prop-types to dependencies (#769)
+- Add shouldUnregisterMapOnUnmount prop to persist map object on unmount (#759)
+- Add prop 'onDragEnd' (#754)
 
 ## [1.1.4] - 2019-04-03
 
-- #738 Revert #726 Google Map loader respecting the app language change 
-- #739 Revert #722 Add shouldUnregisterMapOnUnmount prop to persist map object on unmount
+- Revert #726 Google Map loader respecting the app language change  (#738)
+- Revert #722 Add shouldUnregisterMapOnUnmount prop to persist map object on unmount (#739)
 
 ## [1.1.3] - 2019-04-01
 
-- #726 Google Map loader respecting the app language change
-- #722 Add shouldUnregisterMapOnUnmount prop to persist map object on unmount
-- #728 Fix: Update heatmap layer when heatmap positions prop changes
+- Google Map loader respecting the app language change (#726)
+- Add shouldUnregisterMapOnUnmount prop to persist map object on unmount (#722)
+- Fix: Update heatmap layer when heatmap positions prop changes (#728)
 
 ## [1.1.2] - 2018-12-18
 
-- #696 Add React 16 createPortal with backwards compatibility 
+- Add React 16 createPortal with backwards compatibility  (#696)
 
 ## [1.1.1] - 2018-10-21
 
-- #679 Revert #593 (had a problem with the way of importing libraries)
+- Revert #593 (had a problem with the way of importing libraries) (#679)
 
 ## [1.1.0] - 2018-10-08
 
-- #655 Add math abs to avoid negative values when calculating zoom
-- #656 Pass map instance to onDrag handler
-- #593 Added feature: update heat map on data change + fix linting
+- Add math abs to avoid negative values when calculating zoom (#655)
+- Pass map instance to onDrag handler (#656)
+- Added feature: update heat map on data change + fix linting (#593)
 
 ## [1.0.9] - 2018-09-29
 
-- #634 Custom div style options
+- Custom div style options (#634)
 
 ## [1.0.8] - 2018-09-21
 
-- #645 Revert #643 Use React 16 map portal to render map overlay. Was causing problems for users using React version < 16
+- Revert #643 Use React 16 map portal to render map overlay. Was causing problems for users  (#645)using React version < 16
 
 ## [1.0.7] - 2018-09-20
 
-- #631 Add passive scroll
-- #643 Use React 16 map portal to render map overlay
+- Add passive scroll (#631)
+- Use React 16 map portal to render map overlay (#643)
 
 ## [1.0.6] - 2018-08-03
 
-- #620 Fix bug in fromContainerPixelToLatLng()
-- #615 Add prop `onTilesLoaded`
+- Fix bug in fromContainerPixelToLatLng() (#620)
+- Add prop `onTilesLoaded` (#615)
 
 ## [1.0.5] - 2018-06-26
 
-- #605 Fix build
-- #603 Remove marker jiggle, Issue #575
+- Fix build (#605)
+- Remove marker jiggle, Issue #575 (#603)
 
 ## [1.0.4] - 2018-06-11
 
-- #570 Avoid null error
-- #594 Add guard around mapDom event listener
-- #592 Move dep for react-dom
+- Avoid null error (#570)
+- Add guard around mapDom event listener (#594)
+- Move dep for react-dom (#592)
 
 ## [1.0.3] - 2018-05-17
 
-- #580: Scales tiles properly
+-: Scales tiles properly (#580)
 
 ## [1.0.2] - 2018-05-13
 
-- #577 Move react-dom to dependencies
+- Move react-dom to dependencies (#577)
 
 ## [1.0.1] - 2018-05-12
 
-- #572 Add weights to the heatmap
+- Add weights to the heatmap (#572)
 
 ## [1.0.0] - 2018-04-27
 
-- #559 Fix soom animation for google maps' version 3.32
-- #548 Improves to documentation
-- #535 Remove lodash completely, using our own functions, now the build size is 4 times smaller.
-- #533 Fixes some of the examples in the documentation
-- #555 & #563 Fix error Target container is not a DOM element
+- Fix soom animation for google maps' version 3.32 (#559)
+- Improves to documentation (#548)
+- Remove lodash completely, using our own functions, now the build size is 4 times smaller. (#535)
+- Fixes some of the examples in the documentation (#533)
+- & #563 Fix error Target container is not a DOM element (#555)
 
 ## [0.34.0] - 2018-04-27
 
-- #521 Upgrade .babelrc
-- #211 Call zoomControlClickTime on all clicks
-- #530 Set latest release version as default if user does not specify a version
+- Upgrade .babelrc (#521)
+- Call zoomControlClickTime on all clicks (#211)
+- Set latest release version as default if user does not specify a version (#530)
 
 ## [0.33.0] - 2018-03-09
 
-- #504 Added loose to es2015 for IE10, IE11 support
-- #517 Fix error about fromLatLngToDivPixel
-- #525 Accept 0 as zoom value
-- #529 Update package.json
+- Added loose to es2015 for IE10, IE11 support (#504)
+- Fix error about fromLatLngToDivPixel (#517)
+- Accept 0 as zoom value (#525)
+- Update package.json (#529)
 
 ## [0.30.0] - 2018-02-12
 
-- #441 Add heatmap functionality
-- #496 Fix support for china
+- Add heatmap functionality (#441)
+- Fix support for china (#496)
 
 ## [0.28.0] - 2018-01-18
 
-- #494 Add support for China
+- Add support for China (#494)
 
 ## [0.27.0] - 2018-01-04
 
-- #485 Add fullscreen check for Internet explorer 11
-- #482 Make `resetBoundsOnResize` preserve center when full-screened
-- #483 Updates yarn.lock to fix @mapbox/point-geometry warning
+- Add fullscreen check for Internet explorer 11 (#485)
+- Make `resetBoundsOnResize` preserve center when full-screened (#482)
+- Updates yarn.lock to fix @mapbox/point-geometry warning (#483)
 
 ## [0.9]
 
