@@ -1,7 +1,6 @@
 import { Loader } from '@googlemaps/js-api-loader';
 
-let loader_ = null;
-
+let loadPromise_;
 let resolveCustomPromise_;
 
 const _customPromise = new Promise((resolve) => {
@@ -14,6 +13,11 @@ export default (bootstrapURLKeys, heatmapLibrary) => {
   // will be as soon as loadPromise resolved
   if (!bootstrapURLKeys) {
     return _customPromise;
+  }
+
+  // avoid api to be loaded multiple times
+  if (loadPromise_) {
+    return loadPromise_;
   }
 
   if (!bootstrapURLKeys.libraries) {
@@ -50,23 +54,21 @@ export default (bootstrapURLKeys, heatmapLibrary) => {
     throw new Error('google map cannot be loaded outside browser env');
   }
 
-  if (!loader_) {
-    const { key, ...restKeys } = bootstrapURLKeys;
+  const { key, ...restKeys } = bootstrapURLKeys;
 
-    loader_ = new Loader({
-      // need to keep key for backwards compatibility
-      apiKey: key || '',
-      ...restKeys,
-      libraries,
-    });
-  }
+  const loader_ = new Loader({
+    // need to keep key for backwards compatibility
+    apiKey: key || '',
+    ...restKeys,
+    libraries,
+  });
 
-  const loadPromise = loader_.load().then(() => {
+  loadPromise_ = loader_.load().then(() => {
     resolveCustomPromise_(window.google.maps);
     return window.google.maps;
   });
 
-  resolveCustomPromise_(loadPromise);
+  resolveCustomPromise_(loadPromise_);
 
-  return loadPromise;
+  return loadPromise_;
 };
