@@ -133,6 +133,13 @@ class GoogleMap extends Component {
     onTilesLoaded: PropTypes.func,
     options: PropTypes.any,
     distanceToMouse: PropTypes.func,
+    heatmap: PropTypes.oneOfType([
+      PropTypes.array,
+      PropTypes.shape({
+        options: PropTypes.object,
+        positions: PropTypes.array,
+      }),
+    ]),
     hoverDistance: PropTypes.number,
     debounced: PropTypes.bool,
     margin: PropTypes.array,
@@ -166,7 +173,7 @@ class GoogleMap extends Component {
       position: 'relative',
     },
     layerTypes: [],
-    heatmap: {},
+    heatmap: [],
     heatmapLibrary: false,
     shouldUnregisterMapOnUnmount: true,
   };
@@ -182,7 +189,7 @@ class GoogleMap extends Component {
     this.map_ = null;
     this.maps_ = null;
     this.prevBounds_ = null;
-    this.heatmap = null;
+    this.heatmap = [];
 
     this.layers_ = {};
 
@@ -404,24 +411,36 @@ class GoogleMap extends Component {
         this._setLayers(this.props.layerTypes);
       }
 
-      if (
-        this.heatmap &&
-        !shallowEqual(this.props.heatmap.positions, prevProps.heatmap.positions)
-      ) {
-        this.heatmap.setData(
-          this.props.heatmap.positions.map((p) => ({
-            location: new this.maps_.LatLng(p.lat, p.lng),
-            weight: p.weight,
-          }))
-        );
-      }
-      if (
-        this.heatmap &&
-        !shallowEqual(this.props.heatmap.options, prevProps.heatmap.options)
-      ) {
-        Object.keys(this.props.heatmap.options).forEach((option) => {
-          this.heatmap.set(option, this.props.heatmap.options[option]);
-        });
+      if (this.heatmap && this.heatmap.length > 0) {
+        for (let idx = 0; idx < this.props.heatmap.length; idx++) {
+          if (
+            !shallowEqual(
+              this.props.heatmap[idx].positions,
+              prevProps.heatmap[idx].positions
+            )
+          ) {
+            this.heatmap[idx].setData(
+              this.props.heatmap[idx].positions.map((p) => ({
+                location: new this.maps_.LatLng(p.lat, p.lng),
+                weight: p.weight,
+              }))
+            );
+          }
+
+          if (
+            !shallowEqual(
+              this.props.heatmap[idx].options,
+              prevProps.heatmap[idx].options
+            )
+          ) {
+            Object.keys(this.props.heatmap[idx].options).forEach((option) => {
+              this.heatmap[idx].set(
+                option,
+                this.props.heatmap[idx].options[option]
+              );
+            });
+          }
+        }
       }
     }
     // emit actions
@@ -468,6 +487,18 @@ class GoogleMap extends Component {
       delete this.map_;
       delete this.markersDispatcher_;
     }
+  }
+
+  _getHeatmapProps() {
+    if (!this.props.heatmap) {
+      return [];
+    }
+
+    if (Array.isArray(this.props.heatmap)) {
+      return this.props.heatmap;
+    }
+
+    return [this.props.heatmap];
   }
 
   // calc minZoom if map size available
@@ -565,12 +596,13 @@ class GoogleMap extends Component {
         };
 
         // Start Heatmap
-        if (this.props.heatmap.positions) {
-          Object.assign(this, {
-            heatmap: generateHeatmap(maps, this.props.heatmap),
-          });
-          optionsHeatmap(this.heatmap, this.props.heatmap);
-        }
+        this._getHeatmapProps().forEach((instance, idx) => {
+          if (this.props.heatmap[idx].positions) {
+            this.heatmap[idx] = generateHeatmap(maps, this.props.heatmap[idx]);
+            optionsHeatmap(this.heatmap[idx], this.props.heatmap[idx]);
+          }
+        });
+
         // End Heatmap
 
         // prevent to exapose full api
@@ -716,9 +748,11 @@ class GoogleMap extends Component {
         this.overlay_ = overlay;
 
         overlay.setMap(map);
-        if (this.props.heatmap.positions) {
-          this.heatmap.setMap(map);
-        }
+        this._getHeatmapProps().forEach((instance, idx) => {
+          if (this.props.heatmap[idx].positions) {
+            this.heatmap[idx].setMap(map);
+          }
+        });
 
         if (this.props.onTilesLoaded) {
           maps.event.addListener(map, 'tilesloaded', () => {
