@@ -263,10 +263,10 @@ export default class GoogleMapMarkers extends Component {
           child.props.lng === undefined
         ) {
           return React.cloneElement(child, {
-            $geoService: this.props.geoService,
-            $onMouseAllow: this._onMouseAllow,
-            $prerender: this.props.prerender,
-          });
+            geoService: this.props.geoService,
+            onMouseAllow: this._onMouseAllow,
+            prerender: this.props.prerender,
+          }, null);
         }
 
         const latLng =
@@ -327,13 +327,13 @@ export default class GoogleMapMarkers extends Component {
             className={child.props.$markerHolderClassName}
           >
             {React.cloneElement(child, {
-              $hover: childKey === this.state.hoverKey,
-              $getDimensions: this._getDimensions,
-              $dimensionKey: childKey,
-              $geoService: this.props.geoService,
-              $onMouseAllow: this._onMouseAllow,
-              $prerender: this.props.prerender,
-            })}
+              hover: childKey === this.state.hoverKey,
+              getDimensions: this._getDimensions,
+              dimensionKey: childKey,
+              geoService: this.props.geoService,
+              onMouseAllow: this._onMouseAllow,
+              prerender: this.props.prerender,
+            }, null)}
           </div>
         );
       }
