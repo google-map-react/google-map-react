@@ -1199,10 +1199,10 @@
   resolved "https://registry.yarnpkg.com/@csstools/normalize.css/-/normalize.css-10.1.0.tgz#f0950bba18819512d42f7197e56c518aa491cf18"
   integrity sha512-ij4wRiunFfaJxjB0BdrYHIH8FxBJpOwNPhhAcunlmPdXudL1WQV1qoP9un6JsEBAgQH+7UXyyjh0g7jTxXK6tg==
 
-"@googlemaps/js-api-loader@^1.4.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@googlemaps/js-api-loader/-/js-api-loader-1.4.0.tgz#2dcfc22c25fb295596046c3120d870de686aae77"
-  integrity sha512-WVGfV0AINBFdpBt+qgtQe2H2KWDpH0snXTeIZID2YgGo5bSNKxjaFqiw96Ma19oupTWr9B1ud+6j4xhHe/BMWA==
+"@googlemaps/js-api-loader@^1.7.0":
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/@googlemaps/js-api-loader/-/js-api-loader-1.7.0.tgz#d134f4a1bb8d1d864a5da41329da67b192acfa6b"
+  integrity sha512-6DkHnfFh81qcez8j8CEG8C3ANvA+3dbOzo8Hg9/DuNI78h36ILquUUuwUG6JHiRvPbqBG146rLDFSympUuO+6Q==
 
 "@hapi/address@2.x.x":
   version "2.1.4"

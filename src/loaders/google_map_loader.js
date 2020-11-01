@@ -1,5 +1,6 @@
 import { Loader } from '@googlemaps/js-api-loader';
 
+let loader_;
 let loadPromise_;
 let resolveCustomPromise_;
 
@@ -56,12 +57,15 @@ export default (bootstrapURLKeys, heatmapLibrary) => {
 
   const { key, ...restKeys } = bootstrapURLKeys;
 
-  const loader_ = new Loader({
-    // need to keep key for backwards compatibility
-    apiKey: key || '',
-    ...restKeys,
-    libraries,
-  });
+  // use single instance of Loader to avoid multiple api loads
+  if (!loader_) {
+    loader_ = new Loader({
+      // need to keep key as a prop for backwards compatibility
+      apiKey: key || '',
+      ...restKeys,
+      libraries,
+    });
+  }
 
   loadPromise_ = loader_.load().then(() => {
     resolveCustomPromise_(window.google.maps);
