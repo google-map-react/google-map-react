@@ -24,12 +24,6 @@ const style = {
   position: 'absolute',
 };
 
-const markerWrapperStyles = {
-  position: 'absolute',
-  top: 0,
-  left: 0,
-};
-
 export default class GoogleMapMarkers extends Component {
   /* eslint-disable react/forbid-prop-types */
   static propTypes = {
@@ -258,7 +252,6 @@ export default class GoogleMapMarkers extends Component {
   render() {
     const mainElementStyle = this.props.style || mainStyle;
     this.dimensionsCache_ = {};
-    this.markerPosition = {};
 
     const markers = React.Children.map(
       this.state.children,
@@ -351,7 +344,14 @@ export default class GoogleMapMarkers extends Component {
             style={{ ...style, ...stylePtPos }}
             className={child.props.$markerHolderClassName}
           >
-            <div style={{ ...markerWrapperStyles, ...this.markerPosition }}>
+            <div
+              style={{
+                ...style,
+                ...this.markerPosition,
+                width: undefined,
+                height: undefined,
+              }}
+            >
               {React.cloneElement(child, {
                 $hover: childKey === this.state.hoverKey,
                 $getDimensions: this._getDimensions,
