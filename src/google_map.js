@@ -302,12 +302,9 @@ class GoogleMap extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    // draggable does not affect inner components
     return (
-      !shallowEqual(
-        omit(this.props, ['draggable']),
-        omit(nextProps, ['draggable'])
-      ) || !shallowEqual(this.state, nextState)
+      !shallowEqual(this.props, nextProps) ||
+      !shallowEqual(this.state, nextState)
     );
   }
 
