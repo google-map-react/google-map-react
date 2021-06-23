@@ -1,4 +1,4 @@
-## [2.2.0] - 2021-06-22
+## [2.1.10] - 2021-06-22
 
 - #1028 Update peerDependencies for React 17
 
