@@ -1,3 +1,7 @@
+## [2.2.0] - 2021-06-22
+
+- #1028 Update peerDependencies for React 17
+
 ## [2.1.0] - 2020-08-31
 
 - #921 Add support to libraries: places, visualization, places, and geomerty.
