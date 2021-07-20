@@ -16,18 +16,10 @@ const mainStyle = {
 };
 
 const style = {
-  width: 0,
-  height: 0,
   left: 0,
   top: 0,
   backgroundColor: 'transparent',
   position: 'absolute',
-};
-
-const markerWrapperStyles = {
-  ...style,
-  height: null,
-  width: null,
 };
 
 const markerAxisX = {
@@ -362,26 +354,23 @@ export default class GoogleMapMarkers extends Component {
         return (
           <div
             key={childKey}
-            style={{ ...style, ...stylePtPos }}
+            style={{
+              ...style,
+              ...stylePtPos,
+              transform: `translate(${markerAxisX[this.markerPosX]},${
+                markerAxisY[this.markerPosY]
+              }`,
+            }}
             className={child.props.$markerHolderClassName}
           >
-            <div
-              style={{
-                ...markerWrapperStyles,
-                transform: `translate(${markerAxisX[this.markerPosX]},${
-                  markerAxisY[this.markerPosY]
-                })`,
-              }}
-            >
-              {React.cloneElement(child, {
-                $hover: childKey === this.state.hoverKey,
-                $getDimensions: this._getDimensions,
-                $dimensionKey: childKey,
-                $geoService: this.props.geoService,
-                $onMouseAllow: this._onMouseAllow,
-                $prerender: this.props.prerender,
-              })}
-            </div>
+            {React.cloneElement(child, {
+              $hover: childKey === this.state.hoverKey,
+              $getDimensions: this._getDimensions,
+              $dimensionKey: childKey,
+              $geoService: this.props.geoService,
+              $onMouseAllow: this._onMouseAllow,
+              $prerender: this.props.prerender,
+            })}
           </div>
         );
       }
