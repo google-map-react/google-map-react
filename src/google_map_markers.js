@@ -33,7 +33,7 @@ const markerAxisY = {
   center: '-50%',
   bottom: '-100%',
 };
-const isNotProduction = process.env.NODE_ENV !== 'production';
+const isProduction = process.env.NODE_ENV === 'production';
 
 export default class GoogleMapMarkers extends Component {
   /* eslint-disable react/forbid-prop-types */
@@ -336,16 +336,16 @@ export default class GoogleMapMarkers extends Component {
         if (typeof markerPosition === 'string') {
           [this.markerPosX, this.markerPosY] = markerPosition.trim().split(' ');
 
-          if (!markerAxisX[this.markerPosX] && isNotProduction)
+          if (!markerAxisX[this.markerPosX] && !isProduction)
             console.error(
               `Invalid x value passed for markerPosition, expected strings left,center or right`
             );
 
-          if (!markerAxisY[this.markerPosY] && isNotProduction)
+          if (!markerAxisY[this.markerPosY] && !isProduction)
             console.error(
               `Invalid y value passed for markerPosition, expected strings top,center or bottom`
             );
-        } else if (isNotProduction) {
+        } else if (!isProduction) {
           console.error(
             `Warning: Failed prop type: Invalid prop markerPosition of ${typeof markerPosition} supplied, expected string`
           );
