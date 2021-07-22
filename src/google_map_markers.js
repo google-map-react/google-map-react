@@ -359,7 +359,7 @@ export default class GoogleMapMarkers extends Component {
               ...stylePtPos,
               transform: `translate(${markerAxisX[this.markerPosX]},${
                 markerAxisY[this.markerPosY]
-              }`,
+              })`,
             }}
             className={child.props.$markerHolderClassName}
           >
