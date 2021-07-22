@@ -331,7 +331,7 @@ export default class GoogleMapMarkers extends Component {
           ...latLng,
         };
 
-        const markerPosition = child.props.markerPosition || 'center center';
+        const markerPosition = child.props.markerPosition || 'center bottom';
 
         if (typeof markerPosition === 'string') {
           [this.markerPosX, this.markerPosY] = markerPosition.trim().split(' ');
