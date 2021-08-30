@@ -4,6 +4,8 @@
 
 It allows you to create interfaces like this [example](http://google-map-react.github.io/google-map-react/map/main) *(You can scroll the table, zoom/move the map, hover/click on markers, and click on table rows)*
 
+The development of this package is sponsored by [Atlist](https://www.atlistmaps.com?c=google-map-react). Atlist is a no-code tool for creating custom maps with multiple markers.
+
 ## Getting started
 
 In the simple case you just need to add `lat` and `lng` props to any child of `GoogleMapReact` component.
