@@ -562,6 +562,7 @@ class GoogleMap extends Component {
         const propsOptions = {
           zoom: this.props.zoom || this.props.defaultZoom,
           center: new maps.LatLng(centerLatLng.lat, centerLatLng.lng),
+          mapId: "5357fecf3a331f45"
         };
 
         // Start Heatmap
