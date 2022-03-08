@@ -27,7 +27,7 @@
     "deploy": "gh-pages -d example/build"
   },
   "dependencies": {
-    "@googlemaps/js-api-loader": "^1.7.0",
+    "@googlemaps/js-api-loader": "^1.13.8",
     "@mapbox/point-geometry": "^0.1.0",
     "eventemitter3": "^4.0.4",
     "prop-types": "^15.7.2"
