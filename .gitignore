@@ -9,6 +9,14 @@ build
 dist
 .rpt2_cache
 
+#IDE config files
+.classpath
+.history
+.idea
+.settings
+.vcsode
+*.iml
+
 # misc
 .DS_Store
 .env
