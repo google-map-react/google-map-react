@@ -14,7 +14,7 @@ dist
 .history
 .idea
 .settings
-.vcsode
+.vscode
 *.iml
 
 # misc
