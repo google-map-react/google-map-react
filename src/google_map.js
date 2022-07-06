@@ -75,10 +75,10 @@ const _checkMinZoom = (zoom, minZoom) => {
     if (zoom < minZoom) {
       console.warn(
         'GoogleMap: ' + // eslint-disable-line
-          'minZoom option is less than recommended ' +
-          'minZoom option for your map sizes.\n' +
-          'overrided to value ' +
-          minZoom
+        'minZoom option is less than recommended ' +
+        'minZoom option for your map sizes.\n' +
+        'overrided to value ' +
+        minZoom
       );
     }
   }
@@ -150,7 +150,7 @@ class GoogleMap extends Component {
     distanceToMouse(pt, mousePos /* , markerProps */) {
       return Math.sqrt(
         (pt.x - mousePos.x) * (pt.x - mousePos.x) +
-          (pt.y - mousePos.y) * (pt.y - mousePos.y)
+        (pt.y - mousePos.y) * (pt.y - mousePos.y)
       );
     },
     hoverDistance: 30,
@@ -213,16 +213,16 @@ class GoogleMap extends Component {
       if (this.props.apiKey) {
         console.warn(
           'GoogleMap: ' + // eslint-disable-line no-console
-            'apiKey is deprecated, use ' +
-            'bootstrapURLKeys={{key: YOUR_API_KEY}} instead.'
+          'apiKey is deprecated, use ' +
+          'bootstrapURLKeys={{key: YOUR_API_KEY}} instead.'
         );
       }
 
       if (this.props.onBoundsChange) {
         console.warn(
           'GoogleMap: ' + // eslint-disable-line no-console
-            'onBoundsChange is deprecated, use ' +
-            'onChange({center, zoom, bounds, ...other}) instead.'
+          'onBoundsChange is deprecated, use ' +
+          'onChange({center, zoom, bounds, ...other}) instead.'
         );
       }
 
@@ -344,12 +344,12 @@ class GoogleMap extends Component {
         if (
           !prevCenter ||
           Math.abs(currentCenter.lat - prevCenter.lat) +
-            Math.abs(currentCenter.lng - prevCenter.lng) >
-            kEPS
+          Math.abs(currentCenter.lng - prevCenter.lng) >
+          kEPS
         ) {
           if (
             Math.abs(currentCenter.lat - centerLatLng.lat) +
-              Math.abs(currentCenter.lng - centerLatLng.lng) >
+            Math.abs(currentCenter.lng - centerLatLng.lng) >
             kEPS
           ) {
             this.map_.panTo({
@@ -849,10 +849,10 @@ class GoogleMap extends Component {
       ) {
         console.warn(
           'GoogleMap: ' + // eslint-disable-line
-            'Usage of internal api objects is dangerous ' +
-            'and can cause a lot of issues.\n' +
-            'To hide this warning add yesIWantToUseGoogleMapApiInternals={true} ' +
-            'to <GoogleMap instance'
+          'Usage of internal api objects is dangerous ' +
+          'and can cause a lot of issues.\n' +
+          'To hide this warning add yesIWantToUseGoogleMapApiInternals={true} ' +
+          'to <GoogleMap instance'
         );
       }
 
@@ -970,6 +970,10 @@ class GoogleMap extends Component {
     this.mouse_.lat = latLng.lat;
     this.mouse_.lng = latLng.lng;
 
+    console.log("test", this.props.onMouseMove)
+    if (this.props.onMouseMove != undefined) {
+      this.props.onMouseMove(this.mouse_);
+    }
     this._onChildMouseMove();
 
     if (currTime - this.dragTime_ < K_IDLE_TIMEOUT) {
@@ -1115,13 +1119,13 @@ class GoogleMap extends Component {
 
               size: this.geoService_.hasSize()
                 ? {
-                    width: this.geoService_.getWidth(),
-                    height: this.geoService_.getHeight(),
-                  }
+                  width: this.geoService_.getWidth(),
+                  height: this.geoService_.getHeight(),
+                }
                 : {
-                    width: 0,
-                    height: 0,
-                  },
+                  width: 0,
+                  height: 0,
+                },
             });
           }
 
