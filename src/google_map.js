@@ -259,6 +259,7 @@ class GoogleMap extends Component {
 
   componentDidMount() {
     this.mounted_ = true;
+    this.markersDispatcher_ = new MarkerDispatcher(this);
     addPassiveEventListener(window, 'resize', this._onWindowResize, false);
     addPassiveEventListener(window, 'keydown', this._onKeyDownCapture, true);
     const mapDom = ReactDOM.findDOMNode(this.googleMapDom_);
