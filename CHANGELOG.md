@@ -1,3 +1,7 @@
+## [0.1.1] - 2023-03-14
+
+- #2 Publish the type definitions
+
 ## [0.1.0] - 2023-03-14
 
 - Fork the repo from https://github.com/google-map-react/google-map-react

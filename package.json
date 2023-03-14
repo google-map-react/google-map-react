@@ -1,6 +1,6 @@
 {
   "name": "@theplant/google-map-react",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Fork from https://github.com/google-map-react/google-map-react. Isomorphic component that allows rendering react components on a google map",
   "author": "istarkov https://github.com/istarkov",
   "license": "MIT",
