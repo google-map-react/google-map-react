@@ -11,12 +11,12 @@
   "main": "dist/index.js",
   "module": "dist/index.modern.js",
   "source": "src/index.js",
-  "types": "src/index.d.ts",
+  "types": "dist/index.d.ts",
   "engines": {
     "node": ">=10"
   },
   "scripts": {
-    "build": "microbundle-crl -f cjs,umd src/index.cjs.js && microbundle-crl -f es,modern src/index.js",
+    "build": "microbundle-crl -f cjs,umd src/index.cjs.js && microbundle-crl -f es,modern src/index.js && cp src/index.d.ts dist",
     "start": "microbundle-crl watch -f cjs,umd",
     "prepare": "run-s build",
     "test": "run-s test:unit test:lint test:build",
