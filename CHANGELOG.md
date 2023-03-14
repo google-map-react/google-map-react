@@ -1,3 +1,7 @@
+## [0.1.2] - 2023-03-14
+
+- #3 Fix the type definitions are not published correctly
+
 ## [0.1.1] - 2023-03-14
 
 - #2 Publish the type definitions
