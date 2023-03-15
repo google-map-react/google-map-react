@@ -1,4 +1,8 @@
-## [2.2.1] - 2023-03-14
+## [2.2.2] - 2023-03-15
+
+- Correct the react and react-dom version
+
+## [2.2.1] - 2023-03-15
 
 - Update the version to follow up the `google-map-react/google-map-react`
 
