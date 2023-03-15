@@ -1,3 +1,7 @@
+## [2.2.1] - 2023-03-14
+
+- Update the version to follow up the `google-map-react/google-map-react`
+
 ## [0.1.2] - 2023-03-14
 
 - #3 Fix the type definitions are not published correctly
