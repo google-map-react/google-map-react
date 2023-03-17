@@ -707,7 +707,7 @@ class GoogleMap extends Component {
             if (this_.markersDispatcher_) {
               flushSync(() => {
                 this_.markersDispatcher_.emit('kON_CHANGE');
-              })
+              });
               if (this_.fireMouseEventOnIdle_) {
                 this_.markersDispatcher_.emit('kON_MOUSE_POSITION_CHANGE');
               }
