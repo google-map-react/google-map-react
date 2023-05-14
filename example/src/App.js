@@ -39,6 +39,7 @@ const App = () => {
             text={place.name}
             lat={place.geometry.location.lat}
             lng={place.geometry.location.lng}
+            markerPosition='center center'
           />
         ))}
       </GoogleMapReact>
