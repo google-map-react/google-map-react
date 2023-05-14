@@ -1,1 +1,1 @@
-export default [34.0522, -118.2437];
+export default { lat: 34.0522, lng: -118.2437 };
