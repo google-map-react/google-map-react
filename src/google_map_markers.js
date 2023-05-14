@@ -12,7 +12,7 @@ const mainStyle = {
   top: 0,
   margin: 0,
   padding: 0,
-  position: 'absolute',
+  position: 'fixed', // 'absolute' will lead to click error on modal (zIndex>0)
 };
 
 const style = {
