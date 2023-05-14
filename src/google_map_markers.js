@@ -16,13 +16,24 @@ const mainStyle = {
 };
 
 const style = {
-  width: 0,
-  height: 0,
   left: 0,
   top: 0,
   backgroundColor: 'transparent',
   position: 'absolute',
 };
+
+const markerAxisX = {
+  left: 0,
+  center: '-50%',
+  right: '-100%',
+};
+
+const markerAxisY = {
+  top: 0,
+  center: '-50%',
+  bottom: '-100%',
+};
+const isProduction = process.env.NODE_ENV === 'production';
 
 export default class GoogleMapMarkers extends Component {
   /* eslint-disable react/forbid-prop-types */
@@ -320,10 +331,36 @@ export default class GoogleMapMarkers extends Component {
           ...latLng,
         };
 
+        const markerPosition = child.props.markerPosition || 'center bottom';
+
+        if (typeof markerPosition === 'string') {
+          [this.markerPosX, this.markerPosY] = markerPosition.trim().split(' ');
+
+          if (!markerAxisX[this.markerPosX] && !isProduction)
+            console.error(
+              `Invalid x value passed for markerPosition, expected strings left,center or right`
+            );
+
+          if (!markerAxisY[this.markerPosY] && !isProduction)
+            console.error(
+              `Invalid y value passed for markerPosition, expected strings top,center or bottom`
+            );
+        } else if (!isProduction) {
+          console.error(
+            `Warning: Failed prop type: Invalid prop markerPosition of ${typeof markerPosition} supplied, expected string`
+          );
+        }
+
         return (
           <div
             key={childKey}
-            style={{ ...style, ...stylePtPos }}
+            style={{
+              ...style,
+              ...stylePtPos,
+              transform: `translate(${markerAxisX[this.markerPosX]},${
+                markerAxisY[this.markerPosY]
+              })`,
+            }}
             className={child.props.$markerHolderClassName}
           >
             {React.cloneElement(child, {
