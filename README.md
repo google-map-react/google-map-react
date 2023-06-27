@@ -61,6 +61,17 @@ yarn:
 yarn add google-map-react
 ```
 
+typescript support
+
+npm:
+```
+npm install -D @types/google-map-react
+```
+
+yarn:
+```
+yarn add -D @types/google-map-react
+```
 ## Features
 
 ### Works with your Components
