@@ -177,6 +177,7 @@ class GoogleMap extends Component {
     super(props);
     this.mounted_ = false;
     this.initialized_ = false;
+    this.initializedCenter_ = false;
     this.googleApiLoadedCalled_ = false;
 
     this.map_ = null;
@@ -343,20 +344,23 @@ class GoogleMap extends Component {
           : null;
 
         if (
+          !this.initializedCenter_ ||
           !prevCenter ||
           Math.abs(currentCenter.lat - prevCenter.lat) +
             Math.abs(currentCenter.lng - prevCenter.lng) >
             kEPS
         ) {
           if (
+            !this.initializedCenter_ ||
             Math.abs(currentCenter.lat - centerLatLng.lat) +
               Math.abs(currentCenter.lng - centerLatLng.lng) >
-            kEPS
+              kEPS
           ) {
             this.map_.panTo({
               lat: currentCenter.lat,
               lng: currentCenter.lng,
             });
+            this.initializedCenter_ = true;
           }
         }
       }
