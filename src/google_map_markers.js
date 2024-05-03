@@ -94,7 +94,7 @@ export default class GoogleMapMarkers extends Component {
     this.props.dispatcher.removeListener('kON_CLICK', this._onChildClick);
     this.props.dispatcher.removeListener('kON_MDOWN', this._onChildMouseDown);
 
-    this.dimensionsCache_ = null;
+    this.dimensionsCache_ = {};
   }
 
   _getState = () => ({
