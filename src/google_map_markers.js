@@ -110,12 +110,14 @@ export default class GoogleMapMarkers extends Component {
     const prevChildCount = (this.state.children || []).length;
     const state = this._getState();
 
-    this.setState(
-      state,
-      () =>
-        (state.children || []).length !== prevChildCount &&
-        this._onMouseChangeHandler()
-    );
+    flushSync(() => {
+      this.setState(
+        state,
+        () =>
+          (state.children || []).length !== prevChildCount &&
+          this._onMouseChangeHandler()
+      );
+    });
   };
 
   _onChildClick = () => {
