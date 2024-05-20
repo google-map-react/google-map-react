@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { flushSync } from 'react-dom';
 
 // utils
 import omit from './utils/omit';
@@ -93,7 +94,7 @@ export default class GoogleMapMarkers extends Component {
     this.props.dispatcher.removeListener('kON_CLICK', this._onChildClick);
     this.props.dispatcher.removeListener('kON_MDOWN', this._onChildMouseDown);
 
-    this.dimensionsCache_ = null;
+    this.dimensionsCache_ = {};
   }
 
   _getState = () => ({
