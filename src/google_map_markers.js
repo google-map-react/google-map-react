@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { flushSync } from 'react-dom';
 
 // utils
 import omit from './utils/omit';
@@ -110,14 +109,12 @@ export default class GoogleMapMarkers extends Component {
     const prevChildCount = (this.state.children || []).length;
     const state = this._getState();
 
-    flushSync(() => {
-      this.setState(
-        state,
-        () =>
-          (state.children || []).length !== prevChildCount &&
-          this._onMouseChangeHandler()
-      );
-    });
+    this.setState(
+      state,
+      () =>
+        (state.children || []).length !== prevChildCount &&
+        this._onMouseChangeHandler()
+    );
   };
 
   _onChildClick = () => {
@@ -306,9 +303,8 @@ export default class GoogleMapMarkers extends Component {
           stylePtPos.height = sePt.y - pt.y;
         }
 
-        const containerPt = this.props.geoService.fromLatLngToContainerPixel(
-          latLng
-        );
+        const containerPt =
+          this.props.geoService.fromLatLngToContainerPixel(latLng);
 
         // to prevent rerender on child element i need to pass
         // const params $getDimensions and $dimensionKey instead of dimension object
