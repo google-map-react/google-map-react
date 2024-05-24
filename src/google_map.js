@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies, react/forbid-prop-types, react/no-find-dom-node, no-console, no-undef */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
+import ReactDOM, { flushSync } from 'react-dom';
 
 // helpers
 import GoogleMapMap from './google_map_map';
@@ -706,7 +706,9 @@ class GoogleMap extends Component {
             this_._onChildMouseMove();
 
             if (this_.markersDispatcher_) {
-              this_.markersDispatcher_.emit('kON_CHANGE');
+              flushSync(() => {
+                this_.markersDispatcher_.emit('kON_CHANGE');
+              })
               if (this_.fireMouseEventOnIdle_) {
                 this_.markersDispatcher_.emit('kON_MOUSE_POSITION_CHANGE');
               }
