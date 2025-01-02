@@ -4856,7 +4856,7 @@ globby@^6.1.0:
     pify "^2.0.0"
     pinkie-promise "^2.0.0"
 
-"google-map-react@link:..":
+"@domain-group/google-map-react@link:..":
   version "0.0.0"
   uid ""
 

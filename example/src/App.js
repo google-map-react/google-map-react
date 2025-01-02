@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-import GoogleMapReact from 'google-map-react';
+import GoogleMapReact from '@domain-group/google-map-react';
 // import 'google-map-react/dist/index.css'
 
 import LOS_ANGELES_CENTER from './const/la_center';

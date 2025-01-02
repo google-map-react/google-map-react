@@ -303,9 +303,8 @@ export default class GoogleMapMarkers extends Component {
           stylePtPos.height = sePt.y - pt.y;
         }
 
-        const containerPt = this.props.geoService.fromLatLngToContainerPixel(
-          latLng
-        );
+        const containerPt =
+          this.props.geoService.fromLatLngToContainerPixel(latLng);
 
         // to prevent rerender on child element i need to pass
         // const params $getDimensions and $dimensionKey instead of dimension object
