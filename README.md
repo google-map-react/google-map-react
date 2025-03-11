@@ -154,6 +154,8 @@ Now every object on the map can be hovered (however, you can still use css hover
 * local develop example (new)
 [develop example](./develop)
 
+* simple example linked to a react-table [open-mic-nights](https://apuchitnis.github.io/open-mic-nights), [source](https://github.com/apuchitnis/open-mic-nights)
+
 ## Documentation
 
 You can find the documentation here:
