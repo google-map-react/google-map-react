@@ -1,4 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies, react/forbid-prop-types, react/no-find-dom-node, no-console, no-undef */
+/* eslint-disable import/no-extraneous-dependencies, react/forbid-prop-types, no-console, no-undef */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
@@ -262,7 +262,7 @@ class GoogleMap extends Component {
     this.markersDispatcher_ = new MarkerDispatcher(this);
     addPassiveEventListener(window, 'resize', this._onWindowResize, false);
     addPassiveEventListener(window, 'keydown', this._onKeyDownCapture, true);
-    const mapDom = ReactDOM.findDOMNode(this.googleMapDom_);
+    const mapDom = this.googleMapDom_;
     // gmap can't prevent map drag if mousedown event already occured
     // the only workaround I find is prevent mousedown native browser event
 
@@ -435,7 +435,7 @@ class GoogleMap extends Component {
 
   componentWillUnmount() {
     this.mounted_ = false;
-    const mapDom = ReactDOM.findDOMNode(this.googleMapDom_);
+    const mapDom = this.googleMapDom_;
     if (mapDom) {
       mapDom.removeEventListener('mousedown', this._onMapMouseDownNative, true);
     }
@@ -617,10 +617,7 @@ class GoogleMap extends Component {
 
         mapOptions.minZoom = _checkMinZoom(mapOptions.minZoom, minZoom);
 
-        const map = new maps.Map(
-          ReactDOM.findDOMNode(this.googleMapDom_),
-          mapOptions
-        );
+        const map = new maps.Map(this.googleMapDom_, mapOptions);
 
         this.map_ = map;
         this.maps_ = maps;
@@ -936,7 +933,7 @@ class GoogleMap extends Component {
     if (isFullScreen()) {
       this.geoService_.setViewSize(window.innerWidth, window.innerHeight);
     } else {
-      const mapDom = ReactDOM.findDOMNode(this.googleMapDom_);
+      const mapDom = this.googleMapDom_;
       this.geoService_.setViewSize(mapDom.clientWidth, mapDom.clientHeight);
     }
     this._onBoundsChanged();
