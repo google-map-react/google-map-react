@@ -389,6 +389,14 @@ class GoogleMap extends Component {
         // remove zoom, center and draggable options as these are managed by google-maps-react
         options = omit(options, ['zoom', 'center', 'draggable']);
 
+        // A Map's styles property cannot be set when a mapId is present. 
+        // When a mapId is present Map styles are controlled via the cloud console. 
+        if ('mapId' in options) {
+          options = omit(options, ['styles']);
+        }
+
+        console.log('options', options);
+
         if ('minZoom' in options) {
           const minZoom = this._computeMinZoom(options.minZoom);
           options.minZoom = _checkMinZoom(options.minZoom, minZoom);
@@ -586,7 +594,7 @@ class GoogleMap extends Component {
         // "MaxZoomStatus", "StreetViewStatus", "TransitMode", "TransitRoutePreference",
         // "TravelMode", "UnitSystem"
         const mapPlainObjects = pick(maps, isPlainObject);
-        const options =
+        let options =
           typeof this.props.options === 'function'
             ? this.props.options(mapPlainObjects)
             : this.props.options;
@@ -598,6 +606,12 @@ class GoogleMap extends Component {
 
         const minZoom = this._computeMinZoom(options.minZoom);
         this.minZoom_ = minZoom;
+
+        // A Map's styles property cannot be set when a mapId is present. 
+        // When a mapId is present Map styles are controlled via the cloud console. 
+        if ('mapId' in options) {
+          options = omit(options, ['styles']);
+        }
 
         const preMapOptions = {
           ...defaultOptions,
