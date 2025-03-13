@@ -93,13 +93,24 @@ export default class GoogleMapMarkers extends Component {
     this.props.dispatcher.removeListener('kON_CLICK', this._onChildClick);
     this.props.dispatcher.removeListener('kON_MDOWN', this._onChildMouseDown);
 
-    this.dimensionsCache_ = null;
+    this.dimensionsCache_ = {};
   }
 
-  _getState = () => ({
-    children: this.props.dispatcher.getChildren(),
-    updateCounter: this.props.dispatcher.getUpdateCounter(),
-  });
+  _getState = () => {
+    let children = [];
+    let updateCounter = 0;
+
+    if (this.props.dispatcher.getChildren) {
+      children = this.props.dispatcher.getChildren();
+    }
+    if (this.props.dispatcher.getUpdateCounter) {
+      this.props.dispatcher.getUpdateCounter();
+    }
+    return {
+      children,
+      updateCounter,
+    };
+  };
 
   _onChangeHandler = () => {
     if (!this.dimensionsCache_) {
@@ -303,9 +314,8 @@ export default class GoogleMapMarkers extends Component {
           stylePtPos.height = sePt.y - pt.y;
         }
 
-        const containerPt = this.props.geoService.fromLatLngToContainerPixel(
-          latLng
-        );
+        const containerPt =
+          this.props.geoService.fromLatLngToContainerPixel(latLng);
 
         // to prevent rerender on child element i need to pass
         // const params $getDimensions and $dimensionKey instead of dimension object
