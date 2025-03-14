@@ -1,16 +1,17 @@
 {
-  "name": "google-map-react",
-  "version": "2.2.1",
+  "name": "@rome2rio/google-map-react",
+  "version": "2.2.4",
   "description": "Isomorphic component that allows rendering react components on a google map",
   "author": "istarkov https://github.com/istarkov",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/google-map-react/google-map-react.git"
+  "repository": "https://github.com/rome2rio/google-map-react.git",
+  "publishConfig": {
+    "@rome2rio:registry": "https://npm.pkg.github.com"
   },
   "main": "dist/index.js",
   "module": "dist/index.modern.js",
   "source": "src/index.js",
+  "types": "types/index.d.ts",
   "engines": {
     "node": ">=10"
   },
@@ -60,7 +61,8 @@
     "react-scripts": "^3.4.1"
   },
   "files": [
-    "dist"
+    "dist",
+    "types"
   ],
   "keywords": [
     "react",
