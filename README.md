@@ -152,7 +152,7 @@ Now every object on the map can be hovered (however, you can still use css hover
 [docs with webpackbin examples](./DOC.md) (In progress)
 
 * local develop example (new)
-[develop example](./develop)
+[develop example](/example)
 
 ## Documentation
 
