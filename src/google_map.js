@@ -394,8 +394,6 @@ class GoogleMap extends Component {
           options = omit(options, ['styles']);
         }
 
-        console.log('options', options);
-
         if ('minZoom' in options) {
           const minZoom = this._computeMinZoom(options.minZoom);
           options.minZoom = _checkMinZoom(options.minZoom, minZoom);
