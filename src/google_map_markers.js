@@ -320,20 +320,47 @@ export default class GoogleMapMarkers extends Component {
           ...latLng,
         };
 
+        if (child.props.markerPosition) {
+          const markerPosition = child.props.markerPosition;
+          if (typeof markerPosition === 'string') {
+            const [left, top] = markerPosition.split(' ');
+            if (left && top) {
+              this.markerPosition = { transform: `translate(${left},${top})` };
+            } else {
+              console.warn(
+                `markerPosition expects a two values separated by a single whitespace`
+              );
+            }
+          } else {
+            console.error(
+              `markerPosition expects a value of type string, got ${typeof markerPosition} instead.`
+            );
+          }
+        }
+
         return (
           <div
             key={childKey}
             style={{ ...style, ...stylePtPos }}
             className={child.props.$markerHolderClassName}
           >
-            {React.cloneElement(child, {
-              $hover: childKey === this.state.hoverKey,
-              $getDimensions: this._getDimensions,
-              $dimensionKey: childKey,
-              $geoService: this.props.geoService,
-              $onMouseAllow: this._onMouseAllow,
-              $prerender: this.props.prerender,
-            })}
+            <div
+              style={{
+                ...style,
+                ...this.markerPosition,
+                width: undefined,
+                height: undefined,
+              }}
+            >
+              {React.cloneElement(child, {
+                $hover: childKey === this.state.hoverKey,
+                $getDimensions: this._getDimensions,
+                $dimensionKey: childKey,
+                $geoService: this.props.geoService,
+                $onMouseAllow: this._onMouseAllow,
+                $prerender: this.props.prerender,
+              })}
+            </div>
           </div>
         );
       }
